@@ -1,5 +1,5 @@
 defmodule Mm1.Result do
-  defstruct value: nil, bytes: nil, rest: nil, module: nil
+  defstruct [:value, :bytes, :rest, :module]
 end
 
 defmodule Mm1Codec do
