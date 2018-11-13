@@ -1,8 +1,14 @@
+defmodule Mm1.Result do
+  defstruct name: "john"
+end
+
 defmodule Mm1CodecTest do
   use ExUnit.Case
   doctest Mm1Codec
 
-  test "greets the world" do
-    assert Mm1Codec.hello() == :world
+  alias Mm1.Result
+
+  test "octet" do
+    assert %Result{} = Mm1Codec.decode(<<0>>)
   end
 end

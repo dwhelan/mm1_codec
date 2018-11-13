@@ -1,18 +1,10 @@
 defmodule Mm1Codec do
   @moduledoc """
-  Documentation for Mm1Codec.
   """
 
-  @doc """
-  Hello world.
+  alias Mm1.Result
 
-  ## Examples
-
-      iex> Mm1Codec.hello()
-      :world
-
-  """
-  def hello do
-    :world
+  def decode x do
+    struct Result
   end
 end
