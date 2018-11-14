@@ -1,7 +1,7 @@
-defmodule MM1Test do
+defmodule WAP.OctetTest do
   use ExUnit.Case
 
-  import MM1
+  import WAP.Octet
 
   alias MM1.Result
 
