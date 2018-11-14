@@ -24,4 +24,3 @@ defmodule MM1Test do
     end
   end
 end
-

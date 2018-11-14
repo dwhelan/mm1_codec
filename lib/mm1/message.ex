@@ -1,18 +1,5 @@
 defmodule MM1.Message do
-  require WAP.Octet
+  require MM1.Headers
 
-  alias MM1.{Result, Error}
-
-  def decode bytes do
-    octet_result = bytes |> MM1.Headers.decode |> return
-  end
-
-  def return %Result{} = result do
-    %Result{value: result, bytes: <<>>, rest: <<>>, module: __MODULE__}
-
-  end
-
-  def return %Error{} = error do
-    %Error{value: error, bytes: <<>>, rest: <<>>, module: __MODULE__}
-  end
+  use MM1.BaseCodec, wrap: MM1.Headers
 end
