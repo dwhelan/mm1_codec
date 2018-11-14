@@ -1,4 +1,4 @@
 defmodule MM1.Error do
-  defstruct [:reason]
+  defstruct [:reason, :module]
 end
 
