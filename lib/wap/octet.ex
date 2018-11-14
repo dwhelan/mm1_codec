@@ -5,7 +5,7 @@ defmodule WAP.Octet do
   alias MM1.{Result, Error}
 
   def decode <<octet, rest::binary>> do
-    struct Result, %{value: octet, bytes: <<octet>>, rest: rest, module: __MODULE__}
+    %Result{bytes: <<octet>>, value: octet, rest: rest, module: __MODULE__}
   end
 
   def decode <<>> do
