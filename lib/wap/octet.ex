@@ -9,6 +9,6 @@ defmodule WAP.Octet do
   end
 
   def decode <<>> do
-    {:err, %Error{bytes: <<>>, reason: :insufficient_bytes, module: __MODULE__}}
+    %Error{bytes: <<>>, value: :insufficient_bytes, module: __MODULE__}
   end
 end
