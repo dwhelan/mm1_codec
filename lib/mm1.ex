@@ -2,7 +2,7 @@ defmodule MM1.Result do
   defstruct [:value, :bytes, :rest, :module]
 end
 
-defmodule Mm1Codec do
+defmodule MM1 do
   @moduledoc """
   """
 
