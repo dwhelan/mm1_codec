@@ -2,13 +2,9 @@ defmodule WAP.Octet do
   @moduledoc """
   """
 
-  alias MM1.{Result, Error}
+  use MM1.BaseCodec
 
   def decode <<octet, rest::binary>> do
-    %Result{bytes: <<octet>>, value: octet, rest: rest, module: __MODULE__}
-  end
-
-  def decode <<>> do
-    %Error{bytes: <<>>, value: :insufficient_bytes, module: __MODULE__}
+    return %MM1.Result{value: octet, bytes: <<octet>>, rest: rest}
   end
 end
