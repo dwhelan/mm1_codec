@@ -4,7 +4,7 @@ defmodule MM1.BaseCodec do
     quote bind_quoted: [opts: opts] do
       @wrapped_codex opts[:wrap]
 
-      alias MM1.{Result, Error}
+      alias MM1.Result
 
       if @wrapped_codex do
         def decode bytes do
@@ -13,16 +13,13 @@ defmodule MM1.BaseCodec do
       end
 
       def decode <<>> do
-        return %Error{value: :insufficient_bytes}
+        return %Result{value: {:err, :insufficient_bytes}}
       end
 
       def return %Result{} = result do
         %Result{result | module: __MODULE__}
       end
 
-      def return %Error{} = error do
-        %Error{error | module: __MODULE__}
-      end
     end
   end
 end
