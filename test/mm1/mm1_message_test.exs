@@ -1,26 +1,22 @@
-defmodule MM1.Headers do
-  alias MM1.{Result, Error}
-
-  def decode <<octet, rest::binary>> do
-    %Result{bytes: <<octet>>, value: octet, rest: rest, module: __MODULE__}
-  end
-
-  def decode <<>> do
-    %Error{bytes: <<>>, value: :insufficient_bytes, module: __MODULE__}
-  end
-
-end
-
 defmodule MM1Test do
   use ExUnit.Case
 
   import MM1.Message
 
-  alias MM1.{Message, Result, Error, Headers}
+  alias MM1.{Message, Headers, XMmsMessageType}
 
   describe "decode" do
     test "m_send_req" do
-      assert %Result{module: Message} = decode <<0>>
+      actual = decode <<0x8c, 0x80>>
+      assert %{
+        module: Message,
+        value: %{
+          module: Headers,
+          value: [
+            %{module: XMmsMessageType, value: :m_send_req, bytes: <<0x8c, 0x80>>}
+          ]
+        }
+      } = actual
     end
   end
 end
