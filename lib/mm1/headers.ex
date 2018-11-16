@@ -57,8 +57,7 @@ defmodule MM1.Headers do
     return %Result{value: Enum.reverse headers}
   end
 
-  def encode %Result{}  do
-    <<0>>
+  def encode result  do
+    <<result.value>>
   end
-
 end
