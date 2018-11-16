@@ -10,6 +10,6 @@ defmodule MM1.MessageTest do
   end
 
   test "encode" do
-    assert <<0>> = Message.encode 0
+    assert <<0>> == encode 0
   end
 end

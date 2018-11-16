@@ -47,7 +47,7 @@ defmodule MM1.Headers do
     @module      :"Elixir.MM1.#{header}"
     @header_byte value + 128
 
-    def decode <<@header_byte, rest::binary>> = bytes, headers do
+    def decode <<@header_byte, _::binary>> = bytes, headers do
       %Result{rest: rest} = header = @module.decode(bytes)
       decode rest, [header | headers]
     end
@@ -57,7 +57,7 @@ defmodule MM1.Headers do
     return %Result{value: Enum.reverse headers}
   end
 
-  def encode result  do
-    <<result.value>>
+  def encode value  do
+    <<value>>
   end
 end

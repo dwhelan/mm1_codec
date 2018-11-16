@@ -27,6 +27,6 @@ defmodule MM1.HeadersTest do
   end
 
   test "encode when bytes provided" do
-    assert <<0>> = encode %{value: 0}
+    assert <<0>> == encode 0
   end
 end
