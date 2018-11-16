@@ -4,17 +4,21 @@ defmodule MM1.BaseCodec do
     quote do
       alias MM1.Result
 
-      def return %Result{} = result do
+      def decode <<>> do
+        error :insufficient_bytes
+      end
+
+      defp return %Result{} = result do
         %Result{result | module: __MODULE__}
       end
 
-      def return value, count \\ 0, bytes \\ <<>> do
+      defp value val, count \\ 0, bytes \\ <<>> do
         {consumed, rest} = String.split_at bytes, count
-        %Result{value: value, bytes: consumed, rest: rest, module: __MODULE__}
+        return %Result{value: val, bytes: consumed, rest: rest}
       end
 
-      def decode <<>> do
-        return %Result{value: {:err, :insufficient_bytes}}
+      defp error description do
+        return %Result{value: {:err, description}}
       end
     end
   end

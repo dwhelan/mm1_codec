@@ -4,7 +4,7 @@ defmodule MM1.Message do
   use MM1.BaseCodec
 
    def decode bytes do
-    return %Result{value: MM1.Headers.decode bytes}
+    value MM1.Headers.decode bytes
   end
 
   def encode value  do
