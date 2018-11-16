@@ -8,6 +8,11 @@ defmodule MM1.BaseCodec do
         %Result{result | module: __MODULE__}
       end
 
+      def return value, count, bytes do
+        {consumed, rest} = String.split_at bytes, count
+        %Result{value: value, bytes: consumed, rest: rest, module: __MODULE__}
+      end
+
       def decode <<>> do
         return %Result{value: {:err, :insufficient_bytes}}
       end

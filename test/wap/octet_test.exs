@@ -12,9 +12,9 @@ defmodule WAP.OctetTest do
   end
 
   test "encode return an octet (0..255)" do
-    assert encode(%Result{value:  -1}) == <<255>>
-    assert encode(%Result{value:   0}) == <<0>>
-    assert encode(%Result{value: 255}) == <<255>>
-    assert encode(%Result{value: 256}) == <<0>>
+    assert encode( -1) == <<255>>
+    assert encode(  0) == <<0>>
+    assert encode(255) == <<255>>
+    assert encode(256) == <<0>>
   end
 end

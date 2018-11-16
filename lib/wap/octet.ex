@@ -4,12 +4,12 @@ defmodule WAP.Octet do
 
   use MM1.BaseCodec
 
-  def decode <<octet, rest::binary>> do
-    return %MM1.Result{value: octet, bytes: <<octet>>, rest: rest}
+  def decode <<octet, _::binary>> = byte do
+    return octet, 1, byte
   end
 
-  def encode result  do
-    <<result.value>>
+  def encode value do
+    <<value>>
   end
 end
 
