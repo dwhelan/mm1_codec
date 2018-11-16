@@ -3,20 +3,26 @@ defmodule MM1Test do
 
   import MM1.Message
 
-  alias MM1.{Message, Headers, XMmsMessageType}
+  alias MM1.{Result, Message, Headers, XMmsMessageType, Bcc}
 
-  describe "decode" do
-    test "m_send_req" do
-      actual = decode <<0x8c, 0x80>>
-      assert %{
-        module: Message,
-        value: %{
-          module: Headers,
-          value: [
-            %{module: XMmsMessageType, value: :m_send_req, bytes: <<0x8c, 0x80>>}
-          ]
-        }
-      } = actual
-    end
+  test "should return a Result" do
+    assert %Result{} = decode <<>>
+  end
+
+  test "result should be an MMS Message module" do
+    assert %{module: Message} = decode <<>>
+  end
+
+  test "m_send_req" do
+    actual = decode <<140, 128, 140, 129>>
+    assert %{
+      value: %{
+        module: Headers,
+        value: [
+          %{module: XMmsMessageType, value: :m_send_req, bytes: <<140, 128>>},
+          %{module: Bcc, value: 129, bytes: <<140, 129>>},
+        ]
+      }
+    } = actual
   end
 end
