@@ -8,7 +8,7 @@ defmodule WAP.Octet do
     return %MM1.Result{value: octet, bytes: <<octet>>, rest: rest}
   end
 
-  def encode _ do
-    <<0>>
+  def encode result do
+    <<result.value>>
   end
 end

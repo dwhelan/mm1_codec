@@ -11,9 +11,10 @@ defmodule WAP.OctetTest do
     assert decode(<<>>)            === %Result{ bytes: <<>>,   value: {:err, :insufficient_bytes}, module: WAP.Octet}
   end
 
-
-  test "encode" do
-    assert encode %Result{value: 0, module: WAP.Octet} == <<0>>
+  test "encode return an octet (0..255)" do
+    assert encode(%Result{value:  -1, module: WAP.Octet}) == <<255>>
+    assert encode(%Result{value:   0, module: WAP.Octet}) == <<0>>
+    assert encode(%Result{value: 255, module: WAP.Octet}) == <<255>>
+    assert encode(%Result{value: 256, module: WAP.Octet}) == <<0>>
   end
-
 end
