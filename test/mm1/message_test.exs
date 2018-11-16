@@ -9,7 +9,7 @@ defmodule MM1Test do
     assert %Result{} = decode <<>>
   end
 
-  test "result should be an MMS Message module" do
+  test "result should be an MMS Message" do
     assert %{module: Message} = decode <<>>
   end
 
