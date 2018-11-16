@@ -56,4 +56,9 @@ defmodule MM1.Headers do
   def decode <<>>, headers do
     return %Result{value: Enum.reverse headers}
   end
+
+  def encode %Result{}  do
+    <<0>>
+  end
+
 end

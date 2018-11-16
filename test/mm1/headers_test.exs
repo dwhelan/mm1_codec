@@ -25,4 +25,8 @@ defmodule MM1.HeadersTest do
              ]
            } = decode <<140, 128, 129, 0>>
   end
+
+  test "encode" do
+    assert <<0>> = encode %Result{value: 0}
+  end
 end
