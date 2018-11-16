@@ -6,4 +6,8 @@ defmodule MM1.Message do
    def decode bytes do
     return %Result{value: MM1.Headers.decode bytes}
   end
+
+  def encode %Result{}  do
+    <<0>>
+  end
 end

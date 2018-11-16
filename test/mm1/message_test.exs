@@ -8,4 +8,8 @@ defmodule MM1.MessageTest do
   test "result should be an MMS Message" do
     assert %Result{module: Message} = decode <<>>
   end
+#
+  test "encode" do
+    assert <<0>> = encode %Result{module: Message, value: 0}
+  end
 end
