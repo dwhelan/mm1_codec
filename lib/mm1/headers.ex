@@ -1,32 +1,3 @@
-defmodule MM1.Bcc do
-  use MM1.BaseCodec
-  alias MM1.Result
-
-  def decode <<129, 0, rest::binary>> do
-    return %Result{bytes: <<129, 0>>, value: 0, rest: rest}
-  end
-end
-
-defmodule MM1.XMmsMessageType do
-  use MM1.BaseCodec
-  alias MM1.Result
-
-  def decode <<0x8c, 0x80, rest::binary>> do
-    return %Result{bytes: <<0x8c, 0x80>>, value: :m_send_req, rest: rest}
-  end
-end
-
-#defmodule MM1.Header do
-#  use MM1.BaseCodec
-#
-#  import MM1.XMmsMessageType
-#  import MM1.Bcc
-#
-#  def decode bytes do
-#    decode bytes
-#  end
-#end
-
 defmodule MM1.Headers do
   # Based on OMA-WAP-MMS-ENC-V1_1-20040715-A: Table 12. Field Name Assignments
   headers = [
