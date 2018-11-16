@@ -1,6 +1,6 @@
 defmodule MM1.BaseCodec do
 
-  defmacro __using__(opts \\ []) do
+  defmacro __using__(_opts) do
     quote do
       alias MM1.Result
 
@@ -8,7 +8,7 @@ defmodule MM1.BaseCodec do
         %Result{result | module: __MODULE__}
       end
 
-      def return value, count, bytes do
+      def return value, count \\ 0, bytes \\ <<>> do
         {consumed, rest} = String.split_at bytes, count
         %Result{value: value, bytes: consumed, rest: rest, module: __MODULE__}
       end

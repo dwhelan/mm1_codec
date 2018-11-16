@@ -48,16 +48,16 @@ defmodule MM1.Headers do
     @header_byte value + 128
 
     def decode <<@header_byte, _::binary>> = bytes, headers do
-      %Result{rest: rest} = header = @module.decode(bytes)
+      %{rest: rest} = header = @module.decode bytes
       decode rest, [header | headers]
     end
   end)
 
   def decode <<>>, headers do
-    return %Result{value: Enum.reverse headers}
+    return Enum.reverse headers
   end
 
-  def encode value  do
+  def encode value do
     <<value>>
   end
 end
