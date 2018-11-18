@@ -17,6 +17,14 @@ defmodule MM1.XMmsMessageType do
     :m_forward_conf,
   }
 
+  def decode(<<@octet, message_type, _::binary>> = bytes) when message_type < 128 do
+    value :unknown, 2, bytes
+  end
+
+  def decode(<<@octet, message_type, _::binary>> = bytes) when message_type > 138 do
+    value :unknown, 2, bytes
+  end
+
   def decode <<@octet, message_type, _::binary>> = bytes do
     value elem(@message_types, message_type - 128), 2, bytes
   end

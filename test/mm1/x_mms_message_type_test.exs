@@ -43,6 +43,14 @@ defmodule MM1.XMmsMessageTypeTest do
         assert decode(bytes(@octet)).value === @value
       end
     end
+
+    test "message type for value < 128 should be :unknown" do
+      assert decode(bytes(127)).value === :unknown
+    end
+
+    test "message type for value > 138 should be :unknown" do
+      assert decode(bytes(139)).value === :unknown
+    end
   end
 
   describe "encode" do
