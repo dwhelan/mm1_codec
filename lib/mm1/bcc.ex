@@ -7,7 +7,7 @@ defmodule MM1.Bcc do
     value value, 2, bytes
   end
 
-  def encode value do
-    <<@octet, value>>
+  def encode result do
+    result.bytes
   end
 end
