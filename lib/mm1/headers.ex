@@ -1,6 +1,6 @@
 defmodule MM1.Headers do
   # Based on OMA-WAP-MMS-ENC-V1_1-20040715-A: Table 12. Field Name Assignments
-  headers = [
+  @headers [
     Bcc:                       0x01,
     #Cc:                        0x02,
     #XMmsContentLocation:       0x03,
@@ -42,7 +42,7 @@ defmodule MM1.Headers do
     decode bytes, []
   end
 
-  headers
+  @headers
   |> Enum.each(fn {header, value} ->
     @module      :"Elixir.MM1.#{header}"
     @header_byte value + 128
@@ -59,5 +59,10 @@ defmodule MM1.Headers do
 
   def encode %{value: headers} do
     Enum.reduce headers, <<>>, fn header, acc -> acc <> header.module.encode 0 end
+  end
+
+  def octet module do
+    header = module |> to_string |> String.split(".") |> List.last |> String.to_atom
+    @headers[header] + 128
   end
 end
