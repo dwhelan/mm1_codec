@@ -7,7 +7,7 @@ defmodule MM1.XMmsMessageType do
     value :m_send_req, 2, bytes
   end
 
-  def encode value do
-    <<@octet, value>>
+  def encode result do
+    result.bytes
   end
 end

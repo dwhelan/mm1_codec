@@ -1,19 +1,19 @@
-defmodule MM1.BccTest do
+defmodule MM1.XMmsMessageTypeTest do
   use ExUnit.Case
 
-  alias MM1.{Result, Headers, Bcc}
-  import Bcc
+  alias MM1.{Result, Headers, XMmsMessageType}
+  import XMmsMessageType
 
   def bytes do
-    <<Headers.octet Bcc>> <> <<0>>
+    <<Headers.octet XMmsMessageType>> <> <<0>>
   end
 
   def result do
-    %Result{module: Bcc, value: 0, bytes: bytes()}
+    %Result{module: XMmsMessageType, value: :m_send_req, bytes: bytes()}
   end
 
   describe "decode" do
-    test "should decode" do
+    test "bytes" do
       assert decode(bytes() <> <<"rest">>) == %Result{result() | rest: <<"rest">>}
     end
   end
