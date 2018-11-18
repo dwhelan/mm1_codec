@@ -29,15 +29,18 @@ defmodule MM1.HeadersTest do
 
   describe "encode" do
     test "Bcc" do
-      assert <<129, 0>> == encode [%{module: Bcc, value: 0}]
+      headers = [%{module: Bcc, value: 0}]
+      assert <<129, 0>> == encode %{module: Headers, value: headers}
     end
 
     test "XMmsMessageType" do
-      assert <<140, 0>> == encode [%{module: XMmsMessageType, value: 0}]
+     headers = [%{module: XMmsMessageType, value: 0}]
+      assert <<140, 0>> == encode %{module: Headers, value: headers}
     end
 
     test "multiple headers" do
-      assert <<129, 0, 140, 0>> == encode [%{module: Bcc, value: 0}, %{module: XMmsMessageType, value: 0}]
+      headers = [%{module: Bcc, value: 0}, %{module: XMmsMessageType, value: 0}]
+      assert <<129, 0, 140, 0>> == encode %{module: Headers, value: headers}
     end
   end
 end
