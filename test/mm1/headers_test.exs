@@ -2,11 +2,10 @@ defmodule MM1.HeadersTest do
   use ExUnit.Case
 
   import MM1.Headers
-  alias MM1.{Result, Headers, XMmsMessageType, Bcc}
+  alias MM1.{Result, Headers, XMmsMessageType, Bcc, BccTest}
 
-  @bcc_bytes              <<octet(Bcc), 0>>
   @xms_message_type_bytes <<octet(XMmsMessageType), 0>>
-  @bytes                  @xms_message_type_bytes <> @bcc_bytes
+  @bytes                  @xms_message_type_bytes <> BccTest.bytes
 
   describe "octet" do
     test "Bcc",             do: assert 129 == octet Bcc
@@ -19,7 +18,7 @@ defmodule MM1.HeadersTest do
     end
 
     test "Bcc" do
-      assert %{value: [%{module: Bcc}]} = decode @bcc_bytes
+      assert decode(BccTest.bytes).value == [BccTest.result]
     end
 
     test "XMmsMessageType" do
@@ -38,8 +37,7 @@ defmodule MM1.HeadersTest do
 
   describe "encode" do
     test "Bcc" do
-      headers = [%{module: Bcc, value: 0}]
-      assert @bcc_bytes == encode %{module: Headers, value: headers}
+      assert BccTest.bytes == encode %{value: [BccTest.result]}
     end
 
     test "XMmsMessageType" do
