@@ -58,7 +58,7 @@ defmodule MM1.Headers do
   end
 
   def encode %{value: headers} do
-    Enum.reduce headers, <<>>, fn header, acc -> acc <> header.module.encode 0 end
+    Enum.reduce headers, <<>>, fn header, acc -> acc <> header.module.encode header end
   end
 
   def octet module do

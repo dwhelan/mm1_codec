@@ -2,10 +2,8 @@ defmodule MM1.HeadersTest do
   use ExUnit.Case
 
   import MM1.Headers
-  alias MM1.{Result, Headers, XMmsMessageType, Bcc, BccTest}
-
-  @xms_message_type_bytes <<octet(XMmsMessageType), 0>>
-  @bytes                  @xms_message_type_bytes <> BccTest.bytes
+  alias MM1.{Result, Headers}
+  alias MM1.{Bcc, BccTest}
 
   describe "octet" do
     test "Bcc",             do: assert 129 == octet Bcc
@@ -13,41 +11,33 @@ defmodule MM1.HeadersTest do
   end
 
   describe "decode" do
-    test "should return a Headers Result" do
-      assert %Result{module: Headers} = decode <<>>
+    test "module should be Headers" do
+      assert decode(<<>>).module == Headers
     end
 
-    test "Bcc" do
+    test "bytes should be <<>>" do
+      assert decode(<<>>).bytes == <<>>
+      assert decode(BccTest.bytes).bytes == <<>>
+    end
+
+    test "value with one header" do
       assert decode(BccTest.bytes).value == [BccTest.result]
     end
 
-    test "XMmsMessageType" do
-      assert %{value: [%{module: XMmsMessageType}]} = decode @xms_message_type_bytes
-    end
-
-    test "value should be an array of Headers" do
-      assert %{
-               value: [
-                 %{module: XMmsMessageType},
-                 %{module: Bcc},
-               ]
-             } = decode @bytes
+    test "value with multiple headers" do
+      [bcc1, bcc2] = decode(BccTest.bytes <> BccTest.bytes).value
+      assert bcc1 == %Result{BccTest.result | rest: BccTest.bytes()}
+      assert bcc2 == BccTest.result
     end
   end
 
   describe "encode" do
-    test "Bcc" do
-      assert BccTest.bytes == encode %{value: [BccTest.result]}
-    end
-
-    test "XMmsMessageType" do
-     headers = [%{module: XMmsMessageType, value: 0}]
-      assert @xms_message_type_bytes == encode %{module: Headers, value: headers}
+    test "one header" do
+      assert encode(%{value: [BccTest.result]}) == BccTest.bytes
     end
 
     test "multiple headers" do
-      headers = [%{module: XMmsMessageType, value: 0}, %{module: Bcc, value: 0}]
-      assert @bytes == encode %{module: Headers, value: headers}
+      assert encode(%{module: Headers, value: [BccTest.result, BccTest.result]}) == BccTest.bytes() <> BccTest.bytes()
     end
   end
 end

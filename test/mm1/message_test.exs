@@ -27,12 +27,10 @@ defmodule MM1.MessageTest do
   describe "encode" do
     test "encode" do
       result = encode %{
-        module: Message,
         value: %{
-          module: Headers,
           value: [
-            %{module: MM1.XMmsMessageType, value: :m_send_req},
-            %{module: MM1.Bcc,             value: 0}
+            %{module: MM1.XMmsMessageType, bytes: <<140, 0>>},
+            %{module: MM1.Bcc,             bytes: <<129, 0>>}
           ]
         }
       }
