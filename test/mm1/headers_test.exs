@@ -35,5 +35,9 @@ defmodule MM1.HeadersTest do
     test "XMmsMessageType" do
       assert <<140, 0>> == encode [%{module: XMmsMessageType, value: 0}]
     end
+
+    test "multiple headers" do
+      assert <<129, 0, 140, 0>> == encode [%{module: Bcc, value: 0}, %{module: XMmsMessageType, value: 0}]
+    end
   end
 end

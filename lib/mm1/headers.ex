@@ -57,7 +57,7 @@ defmodule MM1.Headers do
     value Enum.reverse headers
   end
 
-  def encode [header | rest] do
-    header.module.encode 0
+  def encode headers do
+    Enum.reduce headers, <<>>, fn header, acc -> acc <> header.module.encode 0 end
   end
 end
