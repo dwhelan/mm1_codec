@@ -5,7 +5,7 @@ defmodule MM1.BccTest do
   import Bcc
 
   def bytes do
-    <<Headers.octet Bcc>> <> <<0>>
+    <<Headers.octet(Bcc), 0>>
   end
 
   def result do
