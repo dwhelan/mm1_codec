@@ -1,11 +1,12 @@
 defmodule MM1.Message do
   use MM1.BaseCodec
+  alias MM1.Headers
 
    def decode bytes do
-    value MM1.Headers.decode bytes
+    value Headers.decode bytes
   end
 
-  def encode value  do
-    <<value>>
+  def encode result do
+    Headers.encode result.value
   end
 end

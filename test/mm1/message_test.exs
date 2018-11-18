@@ -14,8 +14,9 @@ defmodule MM1.MessageTest do
     end
 
     test "value should be a Headers Result" do
+      result = decode <<140, 0, 129, 0>>
       headers_result = Headers.decode <<140, 0, 129, 0>>
-      assert %{value: headers_result} = decode <<140, 0, 129, 0>>
+      assert result.value == headers_result
     end
 
     test "rest should be a zero length binary" do
@@ -25,7 +26,18 @@ defmodule MM1.MessageTest do
 
   describe "encode" do
     test "encode" do
-      assert <<0>> == encode 0
+      result = encode %{
+        module: Message,
+        value: %{
+          module: Headers,
+          value: [
+            %{module: MM1.XMmsMessageType, value: :m_send_req},
+            %{module: MM1.Bcc,             value: 0}
+          ]
+        }
+      }
+
+      assert <<140, 0, 129, 0>> == result
     end
   end
 end
