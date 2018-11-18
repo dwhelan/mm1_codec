@@ -9,12 +9,12 @@ defmodule MM1.HeadersTest do
       assert %Result{module: Headers} = decode <<>>
     end
 
-    test "should decode Bcc" do
-      assert %{value: [%{module: MM1.Bcc}]} = decode <<129, 0>>
+    test "Bcc" do
+      assert %{value: [%{module: Bcc}]} = decode <<129, 0>>
     end
 
-    test "should decode XMmsMessageType" do
-      assert %{value: [%{module: MM1.XMmsMessageType}]} = decode <<140, 128>>
+    test "XMmsMessageType" do
+      assert %{value: [%{module: XMmsMessageType}]} = decode <<140, 0>>
     end
 
     test "value should be an array of Headers" do
@@ -28,9 +28,12 @@ defmodule MM1.HeadersTest do
   end
 
   describe "encode" do
-    @tag :skip
-    test "should encode Bcc" do
-      assert <<129, 0>> == encode 0
+    test "Bcc" do
+      assert <<129, 0>> == encode [%{module: Bcc, value: 0}]
+    end
+
+    test "XMmsMessageType" do
+      assert <<140, 0>> == encode [%{module: XMmsMessageType, value: 0}]
     end
   end
 end

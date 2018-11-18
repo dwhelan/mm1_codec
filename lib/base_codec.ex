@@ -8,10 +8,6 @@ defmodule MM1.BaseCodec do
         error :insufficient_bytes
       end
 
-      defp return %Result{} = result do
-        %Result{result | module: __MODULE__}
-      end
-
       defp value val, count \\ 0, bytes \\ <<>> do
         {consumed, rest} = String.split_at bytes, count
         return %Result{value: val, bytes: consumed, rest: rest}
@@ -19,6 +15,10 @@ defmodule MM1.BaseCodec do
 
       defp error description do
         return %Result{value: {:err, description}}
+      end
+
+      defp return %Result{} = result do
+        %Result{result | module: __MODULE__}
       end
     end
   end

@@ -47,17 +47,17 @@ defmodule MM1.Headers do
     @module      :"Elixir.MM1.#{header}"
     @header_byte value + 128
 
-    def decode <<@header_byte, _::binary>> = bytes, headers do
+    defp decode <<@header_byte, _::binary>> = bytes, headers do
       %{rest: rest} = header = @module.decode bytes
       decode rest, [header | headers]
     end
   end)
 
-  def decode <<>>, headers do
+  defp decode <<>>, headers do
     value Enum.reverse headers
   end
 
-  def encode value do
-    <<value>>
+  def encode [header | rest] do
+    header.module.encode 0
   end
 end
