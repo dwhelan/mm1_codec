@@ -12,8 +12,4 @@ defmodule WAP.TextString do
   defp return [text | [rest] ]do
     value text, text <> <<0>>, rest
   end
-
-#  def encode result do
-#    result.bytes
-#  end
 end

@@ -1,5 +1,5 @@
 defmodule MM1.Message do
-  use MM1.BaseCodec
+  use MM1.BaseCodec, custom_encode: true
   alias MM1.Headers
 
    def decode bytes do

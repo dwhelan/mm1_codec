@@ -6,8 +6,4 @@ defmodule MM1.Bcc do
   def decode <<@header, bcc, rest::binary>> do
     value bcc, <<@header, bcc>>, rest
   end
-
-  def encode result do
-    result.bytes
-  end
 end

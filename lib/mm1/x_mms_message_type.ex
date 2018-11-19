@@ -21,8 +21,4 @@ defmodule MM1.XMmsMessageType do
   def decode <<@header, message_type, rest::binary>> do
     value map(message_type, @message_types), <<@header, message_type>>, rest
   end
-
-  def encode result do
-    result.bytes
-  end
 end
