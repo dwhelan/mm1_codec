@@ -1,19 +1,8 @@
-defmodule WAP.ShortIntegerMap do
-
-  def map(byte, values) when byte >= 128 and byte < 128 + tuple_size(values) do
-    elem values, byte - 128
-  end
-
-  def map _, _ do
-    :unknown
-  end
-end
-
 defmodule MM1.XMmsMessageType do
   use MM1.BaseCodec
   import WAP.ShortIntegerMap
 
-  @octet MM1.Headers.octet __MODULE__
+  @header MM1.Headers.octet __MODULE__
 
   @message_types {
     :m_send_conf,
@@ -29,8 +18,8 @@ defmodule MM1.XMmsMessageType do
     :m_forward_conf,
   }
 
-  def decode <<@octet, message_type, rest::binary>> do
-    value map(message_type, @message_types), <<@octet, message_type>>, rest
+  def decode <<@header, message_type, rest::binary>> do
+    value map(message_type, @message_types), <<@header, message_type>>, rest
   end
 
   def encode result do
