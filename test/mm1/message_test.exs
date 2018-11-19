@@ -1,7 +1,7 @@
 defmodule MM1.MessageTest do
   use ExUnit.Case
 
-  alias MM1.{Result, Message, Headers, HeadersTest}
+  alias MM1.{Result, Message, HeadersTest}
   import Message
 
   def bytes do
