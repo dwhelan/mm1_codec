@@ -4,9 +4,21 @@ defmodule MM1.BaseCodec do
     quote bind_quoted: [opts: opts] do
       alias MM1.Result
 
-      if ! opts[:custom_encode] do
+
+      @wrapped_module opts[:wrap]
+      if @wrapped_module do
+        def decode bytes do
+          value @wrapped_module.decode bytes
+        end
+
         def encode result do
-          result.bytes
+          @wrapped_module.encode result.value
+        end
+      else
+        if ! opts[:custom_encode] do
+          def encode result do
+            result.bytes
+          end
         end
       end
 

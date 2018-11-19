@@ -1,12 +1,3 @@
 defmodule MM1.Message do
-  use MM1.BaseCodec, custom_encode: true
-  alias MM1.Headers
-
-   def decode bytes do
-    value Headers.decode bytes
-  end
-
-  def encode result do
-    Headers.encode result.value
-  end
+  use MM1.BaseCodec, wrap: MM1.Headers
 end
