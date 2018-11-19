@@ -36,7 +36,6 @@ defmodule MM1.Headers do
     #XMmsPreviouslySentDate:    0x21,
   ]
   use MM1.BaseCodec
-  alias MM1.Result
 
   def decode bytes do
     decode bytes, []
