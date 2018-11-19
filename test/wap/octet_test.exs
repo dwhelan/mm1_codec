@@ -1,20 +1,21 @@
 defmodule WAP.OctetTest do
   use ExUnit.Case
 
-  import WAP.Octet
-
+  alias WAP.Octet
   alias MM1.Result
 
-  test "octet" do
-    assert decode(<<0>>)           === %Result{bytes: <<  0>>, value:   0, rest: <<>>,             module: WAP.Octet}
-    assert decode(<<255, "rest">>) === %Result{bytes: <<255>>, value: 255, rest: <<"rest">>,       module: WAP.Octet}
-    assert decode(<<>>)            === %Result{ bytes: <<>>,   value: {:err, :insufficient_bytes}, module: WAP.Octet}
+  import Octet
+
+  describe "decode" do
+    test "<<0>>",           do: assert decode(<<  0>>)         === %Result{module: Octet, value:   0, bytes: <<  0>>, rest: <<>>  }
+    test "<<255>>",         do: assert decode(<<255>>)         === %Result{module: Octet, value: 255, bytes: <<255>>, rest: <<>>  }
+    test "<<0, \"rest\">>", do: assert decode(<<  0, "rest">>) === %Result{module: Octet, value:   0, bytes: <<  0>>, rest: "rest"}
+
+    test "<<>>", do: assert decode(<<>>) === %Result{module: Octet, value: {:err, :insufficient_bytes}, bytes: <<>>, rest: <<>> }
   end
 
-  test "encode return an octet (0..255)" do
-    assert encode( -1) == <<255>>
-    assert encode(  0) == <<0>>
-    assert encode(255) == <<255>>
-    assert encode(256) == <<0>>
+  describe "encode" do
+    test   "0", do: assert encode(%{bytes: <<  0>>}) === <<  0>>
+    test "255", do: assert encode(%{bytes: <<255>>}) === <<255>>
   end
 end
