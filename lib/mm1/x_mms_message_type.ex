@@ -1,5 +1,17 @@
+defmodule MM1.ShortIntegerMap do
+
+  def map(byte, values) when byte >= 128 and byte < 128 + tuple_size(values) do
+    elem values, byte - 128
+  end
+
+  def map _, _ do
+    :unknown
+  end
+end
+
 defmodule MM1.XMmsMessageType do
   use MM1.BaseCodec
+  import MM1.ShortIntegerMap
 
   @octet MM1.Headers.octet __MODULE__
 
@@ -17,16 +29,8 @@ defmodule MM1.XMmsMessageType do
     :m_forward_conf,
   }
 
-  def decode(<<@octet, message_type, _::binary>> = bytes) when message_type < 128 do
-    value :unknown, 2, bytes
-  end
-
-  def decode(<<@octet, message_type, _::binary>> = bytes) when message_type > 138 do
-    value :unknown, 2, bytes
-  end
-
-  def decode <<@octet, message_type, _::binary>> = bytes do
-    value elem(@message_types, message_type - 128), 2, bytes
+  def decode <<@octet, message_type, rest::binary>> do
+    value map(message_type, @message_types), <<@octet, message_type>>, rest
   end
 
   def encode result do
