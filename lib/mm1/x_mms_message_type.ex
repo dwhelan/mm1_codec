@@ -2,7 +2,7 @@ defmodule MM1.XMmsMessageType do
   use MM1.BaseCodec
   import WAP.ShortIntegerMap
 
-  @header MM1.Headers.octet __MODULE__
+  @header MM1.Headers.byte __MODULE__
 
   @message_types {
     :m_send_conf,

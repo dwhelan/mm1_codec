@@ -44,10 +44,10 @@ defmodule MM1.Headers do
 
   @headers
   |> Enum.each(fn {header, value} ->
-    @module      :"Elixir.MM1.#{header}"
-    @header_byte value + 128
+    @module :"Elixir.MM1.#{header}"
+    @header value + 128
 
-    defp decode <<@header_byte, _::binary>> = bytes, headers do
+    defp decode <<@header, _::binary>> = bytes, headers do
       %{rest: rest} = header = @module.decode bytes
       decode rest, [header | headers]
     end
@@ -61,7 +61,7 @@ defmodule MM1.Headers do
     Enum.reduce headers, <<>>, fn header, acc -> acc <> header.module.encode header end
   end
 
-  def octet module do
+  def byte module do
     header = module |> to_string |> String.split(".") |> List.last |> String.to_atom
     @headers[header] + 128
   end

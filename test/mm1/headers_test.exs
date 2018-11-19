@@ -20,9 +20,9 @@ defmodule MM1.HeadersTest do
       ]}
   end
 
-  describe "octet" do
-    test "Bcc",             do: assert 129 == octet Bcc
-    test "XMmsMessageType", do: assert 140 == octet XMmsMessageType
+  describe "byte" do
+    test "Bcc",             do: assert 129 == byte Bcc
+    test "XMmsMessageType", do: assert 140 == byte XMmsMessageType
   end
 
   test "decode" do

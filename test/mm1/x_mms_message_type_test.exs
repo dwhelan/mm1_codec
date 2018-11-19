@@ -5,7 +5,7 @@ defmodule MM1.XMmsMessageTypeTest do
   import XMmsMessageType
 
   def bytes(message_type \\ 128) do
-    <<Headers.octet(XMmsMessageType), message_type>>
+    <<Headers.byte(XMmsMessageType), message_type>>
   end
 
   def result do

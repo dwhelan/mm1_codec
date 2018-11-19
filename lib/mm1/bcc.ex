@@ -1,10 +1,10 @@
 defmodule MM1.Bcc do
   use MM1.BaseCodec
 
-  @octet MM1.Headers.octet __MODULE__
+  @header MM1.Headers.byte __MODULE__
 
-  def decode <<@octet, value, _::binary>> = bytes do
-    value value, 2, bytes
+  def decode <<@header, bcc, rest::binary>> do
+    value bcc, <<@header, bcc>>, rest
   end
 
   def encode result do
