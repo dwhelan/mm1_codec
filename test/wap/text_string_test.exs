@@ -7,11 +7,10 @@ defmodule WAP.TextStringTest do
   import TextString
 
   describe "decode" do
-    test '<<"abc", 0>>',     do: assert decode(<<"abc", 0>>)     === %Result{module: TextString, value: "abc", bytes: <<"abc", 0>>, rest: <<>>    }
-    test '<<"ab", 0, "c">>', do: assert decode(<<"ab", 0, "c">>) === %Result{module: TextString, value: "ab",  bytes: <<"ab",  0>>, rest: <<"c">> }
+    test "valid text",    do: assert decode(<<"text", 0, "rest">>) === %Result{module: TextString, value: "text", bytes: <<"text", 0>>, rest: <<"rest">> }
 
-    test "<<>>",    do: assert decode(<<>>)      === %Result{module: TextString, value: {:err, :insufficient_bytes}, bytes: <<>>,      rest: <<>> }
-    test "<<abc>>", do: assert decode(<<"abc">>) === %Result{module: TextString, value: {:err, :insufficient_bytes}, bytes: <<"abc">>, rest: <<>> }
+    test "no bytes",      do: assert %{value: {:err, :insufficient_bytes}, bytes: <<>>,       rest: <<>> } = decode <<>>
+    test "no terminator", do: assert %{value: {:err, :insufficient_bytes}, bytes: <<"text">>, rest: <<>> } = decode <<"text">>
   end
 
 #  describe "encode" do
