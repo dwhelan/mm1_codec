@@ -12,8 +12,8 @@ defmodule MM1.BaseCodec do
         return %Result{value: val, bytes: bytes, rest: rest}
       end
 
-      defp error description do
-        return %Result{value: {:err, description}}
+      defp error description, bytes \\ <<>>, rest \\ <<>> do
+        return %Result{value: {:err, description}, bytes: bytes, rest: rest}
       end
 
       defp return %Result{} = result do

@@ -7,11 +7,11 @@ defmodule WAP.TextStringTest do
   import TextString
 
   describe "decode" do
-    test '<<"abc", 0>>',     do: assert decode(<<"abc", 0>>)     === %Result{module: TextString, value: "abc", bytes: <<"abc", 0>>, rest: <<>>  }
-    test '<<"ab", 0, "c">>', do: assert decode(<<"ab", 0, "c">>) === %Result{module: TextString, value: "ab",  bytes: <<"ab",  0>>, rest: <<"c">>  }
+    test '<<"abc", 0>>',     do: assert decode(<<"abc", 0>>)     === %Result{module: TextString, value: "abc", bytes: <<"abc", 0>>, rest: <<>>    }
+    test '<<"ab", 0, "c">>', do: assert decode(<<"ab", 0, "c">>) === %Result{module: TextString, value: "ab",  bytes: <<"ab",  0>>, rest: <<"c">> }
 
-    test "<<>>",    do: assert decode(<<>>)      === %Result{module: TextString, value: {:err, :insufficient_bytes}, bytes: <<>>, rest: <<>> }
-    test "<<abc>>", do: assert decode(<<"abc">>) === %Result{module: TextString, value: {:err, :insufficient_bytes}, bytes: <<>>, rest: <<>> }
+    test "<<>>",    do: assert decode(<<>>)      === %Result{module: TextString, value: {:err, :insufficient_bytes}, bytes: <<>>,      rest: <<>> }
+    test "<<abc>>", do: assert decode(<<"abc">>) === %Result{module: TextString, value: {:err, :insufficient_bytes}, bytes: <<"abc">>, rest: <<>> }
   end
 
 #  describe "encode" do

@@ -5,8 +5,8 @@ defmodule WAP.TextString do
     return String.split(bytes, <<0>>, parts: 2)
   end
 
-  defp return [ _ | [] ]do
-    error :insufficient_bytes
+  defp return [ bytes | [] ]do
+    error :insufficient_bytes, bytes
   end
 
   defp return [text | [rest] ]do
