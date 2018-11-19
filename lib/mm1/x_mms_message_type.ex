@@ -1,4 +1,4 @@
-defmodule MM1.ShortIntegerMap do
+defmodule WAP.ShortIntegerMap do
 
   def map(byte, values) when byte >= 128 and byte < 128 + tuple_size(values) do
     elem values, byte - 128
@@ -11,7 +11,7 @@ end
 
 defmodule MM1.XMmsMessageType do
   use MM1.BaseCodec
-  import MM1.ShortIntegerMap
+  import WAP.ShortIntegerMap
 
   @octet MM1.Headers.octet __MODULE__
 

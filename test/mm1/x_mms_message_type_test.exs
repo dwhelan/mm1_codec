@@ -4,25 +4,7 @@ defmodule MM1.XMmsMessageTypeTest do
   alias MM1.{Result, Headers, XMmsMessageType}
   import XMmsMessageType
 
-  message_types = [
-    m_send_conf:        128,
-    m_notification_ind: 129,
-    m_notifyresp_ind:   130,
-    m_send_req:         131,
-    m_retrieve_conf:    132,
-    m_acknowledge_ind:  133,
-    m_delivery_ind:     134,
-    m_read_rec_ind:     135,
-    m_read_orig_ind:    136,
-    m_forward_ind:      137,
-    m_forward_conf:     138,
-  ]
-
-  def bytes do
-    <<Headers.octet(XMmsMessageType), 128>>
-  end
-
-  def bytes(message_type) do
+  def bytes(message_type \\ 128) do
     <<Headers.octet(XMmsMessageType), message_type>>
   end
 
@@ -31,26 +13,23 @@ defmodule MM1.XMmsMessageTypeTest do
   end
 
   describe "decode" do
-    test "bytes" do
+    test "result" do
       assert decode(bytes() <> <<"rest">>) == %Result{result() | rest: <<"rest">>}
     end
 
-    for message_type <- message_types do
-      @value elem(message_type, 0)
-      @octet elem(message_type, 1)
-
-      test @value do
-        assert decode(bytes(@octet)).value === @value
-      end
-    end
-
-    test "message type for value < 128 should be :unknown" do
-      assert decode(bytes(127)).value === :unknown
-    end
-
-    test "message type for value > 138 should be :unknown" do
-      assert decode(bytes(139)).value === :unknown
-    end
+    test "< 128",             do: assert decode(bytes(127)).value === :unknown
+    test :m_send_conf,        do: assert decode(bytes(128)).value === :m_send_conf
+    test :m_notification_ind, do: assert decode(bytes(129)).value === :m_notification_ind
+    test :m_notifyresp_ind,   do: assert decode(bytes(130)).value === :m_notifyresp_ind
+    test :m_send_req,         do: assert decode(bytes(131)).value === :m_send_req
+    test :m_retrieve_conf,    do: assert decode(bytes(132)).value === :m_retrieve_conf
+    test :m_acknowledge_ind,  do: assert decode(bytes(133)).value === :m_acknowledge_ind
+    test :m_delivery_ind,     do: assert decode(bytes(134)).value === :m_delivery_ind
+    test :m_read_rec_ind,     do: assert decode(bytes(135)).value === :m_read_rec_ind
+    test :m_read_orig_ind,    do: assert decode(bytes(136)).value === :m_read_orig_ind
+    test :m_forward_ind,      do: assert decode(bytes(137)).value === :m_forward_ind
+    test :m_forward_conf,     do: assert decode(bytes(138)).value === :m_forward_conf
+    test "> 138",             do: assert decode(bytes(127)).value === :unknown
   end
 
   describe "encode" do
