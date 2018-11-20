@@ -22,8 +22,8 @@ defmodule MM1.HeadersTest do
       ]}
   end
 
-  describe "byte" do
-    test "Bcc",             do: assert 129 == byte Bcc
-    test "XMmsMessageType", do: assert 140 == byte XMmsMessageType
+  describe "header_byte/1" do
+    test "Bcc",             do: assert 129 == header_byte Bcc
+    test "XMmsMessageType", do: assert 140 == header_byte XMmsMessageType
   end
 end

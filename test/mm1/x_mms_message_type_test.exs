@@ -6,7 +6,7 @@ defmodule MM1.XMmsMessageTypeTest do
   use MM1.CodecTest
 
   def bytes(message_type \\ 128) do
-    <<Headers.byte(XMmsMessageType), message_type>>
+    <<Headers.header_byte(XMmsMessageType), message_type>>
   end
 
   def result do

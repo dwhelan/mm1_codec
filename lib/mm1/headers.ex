@@ -60,7 +60,7 @@ defmodule MM1.Headers do
     Enum.reduce headers, <<>>, fn header, acc -> acc <> header.module.encode header end
   end
 
-  def byte module do
+  def header_byte module do
     header = module |> to_string |> String.split(".") |> List.last |> String.to_atom
     @headers[header] + 128
   end

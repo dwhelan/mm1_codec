@@ -5,7 +5,7 @@ defmodule MM1.Header do
 
       use MM1.BaseCodec
 
-      @header MM1.Headers.byte __MODULE__
+      @header MM1.Headers.header_byte __MODULE__
 
       def decode <<@header, bytes::binary>> do
         bytes |> @codec.decode |> prefix_header_in_bytes |> return
