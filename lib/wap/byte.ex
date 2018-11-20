@@ -4,8 +4,4 @@ defmodule WAP.Byte do
   def decode <<byte, rest::binary>> do
     value byte, <<byte>>, rest
   end
-
-  def encode result do
-    result.bytes
-  end
 end
