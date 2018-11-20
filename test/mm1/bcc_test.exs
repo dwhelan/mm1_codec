@@ -12,7 +12,6 @@ defmodule MM1.BccTest do
     %Result{module: Bcc, value: "abc", bytes: bytes()}
   end
 
-  @tag :focus
   describe "decode" do
     test "bytes" do
       assert decode(bytes() <> <<"rest">>) == %Result{result() | rest: <<"rest">>}
