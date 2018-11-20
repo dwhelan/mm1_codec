@@ -5,13 +5,14 @@ defmodule MM1.BccTest do
   import Bcc
 
   def bytes do
-    <<Headers.byte(Bcc), 0>>
+    <<Headers.byte(Bcc), "abc", 0>>
   end
 
   def result do
-    %Result{module: Bcc, value: 0, bytes: bytes()}
+    %Result{module: Bcc, value: "abc", bytes: bytes()}
   end
 
+  @tag :focus
   describe "decode" do
     test "bytes" do
       assert decode(bytes() <> <<"rest">>) == %Result{result() | rest: <<"rest">>}
