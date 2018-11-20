@@ -14,13 +14,13 @@ defmodule MM1.BccTest do
 
   describe "decode" do
     test "bytes" do
-      assert decode(bytes() <> <<"rest">>) == %Result{result() | rest: <<"rest">>}
+      assert decode(bytes()) === result()
     end
   end
 
   describe "encode" do
     test "result" do
-      assert encode(result()) == bytes()
+      assert encode(result()) === bytes()
     end
   end
 end

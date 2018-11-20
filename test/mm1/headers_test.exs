@@ -1,7 +1,9 @@
 defmodule MM1.HeadersTest do
   use ExUnit.Case
-
   import MM1.Headers
+
+  use MM1.CodecTest
+
   alias MM1.{Result, Headers}
   alias MM1.{Bcc, BccTest}
 
@@ -23,13 +25,5 @@ defmodule MM1.HeadersTest do
   describe "byte" do
     test "Bcc",             do: assert 129 == byte Bcc
     test "XMmsMessageType", do: assert 140 == byte XMmsMessageType
-  end
-
-  test "decode" do
-    assert decode(bytes()) === result()
-  end
-
-  test "encode" do
-    assert encode(result()) === bytes()
   end
 end
