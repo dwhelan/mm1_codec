@@ -3,6 +3,7 @@ defmodule MM1.MessageTest do
 
   alias MM1.{Result, Message, HeadersTest}
   import Message
+  use MM1.CodecTest
 
   def bytes do
     HeadersTest.bytes()
@@ -15,13 +16,5 @@ defmodule MM1.MessageTest do
       rest:   <<>>,
       value:  HeadersTest.result()
       }
-  end
-
-  test "decode" do
-    assert decode(bytes()) === result()
-  end
-
-  test "encode" do
-    assert encode(result()) === bytes()
   end
 end
