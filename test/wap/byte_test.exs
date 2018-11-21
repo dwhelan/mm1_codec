@@ -10,6 +10,6 @@ defmodule WAP.ByteTest do
   end
 
   def result do
-    %Result{module: Byte, value: 0, bytes: <<0>>, rest: <<"rest">> }
+    %Result{module: Byte, value: 0, bytes: <<0>>, rest: <<"rest">>}
   end
 end

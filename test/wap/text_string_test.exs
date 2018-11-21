@@ -10,7 +10,7 @@ defmodule WAP.TextStringTest do
   end
 
   def result do
-    %Result{module: TextString, value: "text", bytes: <<"text", 0>>, rest: <<"rest">> }
+    %Result{module: TextString, value: "text", bytes: <<"text", 0>>, rest: <<"rest">>}
   end
 
   describe "decode" do
