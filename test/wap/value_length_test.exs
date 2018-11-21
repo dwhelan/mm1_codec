@@ -15,7 +15,7 @@ defmodule WAP.ValueLengthTest do
 
   describe "decode" do
     test "0..30 should be valid", do: assert decode(<<30>>).value === 30
-    test "> 30 should not match", do: assert_raise FunctionClauseError,  fn -> decode <<31>> end
     test "31 (length quote)",     do: assert decode(<<31, 31>>).value === 31
+    test "> 31 should not match", do: assert_raise FunctionClauseError, fn -> decode <<32>> end
   end
 end
