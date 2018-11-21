@@ -10,16 +10,4 @@ defmodule MM1.BccTest do
   def result do
     %Result{module: Bcc, value: "abc", bytes: bytes()}
   end
-
-  describe "decode" do
-    test "bytes" do
-      assert decode(bytes()) === result()
-    end
-  end
-
-  describe "encode" do
-    test "result" do
-      assert encode(result()) === bytes()
-    end
-  end
 end
