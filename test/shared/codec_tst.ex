@@ -2,6 +2,7 @@ defmodule MM1.CodecTest do
   defmacro __using__(_opts) do
     quote do
       use ExUnit.Case
+      alias MM1.Result
 
       describe "base decode" do
         test "valid bytes" do
@@ -9,7 +10,7 @@ defmodule MM1.CodecTest do
         end
 
         test "insufficient bytes" do
-          assert %MM1.Result{value: {:err, :insufficient_bytes}, bytes: <<>>, rest: <<>>} = decode <<>>
+          assert %Result{value: {:err, :insufficient_bytes}, bytes: <<>>, rest: <<>>} = decode <<>>
         end
       end
 
