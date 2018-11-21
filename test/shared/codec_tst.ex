@@ -17,7 +17,7 @@ defmodule MM1.CodecTest do
 
       describe "base encode" do
         test "valid result " do
-          assert encode(result()) === bytes()
+          assert encode(result()) <> result().rest === bytes()
         end
       end
     end
