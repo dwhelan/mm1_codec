@@ -2,19 +2,19 @@ defmodule WAP.Uintvar do
   use MM1.BaseCodec
   use Bitwise
 
-  def decode(bytes) when is_binary(bytes) do
+  def decode bytes do
     decode bytes, 0, <<>>
   end
 
-  defp decode(<<byte, rest::binary>>, value, bytes) when byte >= 128 do
-    decode rest, add(byte-128, value), bytes <> <<byte>>
+  defp decode <<1::1, value::7, rest::binary>>, total, bytes do
+    decode rest, add(value, total), bytes <> <<1::1, value::7>>
   end
 
-  defp decode <<byte, rest::binary>>, value, bytes do
-    value add(byte, value), bytes <> <<byte>>, rest
+  defp decode <<value, rest::binary>>, total, bytes do
+    value add(value, total), bytes <> <<value>>, rest
   end
 
-  defp add byte, value do
-    (value <<< 7) + byte
+  defp add value, total do
+    (total <<< 7) + value
   end
 end
