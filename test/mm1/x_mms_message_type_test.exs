@@ -1,8 +1,7 @@
 defmodule MM1.XMmsMessageTypeTest do
-  use ExUnit.Case
-
   alias MM1.{Result, Headers, XMmsMessageType}
   import XMmsMessageType
+
   use MM1.CodecTest
 
   def bytes(message_type \\ 128) do

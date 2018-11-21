@@ -1,11 +1,8 @@
 defmodule MM1.HeadersTest do
-  use ExUnit.Case
-  import MM1.Headers
+  alias MM1.{Result, Headers, Bcc, BccTest}
+  import Headers
 
   use MM1.CodecTest
-
-  alias MM1.{Result, Headers}
-  alias MM1.{Bcc, BccTest}
 
   def bytes do
     BccTest.bytes() <> BccTest.bytes()
