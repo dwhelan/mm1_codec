@@ -3,12 +3,20 @@ defmodule MM1.CodecTest do
     quote do
       use ExUnit.Case
 
-      test "decode" do
-        assert decode(bytes()) === result()
+      describe "base decode" do
+        test "valid bytes" do
+          assert decode(bytes()) === result()
+        end
+
+        test "insufficient bytes" do
+          assert %MM1.Result{value: {:err, :insufficient_bytes}, bytes: <<>>, rest: <<>>} = decode <<>>
+        end
       end
 
-      test "encode" do
-        assert encode(result()) === bytes()
+      describe "base encode" do
+        test "valid result " do
+          assert encode(result()) === bytes()
+        end
       end
     end
   end
