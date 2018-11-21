@@ -15,6 +15,6 @@ defmodule WAP.Uintvar do
   end
 
   defp add value, total do
-    (total <<< 7) + value
+    value + (total <<< 7)
   end
 end
