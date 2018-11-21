@@ -7,7 +7,7 @@ defmodule WAP.EncodedStringTest do
   import EncodedString
 
   describe "decode" do
-    test "unknown encoding", do: assert decode(<<3, 129, "text", 0, "rest">>) === %Result{module: EncodedString, value: %{charset: :other, text: "text"}, bytes: <<3, 129, "text", 0>>, rest: <<"rest">> }
+    test "unknown encoding", do: assert decode(<<6, 129, "text", 0, "rest">>) === %Result{module: EncodedString, value: %{charset: {:other, 1}, text: "text"}, bytes: <<6, 129, "text", 0>>, rest: <<"rest">> }
 
     test "no bytes",      do: assert %{value: {:err, :insufficient_bytes}, bytes: <<>>,       rest: <<>> } = decode <<>>
     test "no terminator", do: assert %{value: {:err, :insufficient_bytes}, bytes: <<"text">>, rest: <<>> } = decode <<"text">>

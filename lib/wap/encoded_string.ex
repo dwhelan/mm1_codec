@@ -6,7 +6,7 @@ defmodule WAP.EncodedString do
   end
 
   defp return [text | [rest]] do
-    value %{charset: :other, text: "text"}, text <> <<0>>, rest
+    value %{charset: {:other, 1}, text: "text"}, text <> <<0>>, rest
   end
 
   defp return [bytes | []] do
