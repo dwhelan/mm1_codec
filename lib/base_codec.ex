@@ -25,6 +25,16 @@ defmodule MM1.BaseCodec do
       defp return %Result{} = result do
         %Result{result | module: __MODULE__}
       end
+
+      defp bytes ~> codec when is_binary(bytes) do
+        return codec.decode bytes
+      end
+
+      defp previous ~> codec do
+        result = codec.decode previous.rest
+        previous_value = if is_tuple(previous.value), do: previous.value, else: {previous.value}
+        return %Result{result | value: Tuple.append(previous_value, result.value), bytes: previous.bytes <> result.bytes}
+      end
     end
   end
 end
