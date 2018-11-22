@@ -27,7 +27,7 @@ defmodule WAP.CharSetTest do
   end
 
   describe "decode" do
-
+#    test "UTF8", do: assert decode(<<0xea>>).value === :csUTF8
   end
 #  test "char_set_size" do
 #    assert CharSet.size(0)      === 1

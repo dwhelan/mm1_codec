@@ -7,7 +7,6 @@ defmodule WAP.CharSet do
 
   use MM1.BaseCodec
 
-
   def decode <<code, rest::binary>> do
 #    bytes ~> WAP.Integer ~> WAP.CharSets
     value :other, <<code>>, rest
