@@ -10,6 +10,6 @@ defmodule WAP.TextString do
   end
 
   defp return [bytes | []] do
-    error :insufficient_bytes, bytes
+    error :missing_terminator, bytes
   end
 end

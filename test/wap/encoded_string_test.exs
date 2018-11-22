@@ -15,7 +15,7 @@ defmodule WAP.EncodedStringTest do
   end
 
   describe "decode Text-string" do
-    test "no terminator", do: assert %{value: {:err, :insufficient_bytes}, bytes: <<"text">>, rest: <<>> } = decode <<"text">>
+    test "no terminator", do: assert %{value: {:err, :missing_terminator}, bytes: <<"text">>, rest: <<>> } = decode <<"text">>
   end
 
   describe "decode Value-length Char-set Text-string" do
