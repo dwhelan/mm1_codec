@@ -4,16 +4,22 @@ defmodule WAP.EncodedString do
   alias WAP.TextString
   alias WAP.ValueLength
 
-  def decode(<<char, rest::binary>> = data) when char >= 32 do
+  def decode(<<char, _::binary>> = data) when char >= 32 do
     return TextString.decode data
   end
 
   def decode data do
-    value_length = ValueLength.decode data
-    char_set = WAP.CharSet.decode value_length.rest
-    text_string = WAP.TextString.decode char_set.rest
-    value %{charset: :csUTF8, text: text_string.value},
-      value_length.bytes <> char_set.bytes <> text_string.bytes, text_string.rest
+    data ~> ValueLength ~> WAP.CharSet ~> WAP.TextString
+  end
+
+  defp bytes ~> codec when is_binary(bytes) do
+    result = codec.decode bytes
+    return %Result{result | value: {result.value}}
+  end
+
+  defp previous ~> codec do
+    result = codec.decode previous.rest
+    return %Result{result | value: Tuple.append(previous.value, result.value), bytes: previous.bytes <> result.bytes}
   end
 
   defp return [text | [rest]] do
