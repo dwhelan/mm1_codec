@@ -4,12 +4,17 @@ defmodule WAP.CharSet do
 
   The Char-set values are registered by IANA as MIBEnum values.
   """
+  alias WAP.CharSets
 
   use MM1.BaseCodec
 
-  def decode <<code, rest::binary>> do
-#    bytes ~> WAP.Integer ~> WAP.CharSets
-    value :other, <<code>>, rest
+  def decode <<1::1, code::7, rest::binary>> do
+    value CharSets.name(code), <<1::1, code::7>>, rest
+  end
+
+  def decode bytes do
+    code = WAP.LongInteger.decode bytes
+    return %Result{code | value: CharSets.name(code.value)}
   end
 
   def size(code) when code < 128 do
