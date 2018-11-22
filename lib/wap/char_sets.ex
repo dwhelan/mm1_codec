@@ -268,15 +268,11 @@ defmodule WAP.CharSets do
 
   @char_sets_by_code Enum.reduce(@char_sets, %{}, fn {k,v}, acc -> Map.put(acc, v, k) end)
 
-  def lookup nil do
-    [name: nil, code: nil]
+  def name code do
+    @char_sets_by_code[code]
   end
 
-  def lookup(code) when is_number(code) do
-    [name: @char_sets_by_code[code], code: code]
-  end
-
-  def lookup atom do
-    [name: atom, code: @char_sets[atom]]
+  def code atom do
+   @char_sets[atom]
   end
 end
