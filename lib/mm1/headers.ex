@@ -2,7 +2,7 @@ defmodule MM1.Headers do
   # Based on OMA-WAP-MMS-ENC-V1_1-20040715-A: Table 12. Field Name Assignments
   @headers [
     Bcc:                       0x01,
-    #Cc:                        0x02,
+    Cc:                        0x02,
     #XMmsContentLocation:       0x03,
     #ContentType:               0x04,
     #Date:                      0x05,
