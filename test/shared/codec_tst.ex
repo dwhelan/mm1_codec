@@ -4,21 +4,17 @@ defmodule MM1.CodecTest do
       use ExUnit.Case
       alias MM1.Result
 
-      describe "base decode" do
-        test "valid bytes" do
-          assert decode(bytes()) === result()
-        end
-
-        test "insufficient bytes" do
-          module = result().module
-          assert decode(<<>>) === %Result{module: module, value: {:err, :insufficient_bytes}, bytes: <<>>, rest: <<>>}
-        end
+      test "base insufficient bytes" do
+        module = result().module
+        assert decode(<<>>) === %Result{module: module, value: {:err, :insufficient_bytes}, bytes: <<>>, rest: <<>>}
       end
 
-      describe "base encode" do
-        test "valid result " do
-          assert encode(result()) <> result().rest === bytes()
-        end
+      test "base decode" do
+        assert decode(bytes()) === result()
+      end
+
+      test "base encode" do
+        assert encode(result()) <> result().rest === bytes()
       end
     end
   end

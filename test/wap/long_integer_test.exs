@@ -1,35 +1,16 @@
 defmodule WAP.LongIntegerTest do
-  alias WAP.LongInteger
+  use ExUnit.Case
+  import MM1.CodecExamples
 
-  import LongInteger
-  use MM1.CodecTest
-
-  def bytes do
-    <<1, 0, "rest">>
-  end
-
-  def result do
-    %Result{module: LongInteger, value: 0, bytes: <<1, 0>>, rest: <<"rest">>}
-  end
-
-  test "base new" do
-    assert new(result().value) === %Result{result() | rest: <<>>}
-  end
-
-  describe "decode" do
-    test "one byte max", do: assert decode(<<1, 255 >>).value === 255
-    test "two byte min", do: assert decode(<<2, 1, 0>>).value === 256
-    test "two byte max", do: assert decode(<<2, 255, 255 >>).value === 65_535
-
-    test "thirty byte max", do: assert decode(<<30, 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff::240>>).value === 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-  end
-
-  test "new" do
-#    assert LongInteger.new( -1) === %Result{module: LongInteger, value: 255, bytes: <<255>>, rest: <<>>}
-    assert LongInteger.new(  0) === %Result{module: LongInteger, value:   0, bytes: <<1, 0>>, rest: <<>>}
-    assert LongInteger.new(255) === %Result{module: LongInteger, value:   255, bytes: <<1, 255>>, rest: <<>>}
-    assert LongInteger.new(256) === %Result{module: LongInteger, value:   256, bytes: <<2, 1, 0>>, rest: <<>>}
-#    assert LongInteger.new(255) === %Result{module: LongInteger, value: 255, bytes: <<255>>, rest: <<>>}
-#    assert LongInteger.new(256) === %Result{module: LongInteger, value:   0, bytes: <<  0>>, rest: <<>>}
-  end
+  examples WAP.LongInteger, [
+    {"one byte min", <<1,   0>>,           0},
+    {"one byte max", <<1, 255>>,         255},
+    {"two byte min", <<2,   1,   0>>,    256},
+    {"two byte max", <<2, 255, 255>>, 65_535},
+    {
+      "thirty byte max",
+      <<30, 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff::240>>,
+      0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+    }
+  ]
 end
