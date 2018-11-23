@@ -19,8 +19,20 @@ defmodule WAP.EncodedStringTest do
   end
 
   describe "decode Value-length Char-set Text-string" do
-    test "single byte charset", do: assert %{value: {6, :csUTF8, "text"}, bytes: <<6, 0xea, "text", 0>>, rest: <<"rest">>} = decode <<6, 0xea, "text", 0, "rest">>
-#    test "three byte charset",  do: assert %{value: {8, :csUTF8, "text"}, bytes: <<8, 0x03, 0xe8, "text", 0>>, rest: <<"rest">>} = decode <<8, 0x03, 0xe8, "text", 0, "rest">>
-#    test "no terminator", do: assert %{value: {:err, :insufficient_bytes}, bytes: <<"text">>, rest: <<>> } = decode <<"text">>
+    test "short Value-length" do
+      assert %{value: {6, _, _} } = decode <<6, 0xea, "text", 0>>
+    end
+
+    test "long Value-length" do
+      assert %{value: {42, _, _} } = decode <<31, 42, 0xea, "text", 0>>
+    end
+
+    test "short Char-set" do
+      assert %{value: {_, :csUTF8, _}} = decode <<6, 0xea, "text">>
+    end
+
+    test "long Char-set" do
+      assert %{value: {_, :csUnicode, _}, } = decode <<8, 2, 0x03, 0xe8, "text", 0>>
+    end
   end
 end
