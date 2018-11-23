@@ -14,7 +14,7 @@ defmodule MM1.Headers do
     #M1:MessageID,              0x0b,
     XMmsMessageType:           0x0c,
     #XMmsMMSVersion:            0x0d,
-    #XMmsMessageSize:           0x0e,
+    XMmsMessageSize:           0x0e,
     #XMmsPriority:              0x0f,
     #XMmsReportAllowed:         0x11,
     #XMmsResponseStatus:        0x12,
