@@ -17,6 +17,18 @@ defmodule WAP.CharSet do
     value CharSets.name(code), bytes, rest
   end
 
+  def new name do
+    value name, bytes CharSets.code name
+  end
+
+  defp bytes(code) when code < 128 do
+    <<1::1, code::7>>
+  end
+
+  defp bytes code do
+    LongInteger.new(code).bytes
+  end
+
   def size(code) when code < 128 do
     1
   end
