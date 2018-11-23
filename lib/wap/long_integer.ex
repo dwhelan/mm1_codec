@@ -21,4 +21,9 @@ defmodule WAP.LongInteger do
     <<value::binary-size(length), rest::binary>> = bytes
     value :binary.decode_unsigned(value), <<length, value::binary-size(length)>>, rest
   end
+
+  def new value do
+    bytes = :binary.encode_unsigned value
+    value value, <<byte_size bytes>> <> :binary.encode_unsigned value
+  end
 end
