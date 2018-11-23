@@ -14,6 +14,8 @@ defmodule WAP.TextStringTest do
   end
 
   describe "decode" do
-    test "no terminator", do: assert %{value: {:err, :missing_terminator}, bytes: <<"text">>, rest: <<>> } = decode <<"text">>
+    test "no terminator" do
+      assert %{value: {:err, :missing_terminator}, bytes: <<>>, rest: <<"text">> } = decode <<"text">>
+    end
   end
 end
