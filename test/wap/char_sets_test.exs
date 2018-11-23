@@ -14,7 +14,7 @@ defmodule WAP.CharSetsTest do
   test "name(code)" do
     assert name(1)    === :other
     assert name(106)  === :csUTF8
-    assert name(2260) === :cs50220
+    assert name(1000) === :csUnicode
     assert name(9999) === nil
     assert name(nil)  === nil
   end
