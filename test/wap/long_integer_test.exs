@@ -12,6 +12,10 @@ defmodule WAP.LongIntegerTest do
     %Result{module: LongInteger, value: 0, bytes: <<1, 0>>, rest: <<"rest">>}
   end
 
+  test "base new" do
+    assert new(result().value) === %Result{result() | rest: <<>>}
+  end
+
   describe "decode" do
     test "one byte max", do: assert decode(<<1, 255 >>).value === 255
     test "two byte min", do: assert decode(<<2, 1, 0>>).value === 256
@@ -23,6 +27,8 @@ defmodule WAP.LongIntegerTest do
   test "new" do
 #    assert LongInteger.new( -1) === %Result{module: LongInteger, value: 255, bytes: <<255>>, rest: <<>>}
     assert LongInteger.new(  0) === %Result{module: LongInteger, value:   0, bytes: <<1, 0>>, rest: <<>>}
+    assert LongInteger.new(255) === %Result{module: LongInteger, value:   255, bytes: <<1, 255>>, rest: <<>>}
+    assert LongInteger.new(256) === %Result{module: LongInteger, value:   256, bytes: <<2, 1, 0>>, rest: <<>>}
 #    assert LongInteger.new(255) === %Result{module: LongInteger, value: 255, bytes: <<255>>, rest: <<>>}
 #    assert LongInteger.new(256) === %Result{module: LongInteger, value:   0, bytes: <<  0>>, rest: <<>>}
   end
