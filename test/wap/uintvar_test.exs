@@ -1,29 +1,17 @@
 defmodule WAP.UintvarTest do
-  alias WAP.Uintvar
-  alias MM1.Result
-  import Uintvar
+  use ExUnit.Case
+  import MM1.CodecExamples
 
-  use MM1.CodecTest
-
-  def bytes do
-    <<0, "rest">>
-  end
-
-  def result do
-    %Result{module: Uintvar, value: 0, bytes: <<0>>, rest: <<"rest">>}
-  end
-
-  describe "encode" do
-    test "one byte max",    do: assert decode(<<127>>).value === 127
-    test "two bytes min",   do: assert decode(<<129, 0>>).value === 128
-    test "two bytes max",   do: assert decode(<<255, 127>>).value === 16_383
-    test "three bytes min", do: assert decode(<<129, 128, 0>>).value === 16_384
-    test "three bytes max", do: assert decode(<<255, 255, 127>>).value === 2_097_151
-    test "four bytes min",  do: assert decode(<<129, 128, 128, 0>>).value === 2_097_152
-    test "four bytes max",  do: assert decode(<<255, 255, 255, 127>>).value === 268_435_455
-    test "five bytes min",  do: assert decode(<<129, 128, 128, 128, 0>>).value === 268_435_456
-    test "five bytes max",  do: assert decode(<<255, 255, 255, 255, 127>>).value === 34_359_738_367
-
-    test "uint32 max", do: assert decode(<<143, 255, 255, 255, 127>>).value === 0xffffffff
-  end
+  examples WAP.Uintvar, [
+    {"one byte min",    <<0>>, 0},
+    {"one byte max",    <<127>>, 127},
+    {"two bytes min",   <<129, 0>>, 128},
+    {"two bytes max",   <<255, 127>>, 16_383},
+    {"three bytes min", <<129, 128, 0>>, 16_384},
+    {"three bytes max", <<255, 255, 127>>, 2_097_151},
+    {"four bytes min",  <<129, 128, 128, 0>>, 2_097_152},
+    {"four bytes max",  <<255, 255, 255, 127>>, 268_435_455},
+    {"five bytes min",  <<129, 128, 128, 128, 0>>, 268_435_456},
+    {"five bytes max",  <<255, 255, 255, 255, 127>>, 34_359_738_367},
+  ]
 end
