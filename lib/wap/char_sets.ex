@@ -268,11 +268,21 @@ defmodule WAP.CharSets do
 
   @char_sets_by_code Enum.reduce(@char_sets, %{}, fn {k,v}, acc -> Map.put(acc, v, k) end)
 
+  alias MM1.Result
+
+  def map %Result{} = result do
+    %Result{result | value: map(result.value)}
+  end
+
   def map code do
     @char_sets_by_code[code] || code
   end
 
-  def code atom do
+  def unmap %Result{} = result do
+    %Result{result | value: unmap(result.value)}
+  end
+
+  def unmap atom do
    @char_sets[atom] || atom
   end
 end

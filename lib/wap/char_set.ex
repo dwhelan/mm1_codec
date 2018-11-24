@@ -9,20 +9,19 @@ defmodule WAP.CharSet do
   use MM1.BaseCodec
 
   def decode <<1::1, _::7, _::binary>> = bytes do
-    foo ShortInteger, bytes
+    bytes |> ShortInteger.decode |> map
   end
 
   def decode bytes do
-    foo LongInteger, bytes
-  end
-
-  defp foo module, bytes do
-    %{value: code, bytes: bytes, rest: rest} = module.decode bytes
-    value CharSets.map(code), bytes, rest
+    bytes |> LongInteger.decode |> map
   end
 
   def new name do
-    value name, bytes CharSets.code name
+    value name, bytes CharSets.unmap(name)
+  end
+
+  defp map result do
+    result |> CharSets.map |> return
   end
 
   defp bytes(code) when code < 128 do
