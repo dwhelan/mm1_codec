@@ -1,20 +1,13 @@
 defmodule WAP.ShortLengthTest do
+  use ExUnit.Case
+  import MM1.CodecExamples
+
   alias WAP.ShortLength
-  alias MM1.Result
-  import ShortLength
 
-  use MM1.CodecTest
+  examples ShortLength, [
+    { "0", << 0>>,  0},
+    {"30", <<30>>, 30},
+  ]
 
-  def bytes do
-    <<0, "rest">>
-  end
-
-  def result do
-    %Result{module: ShortLength, value: 0, bytes: <<0>>, rest: <<"rest">>}
-  end
-
-  describe "decode" do
-    test "0..30 should be valid", do: assert decode(<<30>>).value === 30
-    test "> 30 should not match", do: assert_raise FunctionClauseError,  fn -> decode <<31>> end
-  end
+  test "decode value > 30 should not match", do: assert_raise FunctionClauseError,  fn -> ShortLength.decode <<31>> end
 end
