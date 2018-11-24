@@ -5,7 +5,7 @@ defmodule MM1.XMmsMessageTypeTest do
   alias MM1.XMmsMessageType
 
   examples XMmsMessageType, [
-#    { <<XMmsMessageType.header_byte(), 128>>, :m_send_conf},
+    { <<XMmsMessageType.header_byte(), 128>>, :m_send_conf},
 #    { <<XMmsMessageType.header_byte(), 129>>, :m_notification_ind},
 #    { <<XMmsMessageType.header_byte(), 130>>, :m_notifyresp_ind},
 #    { <<XMmsMessageType.header_byte(), 131>>, :m_send_req},
