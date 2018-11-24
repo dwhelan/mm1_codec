@@ -7,11 +7,11 @@ defmodule WAP.ByteTest do
     {<<255>>, 255},
   ]
 
-  test "should wrap numbers > 255" do
+  test "new(positive) should be modulo 256" do
     assert WAP.Byte.new(256).bytes() === <<0>>
   end
 
-  test "should wrap numbers < 0" do
+  test "new(negative) should be modulo 256" do
     assert WAP.Byte.new(-1).bytes() === <<255>>
   end
 end
