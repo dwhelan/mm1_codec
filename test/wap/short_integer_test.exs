@@ -3,7 +3,7 @@ defmodule WAP.ShortIntegerTest do
   import MM1.CodecExamples
 
   examples WAP.ShortInteger, [
-    {"min", <<128>>,   0},
-    {"max", <<255>>, 127},
+    {<<128>>,   0},
+    {<<255>>, 127},
   ]
 end

@@ -5,7 +5,8 @@ defmodule WAP.TextStringTest do
   alias WAP.TextString
 
   examples TextString, [
-    {"text", <<"text", 0>>, "text"},
+    {<<0>>,             ""},
+    {<<"text", 0>>, "text"},
   ]
 
   test "no terminator" do

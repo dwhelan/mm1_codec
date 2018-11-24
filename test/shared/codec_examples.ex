@@ -9,20 +9,20 @@ defmodule MM1.CodecExamples do
         assert @module.decode(<<>>) === %Result{module: @module, value: {:err, :insufficient_bytes}, bytes: <<>>, rest: <<>>}
       end
 
-      Enum.each(examples, fn {name, bytes, value} ->
+      Enum.each(examples, fn {bytes, value} ->
         @bytes  bytes
         @value  value
         @result %Result{module: @module, value: @value, bytes: @bytes}
 
-        test "decode: #{name}" do
+        test "decode(#{inspect bytes}) == #{inspect value}" do
           assert @module.decode(@bytes <> "rest") === %Result{@result | rest: "rest"}
         end
 
-        test "encode: #{name}" do
+        test "encode(#{inspect value}) == #{inspect bytes}" do
           assert @module.encode(@result) === @bytes
         end
 
-        test "new: #{name}" do
+        test "new(#{inspect value}) == %Result{value: #{inspect value}}" do
           assert @module.new(@value) === @result
         end
       end)
