@@ -14,6 +14,10 @@ defmodule MM1.BaseCodec do
         error :insufficient_bytes
       end
 
+      def new nil do
+        value nil
+      end
+
       defp value val, bytes \\ <<>>, rest \\ <<>> do
         return %Result{value: val, bytes: bytes, rest: rest}
       end
