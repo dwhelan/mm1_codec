@@ -8,7 +8,7 @@ defmodule WAP.CharSet do
 
   use MM1.BaseCodec
 
-  def decode <<1::1, _::7, _::binary>> = bytes do
+  def decode(<<value, _::binary>> = bytes) when value >= 128 do
     bytes |> ShortInteger.decode |> map
   end
 
@@ -25,7 +25,7 @@ defmodule WAP.CharSet do
   end
 
   defp bytes(code) when code < 128 do
-    <<1::1, code::7>>
+    ShortInteger.new(code).bytes
   end
 
   defp bytes code do

@@ -11,7 +11,11 @@ defmodule WAP.ShortInteger do
 
   use MM1.BaseCodec
 
-  def decode <<1::1, value::7, rest::binary>> do
-    value value, <<1::1, value::7>>, rest
+  def decode(<<value, rest::binary>>) when value >= 128 do
+    value value-128, <<value>>, rest
+  end
+
+  def new value do
+    value value, <<value+128>>
   end
 end

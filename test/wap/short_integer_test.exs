@@ -1,19 +1,9 @@
 defmodule WAP.ShortIntegerTest do
-  alias WAP.ShortInteger
-  alias MM1.Result
-  import ShortInteger
+  use ExUnit.Case
+  import MM1.CodecExamples
 
-  use MM1.CodecTest
-
-  def bytes do
-    <<128, "rest">>
-  end
-
-  def result do
-    %Result{module: ShortInteger, value: 0, bytes: <<128>>, rest: <<"rest">>}
-  end
-
-  describe "decode" do
-    test "<<255>> -> 127", do: assert decode(<<255>>).value === 127
-  end
+  examples WAP.ShortInteger, [
+    {"min", <<128>>,   0},
+    {"max", <<255>>, 127},
+  ]
 end

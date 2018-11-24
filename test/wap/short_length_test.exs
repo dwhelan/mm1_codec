@@ -1,7 +1,7 @@
 defmodule WAP.ShortLengthTest do
   use ExUnit.Case
-  import MM1.CodecExamples
 
+  import MM1.CodecExamples
   alias WAP.ShortLength
 
   examples ShortLength, [

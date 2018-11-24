@@ -1,21 +1,15 @@
 defmodule WAP.TextStringTest do
+  use ExUnit.Case
+  import MM1.CodecExamples
+
   alias WAP.TextString
-  alias MM1.Result
   import TextString
 
-  use MM1.CodecTest
+  examples TextString, [
+    {"text", <<"text", 0>>, "text"},
+  ]
 
-  def bytes do
-    <<"text", 0, "rest">>
-  end
-
-  def result do
-    %Result{module: TextString, value: "text", bytes: <<"text", 0>>, rest: <<"rest">>}
-  end
-
-  describe "decode" do
-    test "no terminator" do
-      assert %{value: {:err, :missing_terminator}, bytes: <<>>, rest: <<"text">> } = decode <<"text">>
-    end
+  test "no terminator" do
+    assert %{value: {:err, :missing_terminator}, bytes: <<>>, rest: <<"text">> } = decode <<"text">>
   end
 end
