@@ -1,4 +1,11 @@
 defmodule MM1.BccTest do
+  use ExUnit.Case
+  import MM1.CodecExamples
+
+  examples MM1.Bcc, [
+#    {<<MM1.Headers.header_byte(Bcc), "abc", 0>>,     "abc"},
+  ]
+
   alias MM1.{Result, Headers, Bcc}
   import Bcc
   use MM1.CodecTest

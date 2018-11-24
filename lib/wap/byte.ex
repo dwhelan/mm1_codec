@@ -6,7 +6,6 @@ defmodule WAP.Byte do
   end
 
   def new value do
-    <<byte>> = <<value>>
-    value byte, <<byte>>
+    value value, <<value>>
   end
 end

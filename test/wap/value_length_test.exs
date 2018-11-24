@@ -13,7 +13,7 @@ defmodule WAP.ValueLengthTest do
     {<<31, 143, 255, 255, 255, 127>>, 0xffffffff},
   ]
 
-  test "should not match when first char > 31" do
+  test "should not match when first byte > 31" do
     assert_raise FunctionClauseError, fn -> ValueLength.decode <<32>> end
   end
 end
