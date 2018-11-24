@@ -1,7 +1,7 @@
 defmodule MM1.MessageTest do
   alias MM1.{Result, Message, HeadersTest}
   import Message
-  use MM1.CodecTest
+#  use MM1.CodecTest
 
   def bytes do
     HeadersTest.bytes()

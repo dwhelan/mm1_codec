@@ -56,12 +56,24 @@ defmodule MM1.Headers do
     value Enum.reverse headers
   end
 
+  defp decode rest, headers do
+    value Enum.reverse(headers), <<>>, rest
+  end
+
   def encode %{value: headers} do
     Enum.reduce headers, <<>>, fn header, acc -> acc <> header.module.encode header end
   end
 
+  def header_name module do
+    module |> to_string |> String.split(".") |> List.last
+  end
+
   def header_byte module do
-    header = module |> to_string |> String.split(".") |> List.last |> String.to_atom
+    header = module |> header_name |> String.to_atom
     @headers[header] + 128
+  end
+
+  def new headers do
+    value headers
   end
 end
