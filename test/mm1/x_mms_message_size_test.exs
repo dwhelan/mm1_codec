@@ -1,14 +1,10 @@
 defmodule MM1.XMmsMessageSizeTest do
-  alias MM1.{Result, Headers, XMmsMessageSize}
-  import XMmsMessageSize
+  use ExUnit.Case
+  import MM1.CodecExamples
 
-  use MM1.CodecTest
+  alias MM1.XMmsMessageSize
 
-  def bytes do
-    <<Headers.header_byte(XMmsMessageSize), 1, 42>>
-  end
-
-  def result do
-    %Result{module: XMmsMessageSize, value: 42, bytes: bytes()}
-  end
+  examples XMmsMessageSize, [
+    {<<XMmsMessageSize.header_byte(), 1, 42>>, 42}
+  ]
 end
