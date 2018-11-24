@@ -1,40 +1,17 @@
 defmodule WAP.EncodedStringTest do
+  use ExUnit.Case
+  import MM1.CodecExamples
 
   alias WAP.EncodedString
-  alias MM1.Result
-  import EncodedString
 
-  use MM1.CodecTest
+  examples EncodedString, [
+    {"no encoding",                       <<"text", 0>>,                        "text"},
+    {"UTF8 encoding (1 byte charset)",    <<6, 0xea, "text", 0>>,               { 6, :csUTF8,    "text"}},
+    {"Unicode encoding (3 byte charset)", <<8, 2, 0x03, 0xe8, "text", 0>>,      { 8, :csUnicode, "text"}},
+    {"Long value length",                 <<31, 42, 2, 0x03, 0xe8, "text", 0>>, {42, :csUnicode, "text"}},
+  ]
 
-  def bytes do
-    <<"text", 0, "rest">>
-  end
-
-  def result do
-    %Result{module: EncodedString, value: "text", bytes: <<"text", 0>>, rest: <<"rest">> }
-  end
-
-  describe "decode Text-string" do
-    test "no terminator" do
-      assert %{value: {:err, :missing_terminator}, bytes: <<>>, rest: <<"text">> } = decode <<"text">>
-    end
-  end
-
-  describe "decode Value-length Char-set Text-string" do
-    test "short Value-length" do
-      assert %{value: {6, _, _} } = decode <<6, 0xea, "text", 0>>
-    end
-
-    test "long Value-length" do
-      assert %{value: {42, _, _} } = decode <<31, 42, 0xea, "text", 0>>
-    end
-
-    test "short Char-set" do
-      assert %{value: {_, :csUTF8, _}} = decode <<6, 0xea, "text">>
-    end
-
-    test "long Char-set" do
-      assert %{value: {_, :csUnicode, _}, } = decode <<8, 2, 0x03, 0xe8, "text", 0>>
-    end
+  test "no terminator" do
+    assert %{value: {:err, :missing_terminator}, bytes: <<>>, rest: <<"text">> } = EncodedString.decode <<"text">>
   end
 end
