@@ -2,7 +2,9 @@ defmodule WAP.LongIntegerTest do
   use ExUnit.Case
   import MM1.CodecExamples
 
-  examples WAP.LongInteger, [
+  alias WAP.LongInteger
+
+  examples LongInteger, [
     {<<1,   0>>,           0},
     {<<1, 255>>,         255},
     {<<2,   1,   0>>,    256},
@@ -12,5 +14,8 @@ defmodule WAP.LongIntegerTest do
       0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
     }
   ]
-  test "decode length > 30 should not match", do: assert_raise FunctionClauseError, fn -> WAP.LongInteger.decode <<31>> end
+
+  test "decode(length > 30) should return an error" do
+    assert LongInteger.decode(<<31>>) === %Result{module: LongInteger, value: {:err, :length_cannot_be_greater_than_30}}
+  end
 end
