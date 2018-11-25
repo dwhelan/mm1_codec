@@ -1,6 +1,6 @@
 defmodule MM1.Mapper do
-  defmacro build_mapper(map) do
-    quote bind_quoted: [map: map] do
+  defmacro __using__(opts) do
+    quote bind_quoted: [map: opts[:map]] do
       @map   map
       @unmap Enum.reduce @map, %{}, fn {k,v}, acc -> Map.put(acc, v, k) end
 

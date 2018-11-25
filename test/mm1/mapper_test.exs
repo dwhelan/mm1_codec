@@ -1,8 +1,6 @@
 defmodule MM1.MapperTest do
   use ExUnit.Case
-  import MM1.Mapper
-
-  build_mapper %{
+  use MM1.Mapper, map: %{
     0 => "a",
     1 => "b",
   }
