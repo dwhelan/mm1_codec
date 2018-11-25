@@ -1,8 +1,7 @@
 defmodule MM1.OrdinalMapperTest do
   use ExUnit.Case
-  import MM1.OrdinalMapper
 
-  build_mapper [
+  use MM1.OrdinalMapper, values: [
     "a",
     "b",
   ]

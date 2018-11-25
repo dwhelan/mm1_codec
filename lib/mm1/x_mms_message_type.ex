@@ -1,10 +1,5 @@
-defmodule MM1.XMmsMessageType do
-#  use MM1.BaseCodec
-#  import WAP.ShortIntegerMap
-
-  import MM1.OrdinalMapper
-
-  build_mapper [
+defmodule MM1.XMmsMessageTypeMapper do
+  use MM1.OrdinalMapper, values: [
     :m_send_conf,
     :m_notification_ind,
     :m_notifyresp_ind,
@@ -17,6 +12,8 @@ defmodule MM1.XMmsMessageType do
     :m_forward_ind,
     :m_forward_conf,
   ]
+end
 
-  use MM1.Header, codec: WAP.ShortInteger
+defmodule MM1.XMmsMessageType do
+  use MM1.Header, codec: WAP.ShortInteger, mapper: MM1.XMmsMessageTypeMapper
 end

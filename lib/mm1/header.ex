@@ -11,7 +11,7 @@ defmodule MM1.Header do
   defmacro __using__(opts) do
     quote bind_quoted: [opts: opts] do
       @codec  opts[:codec]
-      @values opts[:values]
+      @mapper opts[:mapper] || MM1.IdentityMapper
 
       use MM1.BaseCodec
 
@@ -22,7 +22,7 @@ defmodule MM1.Header do
       end
 
       def decode <<@header, bytes::binary>> do
-        bytes |> @codec.decode |> prefix_header_in_bytes |> map |> return
+        bytes |> @codec.decode |> prefix_header_in_bytes |> @mapper.map |> return
       end
 
       defp prefix_header_in_bytes result do
@@ -30,15 +30,7 @@ defmodule MM1.Header do
       end
 
       def new value do
-        value value, <<@header>> <> @codec.new(unmap value).bytes
-      end
-
-      def map anything do
-        anything
-      end
-
-      def unmap anything do
-        anything
+        value value, <<@header>> <> @codec.new(@mapper.unmap value).bytes
       end
     end
   end
