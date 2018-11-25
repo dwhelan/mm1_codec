@@ -74,6 +74,6 @@ defmodule MM1.Headers do
   end
 
   def new headers do
-    value headers
+    value Enum.map(headers, fn header -> header.module.new(header.value)  end)
   end
 end

@@ -9,7 +9,6 @@ defmodule MM1.WrapperCodeTest do
   test "decode" do
     assert decode(<<0, "rest">>) == %Result{
              module: __MODULE__,
-             bytes: <<>>,
              rest: "rest",
              value: %Result{
                module: Byte,
@@ -24,7 +23,6 @@ defmodule MM1.WrapperCodeTest do
     assert encode(
              %Result{
                module: __MODULE__,
-               bytes: <<>>,
                rest: "rest",
                value: %Result{
                  module: Byte,
@@ -39,13 +37,10 @@ defmodule MM1.WrapperCodeTest do
   test "new" do
     assert new(0) == %Result{
              module: __MODULE__,
-             bytes: <<>>,
-             rest: <<>>,
              value: %Result{
                module: Byte,
                bytes: <<0>>,
                value: 0,
-               rest: <<>>
              }
            }
   end

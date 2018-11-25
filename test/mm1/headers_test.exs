@@ -27,7 +27,12 @@ defmodule MM1.HeadersTest do
     end
   end)
 
-  test "new(value) returns a Result with that value" do
+  test "new([]) returns a Result with value of []" do
     assert new([]) == %Result{module: Headers, value: []}
+  end
+
+  test "new([%Result{value}]) should create new bytes" do
+    bcc = %Result{module: MM1.Bcc, value: "x"}
+    assert new([bcc]).value == [%Result{bcc | bytes: <<129, "x", 0>>}]
   end
 end
