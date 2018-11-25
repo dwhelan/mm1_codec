@@ -7,11 +7,16 @@ defmodule MM1.WrapperCodec do
       @wrapped_module opts[:codec]
 
       def decode bytes do
-        value @wrapped_module.decode bytes
+        result = @wrapped_module.decode bytes
+        value result, <<>>, result.rest
       end
 
       def encode result do
         @wrapped_module.encode result.value
+      end
+
+      def new value do
+        value @wrapped_module.new value
       end
     end
   end
