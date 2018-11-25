@@ -1,13 +1,10 @@
 defmodule MM1.CcTest do
-  alias MM1.{Result, Headers, Cc}
-  import Cc
-  use MM1.CodecTest
+  use ExUnit.Case
+  import MM1.CodecExamples
 
-  def bytes do
-    <<Headers.header_byte(Cc), "abc", 0>>
-  end
+  alias MM1.Cc
 
-  def result do
-    %Result{module: Cc, value: "abc", bytes: bytes()}
-  end
+  examples Cc, [
+    {<<Cc.header_byte(), "abc", 0>>, "abc"}
+  ]
 end
