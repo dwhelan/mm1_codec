@@ -10,7 +10,7 @@ defmodule MM1.BaseCodec do
       end
 
       def decode <<>> do
-        error2 :insufficient_bytes
+        error :insufficient_bytes
       end
 
       def new nil do
@@ -21,11 +21,7 @@ defmodule MM1.BaseCodec do
         return %Result{value: value, bytes: bytes, rest: rest}
       end
 
-      defp error error, bytes \\ <<>>, rest \\ <<>> do
-        return %Result{value: {:err, error}, bytes: bytes, rest: rest, err: error}
-      end
-
-      defp error2 error, value \\ nil, bytes \\ <<>>, rest \\ <<>> do
+      defp error error, value \\ nil, bytes \\ <<>>, rest \\ <<>> do
         return %Result{value: value, bytes: bytes, rest: rest, err: error}
       end
 
