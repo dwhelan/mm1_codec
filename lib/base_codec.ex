@@ -17,12 +17,12 @@ defmodule MM1.BaseCodec do
         value nil
       end
 
-      defp value val, bytes \\ <<>>, rest \\ <<>> do
-        return %Result{value: val, bytes: bytes, rest: rest}
+      defp value value, bytes \\ <<>>, rest \\ <<>> do
+        return %Result{value: value, bytes: bytes, rest: rest}
       end
 
-      defp error description, bytes \\ <<>>, rest \\ <<>> do
-        return %Result{value: {:err, description}, bytes: bytes, rest: rest, err: description}
+      defp error error, bytes \\ <<>>, rest \\ <<>> do
+        return %Result{value: {:err, error}, bytes: bytes, rest: rest, err: error}
       end
 
       defp error2 error, value \\ nil, bytes \\ <<>>, rest \\ <<>> do
