@@ -12,7 +12,14 @@ defmodule WAP.EncodedStringTest do
     {<<31, 42, 2, 0x03, 0xe8, "text", 0>>, {42, :csUnicode, "text"}},
   ]
 
-  test "no terminator" do
-    assert %{value: {:err, :missing_terminator}, bytes: <<>>, rest: <<"text">> } = EncodedString.decode <<"text">>
+  test "missing terminator with just a TextString" do
+    assert EncodedString.decode(<<"text">>) ==
+      %MM1.Result{
+        module: EncodedString,
+        value: "text",
+        err: :missing_terminator,
+        bytes: "text",
+        rest: <<>>
+      }
   end
 end

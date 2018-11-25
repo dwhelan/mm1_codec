@@ -5,11 +5,18 @@ defmodule WAP.TextStringTest do
   alias WAP.TextString
 
   examples TextString, [
-    {<<0>>,             ""},
+    {<<0>>, ""},
     {<<"text", 0>>, "text"},
   ]
 
-  test "no terminator" do
-    assert %{value: {:err, :missing_terminator}, bytes: <<>>, rest: <<"text">> } = TextString.decode <<"text">>
+  test "missing terminator" do
+    assert TextString.decode(<<"text">>) ==
+             %MM1.Result{
+               module: TextString,
+               value: "text",
+               err: :missing_terminator,
+               bytes: "text",
+               rest: <<>>
+             }
   end
 end
