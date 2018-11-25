@@ -10,7 +10,7 @@ defmodule MM1.BaseCodec do
       end
 
       def decode <<>> do
-        error :insufficient_bytes
+        error2 :insufficient_bytes
       end
 
       def new nil do
