@@ -5,11 +5,13 @@ defmodule MM1.HeadersTest do
 
   import Headers
 
-  #  header_byte -----------+   +------------- valid header value
-  #                         |   |
+  #  header_byte ----------+      +----- valid header value
+  #                        |      |
   [
-   {MM1.Bcc,             <<129, 0>>},
-#   {MM1.XMmsMessageType, <<140, 0>>},
+   {MM1.Bcc,             <<129,   0>>},
+   {MM1.Cc,              <<130,   0>>},
+   {MM1.XMmsMessageType, <<140, 128>>},
+   {MM1.XMmsMessageSize, <<142,   0>>},
   ]
   |> Enum.each(fn {module, bytes} ->
       @module module
