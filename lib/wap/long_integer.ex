@@ -17,8 +17,8 @@ defmodule WAP.LongInteger do
     decode length, bytes
   end
 
-  def decode bytes do
-    error :length_cannot_be_greater_than_30
+  def decode <<length, _::binary>> do
+    error2 :length_cannot_be_greater_than_30, length
   end
 
   defp decode length, bytes do

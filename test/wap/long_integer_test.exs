@@ -16,6 +16,6 @@ defmodule WAP.LongIntegerTest do
   ]
 
   test "decode(length > 30) should return an error" do
-    assert LongInteger.decode(<<31>>) === %Result{module: LongInteger, value: {:err, :length_cannot_be_greater_than_30}}
+    assert LongInteger.decode(<<31>>) === %Result{module: LongInteger, value: 31, err: :length_cannot_be_greater_than_30}
   end
 end

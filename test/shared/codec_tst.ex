@@ -6,7 +6,7 @@ defmodule MM1.CodecTest do
 
       test "base insufficient bytes" do
         module = result().module
-        assert decode(<<>>) === %Result{module: module, value: {:err, :insufficient_bytes}, bytes: <<>>, rest: <<>>}
+        assert decode(<<>>) === %Result{module: module, value: {:err, :insufficient_bytes}, bytes: <<>>, rest: <<>>, err: :insufficient_bytes}
       end
 
       test "base decode" do

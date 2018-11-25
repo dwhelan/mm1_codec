@@ -3,6 +3,10 @@ defmodule WAP.EncodedString do
 
   alias WAP.{ValueLength, CharSet, TextString}
 
+  defmacro is_TextString char do
+    char == 0 or char >= 32
+  end
+
   def decode(<<char, _::binary>> = data) when char == 0 or char >= 32 do
     data ~> TextString
   end
