@@ -9,5 +9,5 @@ defmodule WAP.ShortLengthTest do
     {<<30>>, 30},
   ]
 
-  test "decode value > 30 should not match", do: assert_raise FunctionClauseError,  fn -> ShortLength.decode <<31>> end
+  test "decode value > 30 should not match", do: assert_raise FunctionClauseError, fn -> ShortLength.decode <<31>> end
 end

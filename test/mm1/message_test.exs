@@ -1,6 +1,5 @@
 defmodule MM1.MessageTest do
   use ExUnit.Case
-  import MM1.CodecExamples
 
   alias MM1.{Result, Headers, Message, Bcc, Cc}
   import Message

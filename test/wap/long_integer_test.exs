@@ -12,4 +12,5 @@ defmodule WAP.LongIntegerTest do
       0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
     }
   ]
+  test "decode length > 30 should not match", do: assert_raise FunctionClauseError, fn -> WAP.LongInteger.decode <<31>> end
 end
