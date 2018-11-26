@@ -17,5 +17,12 @@ defmodule WAP.LongIntegerTest do
       {<< 0>>, :length_must_be_between_1_and_30,     0},
       {<<31>>, :length_must_be_between_1_and_30,    31},
       {<< 1>>, :insufficient_bytes,              <<1>>},
+    ],
+
+    new_errors: [
+      {  -1, :must_be_an_integer_greater_than_or_equal_to_0},
+      {1.23, :must_be_an_integer_greater_than_or_equal_to_0},
+      { "x", :must_be_an_integer_greater_than_or_equal_to_0},
+      {:foo, :must_be_an_integer_greater_than_or_equal_to_0},
     ]
 end

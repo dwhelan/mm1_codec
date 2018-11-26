@@ -16,5 +16,6 @@ defmodule WAP.ShortLengthTest do
       {  31, :must_be_an_integer_between_0_and_30},
       {1.23, :must_be_an_integer_between_0_and_30},
       { "x", :must_be_an_integer_between_0_and_30},
+      {:foo, :must_be_an_integer_between_0_and_30},
     ]
 end

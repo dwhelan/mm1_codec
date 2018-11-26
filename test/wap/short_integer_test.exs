@@ -15,6 +15,7 @@ defmodule WAP.ShortIntegerTest do
       {  -1, :must_be_an_integer_between_0_and_127},
       { 128, :must_be_an_integer_between_0_and_127},
       {1.23, :must_be_an_integer_between_0_and_127},
+      { "x", :must_be_an_integer_between_0_and_127},
       {:foo, :must_be_an_integer_between_0_and_127},
-  ]
+    ]
 end
