@@ -1,15 +1,20 @@
 defmodule WAP.ShortLengthTest do
   use ExUnit.Case
-  import MM1.CodecExamples
 
-  alias WAP.ShortLength
+  use MM1.CodecExamples, module: WAP.ShortLength,
+    examples: [
+      {<< 0>>,  0},
+      {<<30>>, 30},
+    ],
 
-  examples ShortLength, [
-    {<< 0>>,  0},
-    {<<30>>, 30},
-  ]
+    decode_errors: [
+      {<<31>>, :must_be_less_than_31, 31},
+    ],
 
-  decode_errors ShortLength, [
-    {<<31>>, :must_be_integer_less_than_31, 31},
-  ]
+    new_errors: [
+      {  -1, :must_be_an_integer_between_0_and_30},
+      {  31, :must_be_an_integer_between_0_and_30},
+      {1.23, :must_be_an_integer_between_0_and_30},
+      { "x", :must_be_an_integer_between_0_and_30},
+    ]
 end
