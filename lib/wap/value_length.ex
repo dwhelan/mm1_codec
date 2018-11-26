@@ -2,29 +2,35 @@ defmodule WAP.ValueLength do
   use MM1.BaseCodec
   alias WAP.{ShortLength, Uintvar}
 
+  import WAP.Guards
+
   @length_quote 31
 
-  def decode(<<length, _::binary>> = bytes) when length <= 30 do
+  def decode(<<value, _::binary>> = bytes) when is_short_length(value) do
     bytes |> ShortLength.decode |> return
   end
 
   def decode <<@length_quote, bytes::binary>> do
-    bytes |> Uintvar.decode |> prepend_length_quote |> return
+    bytes |> Uintvar.decode |> prefix_with_length_quote |> return
   end
 
-  def decode <<length, rest::binary>> do
-    error :first_byte_must_be_less_than_32, length, <<length>>, rest
+  def decode <<value, rest::binary>> do
+    error :first_byte_must_be_less_than_32, value, <<value>>, rest
   end
 
-  def new(length) when length <= 30 do
-    length |> ShortLength.new |> return
+  def new(value) when is_short_length(value) do
+    value |> ShortLength.new |> return
   end
 
-  def new length do
-    length |> Uintvar.new |> prepend_length_quote |> return
+  def new(value) when is_uintvar(value) do
+    value |> Uintvar.new |> prefix_with_length_quote |> return
   end
 
-  defp prepend_length_quote result do
+  def new value do
+    error :must_be_an_unsigned_32_bit_integer, value
+  end
+
+  defp prefix_with_length_quote result do
     %Result{result | bytes: <<@length_quote>> <> result.bytes}
   end
 end
