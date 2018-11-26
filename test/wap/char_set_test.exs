@@ -6,6 +6,5 @@ defmodule WAP.CharSetTest do
       {<<0xea>>,          :csUTF8},
       {<<2, 0x03, 0xe8>>, :csUnicode},
       {<<2, 0x0b, 0xb8>>, :reserved},
-#      {<<3, 0x0b, 0xb8>>, :reserved},
     ]
 end

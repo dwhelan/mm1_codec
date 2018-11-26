@@ -16,16 +16,12 @@ defmodule WAP.CharSet do
     bytes |> LongInteger.decode |> map
   end
 
-  def decode bytes do
-    bytes |> LongInteger.decode |> map
+  defp map result do
+    result |> CharSets.map |> return
   end
 
   def new name do
     value name, bytes CharSets.unmap(name)
-  end
-
-  defp map result do
-    result |> CharSets.map |> return
   end
 
   defp bytes(code) when code < 128 do
