@@ -1,19 +1,17 @@
 defmodule WAP.ValueLengthTest do
   use ExUnit.Case
-  import MM1.CodecExamples
 
-  alias WAP.ValueLength
+  use MM1.CodecExamples, module: WAP.ValueLength,
+    examples: [
+      {<<0>>,       0},
+      {<<30>>,     30},
+      {<<31, 31>>, 31},
+      {<<31, 32>>, 32},
 
-  examples ValueLength, [
-    {<<0>>,       0},
-    {<<30>>,     30},
-    {<<31, 31>>, 31},
-    {<<31, 32>>, 32},
+      {<<31, 143, 255, 255, 255, 127>>, 0xffffffff},
+    ],
 
-    {<<31, 143, 255, 255, 255, 127>>, 0xffffffff},
-  ]
-
-  test "should not match when first byte > 31" do
-    assert_raise FunctionClauseError, fn -> ValueLength.decode <<32>> end
-  end
+    decode_errors: [
+      {<<32>>, :first_byte_must_be_less_than_32, 32}
+    ]
 end

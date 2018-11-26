@@ -107,7 +107,7 @@ defmodule MM1.CodecExamples do
         @value  value
         @result %Result{module: @module, value: value, err: error}
 
-        test "new(#{inspect value}) == #{inspect @result}" do
+        test "new(#{inspect value}) == #{error}" do
           assert @module.new(@value) === @result
         end
       end)

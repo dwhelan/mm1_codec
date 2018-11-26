@@ -27,11 +27,18 @@ defmodule WAP.LongInteger do
   end
 
   def new(value) when is_integer(value) and value >= 0 do
-    bytes = :binary.encode_unsigned value
-    value value, <<byte_size bytes>> <> bytes
+    _new value, :binary.encode_unsigned value
   end
 
   def new value do
     error :must_be_an_integer_greater_than_or_equal_to_0, value
+  end
+
+  def _new(value, bytes) when byte_size(bytes) > 30 do
+    error :must_fit_within_30_bytes, value
+  end
+
+  def _new value, bytes do
+    value value, <<byte_size bytes>> <> bytes
   end
 end

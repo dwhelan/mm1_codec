@@ -13,7 +13,7 @@ defmodule WAP.ShortLength do
     value length, <<length>>
   end
 
-  def new(length) do
+  def new length do
     error :must_be_an_integer_between_0_and_30, length
   end
 end

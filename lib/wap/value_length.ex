@@ -12,6 +12,10 @@ defmodule WAP.ValueLength do
     bytes |> Uintvar.decode |> prepend_length_quote |> return
   end
 
+  def decode <<length, rest::binary>> do
+    error :first_byte_must_be_less_than_32, length, <<length>>, rest
+  end
+
   def new(length) when length <= 30 do
     length |> ShortLength.new |> return
   end
