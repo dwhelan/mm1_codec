@@ -1,7 +1,7 @@
 defmodule WAP.ByteTest do
   use ExUnit.Case
 
-  use MM1.CodecExamples, module: WAP.Byte,
+  use MM1.CodecExamples, codec: WAP.Byte,
     examples: [
       {<<0>>,     0},
       {<<255>>, 255},

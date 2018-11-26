@@ -1,7 +1,7 @@
 defmodule WAP.ShortIntegerTest do
   use ExUnit.Case
 
-  use MM1.CodecExamples, module: WAP.ShortInteger,
+  use MM1.CodecExamples, codec: WAP.ShortInteger,
     examples: [
       {<<128>>,   0},
       {<<255>>, 127},

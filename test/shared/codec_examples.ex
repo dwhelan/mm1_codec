@@ -1,7 +1,7 @@
 defmodule MM1.CodecExamples do
   defmacro __using__(opts) do
     quote bind_quoted: [opts: opts] do
-      @module         opts[:module]
+      @codec          opts[:codec]
       examples      = opts[:examples]      || []
       decode_errors = opts[:decode_errors] || []
       new_errors    = opts[:new_errors]    || []
@@ -9,42 +9,42 @@ defmodule MM1.CodecExamples do
       alias MM1.Result
 
       test "insufficient bytes" do
-        assert @module.decode(<<>>) === %Result{module: @module, err: :insufficient_bytes}
+        assert @codec.decode(<<>>) === %Result{module: @codec, err: :insufficient_bytes}
       end
 
       Enum.each(examples, fn {bytes, value} ->
         @bytes  bytes
         @value  value
-        @result %Result{module: @module, value: value, bytes: bytes}
+        @result %Result{module: @codec, value: value, bytes: bytes}
 
         test "decode(#{inspect bytes}) == #{inspect value}" do
-          assert @module.decode(@bytes <> "rest") === %Result{@result | rest: "rest"}
+          assert @codec.decode(@bytes <> "rest") === %Result{@result | rest: "rest"}
         end
 
         test "encode(#{inspect value}) == #{inspect bytes}" do
-          assert @module.encode(@result) === @bytes
+          assert @codec.encode(@result) === @bytes
         end
 
         test "new(#{inspect value}) == #{inspect bytes}" do
-          assert @module.new(@value) === @result
+          assert @codec.new(@value) === @result
         end
       end)
 
       Enum.each(decode_errors, fn {bytes, error, value} ->
         @bytes  bytes
-        @result %Result{module: @module, value: value, bytes: bytes, err: error}
+        @result %Result{module: @codec, value: value, bytes: bytes, err: error}
 
         test "decode(#{inspect bytes}) => Error: #{error}" do
-          assert @module.decode(@bytes) === @result
+          assert @codec.decode(@bytes) === @result
         end
       end)
 
       Enum.each(new_errors, fn {value, error} ->
         @value  value
-        @result %Result{module: @module, value: value, err: error}
+        @result %Result{module: @codec, value: value, err: error}
 
         test "new(#{inspect value}) == #{error}" do
-          assert @module.new(@value) === @result
+          assert @codec.new(@value) === @result
         end
       end)
     end

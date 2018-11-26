@@ -3,7 +3,7 @@ defmodule WAP.LongIntegerTest do
 
   max_value = 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
 
-  use MM1.CodecExamples, module: WAP.LongInteger,
+  use MM1.CodecExamples, codec: WAP.LongInteger,
     examples: [
       {<<1,   0>>,           0},
       {<<1, 255>>,         255},

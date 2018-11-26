@@ -3,8 +3,7 @@ defmodule WAP.UintvarTest do
 
   max_value = 0xffffffff
 
-  use MM1.CodecExamples,
-      module: WAP.Uintvar,
+  use MM1.CodecExamples, codec: WAP.Uintvar,
       examples: [
         {<<0>>, 0},
         {<<127>>, 127},
