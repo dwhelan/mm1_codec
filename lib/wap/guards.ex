@@ -11,6 +11,12 @@ defmodule WAP.Guards do
     end
   end
 
+  defmacro is_short_integer(value) do
+    quote do
+      is_integer(unquote(value), 0, 127)
+    end
+  end
+
   defmacro is_uintvar(value) do
     quote do
       is_integer(unquote(value), 0, 0xffffffff)
