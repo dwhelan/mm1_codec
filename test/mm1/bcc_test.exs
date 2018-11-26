@@ -3,8 +3,10 @@ defmodule MM1.BccTest do
 
   alias MM1.Bcc
 
+  header_byte = Bcc.header_byte()
+
   use MM1.CodecExamples, codec: Bcc,
     examples: [
-      {<<Bcc.header_byte(), "abc", 0>>, "abc"}
+      {<<header_byte, "abc", 0>>, "abc"}
     ]
 end
