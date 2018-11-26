@@ -24,7 +24,7 @@ defmodule WAP.EncodedStringTest do
       }
   end
 
-  test "missing terminator with just an encoded TextString" do
+  test "missing terminator with an encoded TextString" do
     assert EncodedString.decode(<<6, 0xea, "text">>) ==
       %Result{
         module: EncodedString,
