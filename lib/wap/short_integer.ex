@@ -15,12 +15,15 @@ defmodule WAP.ShortInteger do
     value value-128, <<value>>, rest
   end
 
-  def decode <<value, _::binary>> do
-    error :value_must_be_less_than_128, value
+  def decode <<value, rest::binary>> do
+    error :most_signficant_bit_must_be_1, value, <<value>>, rest
   end
 
+  def new(value) when is_integer(value) and value >= 0 and value < 128 do
+    value value, <<value+128>>
+  end
 
   def new value do
-    value value, <<value+128>>
+    error :must_be_an_integer_between_0_and_127, value
   end
 end

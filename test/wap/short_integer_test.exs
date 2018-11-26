@@ -9,7 +9,14 @@ defmodule WAP.ShortIntegerTest do
     {<<255>>, 127},
   ]
 
-  test "decode(value < 128) should return an error" do
-    assert ShortInteger.decode(<<127>>) === %Result{module: ShortInteger, value: 127, err: :value_must_be_less_than_128}
-  end
+  decode_errors ShortInteger, [
+    {<<127>>, :most_signficant_bit_must_be_1, 127},
+  ]
+
+  new_errors ShortInteger, [
+    {  -1, :must_be_an_integer_between_0_and_127},
+    { 128, :must_be_an_integer_between_0_and_127},
+    {1.23, :must_be_an_integer_between_0_and_127},
+    {:foo, :must_be_an_integer_between_0_and_127},
+  ]
 end
