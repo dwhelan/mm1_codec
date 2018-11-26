@@ -66,13 +66,17 @@ defmodule MM1.CodecExamples do
   defmacro __using__(opts) do
     quote bind_quoted: [opts: opts] do
       @module opts[:module]
+      examples = opts[:examples] || []
+      new_errors = opts[:new_errors] || []
+      decode_errors = opts[:decode_errors] || []
+
       alias MM1.Result
 
       test "insufficient bytes" do
         assert @module.decode(<<>>) === %Result{module: @module, err: :insufficient_bytes}
       end
 
-      Enum.each(opts[:examples], fn {bytes, value} ->
+      Enum.each(examples, fn {bytes, value} ->
         @bytes  bytes
         @value  value
         @result %Result{module: @module, value: value, bytes: bytes}
@@ -90,7 +94,16 @@ defmodule MM1.CodecExamples do
         end
       end)
 
-      Enum.each(opts[:new_errors], fn {value, error} ->
+      Enum.each(decode_errors, fn {bytes, error, value} ->
+        @bytes  bytes
+        @result %Result{module: @module, value: value, bytes: bytes, err: error}
+
+        test "decode(#{inspect bytes}) => Error: #{error}" do
+          assert @module.decode(@bytes) === @result
+        end
+      end)
+
+      Enum.each(new_errors, fn {value, error} ->
         @value  value
         @result %Result{module: @module, value: value, err: error}
 
