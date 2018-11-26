@@ -3,8 +3,10 @@ defmodule MM1.CcTest do
 
   alias MM1.Cc
 
+  header_byte = Cc.header_byte()
+
   use MM1.CodecExamples, codec: Cc,
     examples: [
-      {<<Cc.header_byte(), "abc", 0>>, "abc"}
+      {<<header_byte, "abc", 0>>, "abc"}
     ]
 end
