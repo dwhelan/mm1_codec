@@ -13,12 +13,12 @@ defmodule WAP.LongInteger do
 
   use MM1.BaseCodec
 
-  def decode(<<length, bytes::binary>>) when length <= 30 do
+  def decode(<<length, bytes::binary>>) when length > 0 and length <= 30 do
     decode length, bytes
   end
 
   def decode <<length, rest::binary>> do
-    error :length_cannot_be_greater_than_30, length, <<length>>, rest
+    error :length_must_be_between_1_and_30, length, <<length>>, rest
   end
 
   defp decode length, bytes do

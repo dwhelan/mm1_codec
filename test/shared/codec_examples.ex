@@ -89,7 +89,7 @@ defmodule MM1.CodecExamples do
           assert @module.encode(@result) === @bytes
         end
 
-        test "new(#{inspect value}) == %Result{value: #{inspect value}}" do
+        test "new(#{inspect value}) == #{inspect bytes}" do
           assert @module.new(@value) === @result
         end
       end)
