@@ -5,6 +5,10 @@ defmodule MM1.CodecExamples do
 
       @module module
 
+      test "insufficient bytes" do
+        assert @module.decode(<<>>) === %Result{module: @module, err: :insufficient_bytes}
+      end
+
       Enum.each(examples, fn {bytes, value} ->
         @bytes  bytes
         @value  value
@@ -30,10 +34,6 @@ defmodule MM1.CodecExamples do
       alias MM1.Result
 
       @module module
-
-      test "insufficient bytes" do
-        assert @module.decode(<<>>) === %Result{module: @module, err: :insufficient_bytes}
-      end
 
       Enum.each(examples, fn {bytes, error, value} ->
         @bytes  bytes

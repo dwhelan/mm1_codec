@@ -9,8 +9,6 @@ defmodule WAP.ByteTest do
     {<<255>>, 255},
   ]
 
-  decode_errors Byte
-
   new_errors Byte, [
     {  -1, :must_be_an_integer_between_0_and_255},
     { 256, :must_be_an_integer_between_0_and_255},
