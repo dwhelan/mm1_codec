@@ -12,6 +12,7 @@ defmodule WAP.LongIntegerTest do
         0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
       }
     ],
+
     decode_errors: [
       {<< 0>>, :length_must_be_between_1_and_30,     0},
       {<<31>>, :length_must_be_between_1_and_30,    31},
