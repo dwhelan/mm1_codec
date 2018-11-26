@@ -1,6 +1,8 @@
 defmodule WAP.UintvarTest do
   use ExUnit.Case
 
+  max_value = 0xffffffff
+
   use MM1.CodecExamples,
       module: WAP.Uintvar,
       examples: [
@@ -13,10 +15,18 @@ defmodule WAP.UintvarTest do
         {<<129, 128, 128, 0>>, 2_097_152},
         {<<255, 255, 255, 127>>, 268_435_455},
         {<<129, 128, 128, 128, 0>>, 268_435_456},
-        {<<255, 255, 255, 255, 127>>, 34_359_738_367},
+        {<<143, 255, 255, 255, 127>>, max_value},
       ],
 
       decode_errors: [
-        {<<255, 255, 255, 255, 255, 127>>, :must_be_5_bytes_or_less, <<255, 255, 255, 255, 255, 127>>}
+        {<<128, 255, 255, 255, 255, 127>>, :must_be_5_bytes_or_less, 34_359_738_367}
+      ],
+
+      new_errors: [
+        {         -1, :must_be_an_unsigned_32_bit_integer},
+        {       1.23, :must_be_an_unsigned_32_bit_integer},
+        {        "x", :must_be_an_unsigned_32_bit_integer},
+        {       :foo, :must_be_an_unsigned_32_bit_integer},
+        {max_value+1, :must_be_an_unsigned_32_bit_integer},
       ]
  end
