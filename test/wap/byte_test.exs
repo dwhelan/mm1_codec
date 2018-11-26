@@ -2,16 +2,19 @@ defmodule WAP.ByteTest do
   use ExUnit.Case
   import MM1.CodecExamples
 
-  examples WAP.Byte, [
+  alias WAP.Byte
+
+  examples Byte, [
     {<<0>>,     0},
     {<<255>>, 255},
   ]
 
-  test "new(positive) should be modulo 256" do
-    assert WAP.Byte.new(256).bytes() === <<0>>
-  end
+  decode_errors Byte
 
-  test "new(negative) should be modulo 256" do
-    assert WAP.Byte.new(-1).bytes() === <<255>>
-  end
+  new_errors Byte, [
+    {  -1, :must_be_an_integer_between_0_and_255},
+    { 256, :must_be_an_integer_between_0_and_255},
+    {1.23, :must_be_an_integer_between_0_and_255},
+    {:foo, :must_be_an_integer_between_0_and_255},
+  ]
 end
