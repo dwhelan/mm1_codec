@@ -10,22 +10,23 @@ defmodule WAP.ShortInteger do
   """
 
   use MM1.BaseCodec
+  import MM1.Result
 
   import WAP.Guards
 
   def decode(<<1::1, value::7, rest::binary>>) do
-    value value, <<1::1, value::7>>, rest
+    ok value, <<1::1, value::7>>, rest
   end
 
   def decode <<value, rest::binary>> do
-    error :most_signficant_bit_must_be_1, value, <<value>>, rest
+    err value, :most_signficant_bit_must_be_1, <<value>>, rest
   end
 
   def new(value) when is_short_integer(value) do
-    value value, <<1::1, value::7>>
+    ok value, <<1::1, value::7>>
   end
 
   def new value do
-    error :must_be_an_integer_between_0_and_127, value
+    err value, :must_be_an_integer_between_0_and_127
   end
 end
