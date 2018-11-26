@@ -3,6 +3,7 @@ defmodule WAP.ValueLength do
   alias WAP.{ShortLength, Uintvar}
 
   import WAP.Guards
+  import MM1.Result
 
   @length_quote 31
 
@@ -15,7 +16,7 @@ defmodule WAP.ValueLength do
   end
 
   def decode <<value, rest::binary>> do
-    error :first_byte_must_be_less_than_32, value, <<value>>, rest
+    err value, :first_byte_must_be_less_than_32, <<value>>, rest
   end
 
   def new(value) when is_short_length(value) do
@@ -27,7 +28,7 @@ defmodule WAP.ValueLength do
   end
 
   def new value do
-    error :must_be_an_unsigned_32_bit_integer, value
+    err value, :must_be_an_unsigned_32_bit_integer
   end
 
   defp prefix_with_length_quote result do

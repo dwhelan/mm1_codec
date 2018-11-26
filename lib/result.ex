@@ -1,5 +1,5 @@
 defmodule MM1.Result do
-  defstruct value: nil, bytes: <<>>, rest: <<>>, module: nil, err: nil
+  defstruct module: nil, value: nil, bytes: <<>>, rest: <<>>, err: nil
 
   defmacro ok value, bytes, rest \\ <<>> do
     result module(__CALLER__), value, bytes, rest
@@ -15,7 +15,7 @@ defmodule MM1.Result do
 
   defp result module, value, bytes, rest, error \\ nil do
     quote do
-      %MM1.Result{value: unquote(value), module: unquote(module), bytes: unquote(bytes), rest: unquote(rest), err: unquote(error)}
+      %MM1.Result{module: unquote(module), value: unquote(value), bytes: unquote(bytes), rest: unquote(rest), err: unquote(error)}
     end
   end
 end
