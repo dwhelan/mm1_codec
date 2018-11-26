@@ -25,14 +25,6 @@ defmodule MM1.BaseCodec do
         return %Result{value: value, bytes: bytes, rest: rest, err: error}
       end
 
-      defp decode_error error, value, bytes, rest do
-        return %Result{value: value, bytes: bytes, rest: rest, err: error}
-      end
-
-      defp new_error error, value do
-        return %Result{err: error, value: value}
-      end
-
       defp return %Result{} = result do
         %Result{result | module: __MODULE__}
       end
