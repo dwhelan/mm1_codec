@@ -9,5 +9,7 @@ defmodule WAP.ShortLengthTest do
     {<<30>>, 30},
   ]
 
-  test "decode value > 30 should not match", do: assert_raise FunctionClauseError, fn -> ShortLength.decode <<31>> end
+  decode_errors ShortLength, [
+    {<<31>>, :must_be_integer_less_than_31, 31},
+  ]
 end
