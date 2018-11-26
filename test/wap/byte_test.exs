@@ -6,6 +6,7 @@ defmodule WAP.ByteTest do
       {<<0>>,     0},
       {<<255>>, 255},
     ],
+
     new_errors: [
       {  -1, :must_be_an_integer_between_0_and_255},
       { 256, :must_be_an_integer_between_0_and_255},

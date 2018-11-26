@@ -7,7 +7,7 @@ defmodule WAP.ShortLength do
     value value, <<value>>, rest
   end
 
-  def decode(<<value, rest::binary>>)do
+  def decode <<value, rest::binary>> do
     error :must_be_less_than_31, value, <<value>>, rest
   end
 
