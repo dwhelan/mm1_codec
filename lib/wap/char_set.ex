@@ -7,17 +7,18 @@ defmodule WAP.CharSet do
   alias WAP.{CharSets, ShortInteger, LongInteger}
 
   use MM1.BaseCodec
+  import WAP.Guards
 
-  def decode(<<value, _::binary>> = bytes) when value >= 128 do
-    bytes |> ShortInteger.decode |> map
+  def decode(<<byte, _::binary>> = bytes) when is_short_integer_byte(byte) do
+    _decode bytes, ShortInteger
   end
 
   def decode bytes do
-    bytes |> LongInteger.decode |> map
+    _decode bytes, LongInteger
   end
 
-  defp map result do
-    result |> CharSets.map |> return
+  defp _decode bytes, module do
+    bytes |> module.decode |> CharSets.map |> return
   end
 
   def new(name) when is_atom(name) do
@@ -40,7 +41,7 @@ defmodule WAP.CharSet do
     value CharSets.map(code), bytes(code)
   end
 
-  defp bytes(code) when code < 128 do
+  defp bytes(code) when is_short_integer(code) do
     ShortInteger.new(code).bytes
   end
 
