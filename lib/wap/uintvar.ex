@@ -3,14 +3,18 @@ defmodule WAP.Uintvar do
   use Bitwise
 
   def decode bytes do
-    decode bytes, 0, <<>>
+    _decode bytes, 0, <<>>
   end
 
-  defp decode <<1::1, value::7, rest::binary>>, total, bytes do
-    decode rest, add(value, total), bytes <> <<1::1, value::7>>
+  defp _decode<<1::1, value::7, rest::binary>>, total, bytes do
+    _decode rest, add(value, total), bytes <> <<1::1, value::7>>
   end
 
-  defp decode <<value, rest::binary>>, total, bytes do
+  defp _decode(<<value, rest::binary>>, _total, bytes) when byte_size(bytes) > 4 do
+    error :must_be_5_bytes_or_less, bytes <> <<value>>, bytes <> <<value>>, rest
+  end
+
+  defp _decode <<value, rest::binary>>, total, bytes do
     value add(value, total), bytes <> <<value>>, rest
   end
 
