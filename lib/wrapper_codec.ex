@@ -1,22 +1,20 @@
 defmodule MM1.WrapperCodec do
-
   defmacro __using__(opts) do
-    quote bind_quoted: [opts: opts] do
-      use MM1.BaseCodec, custom_encode: true
+    quote bind_quoted: [codec: opts[:codec]] do
+      use MM1.Codec
 
-      @wrapped_module opts[:codec]
+      @codec codec
 
       def decode bytes do
-        result = @wrapped_module.decode bytes
-        ok result, <<>>, result.rest
+        wrap @codec.decode bytes
       end
 
       def encode result do
-        @wrapped_module.encode result.value
+        @codec.encode result.value
       end
 
       def new value do
-        ok @wrapped_module.new value
+        wrap @codec.new value
       end
     end
   end

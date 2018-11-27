@@ -35,7 +35,7 @@ defmodule MM1.Headers do
     #XMmsPreviouslySentBy:      0x20,
     #XMmsPreviouslySentDate:    0x21,
   ]
-  use MM1.BaseCodec, custom_encode: true
+  use MM1.Codec
   import MM1.Result
 
   def decode bytes do
