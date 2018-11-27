@@ -2,7 +2,7 @@ defmodule WAP.ShortLength do
   use MM1.BaseCodec
 
   def decode(<<value, rest::binary>>) when is_short_length(value) do
-    ok value, <<value>>, rest
+    decode_ok value, <<value>>, rest
   end
 
   def decode <<value, rest::binary>> do
@@ -10,7 +10,7 @@ defmodule WAP.ShortLength do
   end
 
   def new(value) when is_short_length(value) do
-    ok value, <<value>>
+    new_ok value, <<value>>
   end
 
   def new value do

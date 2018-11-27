@@ -3,7 +3,7 @@ defmodule MM1.Result do
 
   alias MM1.Result
 
-  defmacro ok value, bytes \\ <<>>, rest \\ <<>> do
+  defmacro decode_ok value, bytes, rest do
     module = module __CALLER__
     quote do
       %Result{module: unquote(module), value: unquote(value), bytes: unquote(bytes), rest: unquote(rest)}
@@ -14,6 +14,13 @@ defmodule MM1.Result do
     module = module __CALLER__
     quote do
       %Result{module: unquote(module), value: unquote(value), bytes: unquote(bytes), rest: unquote(rest), err: unquote(error)}
+    end
+  end
+
+  defmacro new_ok value, bytes do
+    module = module __CALLER__
+    quote do
+      %Result{module: unquote(module), value: unquote(value), bytes: unquote(bytes)}
     end
   end
 
@@ -35,4 +42,3 @@ defmodule MM1.Result do
     caller.context_modules |> List.first
   end
 end
-

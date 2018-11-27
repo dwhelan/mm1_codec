@@ -37,7 +37,7 @@ defmodule WAP.CharSet do
   end
 
   defp _new code do
-    ok CharSets.map(code), bytes(code)
+    new_ok CharSets.map(code), bytes(code)
   end
 
   defp bytes(code) when is_short_integer(code) do

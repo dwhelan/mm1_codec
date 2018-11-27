@@ -54,11 +54,11 @@ defmodule MM1.Headers do
   end)
 
   defp decode <<>>, headers do
-    ok Enum.reverse headers
+    decode_ok Enum.reverse(headers), <<>>, <<>>
   end
 
   defp decode rest, headers do
-    ok Enum.reverse(headers), <<>>, rest
+    decode_ok Enum.reverse(headers), <<>>, rest
   end
 
   def encode %{value: headers} do
@@ -75,6 +75,6 @@ defmodule MM1.Headers do
   end
 
   def new headers do
-    ok Enum.map(headers, fn header -> header.module.new(header.value)  end)
+    new_ok Enum.map(headers, fn header -> header.module.new(header.value)  end), <<>>
   end
 end

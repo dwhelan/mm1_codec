@@ -15,11 +15,11 @@ defmodule WAP.Uintvar do
   end
 
   defp _decode <<value, rest::binary>>, total, bytes do
-    ok add(value, total), bytes <> <<value>>, rest
+    decode_ok add(value, total), bytes <> <<value>>, rest
   end
 
   def new(value) when is_uintvar(value) do
-    ok value, bytes_for(value >>> 7, <<value &&& 0x7f>>)
+    new_ok value, bytes_for(value >>> 7, <<value &&& 0x7f>>)
   end
 
   def new value do

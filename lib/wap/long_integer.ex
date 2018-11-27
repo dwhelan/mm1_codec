@@ -23,12 +23,12 @@ defmodule WAP.LongInteger do
 
   def decode <<length, bytes::binary>> do
     {value_bytes, rest} = String.split_at bytes, length
-    ok :binary.decode_unsigned(value_bytes), <<length>> <> value_bytes, rest
+    decode_ok :binary.decode_unsigned(value_bytes), <<length>> <> value_bytes, rest
   end
 
   def new(value) when is_long_integer(value) do
     bytes = :binary.encode_unsigned value
-    ok value, <<byte_size bytes>> <> bytes
+    new_ok value, <<byte_size bytes>> <> bytes
   end
 
   def new value do

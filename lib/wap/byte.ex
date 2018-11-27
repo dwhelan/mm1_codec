@@ -2,11 +2,11 @@ defmodule WAP.Byte do
   use MM1.BaseCodec
 
   def decode <<value, rest::binary>> do
-    ok value, <<value>>, rest
+    decode_ok value, <<value>>, rest
   end
 
   def new(value) when is_byte(value) do
-    ok value, <<value>>
+    new_ok value, <<value>>
   end
 
   def new value do

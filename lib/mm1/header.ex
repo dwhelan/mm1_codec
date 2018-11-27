@@ -30,7 +30,7 @@ defmodule MM1.Header do
       end
 
       def new value do
-        ok value, <<@header>> <> @codec.new(@mapper.unmap value).bytes
+        new_ok value, <<@header>> <> @codec.new(@mapper.unmap value).bytes
       end
     end
   end

@@ -6,7 +6,7 @@ defmodule WAP.TextString do
   end
 
   defp handle [text | [rest]] do
-    ok text, text <> <<0>>, rest
+    decode_ok text, text <> <<0>>, rest
   end
 
   defp handle [text | []] do
@@ -14,6 +14,6 @@ defmodule WAP.TextString do
   end
 
   def new text do
-    ok text, text <> <<0>>
+    new_ok text, text <> <<0>>
   end
 end

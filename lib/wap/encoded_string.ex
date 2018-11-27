@@ -14,7 +14,7 @@ defmodule WAP.EncodedString do
 
   def new {length, char_set, text} = encoded_string do
     bytes = ValueLength.new(length).bytes() <> CharSet.new(char_set).bytes() <> TextString.new(text).bytes
-    ok encoded_string, bytes
+    new_ok encoded_string, bytes
   end
 
   def new text do
