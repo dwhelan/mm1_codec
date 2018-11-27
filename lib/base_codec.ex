@@ -1,8 +1,6 @@
 defmodule MM1.BaseCodec do
-  defmacro __using__(opts) do
-    quote bind_quoted: [opts: opts] do
-      import WAP.Guards
-
+  defmacro __using__(_opts) do
+    quote do
       use MM1.BaseDecoder
 
       def encode result do

@@ -1,6 +1,7 @@
 defmodule MM1.BaseDecoder do
   defmacro __using__(_opts) do
     quote do
+      import WAP.Guards
       import MM1.Result
 
       def decode <<>> do
