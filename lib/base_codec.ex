@@ -11,7 +11,7 @@ defmodule MM1.BaseCodec do
       end
 
       def decode <<>> do
-        error :insufficient_bytes
+        error2 <<>>, :insufficient_bytes
       end
 
       def new nil do
@@ -20,10 +20,6 @@ defmodule MM1.BaseCodec do
 
       defp value value, bytes \\ <<>>, rest \\ <<>> do
         return %Result{value: value, bytes: bytes, rest: rest}
-      end
-
-      defp error error, value \\ nil, bytes \\ <<>>, rest \\ <<>> do
-        return %Result{value: value, bytes: bytes, rest: rest, err: error}
       end
 
       defp bytes ~> codec when is_binary(bytes) do
