@@ -12,6 +12,10 @@ defmodule MM1.CodecExamples do
         assert @codec.decode(<<>>) === %Result{module: @codec, err: :insufficient_bytes}
       end
 
+      test "new(nil)" do
+        assert @codec.new(nil) === %Result{module: @codec, err: :value_cannot_be_nil}
+      end
+
       Enum.each(examples, fn {bytes, value} ->
         @bytes  bytes
         @value  value

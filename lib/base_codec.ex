@@ -2,6 +2,7 @@ defmodule MM1.BaseCodec do
   defmacro __using__(opts) do
     quote bind_quoted: [opts: opts] do
       alias MM1.Result
+      import MM1.Result
 
       if ! opts[:custom_encode] do
         def encode result do
@@ -14,7 +15,7 @@ defmodule MM1.BaseCodec do
       end
 
       def new nil do
-        value nil
+        error2 nil, :value_cannot_be_nil
       end
 
       defp value value, bytes \\ <<>>, rest \\ <<>> do
