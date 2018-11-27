@@ -19,10 +19,6 @@ defmodule MM1.BaseCodec do
         error2 nil, :value_cannot_be_nil
       end
 
-      defp value value, bytes \\ <<>>, rest \\ <<>> do
-        return %Result{value: value, bytes: bytes, rest: rest}
-      end
-
       defp bytes ~> codec when is_binary(bytes) do
         return codec.decode bytes
       end

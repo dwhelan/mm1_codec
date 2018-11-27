@@ -8,7 +8,7 @@ defmodule MM1.WrapperCodec do
 
       def decode bytes do
         result = @wrapped_module.decode bytes
-        value result, <<>>, result.rest
+        ok result, <<>>, result.rest
       end
 
       def encode result do
@@ -16,7 +16,7 @@ defmodule MM1.WrapperCodec do
       end
 
       def new value do
-        value @wrapped_module.new value
+        ok @wrapped_module.new value
       end
     end
   end
