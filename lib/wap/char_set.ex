@@ -7,8 +7,6 @@ defmodule WAP.CharSet do
   alias WAP.{CharSets, ShortInteger, LongInteger}
 
   use MM1.BaseCodec
-  import WAP.Guards
-  import MM1.Result
 
   def decode(<<byte, _::binary>> = bytes) when is_short_integer_byte(byte) do
     _decode bytes, ShortInteger

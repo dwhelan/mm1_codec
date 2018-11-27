@@ -2,9 +2,6 @@ defmodule WAP.Uintvar do
   use MM1.BaseCodec
   use Bitwise
 
-  import WAP.Guards
-  import MM1.Result
-
   def decode bytes do
     _decode bytes, 0, <<>>
   end

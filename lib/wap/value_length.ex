@@ -2,9 +2,6 @@ defmodule WAP.ValueLength do
   use MM1.BaseCodec
   alias WAP.{ShortLength, Uintvar}
 
-  import WAP.Guards
-  import MM1.Result
-
   @length_quote 31
 
   def decode(<<value, _::binary>> = bytes) when is_short_length(value) do

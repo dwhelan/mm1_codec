@@ -10,9 +10,6 @@ defmodule WAP.ShortInteger do
   """
 
   use MM1.BaseCodec
-  import MM1.Result
-
-  import WAP.Guards
 
   def decode(<<1::1, value::7, rest::binary>>) do
     ok value, <<1::1, value::7>>, rest

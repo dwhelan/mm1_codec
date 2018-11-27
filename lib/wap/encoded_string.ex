@@ -1,7 +1,6 @@
 defmodule WAP.EncodedString do
   use MM1.BaseCodec
 
-  import MM1.Result
   alias WAP.{ValueLength, CharSet, TextString}
 
   defmacro is_TextString char do

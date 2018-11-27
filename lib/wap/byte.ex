@@ -1,7 +1,5 @@
 defmodule WAP.Byte do
   use MM1.BaseCodec
-  import WAP.Guards
-  import MM1.Result
 
   def decode <<value, rest::binary>> do
     ok value, <<value>>, rest

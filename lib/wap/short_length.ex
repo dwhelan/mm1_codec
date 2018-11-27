@@ -1,9 +1,6 @@
 defmodule WAP.ShortLength do
   use MM1.BaseCodec
 
-  import WAP.Guards
-  import MM1.Result
-
   def decode(<<value, rest::binary>>) when is_short_length(value) do
     ok value, <<value>>, rest
   end

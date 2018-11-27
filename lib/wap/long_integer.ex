@@ -12,7 +12,6 @@ defmodule WAP.LongInteger do
   """
 
   use MM1.BaseCodec
-  import MM1.Result
 
   def decode(<<length, rest::binary>>) when length < 1 or length > 30 do
     error2 length, :length_must_be_between_1_and_30, <<length>>, rest
