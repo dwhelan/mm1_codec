@@ -57,8 +57,8 @@ defmodule MM1.Headers do
     decode_ok Enum.reverse(headers), <<>>, rest
   end
 
-  def encode %{value: headers} do
-    headers |> Enum.reduce(<<>>, fn header, bytes -> bytes <> header.bytes end)
+  def encode result do
+    result.value |> Enum.map(& &1.bytes) |> Enum.join
   end
 
   def header_name module do
