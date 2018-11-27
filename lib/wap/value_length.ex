@@ -13,7 +13,7 @@ defmodule WAP.ValueLength do
   end
 
   def decode <<value, rest::binary>> do
-    error2 value, :first_byte_must_be_less_than_32, <<value>>, rest
+    error value, :first_byte_must_be_less_than_32, <<value>>, rest
   end
 
   def new(value) when is_short_length(value) do
@@ -25,7 +25,7 @@ defmodule WAP.ValueLength do
   end
 
   def new value do
-    error2 value, :must_be_an_unsigned_32_bit_integer
+    error value, :must_be_an_unsigned_32_bit_integer
   end
 
   defp prefix_with_length_quote result do

@@ -9,7 +9,7 @@ defmodule MM1.CodecExamples do
       alias MM1.Result
 
       test "insufficient bytes" do
-        assert @codec.decode(<<>>) === %Result{module: @codec, value: <<>>, err: :insufficient_bytes}
+        assert @codec.decode(<<>>) === %Result{module: @codec, value: nil, err: :insufficient_bytes}
       end
 
       test "new(nil)" do

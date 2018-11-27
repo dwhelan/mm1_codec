@@ -5,7 +5,7 @@ defmodule MM1.Result do
     result module(__CALLER__), value, bytes, rest, nil
   end
 
-  defmacro error2 value, error, bytes \\ <<>>, rest \\ <<>> do
+  defmacro error value, error, bytes \\ <<>>, rest \\ <<>> do
     result module(__CALLER__), value, bytes, rest, error
   end
 

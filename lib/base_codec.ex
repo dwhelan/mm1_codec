@@ -12,11 +12,11 @@ defmodule MM1.BaseCodec do
       end
 
       def decode <<>> do
-        error2 <<>>, :insufficient_bytes
+        error nil, :insufficient_bytes
       end
 
       def new nil do
-        error2 nil, :value_cannot_be_nil
+        error nil, :value_cannot_be_nil
       end
     end
   end
