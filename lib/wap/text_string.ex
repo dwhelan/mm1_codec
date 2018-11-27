@@ -9,8 +9,8 @@ defmodule WAP.TextString do
     ok text, text <> <<0>>, rest
   end
 
-  defp handle [bytes | []] do
-    error bytes, :missing_terminator, bytes, <<>>
+  defp handle [text | []] do
+    error text, :missing_terminator, text, <<>>
   end
 
   def new text do
