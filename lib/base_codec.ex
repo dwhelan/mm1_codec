@@ -3,7 +3,7 @@ defmodule MM1.BaseCodec do
     quote do
       use MM1.BaseDecoder
 
-      def encode result do
+      def encode %MM1.Result{module: __MODULE__} = result do
         result.bytes
       end
     end
