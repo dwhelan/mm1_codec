@@ -10,7 +10,7 @@ defmodule WAP.TextString do
   end
 
   defp handle [text | []] do
-    error text, :missing_terminator, text, <<>>
+    decode_error text, :missing_terminator, text, <<>>
   end
 
   def new text do

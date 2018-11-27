@@ -6,7 +6,7 @@ defmodule WAP.ShortLength do
   end
 
   def decode <<value, rest::binary>> do
-     error value, :must_be_an_integer_between_0_and_30, <<value>>, rest
+    decode_error value, :must_be_an_integer_between_0_and_30, <<value>>, rest
   end
 
   def new(value) when is_short_length(value) do
@@ -14,6 +14,6 @@ defmodule WAP.ShortLength do
   end
 
   def new value do
-    error value, :must_be_an_integer_between_0_and_30
+    new_error value, :must_be_an_integer_between_0_and_30
   end
 end
