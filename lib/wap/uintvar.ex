@@ -3,6 +3,7 @@ defmodule WAP.Uintvar do
   use Bitwise
 
   import WAP.Guards
+  import MM1.Result
 
   def decode bytes do
     _decode bytes, 0, <<>>
@@ -13,20 +14,20 @@ defmodule WAP.Uintvar do
   end
 
   defp _decode(<<value, rest::binary>>, total, bytes) when byte_size(bytes) > 4 do
-    error :must_be_5_bytes_or_less, add(value, total), bytes <> <<value>>, rest
+    error2 add(value, total), :must_be_5_bytes_or_less, bytes <> <<value>>, rest
   end
 
   defp _decode <<value, rest::binary>>, total, bytes do
-    value add(value, total), bytes <> <<value>>, rest
+    ok add(value, total), bytes <> <<value>>, rest
   end
 
   def new(value) when is_uintvar(value) do
-    value value, bytes_for(value >>> 7, <<value &&& 0x7f>>)
+    ok value, bytes_for(value >>> 7, <<value &&& 0x7f>>)
   end
 
   def new value do
-    error :must_be_an_unsigned_32_bit_integer, value
-  end
+    error2 value, :must_be_an_unsigned_32_bit_integer
+                end
 
   defp bytes_for 0, bytes do
     bytes
