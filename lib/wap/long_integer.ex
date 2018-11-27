@@ -32,6 +32,6 @@ defmodule WAP.LongInteger do
   end
 
   def new value do
-    new_error value, :must_be_an_integer_between_1_and_30_bytes_long
+    new_error :must_be_an_integer_between_1_and_30_bytes_long, value
   end
 end

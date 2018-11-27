@@ -9,7 +9,7 @@ defmodule MM1.BaseDecoder do
       end
 
       def new nil do
-        new_error nil, :value_cannot_be_nil
+        new_error :value_cannot_be_nil, nil
       end
     end
   end

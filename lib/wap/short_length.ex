@@ -14,6 +14,6 @@ defmodule WAP.ShortLength do
   end
 
   def new value do
-    new_error value, :must_be_an_integer_between_0_and_30
+    new_error :must_be_an_integer_between_0_and_30, value
   end
 end

@@ -10,6 +10,6 @@ defmodule WAP.Byte do
   end
 
   def new value do
-    new_error value, :must_be_an_integer_between_0_and_255
+    new_error :must_be_an_integer_between_0_and_255, value
   end
 end

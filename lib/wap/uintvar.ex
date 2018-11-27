@@ -23,7 +23,7 @@ defmodule WAP.Uintvar do
   end
 
   def new value do
-    new_error value, :must_be_an_unsigned_32_bit_integer
+    new_error :must_be_an_unsigned_32_bit_integer, value
   end
 
   defp bytes_for 0, bytes do

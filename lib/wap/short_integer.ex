@@ -24,6 +24,6 @@ defmodule WAP.ShortInteger do
   end
 
   def new value do
-    new_error value, :must_be_an_integer_between_0_and_127
+    new_error :must_be_an_integer_between_0_and_127, value
   end
 end

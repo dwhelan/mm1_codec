@@ -26,7 +26,7 @@ defmodule WAP.ValueLength do
   end
 
   def new value do
-    new_error value, :must_be_an_unsigned_32_bit_integer
+    new_error :must_be_an_unsigned_32_bit_integer, value
   end
 
   defp prefix_with_length_quote result do

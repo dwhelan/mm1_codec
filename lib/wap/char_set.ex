@@ -29,11 +29,11 @@ defmodule WAP.CharSet do
   end
 
   def new code do
-    new_error code, :must_be_an_integer_greater_than_or_equal_to_0
+    new_error :must_be_an_integer_greater_than_or_equal_to_0, code
   end
 
   defp _new(name) when is_atom(name) do
-    new_error name, :unknown_char_set
+    new_error :unknown_char_set, name
   end
 
   defp _new code do
