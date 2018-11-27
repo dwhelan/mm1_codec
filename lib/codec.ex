@@ -1,6 +1,6 @@
 defmodule MM1.Codec do
-  defmacro __using__(opts) do
-    quote bind_quoted: [opts: opts] do
+  defmacro __using__(_opts) do
+    quote do
       import MM1.Result
 
       def decode <<>> do
