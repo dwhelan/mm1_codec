@@ -10,7 +10,7 @@ defmodule MM1.Result do
     end
   end
 
-  defmacro decode_error value, error, bytes, rest do
+  defmacro decode_error error, value, bytes, rest do
     module = module __CALLER__
     quote do
       %Result{module: unquote(module), value: unquote(value), bytes: unquote(bytes), rest: unquote(rest), err: unquote(error)}

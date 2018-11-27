@@ -5,7 +5,7 @@ defmodule MM1.BaseDecoder do
       import MM1.Result
 
       def decode <<>> do
-        decode_error nil, :insufficient_bytes, <<>>, <<>>
+        decode_error :insufficient_bytes, nil, <<>>, <<>>
       end
 
       def new nil do
