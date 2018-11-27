@@ -7,41 +7,16 @@ defmodule MM1.WrapperCodeTest do
   use MM1.WrapperCodec, codec: Byte
 
   test "decode" do
-    assert decode(<<0, "rest">>) == %Result{
-             module: __MODULE__,
-             rest: "rest",
-             value: %Result{
-               module: Byte,
-               bytes: <<0>>,
-               value: 0,
-               rest: "rest"
-             }
-           }
+    bytes = <<0, "rest">>
+    assert decode(bytes) == %Result{module: __MODULE__, bytes: <<>>, rest: "rest", value: Byte.decode(bytes)}
   end
 
   test "encode" do
-    assert encode(
-             %Result{
-               module: __MODULE__,
-               rest: "rest",
-               value: %Result{
-                 module: Byte,
-                 bytes: <<0>>,
-                 value: 0,
-                 rest: "rest"
-               }
-             }
-           ) == <<0>>
+    result = Byte.decode <<0>>
+    assert encode(%Result{value: result}) == <<0>>
   end
 
   test "new" do
-    assert new(0) == %Result{
-             module: __MODULE__,
-             value: %Result{
-               module: Byte,
-               bytes: <<0>>,
-               value: 0,
-             }
-           }
+    assert new(0) == %Result{module: __MODULE__, value: Byte.new(0)}
   end
 end
