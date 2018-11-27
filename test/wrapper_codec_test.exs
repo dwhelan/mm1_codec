@@ -8,12 +8,12 @@ defmodule MM1.WrapperCodeTest do
 
   test "decode" do
     bytes = <<0, "rest">>
-    assert decode(bytes) == %Result{module: __MODULE__, bytes: <<>>, rest: "rest", value: Byte.decode(bytes)}
+    assert decode(bytes) == %Result{module: __MODULE__, rest: "rest", value: Byte.decode(bytes)}
   end
 
   test "encode" do
-    result = Byte.decode <<0>>
-    assert encode(%Result{value: result}) == <<0>>
+    result = Byte.new 0
+    assert encode(%Result{value: result}) == Byte.encode result
   end
 
   test "new" do
