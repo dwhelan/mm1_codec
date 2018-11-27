@@ -26,10 +26,6 @@ defmodule MM1.BaseCodec do
         return %Result{value: value, bytes: bytes, rest: rest, err: error}
       end
 
-      defp return %Result{} = result do
-        %Result{result | module: __MODULE__}
-      end
-
       defp bytes ~> codec when is_binary(bytes) do
         return codec.decode bytes
       end
