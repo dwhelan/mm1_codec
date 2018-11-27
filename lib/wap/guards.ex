@@ -25,5 +25,9 @@ defmodule WAP.Guards do
   defmacro is_uintvar value do
     is_unsigned_integer value, 0, 0xffffffff
   end
+
+  defmacro is_long_integer value do
+    is_unsigned_integer value, 0, 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+  end
 end
 
