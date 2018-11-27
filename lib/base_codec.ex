@@ -2,7 +2,7 @@ defmodule MM1.BaseCodec do
   defmacro __using__(opts) do
     quote bind_quoted: [opts: opts] do
       alias MM1.Result
-      import Result
+      import MM1.Result
       import WAP.Guards
 
       if ! opts[:custom_encode] do
