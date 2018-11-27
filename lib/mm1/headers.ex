@@ -36,6 +36,7 @@ defmodule MM1.Headers do
     #XMmsPreviouslySentDate:    0x21,
   ]
   use MM1.BaseCodec, custom_encode: true
+  import MM1.Result
 
   def decode bytes do
     decode bytes, []
@@ -53,11 +54,11 @@ defmodule MM1.Headers do
   end)
 
   defp decode <<>>, headers do
-    value Enum.reverse headers
+    ok Enum.reverse headers
   end
 
   defp decode rest, headers do
-    value Enum.reverse(headers), <<>>, rest
+    ok Enum.reverse(headers), <<>>, rest
   end
 
   def encode %{value: headers} do
@@ -74,6 +75,6 @@ defmodule MM1.Headers do
   end
 
   def new headers do
-    value Enum.map(headers, fn header -> header.module.new(header.value)  end)
+    ok Enum.map(headers, fn header -> header.module.new(header.value)  end)
   end
 end

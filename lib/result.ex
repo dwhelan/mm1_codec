@@ -1,7 +1,7 @@
 defmodule MM1.Result do
   defstruct module: nil, value: nil, bytes: <<>>, rest: <<>>, err: nil
 
-  defmacro ok value, bytes, rest \\ <<>> do
+  defmacro ok value, bytes \\ <<>>, rest \\ <<>> do
     result module(__CALLER__), value, bytes, rest, nil
   end
 
