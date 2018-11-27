@@ -2,6 +2,7 @@ defmodule MM1.WrapperCodec do
   defmacro __using__(opts) do
     quote bind_quoted: [codec: opts[:codec]] do
       use MM1.Codec
+      import MM1.WrapperCodec
 
       @codec codec
 
@@ -15,6 +16,10 @@ defmodule MM1.WrapperCodec do
 
       def new value do
         wrap @codec.new value
+      end
+
+      defp wrap result do
+        %MM1.Result{result | module: __MODULE__, value: result, bytes: <<>>}
       end
     end
   end

@@ -24,13 +24,6 @@ defmodule MM1.Result do
     end
   end
 
-  defmacro wrap result do
-    module = module __CALLER__
-    quote do
-      %Result{unquote(result) | module: unquote(module), value: unquote(result), bytes: <<>>}
-    end
-  end
-
   defp module caller do
     caller.context_modules |> List.first
   end
