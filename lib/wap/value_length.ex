@@ -1,6 +1,7 @@
 defmodule WAP.ValueLength do
   use MM1.BaseCodec
   alias WAP.{ShortLength, Uintvar}
+  alias MM1.Result
 
   @length_quote 31
 
