@@ -4,7 +4,7 @@ defmodule WAP.EncodedString do
 
   alias WAP.{ValueLength, CharSet, TextString}
 
-  def decode(<<value, _::binary>> = data) when is_Text(value) do
+  def decode(<<value, _::binary>> = data) when is_text(value) do
     data ~> TextString
   end
 
