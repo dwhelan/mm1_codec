@@ -1,4 +1,4 @@
-defmodule MM1.CodecTest do
+defmodule MM1.BaseDecoderTest do
   defmacro __using__(_opts) do
     quote do
       use ExUnit.Case

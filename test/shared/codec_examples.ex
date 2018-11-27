@@ -1,4 +1,4 @@
-defmodule MM1.CodecExamples do
+defmodule MM1.BaseDecoderExamples do
   defmacro __using__(opts) do
     quote bind_quoted: [opts: opts] do
       @codec          opts[:codec]

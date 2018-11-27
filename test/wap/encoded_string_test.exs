@@ -1,7 +1,7 @@
 defmodule WAP.EncodedStringTest do
   use ExUnit.Case
 
-  use MM1.CodecExamples, codec: WAP.EncodedString,
+  use MM1.BaseDecoderExamples, codec: WAP.EncodedString,
     examples: [
       {<<0>>,                                ""},
       {<<"text", 0>>,                        "text"},

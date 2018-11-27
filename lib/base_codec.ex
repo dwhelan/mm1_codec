@@ -3,7 +3,7 @@ defmodule MM1.BaseCodec do
     quote bind_quoted: [opts: opts] do
       import WAP.Guards
 
-      use MM1.Codec
+      use MM1.BaseDecoder
 
       def encode result do
         result.bytes
