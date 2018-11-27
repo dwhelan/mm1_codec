@@ -8,6 +8,7 @@ defmodule WAP.CharSet do
 
   use MM1.BaseCodec
   import WAP.Guards
+  import MM1.Result
 
   def decode(<<byte, _::binary>> = bytes) when is_short_integer_byte(byte) do
     _decode bytes, ShortInteger
@@ -30,15 +31,15 @@ defmodule WAP.CharSet do
   end
 
   def new code do
-    error :must_be_an_integer_greater_than_or_equal_to_0, code
-  end
+    error2 code, :must_be_an_integer_greater_than_or_equal_to_0
+               end
 
   defp _new(name) when is_atom(name) do
-    error :unknown_char_set, name
-  end
+    error2 name, :unknown_char_set
+                                     end
 
   defp _new code do
-    value CharSets.map(code), bytes(code)
+    ok CharSets.map(code), bytes(code)
   end
 
   defp bytes(code) when is_short_integer(code) do
