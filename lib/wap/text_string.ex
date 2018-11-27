@@ -1,19 +1,20 @@
 defmodule WAP.TextString do
   use MM1.BaseCodec
+  import MM1.Result
 
   def decode <<bytes::binary>> do
     return String.split bytes, <<0>>, parts: 2
   end
 
   defp return [text | [rest]] do
-    value text, text <> <<0>>, rest
+    ok text, text <> <<0>>, rest
   end
 
   defp return [bytes | []] do
-    error :missing_terminator, bytes, bytes, <<>>
+    error2 bytes, :missing_terminator, bytes, <<>>
   end
 
   def new text do
-    value text, text <> <<0>>
+    ok text, text <> <<0>>
   end
 end
