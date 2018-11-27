@@ -5,11 +5,11 @@ defmodule WAP.ValueLength do
   @length_quote 31
 
   def decode(<<value, _::binary>> = bytes) when is_short_length(value) do
-    bytes |> ShortLength.decode |> return
+    bytes |> ShortLength.decode |> embed
   end
 
   def decode <<@length_quote, bytes::binary>> do
-    bytes |> Uintvar.decode |> prefix_with_length_quote |> return
+    bytes |> Uintvar.decode |> prefix_with_length_quote |> embed
   end
 
   def decode <<value, rest::binary>> do
@@ -17,11 +17,11 @@ defmodule WAP.ValueLength do
   end
 
   def new(value) when is_short_length(value) do
-    value |> ShortLength.new |> return
+    value |> ShortLength.new |> embed
   end
 
   def new(value) when is_uintvar(value) do
-    value |> Uintvar.new |> prefix_with_length_quote |> return
+    value |> Uintvar.new |> prefix_with_length_quote |> embed
   end
 
   def new value do

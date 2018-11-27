@@ -22,7 +22,7 @@ defmodule MM1.Header do
       end
 
       def decode <<@header, bytes::binary>> do
-        bytes |> @codec.decode |> prefix_header_in_bytes |> @mapper.map |> return
+        bytes |> @codec.decode |> prefix_header_in_bytes |> @mapper.map |> embed
       end
 
       defp prefix_header_in_bytes result do

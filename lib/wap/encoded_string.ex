@@ -21,17 +21,17 @@ defmodule WAP.EncodedString do
   end
 
   def new text do
-    return TextString.new text
+    embed TextString.new text
   end
 
   defp bytes ~> codec when is_binary(bytes) do
-    return codec.decode bytes
+    embed codec.decode bytes
   end
 
   defp previous ~> codec do
     result = codec.decode previous.rest
     previous_value = if is_tuple(previous.value), do: previous.value, else: {previous.value}
-    return %Result{result | value: Tuple.append(previous_value, result.value), bytes: previous.bytes <> result.bytes}
+    embed %Result{result | value: Tuple.append(previous_value, result.value), bytes: previous.bytes <> result.bytes}
   end
 
 end

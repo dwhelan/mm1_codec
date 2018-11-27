@@ -9,7 +9,7 @@ defmodule MM1.Result do
     result module(__CALLER__), value, bytes, rest, error
   end
 
-  defmacro return result do
+  defmacro embed result do
     module = module(__CALLER__)
     quote do
       %MM1.Result{unquote(result)| module: unquote(module)}
