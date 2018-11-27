@@ -29,5 +29,11 @@ defmodule WAP.Guards do
   defmacro is_long_integer value do
     is_integer value, 0, 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
   end
+
+  defmacro is_Text value do
+    quote do
+      unquote(value) == 0 or unquote(value) >= 32
+    end
+  end
 end
 

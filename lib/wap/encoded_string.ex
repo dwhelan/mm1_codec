@@ -4,11 +4,7 @@ defmodule WAP.EncodedString do
 
   alias WAP.{ValueLength, CharSet, TextString}
 
-  defmacro is_TextString char do
-    char == 0 or char >= 32
-  end
-
-  def decode(<<char, _::binary>> = data) when char == 0 or char >= 32 do
+  def decode(<<value, _::binary>> = data) when is_Text(value) do
     data ~> TextString
   end
 
@@ -34,5 +30,4 @@ defmodule WAP.EncodedString do
     previous_value = if is_tuple(previous.value), do: previous.value, else: {previous.value}
     embed %Result{result | value: Tuple.append(previous_value, result.value), bytes: previous.bytes <> result.bytes}
   end
-
 end
