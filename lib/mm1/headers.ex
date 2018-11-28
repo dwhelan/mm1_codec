@@ -70,7 +70,15 @@ defmodule MM1.Headers do
     @headers[value] + 128
   end
 
-  def new headers \\ [] do
+  def new do
+    new_ok [], <<>>
+  end
+
+  def new headers do
     new_ok Enum.map(headers, fn header -> header.module.new(header.value)  end), <<>>
+  end
+
+  def add headers, header do
+    %MM1.Result{headers | value: headers.value ++ [header]}
   end
 end

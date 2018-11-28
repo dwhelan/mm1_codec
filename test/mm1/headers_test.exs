@@ -27,17 +27,25 @@ defmodule MM1.HeadersTest do
     end
   end)
 
-  test "new() returns a Result with value of []" do
-    assert new() == %Result{module: Headers, value: []}
+  describe "new" do
+    test "new() returns a Result with empty headers" do
+      assert new() == %Result{module: Headers, value: []}
+    end
+
+    test "new([]) returns a Result with empty headers" do
+      assert new([]) == %Result{module: Headers, value: []}
+    end
+
+    test "new([%Result{value}]) should create new bytes" do
+      bcc = MM1.Bcc.new "abc"
+      assert new([bcc]).value == [%Result{bcc | bytes: <<129, "abc", 0>>}]
+    end
   end
 
-  test "new([]) returns a Result with value of []" do
-    assert new([]) == %Result{module: Headers, value: []}
-  end
-
-  test "new([%Result{value}]) should create new bytes" do
-    bcc = %Result{module: MM1.Bcc, value: "x"}
-    assert new([bcc]).value == [%Result{bcc | bytes: <<129, "x", 0>>}]
+  test "add" do
+    bcc = MM1.Bcc.new "abc"
+    headers = add new(), bcc
+    assert headers.value == [bcc]
   end
 
 end
