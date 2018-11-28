@@ -11,7 +11,7 @@ defmodule WAP.Uintvar do
   end
 
   defp _decode(<<value, rest::binary>>, total, bytes) when byte_size(bytes) > 4 do
-    decode_error :must_be_5_bytes_or_less, add(value, total), bytes <> <<value>>, rest
+    decode_error :uintvar_length_must_be_5_bytes_or_less, add(value, total), bytes <> <<value>>, rest
   end
 
   defp _decode <<value, rest::binary>>, total, bytes do
