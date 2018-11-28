@@ -266,7 +266,7 @@ defmodule WAP.CharSets do
     reserved:                 3000,
   }
 
-  @char_sets_by_code Enum.reduce(@char_sets, %{}, fn {k,v}, acc -> Map.put(acc, v, k) end)
+  @char_sets_by_code Enum.reduce(@char_sets, %{}, fn {k,v}, map -> Map.put(map, v, k) end)
 
   alias MM1.Result
 
