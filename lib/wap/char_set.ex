@@ -1,3 +1,8 @@
+#
+# use EitherCodec,
+#   codec: {ShortInteger, is_short_integer_byte, is_short_integer},
+#   codec: LongInteger,
+#
 defmodule WAP.CharSet do
   @moduledoc """
   Specification: WAP-230-WSP-20010705-a, 7.2.9 Encoded-string-value

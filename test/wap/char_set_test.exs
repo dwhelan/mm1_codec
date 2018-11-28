@@ -12,6 +12,6 @@ defmodule WAP.CharSetTest do
       {  -1, :must_be_an_integer_greater_than_or_equal_to_0},
       {1.23, :must_be_an_integer_greater_than_or_equal_to_0},
       { "x", :must_be_an_integer_greater_than_or_equal_to_0},
-      {:foo, :unknown_char_set}
+      {:foo, :unknown_char_set                             },
     ]
 end
