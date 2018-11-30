@@ -6,7 +6,7 @@ defmodule MM1.WrapperCodec do
       @codec codec
 
       def decode bytes do
-        bytes |> @codec.decode |> wrap
+        bytes |> @codec.decode |> map_result
       end
 
       def encode result do
@@ -14,11 +14,11 @@ defmodule MM1.WrapperCodec do
       end
 
       def new value do
-        value |> @codec.new |> wrap
+        value |> @codec.new |> map_result
       end
 
-      defp wrap result do
-        embed %MM1.Result{result | value: result, bytes: <<>>}
+      defp map_result result do
+        %MM1.Result{result | value: result, bytes: <<>>} |> embed
       end
     end
   end
