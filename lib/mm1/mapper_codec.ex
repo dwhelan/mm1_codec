@@ -17,19 +17,27 @@ defmodule MM1.MapperCodec do
       import Result
 
       def decode bytes do
-        bytes |> @codec.decode |> map
+        bytes |> @codec.decode |> map_result |> embed
       end
 
       def encode %Result{module: __MODULE__} = result do
-        @codec.encode %Result{result | module: @codec }
+        %Result{result | module: @codec } |> @codec.encode
       end
 
       def new value do
-        Map.get(@reverse_map, value, value) |> @codec.new |> map
+         value |> map_value |> @codec.new |> map_result |> embed
       end
 
-      def map result do
-        %Result{result | value: Map.get(@map, result.value, result.value)} |> embed
+      def map_result result do
+        %Result{result | value: Map.get(@map, result.value, result.value)}
+      end
+
+      defp unmap_result result do
+        %Result{result | module: @codec }
+      end
+
+      defp map_value value do
+        Map.get(@reverse_map, value, value)
       end
     end
   end
