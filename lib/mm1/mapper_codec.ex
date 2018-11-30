@@ -12,30 +12,20 @@ defmodule MM1.MapperCodec do
       use MM1.BaseCodec
       alias MM1.Result
 
-      def decode bytes do
-        bytes |> @codec.decode |> map_result |> embed
-      end
+      import MM1.DecoratorCodec
 
-      def encode result do
-        result |> unmap_result |> @codec.encode
-      end
+      decorate codec do
+        def map_result result do
+          %Result{result | value: Map.get(@map, result.value, result.value)}
+        end
 
-      def new value do
-         value |> map_value |> @codec.new |> map_result |> embed
-      end
+        defp unmap_result result do
+          result
+        end
 
-
-
-      def map_result result do
-        %Result{result | value: Map.get(@map, result.value, result.value)}
-      end
-
-      defp unmap_result result do
-        result
-      end
-
-      defp map_value value do
-        Map.get(@reverse_map, value, value)
+        defp map_value value do
+          Map.get(@reverse_map, value, value)
+        end
       end
     end
   end
