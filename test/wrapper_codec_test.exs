@@ -13,7 +13,7 @@ defmodule MM1.WrapperCodeTest do
 
   test "encode" do
     result = Byte.new 0
-    assert encode(%Result{value: result}) == Byte.encode result
+    assert encode(%Result{module: __MODULE__, value: result}) == Byte.encode result
   end
 
   test "new" do
