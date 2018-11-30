@@ -1,3 +1,3 @@
 defmodule MM1.Message do
-  use MM1.WrapperCodec, codec: MM1.Headers
+  use MM1.Codecs.Wrapper, codec: MM1.Headers
 end

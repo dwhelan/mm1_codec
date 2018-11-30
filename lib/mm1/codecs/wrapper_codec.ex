@@ -1,4 +1,4 @@
-defmodule MM1.WrapperCodec do
+defmodule MM1.Codecs.Wrapper do
   defmacro __using__(opts) do
     quote bind_quoted: [codec: opts[:codec]] do
       import MM1.Codecs.Decorator

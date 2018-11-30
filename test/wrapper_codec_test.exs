@@ -4,7 +4,7 @@ defmodule MM1.WrapperCodeTest do
   alias WAP.Byte
   alias MM1.Result
 
-  use MM1.WrapperCodec, codec: Byte
+  use MM1.Codecs.Wrapper, codec: Byte
 
   test "decode" do
     bytes = <<0, "rest">>
