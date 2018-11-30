@@ -2,19 +2,11 @@ defmodule MM1.CoreMapper do
   alias MM1.Result
 
   def map %Result{} = result, map do
-    %Result{result | value: lookup(result.value, map)}
+    %Result{result | value: map(result.value, map)}
   end
 
   def map value, map do
-    lookup value, map
-  end
-
-  defp lookup value, map do
-    if is_nil map[value] do
-      value
-    else
-      map[value]
-    end
+    Map.get(map, value, value)
   end
 end
 
@@ -38,7 +30,7 @@ defmodule MM1.MapperCodec do
       import MM1.CoreMapper
 
       def decode bytes do
-        bytes |> @codec.decode |> map(@map) |> embed
+        bytes |> @codec.decode |> map
       end
 
       def encode %Result{module: __MODULE__} = result do
@@ -46,7 +38,20 @@ defmodule MM1.MapperCodec do
       end
 
       def new value do
-        value |> map(@reverse_map) |> @codec.new |> map(@map) |> embed
+        value |> map(@reverse_map) |> @codec.new |> map
+      end
+
+      def map result do
+        result |> map(@map) |> embed
+      end
+
+      defp map_result do
+      end
+
+      defp unmap_result do
+      end
+
+      defp map_new do
       end
     end
   end
