@@ -6,19 +6,19 @@ defmodule MM1.WrapperCodec do
       @codec codec
 
       def decode bytes do
-        wrap @codec.decode bytes
+        bytes |> @codec.decode |> wrap
       end
 
       def encode result do
-        @codec.encode result.value
+        result.value |> @codec.encode
       end
 
       def new value do
-        wrap @codec.new value
+        value |> @codec.new |> wrap
       end
 
       defp wrap result do
-        %MM1.Result{result | module: __MODULE__, value: result, bytes: <<>>}
+        embed %MM1.Result{result | value: result, bytes: <<>>}
       end
     end
   end
