@@ -23,7 +23,8 @@ defmodule WAP.Guards do
   end
 
   defmacro is_uintvar value do
-    is_integer value, 0, 0xffffffff
+    max_uint32 = 0xffffffff
+    is_integer value, 0, max_uint32
   end
 
   defmacro is_long_integer value do
