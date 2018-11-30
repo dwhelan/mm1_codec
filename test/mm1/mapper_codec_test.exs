@@ -7,7 +7,7 @@ defmodule MM1.MapperCodecTest do
 
   use MapperCodec, codec: WAP.Byte, map: map
 
-  use MM1.BaseDecoderExamples,
+  use MM1.Codecs.BaseExamples,
       codec: __MODULE__,
       examples: [
         {<<0>>, false}

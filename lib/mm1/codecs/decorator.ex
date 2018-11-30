@@ -1,7 +1,7 @@
 defmodule MM1.Codecs.Decorator do
   defmacro decorate codec, do: block do
     quote do
-      use MM1.BaseDecoder
+      use MM1.Codecs.Base
 
       @codec unquote codec
 

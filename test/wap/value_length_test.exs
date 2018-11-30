@@ -4,7 +4,7 @@ defmodule WAP.ValueLengthTest do
   max_value    = 0xffffffff
   length_quote = 31
 
-  use MM1.BaseDecoderExamples, codec: WAP.ValueLength,
+  use MM1.Codecs.BaseExamples, codec: WAP.ValueLength,
     examples: [
       {<< 0>>,  0},
       {<<30>>, 30},

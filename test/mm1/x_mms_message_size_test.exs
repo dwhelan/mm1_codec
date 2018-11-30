@@ -5,7 +5,7 @@ defmodule MM1.XMmsMessageSizeTest do
 
   header_byte = XMmsMessageSize.header_byte()
 
-  use MM1.BaseDecoderExamples, codec: XMmsMessageSize,
+  use MM1.Codecs.BaseExamples, codec: XMmsMessageSize,
       examples: [
         {<<header_byte, 1, 42>>, 42}
       ]

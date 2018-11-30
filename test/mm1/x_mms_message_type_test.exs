@@ -5,7 +5,7 @@ defmodule MM1.XMmsMessageTypeTest do
 
   header_byte = XMmsMessageType.header_byte()
 
-  use MM1.BaseDecoderExamples, codec: XMmsMessageType,
+  use MM1.Codecs.BaseExamples, codec: XMmsMessageType,
       examples: [
         {<<header_byte, 128>>, :m_send_conf},
         {<<header_byte, 129>>, :m_notification_ind},

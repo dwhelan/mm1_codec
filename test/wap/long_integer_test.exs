@@ -3,7 +3,7 @@ defmodule WAP.LongIntegerTest do
 
   thirty_0xffs = 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
 
-  use MM1.BaseDecoderExamples, codec: WAP.LongInteger,
+  use MM1.Codecs.BaseExamples, codec: WAP.LongInteger,
     examples: [
       {<<1,   0>>,           0},
       {<<1, 255>>,         255},

@@ -5,7 +5,7 @@ defmodule MM1.CcTest do
 
   header_byte = Cc.header_byte()
 
-  use MM1.BaseDecoderExamples, codec: Cc,
+  use MM1.Codecs.BaseExamples, codec: Cc,
     examples: [
       {<<header_byte, "abc", 0>>, "abc"}
     ]

@@ -1,4 +1,4 @@
-defmodule MM1.BaseDecoder do
+defmodule MM1.Codecs.Base do
   defmacro __using__(_opts) do
     quote do
       import WAP.Guards
