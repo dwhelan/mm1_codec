@@ -19,7 +19,7 @@ defmodule MM1.MapperCodec do
           %Result{result | value: Map.get(@map, result.value, result.value)}
         end
 
-        defp unmap_result result do
+        defp encode_arg result do
           result
         end
 

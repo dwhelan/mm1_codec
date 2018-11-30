@@ -9,7 +9,7 @@ defmodule MM1.DecoratorCodec do
       end
 
       def encode result do
-        result |> unmap_result |> @codec.encode
+        result |> encode_arg |> @codec.encode
       end
 
       def new value do
@@ -33,7 +33,7 @@ defmodule MM1.WrapperCodec do
           %MM1.Result{result | value: result, bytes: <<>>}
         end
 
-        defp unmap_result result do
+        defp encode_arg result do
           result.value
         end
 
