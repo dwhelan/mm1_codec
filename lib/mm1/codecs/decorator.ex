@@ -22,7 +22,7 @@ defmodule MM1.Codecs.Decorator do
       end
 
       unquote block
-      use MM1.DefaultEncoder
+      use MM1.Codecs.Encode
     end
 
   end
