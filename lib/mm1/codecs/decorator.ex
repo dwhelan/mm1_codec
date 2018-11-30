@@ -1,4 +1,4 @@
-defmodule MM1.DecoratorCodec do
+defmodule MM1.Codecs.Decorator do
   defmacro decorate codec, do: block do
     quote do
       use MM1.BaseDecoder
@@ -25,27 +25,5 @@ defmodule MM1.DecoratorCodec do
       use MM1.DefaultEncoder
     end
 
-  end
-end
-
-defmodule MM1.WrapperCodec do
-  defmacro __using__(opts) do
-    quote bind_quoted: [codec: opts[:codec]] do
-      import MM1.DecoratorCodec
-
-      decorate codec do
-        defp map_result result do
-          %MM1.Result{result | value: result, bytes: <<>>}
-        end
-
-        defp encode_arg result do
-          result.value
-        end
-
-        defp map_value value do
-          value
-        end
-      end
-    end
   end
 end

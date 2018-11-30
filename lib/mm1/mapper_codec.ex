@@ -5,7 +5,7 @@ defmodule MM1.MapperCodec do
       @codec       codec
       @reverse_map Enum.reduce map, %{}, fn {k,v}, reverse_map -> Map.put(reverse_map, v, k) end
 
-      import MM1.DecoratorCodec
+      import MM1.Codecs.Decorator
 
       decorate codec do
         def map_result result do
