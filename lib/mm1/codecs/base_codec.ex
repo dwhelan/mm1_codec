@@ -1,4 +1,4 @@
-defmodule MM1.BaseCodec do
+defmodule MM1.Codecs.Default do
   defmacro __using__(_opts) do
     quote do
       use MM1.BaseDecoder

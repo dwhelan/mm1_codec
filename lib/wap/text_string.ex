@@ -1,5 +1,5 @@
 defmodule WAP.TextString do
-  use MM1.BaseCodec
+  use MM1.Codecs.Default
 
   def decode <<bytes::binary>> do
     handle String.split bytes, <<0>>, parts: 2

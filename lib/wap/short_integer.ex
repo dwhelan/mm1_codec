@@ -9,7 +9,7 @@ defmodule WAP.ShortInteger do
     least significant bits.
   """
 
-  use MM1.BaseCodec
+  use MM1.Codecs.Default
 
   def decode(<<1::1, value::7, rest::binary>>) do
     decode_ok value, <<1::1, value::7>>, rest

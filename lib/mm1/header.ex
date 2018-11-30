@@ -13,7 +13,7 @@ defmodule MM1.Header do
       @codec  opts[:codec]
       @mapper opts[:mapper] || MM1.IdentityMapper
 
-      use MM1.BaseCodec
+      use MM1.Codecs.Default
 
       @header MM1.Headers.header_byte __MODULE__
 

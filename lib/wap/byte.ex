@@ -1,5 +1,5 @@
 defmodule WAP.Byte do
-  use MM1.BaseCodec
+  use MM1.Codecs.Default
 
   def decode <<value, rest::binary>> do
     decode_ok value, <<value>>, rest

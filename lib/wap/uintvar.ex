@@ -1,5 +1,5 @@
 defmodule WAP.Uintvar do
-  use MM1.BaseCodec
+  use MM1.Codecs.Default
   use Bitwise
 
   def decode bytes do

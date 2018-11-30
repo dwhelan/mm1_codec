@@ -11,7 +11,7 @@ defmodule WAP.LongInteger do
     The minimum number of octets must be used to encode the value.
   """
 
-  use MM1.BaseCodec
+  use MM1.Codecs.Default
 
   def decode(<<length, rest::binary>>) when length < 1 or length > 30 do
     decode_error :length_must_be_between_1_and_30, length, <<length>>, rest
