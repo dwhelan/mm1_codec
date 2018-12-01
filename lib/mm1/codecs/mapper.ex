@@ -1,4 +1,24 @@
 defmodule MM1.Codecs.Mapper do
+  def decode bytes, codec, module, map do
+    bytes |> codec.decode |> map(module, map)
+  end
+
+  def encode result, codec, _module do
+    result |> codec.encode
+  end
+
+  def new value, codec, module, map, unmap do
+    value |> get(unmap) |> codec.new |> map(module, map)
+  end
+
+  defp map result, module, map do
+    %MM1.Result{result | module: module, value: get(result.value, map)}
+  end
+
+  defp get key, map do
+    Map.get map, key, key
+  end
+
   defmacro __using__(opts) do
     quote bind_quoted: [codec: opts[:codec], map: opts[:map]] do
       @codec codec
