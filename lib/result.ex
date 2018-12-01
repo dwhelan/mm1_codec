@@ -31,8 +31,7 @@ defmodule MM1.Result do
     end
   end
 
-  defmacro embed result do
-    module = module __CALLER__
+  defmacro embed result, module \\ module __CALLER__ do
     quote do
       %Result{unquote(result) | module: unquote(module)}
     end
