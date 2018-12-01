@@ -10,20 +10,18 @@ defmodule MM1.Codecs.Decorator do
       end
 
       def encode %MM1.Result{module: __MODULE__} = result do
-        result |> unembed |> encode_arg |> @codec.encode
+        result |> extract |> encode_arg |> @codec.encode
       end
 
       def new value do
         value |> map_value |> @codec.new |> map_result |> embed
       end
 
-      defp unembed result do
+      defp extract result do
         %MM1.Result{result | module: @codec}
       end
 
       unquote block
-      use MM1.Codecs.Encode
     end
-
   end
 end
