@@ -6,23 +6,21 @@ defmodule MM1.Codecs.ComposerTest do
 
   import MM1.Codecs.Composer
 
-  test "decode" do
-    bytes    = <<0, 1, "rest">>
-    expected = %Result{module: __MODULE__, bytes: <<0, 1>>, rest: "rest", value: [0, 1]}
+  use MM1.Codecs.BaseExamples,
+      codec: __MODULE__,
+      examples: [
+        {<<0, 1>>, [0, 1]}
+      ]
 
-    assert decode(bytes, Byte, Byte, __MODULE__) == expected
+  def decode bytes do
+    decode bytes, Byte, Byte, __MODULE__
   end
 
-  test "encode" do
-    result = %Result{module: __MODULE__, bytes: <<0, 1>>, rest: "rest", value: [0, 1]}
-
-    assert encode(result, Byte, Byte, __MODULE__) == <<0, 1>>
+  def encode result do
+    encode result, Byte, Byte, __MODULE__
   end
 
-  test "new" do
-    value    = [0, 1]
-    expected = %Result{module: __MODULE__, bytes: <<0, 1>>, value: value}
-
-    assert new(value, Byte, Byte, __MODULE__) == expected
+  def new value do
+    new value, Byte, Byte, __MODULE__
   end
 end

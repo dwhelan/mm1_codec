@@ -1,4 +1,12 @@
 defmodule MM1.Codecs.Composer do
+  def decode <<>>, codec1, codec2, module do
+    %MM1.Result{module: module, err: :insufficient_bytes}
+  end
+
+  def new nil, codec1, codec2, module do
+    %MM1.Result{module: module, err: :value_cannot_be_nil}
+  end
+
   def decode bytes, codec1, codec2, module do
     result1 = codec1.decode bytes
     result2 = codec2.decode result1.rest
