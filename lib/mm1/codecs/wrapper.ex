@@ -1,16 +1,15 @@
 defmodule MM1.Codecs.Wrapper do
   defmacro __using__(opts) do
     quote bind_quoted: [codec: opts[:codec]] do
-      import MM1.Codecs.Decorator
-      import MM1.Result
+      alias MM1.Result
       @codec       codec
 
       def decode bytes do
         bytes |> @codec.decode |> wrap_result
       end
 
-      def encode %MM1.Result{module: __MODULE__} = result do
-        result |> set_module(@codec) |> encode_arg |> @codec.encode
+      def encode %Result{module: __MODULE__} = result do
+        @codec.encode result.value
       end
 
       def new value do
@@ -18,11 +17,7 @@ defmodule MM1.Codecs.Wrapper do
       end
 
       defp wrap_result result do
-        %MM1.Result{result | module: __MODULE__, value: result, bytes: <<>>}
-      end
-
-      defp encode_arg result do
-        result.value
+        %Result{result | module: __MODULE__, value: result, bytes: <<>>}
       end
     end
   end
