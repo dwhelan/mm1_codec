@@ -1,4 +1,4 @@
-defmodule MM1.WrapperCodeTest do
+defmodule MM1.Codecs.WrapperTest do
   use ExUnit.Case
 
   alias WAP.Byte
