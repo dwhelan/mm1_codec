@@ -1,29 +1,35 @@
 defmodule MM1.Codecs.Mapper do
   defmacro __using__(opts) do
     quote bind_quoted: [codec: opts[:codec], map: opts[:map]] do
-      @map         map
-      @codec       codec
-      @reverse_map Enum.reduce map, %{}, fn {k,v}, reverse_map -> Map.put(reverse_map, v, k) end
+      @codec codec
+      @map   map
+      @unmap Enum.reduce map, %{}, fn {k,v}, unmap -> Map.put(unmap, v, k) end
 
-      import MM1.Codecs.Decorator
+      alias MM1.Result
 
-      decorate codec do
-        def map_result result do
-          %MM1.Result{result | value: Map.get(@map, result.value, result.value)}
-        end
+      def decode bytes do
+        bytes |> @codec.decode |> map
+      end
 
-        defp encode_arg result do
-          result
-        end
+      def encode %Result{module: __MODULE__} = result do
+        %Result{result | module: @codec} |> @codec.encode
+      end
 
-        defp map_value value do
-          Map.get @reverse_map, value, value
-        end
+      def new value do
+        value |> get(@unmap) |> @codec.new |> map
+      end
+
+      defp map result do
+        %Result{result | module: __MODULE__, value: get(result.value, @map)}
+      end
+
+      defp get key, map do
+        Map.get map, key, key
       end
     end
   end
 
   def ordinal_map values do
-    values |> Enum.with_index |> Enum.reduce(%{}, fn {v, index}, map -> Map.put(map, index, v) end)
+    values |> Enum.with_index |> Enum.reduce(%{}, fn {v, i}, map -> Map.put(map, i, v) end)
   end
 end
