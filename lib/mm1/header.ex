@@ -12,16 +12,21 @@ defmodule MM1.Header do
       end
 
       def decode <<@header, bytes::binary>> do
-        bytes |> @codec.decode |> prefix_header_in_bytes |> set_module
-      end
-
-      defp prefix_header_in_bytes result do
-        %MM1.Result{result | bytes: <<@header>> <> result.bytes}
+        bytes |> @codec.decode |> map_result |> set_module
       end
 
       def new value do
-        new_ok value, <<@header>> <> @codec.new(value).bytes
+        value |> map_value |> @codec.new |> map_result |> set_module
       end
+
+      def map_result result do
+        %MM1.Result{result | bytes: <<@header>> <> result.bytes}
+      end
+
+      def map_value value do
+        value
+      end
+
     end
   end
 end
