@@ -1,3 +1,17 @@
 defmodule MM1.Message do
-  use MM1.Codecs.Wrapper, codec: MM1.Headers
+  import MM1.Codecs.Wrapper
+
+  alias MM1.Headers
+
+  def decode bytes do
+    decode bytes, Headers, __MODULE__
+  end
+
+  def encode result do
+    encode result, Headers, __MODULE__
+  end
+
+  def new value do
+    new value, Headers, __MODULE__
+  end
 end

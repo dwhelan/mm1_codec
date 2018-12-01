@@ -4,19 +4,27 @@ defmodule MM1.Codecs.WrapperTest do
   alias WAP.Byte
   alias MM1.Result
 
-  use MM1.Codecs.Wrapper, codec: Byte
+  import MM1.Codecs.Wrapper
 
   test "decode" do
-    bytes = <<0, "rest">>
-    assert decode(bytes) == %Result{module: __MODULE__, rest: "rest", value: Byte.decode(bytes)}
+    bytes    = <<0, "rest">>
+    expected = %Result{module: __MODULE__, rest: "rest", value: Byte.decode(bytes)}
+
+    assert decode(bytes, Byte, __MODULE__) == expected
   end
 
   test "encode" do
-    result = Byte.new 0
-    assert encode(%Result{module: __MODULE__, value: result}) == Byte.encode result
+    byte_result = Byte.new 0
+    result      = %Result{value: byte_result}
+    expected    = Byte.encode byte_result
+
+    assert encode(result, Byte, __MODULE__) == expected
   end
 
   test "new" do
-    assert new(0) == %Result{module: __MODULE__, value: Byte.new(0)}
+    value    = 0
+    expected = %Result{module: __MODULE__, value: Byte.new(value)}
+
+    assert new(value, Byte, __MODULE__) == expected
   end
 end

@@ -3,16 +3,14 @@ defmodule MM1.Codecs.Mapper do
     quote bind_quoted: [codec: opts[:codec], map: opts[:map]] do
       @codec codec
       @map   map
-      @unmap Enum.reduce map, %{}, fn {k,v}, unmap -> Map.put(unmap, v, k) end
-
-      alias MM1.Result
+      @unmap MM1.Codecs.Mapper.unmap map
 
       def decode bytes do
         bytes |> @codec.decode |> map
       end
 
-      def encode %Result{module: __MODULE__} = result do
-        %Result{result | module: @codec} |> @codec.encode
+      def encode result do
+        result |> @codec.encode
       end
 
       def new value do
@@ -20,13 +18,17 @@ defmodule MM1.Codecs.Mapper do
       end
 
       defp map result do
-        %Result{result | module: __MODULE__, value: get(result.value, @map)}
+        %MM1.Result{result | module: __MODULE__, value: get(result.value, @map)}
       end
 
       defp get key, map do
         Map.get map, key, key
       end
     end
+  end
+
+  def unmap map do
+    map |> Enum.reduce(%{}, fn {k,v}, unmap -> Map.put(unmap, v, k) end)
   end
 
   def ordinal_map values do

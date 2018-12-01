@@ -16,10 +16,6 @@ defmodule MM1.Codecs.BaseExamples do
         assert @codec.new(nil) === %Result{module: @codec, err: :value_cannot_be_nil}
       end
 
-      test "encode(result with incorrect module) should raise" do
-        assert_raise FunctionClauseError, fn -> @codec.encode %Result{} end
-      end
-
       Enum.each(examples, fn {bytes, value} ->
         @bytes  bytes
         @value  value
