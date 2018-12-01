@@ -22,7 +22,7 @@ defmodule WAP.CharSet do
   end
 
   defp _decode bytes, module do
-    bytes |> module.decode |> CharSets.map |> embed
+    bytes |> module.decode |> CharSets.map |> set_module
   end
 
   def new(name) when is_atom(name) do
