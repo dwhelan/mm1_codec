@@ -1,7 +1,9 @@
 defmodule MM1.Codecs.MapperTest do
   use ExUnit.Case
 
-  use MM1.Codecs.Mapper,
+  alias MM1.Codecs.Mapper
+
+  use Mapper,
       codec: WAP.Byte,
       map:   %{0 => false, 1 => true}
 
@@ -12,4 +14,11 @@ defmodule MM1.Codecs.MapperTest do
         {<<1>>, true},
         {<<2>>, 2},
       ]
+
+  test "ordinal" do
+    map = Mapper.ordinal([:a, :b])
+
+    assert Map.get(map, 128) === :a
+    assert Map.get(map, 129) === :b
+  end
 end
