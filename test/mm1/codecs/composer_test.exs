@@ -13,15 +13,12 @@ defmodule MM1.Codecs.ComposerTest do
     assert decode(bytes, Byte, Byte, __MODULE__) == expected
   end
 
-#  test "encode" do
-#    result = %Result{module: __MODULE__, bytes: <<0, 1>>, rest: "rest", value: [0, 1]}
-#    byte_result = Byte.new 0
-#    result      = %Result{value: byte_result}
-#    expected    = Byte.encode byte_result
-#
-#    assert encode(result, Byte, Byte, __MODULE__) == <<0, 1>>
-#  end
-#
+  test "encode" do
+    result = %Result{module: __MODULE__, bytes: <<0, 1>>, rest: "rest", value: [0, 1]}
+
+    assert encode(result, Byte, Byte, __MODULE__) == <<0, 1>>
+  end
+
   test "new" do
     value    = [0, 1]
     expected = %Result{module: __MODULE__, bytes: <<0, 1>>, value: value}
