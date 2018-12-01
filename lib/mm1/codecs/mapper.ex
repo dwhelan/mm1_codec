@@ -23,7 +23,7 @@ defmodule MM1.Codecs.Mapper do
     end
   end
 
-  def ordinal values do
+  def ordinal_map values do
     values |> Enum.with_index |> Enum.reduce(%{}, fn {v, index}, map -> Map.put(map, index+128, v) end)
   end
 end

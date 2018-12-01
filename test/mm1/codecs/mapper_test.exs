@@ -15,8 +15,8 @@ defmodule MM1.Codecs.MapperTest do
         {<<2>>, 2},
       ]
 
-  test "ordinal" do
-    map = Mapper.ordinal([:a, :b])
+  test "ordinal_map" do
+    map = Mapper.ordinal_map([:a, :b])
 
     assert Map.get(map, 128) === :a
     assert Map.get(map, 129) === :b
