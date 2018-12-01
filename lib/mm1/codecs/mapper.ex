@@ -1,4 +1,4 @@
-defmodule MM1.MapperCodec do
+defmodule MM1.Codecs.Mapper do
   defmacro __using__(opts) do
     quote bind_quoted: [codec: opts[:codec], map: opts[:map]] do
       @map         map
