@@ -1,22 +1,18 @@
 defmodule MM1.Message do
   alias MM1.Codecs.Wrapper
-  import MM1.Codecs.Wrapper
+  import Wrapper
 
   alias MM1.Headers
 
   def decode bytes do
-    codec :decode, bytes
+    Wrapper.decode bytes, __MODULE__, Headers
   end
 
   def encode result do
-    codec :encode, result
+    Wrapper.encode result, __MODULE__, Headers
   end
 
   def new value do
-    codec :new, value
-  end
-
-  def codec function_name, arg do
-    apply Wrapper, function_name, [arg, Headers, __MODULE__]
+    Wrapper.new value, __MODULE__, Headers
   end
 end
