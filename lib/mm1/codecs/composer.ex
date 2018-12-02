@@ -10,7 +10,7 @@ defmodule MM1.Codecs.Composer do
     |> List.foldl([%Result{rest: bytes}], &decode_rest/2)
     |> Enum.reverse
     |> tl
-    |> compose_result(module, bytes)
+    |> composed_result(module, bytes)
   end
 
   defp decode_rest codec, results do
@@ -30,10 +30,10 @@ defmodule MM1.Codecs.Composer do
     module.codecs()
     |> Enum.with_index
     |> Enum.map(fn {codec, index} -> codec.new(Enum.at(values, index)) end)
-    |> compose_result(module)
+    |> composed_result(module)
   end
 
-  defp compose_result results, module, bytes \\ <<>> do
+  defp composed_result results, module, bytes \\ <<>> do
     if error(results) do
       %Result{module: module, value: value(results), err: error(results), bytes: bytes}
     else
