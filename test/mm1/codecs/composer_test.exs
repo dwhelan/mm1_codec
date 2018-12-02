@@ -9,18 +9,22 @@ defmodule MM1.Codecs.ComposerTest do
   use MM1.Codecs.BaseExamples,
       codec: __MODULE__,
       examples: [
-        {<<0, 1>>, [0, 1]}
+        {<<0, 1, 2>>, [0, 1, 2]}
       ]
 
   def decode bytes do
-    decode bytes, __MODULE__, Byte, Byte
+    decode bytes, __MODULE__
   end
 
   def encode result do
-    encode result, __MODULE__, Byte, Byte
+    encode result, __MODULE__
   end
 
   def new values do
-    new values, __MODULE__, Byte, Byte
+    new values, __MODULE__
+  end
+
+  def codecs do
+   [Byte, Byte, Byte]
   end
 end

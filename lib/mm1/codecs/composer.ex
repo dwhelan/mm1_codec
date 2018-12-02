@@ -1,29 +1,44 @@
 defmodule MM1.Codecs.Composer do
-  def decode <<>>, module, _codec1, _codec2 do
-    %MM1.Result{module: module, err: :insufficient_bytes}
+  alias MM1.Result
+
+  def decode <<>>, module do
+    %Result{module: module, err: :insufficient_bytes}
   end
 
-  def decode bytes, module, codec1, codec2 do
-    result1 = codec1.decode bytes
-    result2 = codec2.decode result1.rest
-    compose_result result1, result2, module
+  def decode bytes, module do
+    module.codecs()
+    |> List.foldl([%{rest: bytes}], &decode_rest/2)
+    |> Enum.reverse
+    |> tl
+    |> compose_result(module)
   end
 
-  def encode result, module, codec1, codec2 do
-    new(result.value, module, codec1, codec2).bytes
+  defp decode_rest codec, results do
+    result = hd(results).rest |> codec.decode
+    [result | results]
   end
 
-  def new nil, module, codec1, codec2 do
-    %MM1.Result{module: module, err: :value_cannot_be_nil}
+  def encode result, module do
+    new(result.value, module).bytes
   end
 
-  def new [value1, value2], module, codec1, codec2 do
-    result1 = codec1.new value1
-    result2 = codec2.new value2
-    compose_result result1, result2, module
+  def new nil, module do
+    %Result{module: module, err: :value_cannot_be_nil}
   end
 
-  defp compose_result result1, result2, module do
-    %MM1.Result{module: module, value: [result1.value, result2.value], bytes: result1.bytes <> result2.bytes, rest: result2.rest}
+  def new values, module do
+    module.codecs()
+    |> Enum.with_index
+    |> Enum.map(fn {codec, index} -> codec.new(Enum.at(values, index)) end)
+    |> compose_result(module)
+  end
+
+  defp compose_result results, module do
+    %Result{
+      module: module,
+      value:  Enum.map(results, & &1.value),
+      bytes:  List.foldl(results, <<>>, & &2 <> &1.bytes),
+      rest:   Enum.at(results, -1).rest
+    }
   end
 end
