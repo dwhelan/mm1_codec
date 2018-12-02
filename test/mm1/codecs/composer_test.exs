@@ -7,7 +7,7 @@ defmodule MM1.Codecs.ComposerTest do
 
   use MM1.Codecs.BaseExamples,
       examples: [
-#        {<<128, 129, 130>>, [0, 1, 2]}
+        {<<128, 129, 130>>, [0, 1, 2]}
       ],
 
       decode_errors: [
@@ -16,9 +16,9 @@ defmodule MM1.Codecs.ComposerTest do
         {<<128, 129,   2>>, :most_signficant_bit_must_be_1, [0, 1, <<2>>]},
       ],
       new_errors: [
-        {  [-1], :must_be_an_integer_between_0_and_127},
-        { [128], :must_be_an_integer_between_0_and_127},
-        {[:foo], :must_be_an_integer_between_0_and_127},
+        { [-1,  1,  2], :must_be_an_integer_between_0_and_127},
+        { [ 0, -1,  2], :must_be_an_integer_between_0_and_127},
+        { [ 0,  1, -1], :must_be_an_integer_between_0_and_127},
       ]
 
   def decode bytes do

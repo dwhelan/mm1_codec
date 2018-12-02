@@ -15,8 +15,7 @@ defmodule MM1.Codecs.Composer do
 
   defp decode_rest codec, results do
     previous = hd results
-    result = if previous.err, do: %Result{err: :previous_error}, else: codec.decode(previous.rest)
-    [result | results]
+    if previous.err, do: results, else: [codec.decode(previous.rest) | results]
   end
 
   def encode result, module do
@@ -34,34 +33,27 @@ defmodule MM1.Codecs.Composer do
     |> compose_result(module)
   end
 
-  defp value results do
-    error_index = Enum.find_index results, & &1.err
-    if error_index do
-      values_to_drop = length(results) - error_index - 1
-      results |> Enum.drop(-values_to_drop) |> Enum.map(& &1.value)
-    else
-      results |> Enum.map(& &1.value)
-    end
-  end
-
-  defp error results do
-    Enum.find_value results, & &1.err
-#    Enum.find_value results, & &1.err
-  end
-
-  defp bytes results do
-    List.foldl results, <<>>, & &2 <> &1.bytes
-  end
-
-  defp rest results do
-    Enum.at(results, -1).rest
-  end
-
   defp compose_result results, module, bytes \\ <<>> do
     if error(results) do
       %Result{module: module, value: value(results), err: error(results), bytes: bytes}
     else
       %Result{module: module, value: value(results), bytes:  bytes(results), rest:   rest(results)}
     end
+  end
+
+  defp value results do
+    results |> Enum.map(& &1.value)
+  end
+
+  defp error results do
+    results |> Enum.find_value(& &1.err)
+  end
+
+  defp bytes results do
+    results |> List.foldl(<<>>, & &2 <> &1.bytes)
+  end
+
+  defp rest results do
+    (results |> Enum.at(-1)).rest
   end
 end
