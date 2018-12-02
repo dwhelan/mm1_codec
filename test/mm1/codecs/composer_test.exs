@@ -16,9 +16,9 @@ defmodule MM1.Codecs.ComposerTest do
         {<<128, 129,   2>>, [nil, nil, :most_signficant_bit_must_be_1], [0, 1, <<2>>]},
       ],
       new_errors: [
-#        { [-1,  1,  2], :must_be_an_integer_between_0_and_127},
-#        { [ 0, -1,  2], :must_be_an_integer_between_0_and_127},
-#        { [ 0,  1, -1], :must_be_an_integer_between_0_and_127},
+        { [-1,  1,  2], [:must_be_an_integer_between_0_and_127, nil, nil]},
+        { [ 0, -1,  2], [nil, :must_be_an_integer_between_0_and_127, nil]},
+        { [ 0,  1, -1], [nil, nil, :must_be_an_integer_between_0_and_127]},
       ]
 
   def decode bytes do
