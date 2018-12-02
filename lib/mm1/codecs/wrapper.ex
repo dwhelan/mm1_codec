@@ -1,21 +1,21 @@
 defmodule MM1.Codecs.Wrapper do
-  def decode <<>>, codec1, module do
+  def decode <<>>, module, _codec do
     %MM1.Result{module: module, err: :insufficient_bytes}
   end
 
-  def new nil, codec1, module do
-    %MM1.Result{module: module, err: :value_cannot_be_nil}
-  end
-
-  def decode bytes, codec, module do
+  def decode bytes, module, codec do
     bytes |> codec.decode |> wrap(module)
   end
 
-  def encode result, codec, _module do
+  def encode result, _module, codec do
     result.value |> codec.encode
   end
 
-  def new value, codec, module do
+  def new nil, module, _codec do
+    %MM1.Result{module: module, err: :value_cannot_be_nil}
+  end
+
+  def new value, module, codec do
     value.value |> codec.new |> wrap(module)
   end
 
