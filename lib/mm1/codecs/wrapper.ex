@@ -20,6 +20,6 @@ defmodule MM1.Codecs.Wrapper do
   end
 
   defp wrap result, module do
-    %MM1.Result{result | module: module, value: result, bytes: <<>>}
+    %MM1.Result{result | module: module, value: %MM1.Result{result | rest: <<>>}, bytes: <<>>}
   end
 end
