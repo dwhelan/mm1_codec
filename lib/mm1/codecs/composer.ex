@@ -31,10 +31,16 @@ defmodule MM1.Codecs.Composer do
   end
 
   def new values, module do
-    module.codecs()
-    |> Enum.with_index
-    |> Enum.map(fn {codec, index} -> codec.new(Enum.at(values, index)) end)
-    |> composed_result(module)
+    codecs = module.codecs()
+
+    if length(values) !== length(codecs) do
+      %Result{module: module, err: :incorrect_list_length, value: values}
+    else
+      codecs
+      |> Enum.with_index
+      |> Enum.map(fn {codec, index} -> codec.new(Enum.at(values, index)) end)
+      |> composed_result(module)
+    end
   end
 
   defp composed_result results, module, bytes \\ <<>> do
