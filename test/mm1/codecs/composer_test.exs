@@ -13,14 +13,14 @@ defmodule MM1.Codecs.ComposerTest do
       ]
 
   def decode bytes do
-    decode bytes, Byte, Byte, __MODULE__
+    decode bytes, __MODULE__, Byte, Byte
   end
 
   def encode result do
-    encode result, Byte, Byte, __MODULE__
+    encode result, __MODULE__, Byte, Byte
   end
 
-  def new value do
-    new value, Byte, Byte, __MODULE__
+  def new values do
+    new values, __MODULE__, Byte, Byte
   end
 end
