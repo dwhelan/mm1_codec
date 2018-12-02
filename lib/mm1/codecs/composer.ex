@@ -6,15 +6,24 @@ defmodule MM1.Codecs.Composer do
   end
 
   def decode bytes, module do
-    module.codecs()
-    |> List.foldl([%{rest: bytes}], &decode_rest/2)
-    |> Enum.reverse
-    |> tl
-    |> compose_result(module)
+    results = module.codecs()
+    |> List.foldl([%{rest: bytes, err: nil}], &decode_rest/2)
+
+   error = hd(results).err
+
+    if (error != nil) do
+      %Result{module: module, err: error, value: [], bytes: bytes}
+    else
+     results |> Enum.reverse |> tl |> compose_result(module)
+    end
   end
 
   defp decode_rest codec, results do
-    result = hd(results).rest |> codec.decode
+    previous_result = hd(results)
+    result = case previous_result do
+      %{err: nil} -> codec.decode(previous_result.rest)
+      _ -> previous_result
+    end
     [result | results]
   end
 

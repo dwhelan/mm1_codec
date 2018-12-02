@@ -8,6 +8,10 @@ defmodule MM1.Codecs.ComposerTest do
   use MM1.Codecs.BaseExamples,
       examples: [
         {<<128, 129, 130>>, [0, 1, 2]}
+      ],
+
+      decode_errors: [
+        {<<0, 129, 130>>, :most_signficant_bit_must_be_1, []}
       ]
 
   def decode bytes do
