@@ -1,6 +1,8 @@
 defmodule MM1.Codecs.Wrapper do
+  alias MM1.Result
+
   def decode <<>>, module, _codec do
-    %MM1.Result{module: module, err: :insufficient_bytes}
+    %Result{module: module, err: :insufficient_bytes}
   end
 
   def decode bytes, module, codec do
@@ -12,7 +14,7 @@ defmodule MM1.Codecs.Wrapper do
   end
 
   def new nil, module, _codec do
-    %MM1.Result{module: module, err: :value_cannot_be_nil}
+    %Result{module: module, err: :value_cannot_be_nil}
   end
 
   def new value, module, codec do
@@ -20,6 +22,7 @@ defmodule MM1.Codecs.Wrapper do
   end
 
   defp wrap result, module do
-    %MM1.Result{result | module: module, value: %MM1.Result{result | rest: <<>>}, bytes: <<>>}
+    value = %Result{result | rest: <<>>}
+    %Result{result | module: module, value: value}
   end
 end
