@@ -69,9 +69,9 @@ defmodule MM1.Codecs.Composer do
 
   defp composed_result results, module, bytes \\ <<>> do
     if error(results) do
-      %Result{module: module, value: value(results), err: error(results), bytes: bytes}
+      %Result{module: module, value: value(results), err: error(results), bytes: bytes(results), rest:   rest(results)}
     else
-      %Result{module: module, value: value(results), bytes:  bytes(results), rest:   rest(results)}
+      %Result{module: module, value: value(results), err: error(results), bytes:  bytes(results), rest:   rest(results)}
     end
   end
 

@@ -4,6 +4,7 @@ defmodule MM1.Codecs.BaseExamples do
       @codec          opts[:codec]         || __MODULE__
       examples      = opts[:examples]      || []
       decode_errors = opts[:decode_errors] || []
+      decode_errors2 = opts[:decode_errors2] || []
       new_errors    = opts[:new_errors]    || []
 
       alias MM1.Result
@@ -17,8 +18,8 @@ defmodule MM1.Codecs.BaseExamples do
       end
 
       Enum.each(examples, fn {bytes, value} ->
-        @bytes  bytes
-        @value  value
+        @bytes bytes
+        @value value
 
         test "decode(#{inspect bytes}) === #{inspect value}" do
           result = @codec.decode @bytes <> "rest"
@@ -26,6 +27,7 @@ defmodule MM1.Codecs.BaseExamples do
           assert result.module === @codec
           assert result.value  === @value
           assert result.err    === nil
+          assert result.bytes  === @bytes
           assert result.rest   === "rest"
         end
 
@@ -40,6 +42,7 @@ defmodule MM1.Codecs.BaseExamples do
           assert result.module === @codec
           assert result.value  === @value
           assert result.err    === nil
+          assert result.bytes  === @bytes
           assert result.rest   === <<>>
         end
 
@@ -53,20 +56,48 @@ defmodule MM1.Codecs.BaseExamples do
       end)
 
       Enum.each(decode_errors, fn {bytes, error, value} ->
-        @bytes  bytes
-        @result %Result{module: @codec, value: value, bytes: bytes, err: error}
+        @bytes bytes
+        @error error
+        @value value
 
         test "decode(#{inspect bytes}) => Error: #{inspect error}" do
-          assert @codec.decode(@bytes) === @result
+          result = @codec.decode(@bytes)
+
+          assert result.module === @codec
+          assert result.value  === @value
+          assert result.err    === @error
+          assert result.bytes <> result.rest   === @bytes
+        end
+      end)
+
+      Enum.each(decode_errors2, fn {input_bytes, error, value, bytes} ->
+        @input_bytes input_bytes
+        @error error
+        @value value
+        @bytes bytes
+
+        test "decode(#{inspect input_bytes}) => Error: #{inspect error}" do
+          result = @codec.decode(@input_bytes)
+
+          assert result.module === @codec
+          assert result.value  === @value
+          assert result.err    === @error
+          assert result.bytes  === @bytes
+          assert result.rest   === binary_part @input_bytes, byte_size(@bytes), byte_size(@input_bytes) - byte_size(@bytes)
         end
       end)
 
       Enum.each(new_errors, fn {value, error} ->
-        @value  value
-        @result %Result{module: @codec, value: value, err: error}
+        @value value
+        @error error
 
         test "new(#{inspect value}) == #{inspect error}" do
-          assert @codec.new(@value) === @result
+          result = @codec.new(@value)
+
+          assert result.module === @codec
+          assert result.value  === @value
+          assert result.err    === @error
+          assert result.rest   === <<>>
         end
       end)
     end
