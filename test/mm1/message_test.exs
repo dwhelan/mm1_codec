@@ -31,10 +31,10 @@ defmodule MM1.MessageTest do
   end
 
   test "new" do
-    assert new([
+    assert new(%Result{ value: [
              %Result{module: Bcc, value: ""},
              %Result{module: Cc,  value: ""}
-           ]) == %Result{
+           ]}) == %Result{
              module: Message,
              value: %Result{
                module: Headers,

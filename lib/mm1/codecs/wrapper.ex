@@ -15,11 +15,6 @@ defmodule MM1.Codecs.Wrapper do
     result.value |> codec.encode
   end
 
-  # Don't like this! - should not need to handle arg to new() differently
-  def new(list, codec, module) when is_list(list) do
-    list |> codec.new |> wrap(module)
-  end
-
   def new value, codec, module do
     value.value |> codec.new |> wrap(module)
   end
