@@ -16,7 +16,7 @@ defmodule WAP.ShortInteger do
   end
 
   def decode <<value, rest::binary>> do
-    decode_error :most_signficant_bit_must_be_1, value, <<value>>, rest
+    decode_error :most_signficant_bit_must_be_1, <<value>>, <<value>>, rest
   end
 
   def new(value) when is_short_integer(value) do
