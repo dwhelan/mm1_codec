@@ -35,11 +35,18 @@ defmodule MM1.Codecs.Composer do
   end
 
   defp value results do
-    results |> Enum.filter(& &1.err !== :previous_error) |> Enum.map(& &1.value)
+    error_index = Enum.find_index results, & &1.err
+    if error_index do
+      values_to_drop = length(results) - error_index - 1
+      results |> Enum.drop(-values_to_drop) |> Enum.map(& &1.value)
+    else
+      results |> Enum.map(& &1.value)
+    end
   end
 
   defp error results do
     Enum.find_value results, & &1.err
+#    Enum.find_value results, & &1.err
   end
 
   defp bytes results do
