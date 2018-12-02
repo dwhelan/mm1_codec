@@ -46,7 +46,8 @@ defmodule MM1.Codecs.Composer do
   end
 
   defp error results do
-    results |> Enum.find_value(& &1.err)
+    errors = results |> Enum.map(& &1.err)
+    if Enum.all?(errors, & is_nil &1), do: nil, else: errors
   end
 
   defp bytes results do

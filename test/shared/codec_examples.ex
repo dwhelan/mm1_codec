@@ -56,7 +56,7 @@ defmodule MM1.Codecs.BaseExamples do
         @bytes  bytes
         @result %Result{module: @codec, value: value, bytes: bytes, err: error}
 
-        test "decode(#{inspect bytes}) => Error: #{error}" do
+        test "decode(#{inspect bytes}) => Error: #{inspect error}" do
           assert @codec.decode(@bytes) === @result
         end
       end)
