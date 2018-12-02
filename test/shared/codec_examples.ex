@@ -20,47 +20,37 @@ defmodule MM1.Codecs.BaseExamples do
         @bytes  bytes
         @value  value
 
-        describe "decode(#{inspect bytes})" do
-          test "module === #{@codec}" do
-            assert @codec.decode(@bytes).module === @codec
-          end
+        test "decode(#{inspect bytes}) === #{inspect value}" do
+          result = @codec.decode @bytes
 
-          test "value === #{inspect @value}" do
-            assert @codec.decode(@bytes).value === @value
-          end
+          assert result.module === @codec
+          assert result.value  === @value
+          assert result.err    === nil
 
-          test "err === nil" do
-            assert @codec.decode(@bytes).err === nil
-          end
-
-          test "consumes the right number of bytes" do
-            assert @codec.decode(@bytes <> "rest").rest === "rest"
-          end
+          assert @codec.decode(@bytes <> "rest").rest === "rest"
         end
-
-        @result %Result{module: @codec, value: value, bytes: bytes}
-
 
         test "encode(#{inspect value}) == #{inspect bytes}" do
-          assert @codec.encode(@result) === @bytes
+          result = %Result{value: @value, bytes: @bytes}
+          assert @codec.encode(result) === @bytes
         end
 
-        describe "new(#{inspect value})" do
-          test "module === #{@codec}" do
-            assert @codec.new(@value).module === @codec
-          end
+        test "new(#{inspect value})" do
+          result = @codec.new @value
 
-          test "value === #{@codec}" do
-            assert @codec.new(@value).value === @value
-          end
+          assert result.module === @codec
+          assert result.value  === @value
+          assert result.err    === nil
+          assert result.rest   === <<>>
+        end
 
-          test "err === nil" do
-            assert @codec.new(@value).err === nil
-          end
+        test "#{@codec} #{inspect @bytes} |> decode |> encode === <bytes>" do
+          assert @bytes |> @codec.decode |> @codec.encode === @bytes
+        end
 
-          test "rest is empty" do
-            assert @codec.new(@value).rest === <<>>
-          end
+        test "#{@codec} #{inspect @value} |> new |> encode |> decode === new(#{inspect @value})" do
+          result = @codec.new @value
+          assert result |> @codec.encode |> @codec.decode === result
         end
       end)
 
