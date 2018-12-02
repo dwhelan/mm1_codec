@@ -19,6 +19,7 @@ defmodule MM1.Codecs.ComposerTest do
         { [-1,  1,  2], [:must_be_an_integer_between_0_and_127, nil, nil]},
         { [ 0, -1,  2], [nil, :must_be_an_integer_between_0_and_127, nil]},
         { [ 0,  1, -1], [nil, nil, :must_be_an_integer_between_0_and_127]},
+        { :not_a_list,  :must_be_a_list},
       ]
 
   def decode bytes do

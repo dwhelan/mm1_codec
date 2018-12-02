@@ -26,6 +26,10 @@ defmodule MM1.Codecs.Composer do
     %Result{module: module, err: :value_cannot_be_nil}
   end
 
+  def new(values, module) when is_list(values) == false do
+    %Result{module: module, err: :must_be_a_list, value: values}
+  end
+
   def new values, module do
     module.codecs()
     |> Enum.with_index
