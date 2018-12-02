@@ -3,7 +3,7 @@ defmodule MM1.Codecs.ComposerTest do
 
   alias WAP.ShortInteger
 
-  import MM1.Codecs.Composer
+  use MM1.Codecs.Composer, codecs: [ShortInteger, ShortInteger, ShortInteger]
 
   use MM1.Codecs.BaseExamples,
       examples: [
@@ -22,20 +22,4 @@ defmodule MM1.Codecs.ComposerTest do
         { [ 0,  1],     :incorrect_list_length},
         { :not_a_list,  :must_be_a_list},
       ]
-
-  def decode bytes do
-    decode bytes, __MODULE__
-  end
-
-  def encode result do
-    encode result, __MODULE__
-  end
-
-  def new values do
-    new values, __MODULE__
-  end
-
-  def codecs do
-   [ShortInteger, ShortInteger, ShortInteger]
-  end
 end
