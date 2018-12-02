@@ -1,15 +1,13 @@
 defmodule MM1.Codecs.ComposerTest do
   use ExUnit.Case
 
-  alias WAP.Byte
-  alias MM1.Result
+  alias WAP.ShortInteger
 
   import MM1.Codecs.Composer
 
   use MM1.Codecs.BaseExamples,
-      codec: __MODULE__,
       examples: [
-        {<<0, 1, 2>>, [0, 1, 2]}
+        {<<128, 129, 130>>, [0, 1, 2]}
       ]
 
   def decode bytes do
@@ -25,6 +23,6 @@ defmodule MM1.Codecs.ComposerTest do
   end
 
   def codecs do
-   [Byte, Byte, Byte]
+   [ShortInteger, ShortInteger, ShortInteger]
   end
 end

@@ -1,7 +1,7 @@
 defmodule MM1.Codecs.BaseExamples do
   defmacro __using__(opts) do
     quote bind_quoted: [opts: opts] do
-      @codec          opts[:codec]
+      @codec          opts[:codec]         || __MODULE__
       examples      = opts[:examples]      || []
       decode_errors = opts[:decode_errors] || []
       new_errors    = opts[:new_errors]    || []
