@@ -19,18 +19,48 @@ defmodule MM1.Codecs.BaseExamples do
       Enum.each(examples, fn {bytes, value} ->
         @bytes  bytes
         @value  value
+
+        describe "decode(#{inspect bytes})" do
+          test "module === #{@codec}" do
+            assert @codec.decode(@bytes).module === @codec
+          end
+
+          test "value === #{inspect @value}" do
+            assert @codec.decode(@bytes).value === @value
+          end
+
+          test "err === nil" do
+            assert @codec.decode(@bytes).err === nil
+          end
+
+          test "consumes the right number of bytes" do
+            assert @codec.decode(@bytes <> "rest").rest === "rest"
+          end
+        end
+
         @result %Result{module: @codec, value: value, bytes: bytes}
 
-        test "decode(#{inspect bytes}) == #{inspect value}" do
-          assert @codec.decode(@bytes <> "rest") === %Result{@result | rest: "rest"}
-        end
 
         test "encode(#{inspect value}) == #{inspect bytes}" do
           assert @codec.encode(@result) === @bytes
         end
 
-        test "new(#{inspect value}) == #{inspect bytes}" do
-          assert @codec.new(@value) === @result
+        describe "new(#{inspect value})" do
+          test "module === #{@codec}" do
+            assert @codec.new(@value).module === @codec
+          end
+
+          test "value === #{@codec}" do
+            assert @codec.new(@value).value === @value
+          end
+
+          test "err === nil" do
+            assert @codec.new(@value).err === nil
+          end
+
+          test "rest is empty" do
+            assert @codec.new(@value).rest === <<>>
+          end
         end
       end)
 
