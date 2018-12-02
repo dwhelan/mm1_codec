@@ -35,7 +35,7 @@ defmodule MM1.Codecs.Composer do
   end
 
   defp value results do
-    results |> Enum.map(& &1.value) |> Enum.filter(&!is_nil(&1))
+    results |> Enum.filter(& &1.err !== :previous_error) |> Enum.map(& &1.value)
   end
 
   defp error results do
