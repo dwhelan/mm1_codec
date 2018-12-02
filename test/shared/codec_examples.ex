@@ -21,13 +21,12 @@ defmodule MM1.Codecs.BaseExamples do
         @value  value
 
         test "decode(#{inspect bytes}) === #{inspect value}" do
-          result = @codec.decode @bytes
+          result = @codec.decode @bytes <> "rest"
 
           assert result.module === @codec
           assert result.value  === @value
           assert result.err    === nil
-
-          assert @codec.decode(@bytes <> "rest").rest === "rest"
+          assert result.rest   === "rest"
         end
 
         test "encode(#{inspect value}) == #{inspect bytes}" do
@@ -48,9 +47,8 @@ defmodule MM1.Codecs.BaseExamples do
           assert @bytes |> @codec.decode |> @codec.encode === @bytes
         end
 
-        test "#{@codec} #{inspect @value} |> new |> encode |> decode === new(#{inspect @value})" do
-          result = @codec.new @value
-          assert result |> @codec.encode |> @codec.decode === result
+        test "#{@codec} #{inspect @value} |> new |> encode  === <bytes>" do
+          assert @value |> @codec.new |> @codec.encode === @bytes
         end
       end)
 
