@@ -11,7 +11,8 @@ defmodule MM1.Codecs.ComposerTest do
       ],
 
       decode_errors: [
-        {<<0, 129, 130>>, :most_signficant_bit_must_be_1, []}
+        {<<  1, 129, 130>>, :most_signficant_bit_must_be_1, [1]},
+        {<<128,   1, 130>>, :most_signficant_bit_must_be_1, [0, 1]},
       ]
 
   def decode bytes do

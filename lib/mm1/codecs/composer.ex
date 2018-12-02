@@ -6,24 +6,27 @@ defmodule MM1.Codecs.Composer do
   end
 
   def decode bytes, module do
-    results = module.codecs()
-    |> List.foldl([%{rest: bytes, err: nil}], &decode_rest/2)
+    results =
+      module.codecs()
+      |> List.foldl([%Result{rest: bytes}], &decode_rest/2)
+      |> Enum.reverse
+      |> tl
 
-   error = hd(results).err
-
-    if (error != nil) do
-      %Result{module: module, err: error, value: [], bytes: bytes}
+    if last(results).err do
+      %Result{module: module, err: last(results).err, value: value(results), bytes: bytes}
     else
-     results |> Enum.reverse |> tl |> compose_result(module)
+      compose_result results, module
     end
   end
 
   defp decode_rest codec, results do
-    previous_result = hd(results)
-    result = case previous_result do
-      %{err: nil} -> codec.decode(previous_result.rest)
-      _ -> previous_result
+    previous = hd results
+
+    result = case previous do
+      %{err: nil} -> codec.decode previous.rest
+      _           -> %Result{module: codec, err: previous.err}
     end
+
     [result | results]
   end
 
@@ -42,12 +45,22 @@ defmodule MM1.Codecs.Composer do
     |> compose_result(module)
   end
 
+  defp value results do
+    results
+    |> Enum.map(& &1.value)
+    |> Enum.filter(&!is_nil(&1))
+  end
+
   defp compose_result results, module do
     %Result{
       module: module,
-      value:  Enum.map(results, & &1.value),
-      bytes:  List.foldl(results, <<>>, & &2 <> &1.bytes),
-      rest:   Enum.at(results, -1).rest
+      value: value(results),
+      bytes: List.foldl(results, <<>>, & &2 <> &1.bytes),
+      rest: last(results).rest
     }
+  end
+
+  defp last results do
+    Enum.at results, -1
   end
 end
