@@ -2,12 +2,10 @@ defmodule MM1.Codecs.Composer do
   alias MM1.Result
 
   defmacro __using__(opts) do
-    quote bind_quoted: [
-            codecs: opts[:codecs]
-          ] do
-      @codecs codecs
-
+    quote bind_quoted: [codecs: opts[:codecs]] do
       import MM1.Codecs.Composer
+
+      @codecs codecs
 
       def decode bytes do
         decode bytes, __MODULE__
@@ -36,7 +34,7 @@ defmodule MM1.Codecs.Composer do
     |> List.foldl([%Result{rest: bytes}], &decode_rest/2)
     |> Enum.reverse
     |> tl
-    |> composed_result(module, bytes)
+    |> composed_result(module)
   end
 
   defp decode_rest codec, results do
@@ -65,59 +63,32 @@ defmodule MM1.Codecs.Composer do
       codecs
       |> Enum.with_index
       |> Enum.map(fn {codec, index} -> codec.new(Enum.at(values, index)) end)
-        #      |> List.foldl([%Result{}],
-        #           fn {codec, index}, results ->
-        #             previous = hd results
-        #             if previous && previous.err, do: results, else: [codec.new(Enum.at(values, index)) | results]
-        #           end
-        #         )
-        #      |> Enum.reverse
-        #      |> tl
       |> composed_result(module)
     end
   end
 
-  defp new value, {codec, index}, results do
-  end
-
-  defp composed_result results, module, bytes \\ <<>> do
-    if error(results) do
-      %Result{module: module, value: value(results), err: error(results), bytes: bytes(results), rest: rest(results)}
-    else
-      %Result{module: module, value: value(results), err: error(results), bytes: bytes(results), rest: rest(results)}
-    end
+  defp composed_result results, module do
+    %Result{module: module, value: value(results), err: error(results), bytes: bytes(results), rest: rest(results)}
   end
 
   defp value results do
-    results
-    |> Enum.map(& &1.value)
+    Enum.map(results, & &1.value)
   end
 
   defp error results do
-    errors = results
-             |> Enum.map(& &1.err)
+    errors = Enum.map(results, & &1.err)
     if Enum.all?(errors, &is_nil &1), do: nil, else: errors
   end
 
   defp bytes results do
-    {_, bytes} =
-      results
-      |> List.foldl(
-           {[%Result{}], <<>>},
-           fn result, {results, bytes} ->
-             if hd(results).err == nil do
-               {[result || results], bytes <> result.bytes}
-             else
-               {results, bytes}
-             end
-           end
-         )
+    {_, bytes} = List.foldl(results, {[%Result{}], <<>>},
+      fn result, {results, bytes} ->
+        if hd(results).err, do: {results, bytes}, else: {[result | results], bytes <> result.bytes}
+      end)
     bytes
   end
 
   defp rest results do
-    (
-      results
-      |> Enum.at(-1)).rest
+    Enum.at(results, -1).rest
   end
 end
