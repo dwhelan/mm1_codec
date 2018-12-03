@@ -16,12 +16,12 @@ defmodule MM1.Codecs.Mapper do
         @codec
       end
 
-      def map result do
-        %MM1.Result{result | module: __MODULE__, value: get(result.value, @map)}
+      def map result_value do
+        get result_value, @map
       end
 
-      def unmap value do
-        get value, @unmap
+      def unmap mapped_value do
+        get mapped_value, @unmap
       end
 
       defp get key, map do
@@ -31,7 +31,7 @@ defmodule MM1.Codecs.Mapper do
   end
 
   def decode bytes, module do
-    bytes |> module.codec().decode |> module.map
+    bytes |> module.codec().decode |> map(module)
   end
 
   def encode result, module do
@@ -39,7 +39,11 @@ defmodule MM1.Codecs.Mapper do
   end
 
   def new value, module do
-    value |> module.unmap |> module.codec().new |> module.map
+    value |> module.unmap |> module.codec().new |> map(module)
+  end
+
+  def map result, module do
+    %MM1.Result{result | module: module, value: module.map(result.value)}
   end
 
   def invert map do

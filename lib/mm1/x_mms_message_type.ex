@@ -2,7 +2,7 @@ defmodule MM1.XMmsMessageType.Codec do
   alias MM1.Codecs.Mapper
 
   use Mapper,
-      codec:  WAP.ShortInteger,
+      codec: WAP.ShortInteger,
       values: [
         :m_send_conf,
         :m_notification_ind,
