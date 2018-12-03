@@ -1,74 +1,39 @@
 defmodule MM1.Headers do
   # Based on OMA-WAP-MMS-ENC-V1_1-20040715-A: Table 12. Field Name Assignments
-#  @headers [
-#    Bcc:                       0x01,
-#    Cc:                        0x02,
-#    #XMmsContentLocation:       0x03,
-#    #ContentType:               0x04,
-#    #Date:                      0x05,
-#    #XMmsDeliveryReport:        0x06,
-#    #M1:XMmsDeliveryTime,       0x07,
-#    #M1:XMmsExpiry,             0x08,
-#    #M1:From,                   0x09,
-#    #M1:XMmsMessageClass,       0x0a,
-#    #M1:MessageID,              0x0b,
-#    XMmsMessageType:           0x0c,
-#    #XMmsMMSVersion:            0x0d,
-#    XMmsMessageSize:           0x0e,
-#    #XMmsPriority:              0x0f,
-#    #XMmsReportAllowed:         0x11,
-#    #XMmsResponseStatus:        0x12,
-#    #XMmsResponseText:          0x13,
-#    #XMmsSenderVisibility:      0x14,
-#    #XMmsReadReport:            0x10,
-#    #XMmsStatus:                0x15,
-#    #Subject:                   0x16,
-#    #To:                        0x17,
-#    #XMmsTransactionId:         0x18,
-#    #XMmsRetrieveStatus:        0x19,
-#    #XMmsRetrieveText:          0x1a,
-#    #XMmsReadStatus:            0x1b,
-#    #XMmsReplyCharging:         0x1c,
-#    #XMmsReplyChargingDeadline: 0x1d,
-#    #XMmsReplyChargingID:       0x1e,
-#    #XMmsReplyChargingSize:     0x1f,
-#    #XMmsPreviouslySentBy:      0x20,
-#    #XMmsPreviouslySentDate:    0x21,
-#  ]
   headers = [
-    Bcc:                       0x01,
-    Cc:                        0x02,
-    #XMmsContentLocation:       0x03,
-    #ContentType:               0x04,
-    #Date:                      0x05,
-    #XMmsDeliveryReport:        0x06,
-    #M1:XMmsDeliveryTime,       0x07,
-    #M1:XMmsExpiry,             0x08,
-    #M1:From,                   0x09,
-    #M1:XMmsMessageClass,       0x0a,
-    #M1:MessageID,              0x0b,
-    XMmsMessageType:           0x0c,
-    #XMmsMMSVersion:            0x0d,
-    XMmsMessageSize:           0x0e,
-    #XMmsPriority:              0x0f,
-    #XMmsReportAllowed:         0x11,
-    #XMmsResponseStatus:        0x12,
-    #XMmsResponseText:          0x13,
-    #XMmsSenderVisibility:      0x14,
-    #XMmsReadReport:            0x10,
-    #XMmsStatus:                0x15,
-    #Subject:                   0x16,
-    #To:                        0x17,
-    #XMmsTransactionId:         0x18,
-    #XMmsRetrieveStatus:        0x19,
-    #XMmsRetrieveText:          0x1a,
-    #XMmsReadStatus:            0x1b,
-    #XMmsReplyCharging:         0x1c,
-    #XMmsReplyChargingDeadline: 0x1d,
-    #XMmsReplyChargingID:       0x1e,
-    #XMmsReplyChargingSize:     0x1f,
-    #XMmsPreviouslySentBy:      0x20,
-    #XMmsPreviouslySentDate:    0x21,
+    MM1.Bcc,
+    MM1.Cc,
+    #MM1.XMmsContentLocation,
+    #MM1.ContentType,
+    #MM1.Date,
+    #MM1.XMmsDeliveryReport,
+    #MM1.M1:XMmsDeliveryTime,
+    #MM1.M1:XMmsExpiry,
+    #MM1.M1:From,
+    #MM1.M1:XMmsMessageClass,
+    #MM1.M1:MessageID,
+    MM1.XMmsMessageType,
+    #MM1.XMmsMMSVersion,
+    MM1.XMmsMessageSize,
+    #MM1.XMmsPriority,
+    #MM1.XMmsReportAllowed,
+    #MM1.XMmsResponseStatus,
+    #MM1.XMmsResponseText,
+    #MM1.XMmsSenderVisibility,
+    #MM1.XMmsReadReport,
+    #MM1.XMmsStatus,
+    #MM1.Subject,
+    #MM1.To,
+    #MM1.XMmsTransactionId,
+    #MM1.XMmsRetrieveStatus,
+    #MM1.XMmsRetrieveText,
+    #MM1.XMmsReadStatus,
+    #MM1.XMmsReplyCharging,
+    #MM1.XMmsReplyChargingDeadline,
+    #MM1.XMmsReplyChargingID,
+    #MM1.XMmsReplyChargingSize,
+    #MM1.XMmsPreviouslySentBy,
+    #MM1.XMmsPreviouslySentDate,
   ]
   use MM1.Codecs.Base
   import MM1.Result
@@ -77,16 +42,17 @@ defmodule MM1.Headers do
     decode bytes, []
   end
 
-  headers
-  |> Enum.each(fn {header, value} ->
-    @module      :"Elixir.MM1.#{header}"
-    @header_byte @module.header_byte
+  Enum.each(headers,
+    fn header ->
+      @module      header
+      @header_byte @module.header_byte
 
-    defp decode <<@header_byte, _::binary>> = bytes, headers do
-      %{rest: rest} = header = @module.decode bytes
-      decode rest, [header | headers]
+      defp decode <<@header_byte, _ :: binary>> = bytes, headers do
+        %{rest: rest} = header = @module.decode bytes
+        decode rest, [header | headers]
+      end
     end
-  end)
+  )
 
   defp decode rest, headers do
     decode_ok Enum.reverse(headers), <<>>, rest
