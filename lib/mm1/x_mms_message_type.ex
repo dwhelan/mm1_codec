@@ -1,5 +1,6 @@
 defmodule MM1.XMmsMessageType do
   use MM1.Header,
+      value: 0x8c,
       codec: WAP.ShortInteger,
       map: [
         :m_send_conf,

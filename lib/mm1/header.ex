@@ -10,7 +10,7 @@ defmodule MM1.Header do
         MM1.Codecs.Mapper.create @codec, opts
       end
 
-      @header MM1.Headers.header_byte __MODULE__
+      @header opts[:value]
 
       def header_byte do
         @header
