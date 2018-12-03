@@ -18,11 +18,11 @@ defmodule MM1.HeadersTest do
     @module module
     @bytes  bytes
 
-    test "decode(#{inspect bytes}) => #{header_name module}" do
+    test "decode(#{inspect bytes}) => #{module}" do
       assert %{module: Headers, value: [%{module: @module}]} = decode @bytes
     end
 
-    test "encode([#{header_name module}]) => #{inspect bytes}" do
+    test "encode([#{module}]) => #{inspect bytes}" do
       assert @bytes |> decode |> encode == @bytes
     end
   end)

@@ -62,10 +62,6 @@ defmodule MM1.Headers do
     result.value |> Enum.map(& &1.bytes) |> Enum.join
   end
 
-  def header_name module do
-    module |> to_string |> String.split(".") |> List.last
-  end
-
   def new do
     new_ok [], <<>>
   end
