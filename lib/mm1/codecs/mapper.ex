@@ -15,6 +15,10 @@ defmodule MM1.Codecs.Mapper do
     %MM1.Result{result | module: module, value: get(result.value, map)}
   end
 
+  def get_map do
+
+  end
+
   defp get key, map do
     Map.get map, key, key
   end

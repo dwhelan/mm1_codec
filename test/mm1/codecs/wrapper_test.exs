@@ -12,14 +12,18 @@ defmodule MM1.Codecs.WrapperTest do
       ]
 
   def decode bytes do
-    decode bytes, __MODULE__, Byte
+    decode bytes, __MODULE__
   end
 
   def encode result do
-    encode result, __MODULE__, Byte
+    encode result, __MODULE__
   end
 
   def new value do
-    new value, __MODULE__, Byte
+    new value, __MODULE__
+  end
+
+  def codec do
+    Byte
   end
 end
