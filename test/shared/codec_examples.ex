@@ -4,7 +4,6 @@ defmodule MM1.Codecs.BaseExamples do
       @codec          opts[:codec]         || __MODULE__
       examples      = opts[:examples]      || []
       decode_errors = opts[:decode_errors] || []
-      decode_errors2 = opts[:decode_errors2] || []
       new_errors    = opts[:new_errors]    || []
 
       alias MM1.Result
@@ -55,35 +54,29 @@ defmodule MM1.Codecs.BaseExamples do
         end
       end)
 
-      Enum.each(decode_errors, fn {bytes, error, value} ->
-        @bytes bytes
-        @error error
-        @value value
-
-        test "decode(#{inspect bytes}) => Error: #{inspect error}" do
-          result = @codec.decode(@bytes)
-
-          assert result.module === @codec
-          assert result.value  === @value
-          assert result.err    === @error
-          assert result.bytes <> result.rest   === @bytes
+      Enum.each(decode_errors, fn test_case ->
+        if (tuple_size(test_case) == 3) do
+          {input, error, value} = test_case
+          @input input
+          @error error
+          @value value
+          @bytes <<>>
+        else
+          {input, error, value, bytes} = test_case
+          @input input
+          @error error
+          @value value
+          @bytes bytes
         end
-      end)
 
-      Enum.each(decode_errors2, fn {input_bytes, error, value, bytes} ->
-        @input_bytes input_bytes
-        @error error
-        @value value
-        @bytes bytes
-
-        test "decode(#{inspect input_bytes}) => Error: #{inspect error}" do
-          result = @codec.decode(@input_bytes)
+        test "decode(#{inspect @input}) => Error: #{inspect @error}" do
+          result = @codec.decode(@input)
 
           assert result.module === @codec
           assert result.value  === @value
           assert result.err    === @error
           assert result.bytes  === @bytes
-          assert result.rest   === binary_part @input_bytes, byte_size(@bytes), byte_size(@input_bytes) - byte_size(@bytes)
+          assert result.rest   === binary_part @input, byte_size(@bytes), byte_size(@input) - byte_size(@bytes)
         end
       end)
 

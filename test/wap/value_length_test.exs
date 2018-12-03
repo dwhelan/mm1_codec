@@ -16,8 +16,8 @@ defmodule WAP.ValueLengthTest do
     ],
 
     decode_errors: [
-      {<<32>>, :first_byte_must_be_less_than_32, 32},
-      {<<length_quote, 128, 255, 255, 255, 255, 127>>, :uintvar_length_must_be_5_bytes_or_less, 34_359_738_367}
+      {<<32>>, :first_byte_must_be_less_than_32, 32, <<32>>},
+      {<<length_quote, 128, 255, 255, 255, 255, 127>>, :uintvar_length_must_be_5_bytes_or_less, 34_359_738_367, <<length_quote, 128, 255, 255, 255, 255, 127>>}
     ],
 
     new_errors: [

@@ -18,7 +18,7 @@ defmodule WAP.UintvarTest do
       ],
 
       decode_errors: [
-        {<<128, 255, 255, 255, 255, 127>>, :uintvar_length_must_be_5_bytes_or_less, 34_359_738_367}
+        {<<128, 255, 255, 255, 255, 127>>, :uintvar_length_must_be_5_bytes_or_less, 34_359_738_367, <<128, 255, 255, 255, 255, 127>>}
       ],
 
       new_errors: [

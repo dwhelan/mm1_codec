@@ -8,6 +8,6 @@ defmodule WAP.TextStringTest do
     ],
 
     decode_errors: [
-      {<<"text">>, :missing_terminator, "text"}
+      {<<"text">>, :missing_terminator, "text", <<"text">>}
     ]
 end

@@ -11,7 +11,7 @@ defmodule WAP.EncodedStringTest do
     ],
 
     decode_errors: [
-      {<<"text">>,          :missing_terminator, "text"},
-      {<<6, 0xea, "text">>, :missing_terminator, {6, :csUTF8, "text"}},
+      {<<"text">>,          :missing_terminator,              "text",           <<"text">>},
+      {<<6, 0xea, "text">>, :missing_terminator, {6, :csUTF8, "text"}, <<6, 0xea, "text">>},
     ]
 end
