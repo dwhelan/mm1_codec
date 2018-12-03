@@ -6,7 +6,7 @@ defmodule MM1.Codecs.WrapperTest do
 
   import MM1.Codecs.Wrapper
 
-  use MM1.Codecs.BaseExamples,
+  use MM1.Codecs.TestExamples,
       examples: [
         {<<0>>, %Result{module: Byte, value: 0, bytes: <<0>>}}
       ]

@@ -5,7 +5,7 @@ defmodule MM1.Codecs.ComposerTest do
 
   use MM1.Codecs.Composer, codecs: [ShortInteger, ShortInteger, ShortInteger]
 
-  use MM1.Codecs.BaseExamples,
+  use MM1.Codecs.TestExamples,
       examples: [
         {<<128, 129, 130>>, [0, 1, 2]}
       ],

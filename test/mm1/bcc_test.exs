@@ -5,7 +5,7 @@ defmodule MM1.BccTest do
 
   header_byte = Bcc.header_byte()
 
-  use MM1.Codecs.BaseExamples, codec: Bcc,
+  use MM1.Codecs.TestExamples, codec: Bcc,
     examples: [
       {<<header_byte, "abc", 0>>, "abc"}
     ]

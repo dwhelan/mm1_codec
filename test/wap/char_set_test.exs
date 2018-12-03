@@ -1,7 +1,7 @@
 defmodule WAP.CharSetTest do
   use ExUnit.Case
 
-  use MM1.Codecs.BaseExamples, codec: WAP.CharSet,
+  use MM1.Codecs.TestExamples, codec: WAP.CharSet,
     examples: [
       {<<0xea>>,          :csUTF8   },
       {<<2, 0x03, 0xe8>>, :csUnicode},

@@ -1,7 +1,7 @@
 defmodule WAP.ShortLengthTest do
   use ExUnit.Case
 
-  use MM1.Codecs.BaseExamples, codec: WAP.ShortLength,
+  use MM1.Codecs.TestExamples, codec: WAP.ShortLength,
     examples: [
       {<< 0>>,  0},
       {<<30>>, 30},

@@ -7,7 +7,7 @@ defmodule MM1.Codecs.MapperTest do
       codec: WAP.Byte,
       map:   %{0 => false, 1 => true}
 
-  use MM1.Codecs.BaseExamples,
+  use MM1.Codecs.TestExamples,
       examples: [
         {<<0>>, false},
         {<<1>>, true},
@@ -24,7 +24,7 @@ defmodule MM1.Codecs.OrdinalMapperTest do
       codec: WAP.Byte,
       map:   Mapper.ordinal_map [false, true]
 
-  use MM1.Codecs.BaseExamples,
+  use MM1.Codecs.TestExamples,
       examples: [
         {<<0>>, false},
         {<<1>>, true},
