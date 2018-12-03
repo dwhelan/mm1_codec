@@ -15,14 +15,14 @@ defmodule MM1.Codecs.Mapper.MapTest do
       ]
 end
 
-defmodule MM1.Codecs.Mapper.ValuesTest do
+defmodule MM1.Codecs.Mapper.ListTest do
   use ExUnit.Case
 
   alias MM1.Codecs.Mapper
 
   use Mapper,
       codec:  WAP.Byte,
-      values: [false, true]
+      map:    [false, true]
 
   use MM1.Codecs.TestExamples,
       examples: [
