@@ -3,12 +3,17 @@ defmodule MM1.Codecs.Mapper do
   use MM1.Codecs.Checks
 
   defmacro __using__(opts) do
-    quote bind_quoted: [codec: opts[:codec], map: opts[:map]] do
+    quote bind_quoted: [codec: opts[:codec], map: opts[:map], values: opts[:values]] do
       import MM1.Codecs.Mapper
       use MM1.Codecs.Extend
 
-      @map   map
-      @unmap MM1.Codecs.Mapper.invert map
+      @codec codec
+      @map   if map, do: map, else: MM1.Codecs.Mapper.ordinal_map(values)
+      @unmap MM1.Codecs.Mapper.invert @map
+
+      def codec do
+        @codec
+      end
 
       def map result do
         %MM1.Result{result | module: __MODULE__, value: get(result.value, @map)}
