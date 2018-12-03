@@ -17,10 +17,7 @@ defmodule MM1.Codecs.BaseExamples do
       end
 
       Enum.each(examples, fn {bytes, value} ->
-        @bytes bytes
-        @value value
-        @error nil
-        @rest  "rest"
+        @bytes bytes; @value value; @error nil; @rest "rest"
 
         test "decode(#{inspect bytes}) === #{inspect value}" do
           assert_result @codec.decode(@bytes <> @rest), @value, @error, @bytes, @rest
@@ -31,10 +28,8 @@ defmodule MM1.Codecs.BaseExamples do
           assert @codec.encode(result) === @bytes
         end
 
-        @rest  <<>>
-
         test "new(#{inspect value})" do
-          assert_result @codec.new(@value), @value, @error, @bytes, @rest
+          assert_result @codec.new(@value), @value, @error, @bytes, <<>>
         end
 
         test "#{@codec} #{inspect @bytes} |> decode |> encode === <bytes>" do
@@ -47,14 +42,12 @@ defmodule MM1.Codecs.BaseExamples do
       end)
 
       Enum.each(decode_errors, fn test_case ->
-        if (tuple_size(test_case) == 3) do
-          {input, error, value} = test_case
-          @input input; @error error; @value value; @bytes <<>>
-        else
-          {input, error, value, bytes} = test_case
-          @input input; @error error; @value value; @bytes bytes
-        end
-        @rest binary_part @input, byte_size(@bytes), byte_size(@input) - byte_size(@bytes)
+        {input, error, value, bytes} = if (tuple_size(test_case) == 3), do: Tuple.append(test_case, <<>>), else: test_case
+        @input input; @error error; @value value; @bytes bytes
+
+        rest_start  = byte_size(bytes)
+        rest_length = byte_size(input) - rest_start
+        @rest binary_part(@input, rest_start, rest_length)
 
         test "decode(#{inspect @input}) => Error: #{inspect @error}" do
           assert_result @codec.decode(@input), @value, @error, @bytes, @rest
@@ -62,14 +55,8 @@ defmodule MM1.Codecs.BaseExamples do
       end)
 
       Enum.each(new_errors, fn test_case ->
-        if (tuple_size(test_case) == 2) do
-          {value, error} = test_case
-          @value value; @error error; @bytes <<>>
-        else
-          {value, error, bytes} = test_case
-          @value value; @error error; @bytes bytes
-        end
-        @rest <<>>
+        {value, error, bytes} = if (tuple_size(test_case) == 2), do: Tuple.append(test_case, <<>>), else: test_case
+        @value value; @error error; @bytes bytes; @rest <<>>
 
         test "new(#{inspect @value}) == #{inspect @error}" do
           assert_result @codec.new(@value), @value, @error, @bytes, @rest
