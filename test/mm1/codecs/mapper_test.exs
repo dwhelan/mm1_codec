@@ -8,7 +8,6 @@ defmodule MM1.Codecs.MapperTest do
       map:   %{0 => false, 1 => true}
 
   use MM1.Codecs.BaseExamples,
-      codec: __MODULE__,
       examples: [
         {<<0>>, false},
         {<<1>>, true},
@@ -26,7 +25,6 @@ defmodule MM1.Codecs.OrdinalMapperTest do
       map:   Mapper.ordinal_map [false, true]
 
   use MM1.Codecs.BaseExamples,
-      codec: __MODULE__,
       examples: [
         {<<0>>, false},
         {<<1>>, true},
