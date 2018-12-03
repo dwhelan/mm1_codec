@@ -64,6 +64,10 @@ defmodule MM1.Codecs.TestExamples do
       end)
 
       def assert_result result, value, error, bytes, rest do
+        assert is_atom @codec
+        assert is_binary bytes
+        assert is_binary rest
+        assert value !== nil || error !== nil
         assert result == %Result{module: @codec, value: value, err: error, bytes: bytes, rest: rest}
       end
     end
