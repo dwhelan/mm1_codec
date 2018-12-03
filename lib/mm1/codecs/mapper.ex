@@ -9,23 +9,19 @@ defmodule MM1.Codecs.Mapper do
       use MM1.Codecs.Extend
 
       @codec codec
-      @map   if map, do: map, else: Mapper.ordinal_map(values)
-      @unmap Mapper.invert @map
+      @map   if map, do: map, else: values |> Enum.with_index |> Enum.reduce(%{}, fn {v, i}, map -> Map.put(map, i, v) end)
+      @unmap @map |> Enum.reduce(%{}, fn {k,v}, unmap -> Map.put(unmap, v, k) end)
 
       def codec do
         @codec
       end
 
       def map result_value do
-        get result_value, @map
+        Map.get @map, result_value, result_value
       end
 
       def unmap mapped_value do
-        get mapped_value, @unmap
-      end
-
-      defp get key, map do
-        Map.get map, key, key
+        Map.get @unmap, mapped_value, mapped_value
       end
     end
   end
@@ -44,13 +40,5 @@ defmodule MM1.Codecs.Mapper do
 
   def map result, module do
     %MM1.Result{result | module: module, value: module.map(result.value)}
-  end
-
-  def invert map do
-    map |> Enum.reduce(%{}, fn {k,v}, unmap -> Map.put(unmap, v, k) end)
-  end
-
-  def ordinal_map values do
-    values |> Enum.with_index |> Enum.reduce(%{}, fn {v, i}, map -> Map.put(map, i, v) end)
   end
 end
