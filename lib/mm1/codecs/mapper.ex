@@ -1,4 +1,14 @@
 defmodule MM1.Codecs.Mapper do
+  alias MM1.Codecs.Mapper
+
+  def create module, opts do
+    options = Macro.escape(opts)
+    contents = quote do
+      use Mapper, unquote(options)
+    end
+
+    Module.create module, contents, Macro.Env.location(__ENV__)
+  end
 
   use MM1.Codecs.Checks
 

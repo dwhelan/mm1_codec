@@ -1,9 +1,14 @@
 defmodule MM1.Header do
   defmacro __using__(opts) do
-    quote bind_quoted: [codec: opts[:codec]] do
-      @codec codec
+    quote bind_quoted: [opts: opts] do
+      @codec opts[:codec]
 
       use MM1.Codecs.Default
+
+      if opts[:map] do
+        @codec String.to_atom "#{__MODULE__}.Codec"
+        MM1.Codecs.Mapper.create @codec, opts
+      end
 
       @header MM1.Headers.header_byte __MODULE__
 
@@ -12,15 +17,15 @@ defmodule MM1.Header do
       end
 
       def decode <<@header, bytes::binary>> do
-        bytes |> @codec.decode |> map_result |> set_module
+        bytes |> @codec.decode |> map_result
       end
 
       def new value do
-        value |> @codec.new |> map_result |> set_module
+        value |> @codec.new |> map_result
       end
 
-      def map_result result do
-        %MM1.Result{result | bytes: <<@header>> <> result.bytes}
+      defp map_result result do
+        %MM1.Result{result | module: __MODULE__, bytes: <<header_byte()>> <> result.bytes}
       end
     end
   end

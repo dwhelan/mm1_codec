@@ -1,3 +1,21 @@
+defmodule MM1.Codecs.Mapper.CreateTest do
+  use ExUnit.Case
+
+  alias MM1.Codecs.Mapper
+  alias MM1.Codecs.Mapper.ByteMapper
+  import Mapper
+
+  create ByteMapper, codec: WAP.Byte, map: %{0 => false, 1 => true}
+
+  use MM1.Codecs.TestExamples,
+      codec: ByteMapper,
+      examples: [
+        {<<0>>, false},
+        {<<1>>, true},
+        {<<2>>, 2},
+      ]
+end
+
 defmodule MM1.Codecs.Mapper.MapTest do
   use ExUnit.Case
 

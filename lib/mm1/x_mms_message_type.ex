@@ -1,7 +1,5 @@
-defmodule MM1.XMmsMessageType.Codec do
-  alias MM1.Codecs.Mapper
-
-  use Mapper,
+defmodule MM1.XMmsMessageType do
+  use MM1.Header,
       codec: WAP.ShortInteger,
       map: [
         :m_send_conf,
@@ -16,8 +14,4 @@ defmodule MM1.XMmsMessageType.Codec do
         :m_forward_ind,
         :m_forward_conf,
       ]
-end
-
-defmodule MM1.XMmsMessageType do
-  use MM1.Header, codec: MM1.XMmsMessageType.Codec
 end
