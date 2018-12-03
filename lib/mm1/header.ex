@@ -16,17 +16,12 @@ defmodule MM1.Header do
       end
 
       def new value do
-        value |> map_value |> @codec.new |> map_result |> set_module
+        value |> @codec.new |> map_result |> set_module
       end
 
       def map_result result do
         %MM1.Result{result | bytes: <<@header>> <> result.bytes}
       end
-
-      def map_value value do
-        value
-      end
-
     end
   end
 end
