@@ -6,7 +6,6 @@ defmodule MM1.Codecs.BaseExamples do
       decode_errors = opts[:decode_errors] || []
       decode_errors2 = opts[:decode_errors2] || []
       new_errors    = opts[:new_errors]    || []
-      new_errors2    = opts[:new_errors2]    || []
 
       alias MM1.Result
 
@@ -88,26 +87,20 @@ defmodule MM1.Codecs.BaseExamples do
         end
       end)
 
-      Enum.each(new_errors, fn {value, error} ->
-        @value value
-        @error error
-
-        test "new(#{inspect value}) == #{inspect error}" do
-          result = @codec.new(@value)
-
-          assert result.module === @codec
-          assert result.value  === @value
-          assert result.err    === @error
-          assert result.rest   === <<>>
+      Enum.each(new_errors, fn test_case ->
+        if (tuple_size(test_case) == 2) do
+          {value, error} = test_case
+          @value value
+          @error error
+          @bytes <<>>
+        else
+          {value, error, bytes} = test_case
+          @value value
+          @error error
+          @bytes bytes
         end
-      end)
 
-      Enum.each(new_errors2, fn {value, error, bytes} ->
-        @value value
-        @error error
-        @bytes bytes
-
-        test "new(#{inspect value}) == #{inspect error}" do
+        test "new(#{inspect @value}) == #{inspect @error}" do
           result = @codec.new(@value)
 
           assert result.module === @codec
