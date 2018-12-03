@@ -3,7 +3,11 @@ defmodule MM1.Codecs.ComposerTest do
 
   alias WAP.ShortInteger
 
-  use MM1.Codecs.Composer, codecs: [ShortInteger, ShortInteger, ShortInteger]
+  use MM1.Codecs.Composer
+
+  def codecs do
+    [ShortInteger, ShortInteger, ShortInteger]
+  end
 
   use MM1.Codecs.TestExamples,
       examples: [

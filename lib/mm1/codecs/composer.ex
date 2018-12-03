@@ -2,10 +2,8 @@ defmodule MM1.Codecs.Composer do
   alias MM1.Result
 
   defmacro __using__(opts) do
-    quote bind_quoted: [codecs: opts[:codecs]] do
+    quote do
       import MM1.Codecs.Composer
-
-      @codecs codecs
 
       def decode bytes do
         decode bytes, __MODULE__
@@ -17,10 +15,6 @@ defmodule MM1.Codecs.Composer do
 
       def new values do
         new values, __MODULE__
-      end
-
-      def codecs do
-        @codecs
       end
     end
   end
