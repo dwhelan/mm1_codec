@@ -3,6 +3,24 @@ defmodule MM1.Codecs.Wrapper do
 
   use MM1.Codecs.Checks
 
+  defmacro __using__(opts) do
+    quote do
+      import MM1.Codecs.Wrapper
+
+      def decode bytes do
+        decode bytes, __MODULE__
+      end
+
+      def encode result do
+        encode result, __MODULE__
+      end
+
+      def new values do
+        new values, __MODULE__
+      end
+    end
+  end
+
   def decode bytes, module do
     bytes |> module.codec().decode |> wrap(module)
   end
