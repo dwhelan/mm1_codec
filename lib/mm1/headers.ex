@@ -66,11 +66,6 @@ defmodule MM1.Headers do
     module |> to_string |> String.split(".") |> List.last
   end
 
-  def header_byte module do
-    value = module |> header_name |> String.to_atom
-    @headers[value] + 128
-  end
-
   def new do
     new_ok [], <<>>
   end
