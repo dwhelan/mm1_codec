@@ -16,6 +16,10 @@ defmodule MM1.XMmsMessageType.Codec do
         :m_forward_ind,
         :m_forward_conf,
       ]
+
+  def codec do
+    WAP.ShortInteger
+  end
 end
 
 defmodule MM1.XMmsMessageType do
@@ -37,21 +41,21 @@ defmodule MM1.XMmsMessageType do
     :m_forward_ind,
     :m_forward_conf,
   ]
-  @unmap Mapper.unmap(@map)
+  @unmap Mapper.invert(@map)
 
   def header_byte do
     140
   end
 
-  def decode <<140, bytes::binary>> do
-    decode bytes, WAP.ShortInteger, __MODULE__, @map
-  end
-
-  def encode result do
-    encode result, WAP.ShortInteger, __MODULE__
-  end
-
-  def new value do
-    new value, WAP.ShortInteger, __MODULE__, @map, @unmap
-  end
+#  def decode <<140, bytes::binary>> do
+#    decode bytes, WAP.ShortInteger, __MODULE__, @map
+#  end
+#
+#  def encode result do
+#    encode result, WAP.ShortInteger, __MODULE__
+#  end
+#
+#  def new value do
+#    new value, WAP.ShortInteger, __MODULE__, @map, @unmap
+#  end
 end

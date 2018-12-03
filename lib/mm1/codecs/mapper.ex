@@ -1,48 +1,21 @@
 defmodule MM1.Codecs.Mapper do
-  def decode bytes, codec, module, map do
-    bytes |> codec.decode |> map(module, map)
-  end
 
-  def encode result, codec, _module do
-    result |> codec.encode
-  end
-
-  def new value, codec, module, map, unmap do
-    value |> get(unmap) |> codec.new |> map(module, map)
-  end
-
-  defp map result, module, map do
-    %MM1.Result{result | module: module, value: get(result.value, map)}
-  end
-
-  def get_map do
-
-  end
-
-  defp get key, map do
-    Map.get map, key, key
-  end
+  use MM1.Codecs.Checks
 
   defmacro __using__(opts) do
     quote bind_quoted: [codec: opts[:codec], map: opts[:map]] do
-      @codec codec
+      import MM1.Codecs.Mapper
+      use MM1.Codecs.Extend
+
       @map   map
-      @unmap MM1.Codecs.Mapper.unmap map
+      @unmap MM1.Codecs.Mapper.invert map
 
-      def decode bytes do
-        bytes |> @codec.decode |> map
-      end
-
-      def encode result do
-        result |> @codec.encode
-      end
-
-      def new value do
-        value |> get(@unmap) |> @codec.new |> map
-      end
-
-      defp map result do
+      def map result do
         %MM1.Result{result | module: __MODULE__, value: get(result.value, @map)}
+      end
+
+      def unmap value do
+        get value, @unmap
       end
 
       defp get key, map do
@@ -51,7 +24,19 @@ defmodule MM1.Codecs.Mapper do
     end
   end
 
-  def unmap map do
+  def decode bytes, module do
+    bytes |> module.codec().decode |> module.map
+  end
+
+  def encode result, module do
+    result |> module.codec().encode
+  end
+
+  def new value, module do
+    value |> module.unmap |> module.codec().new |> module.map
+  end
+
+  def invert map do
     map |> Enum.reduce(%{}, fn {k,v}, unmap -> Map.put(unmap, v, k) end)
   end
 
