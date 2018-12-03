@@ -2,7 +2,6 @@ defmodule MM1.Codecs.WrapperTest do
   use ExUnit.Case
 
   alias WAP.Byte
-  alias MM1.Result
 
   use MM1.Codecs.Wrapper
 
