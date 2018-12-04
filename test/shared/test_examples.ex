@@ -9,12 +9,17 @@ defmodule MM1.Codecs.TestExamples do
       alias MM1.Result
       alias MM1.Codecs.Test
 
-      test "decode(<<>>)" do
-        assert @codec.decode(<<>>) === %Result{module: @codec, value: nil, err: :insufficient_bytes}
+
+      test "decode(nil)" do
+        assert @codec.decode(nil) === %Result{module: @codec, value: nil, err: :must_be_a_binary}
       end
 
       test "decode(not_a_binary)" do
         assert @codec.decode(:not_a_binary) === %Result{module: @codec, value: nil, err: :must_be_a_binary}
+      end
+
+      test "decode(<<>>)" do
+        assert @codec.decode(<<>>) === %Result{module: @codec, value: nil, err: :insufficient_bytes}
       end
 
       test "new(nil)" do
