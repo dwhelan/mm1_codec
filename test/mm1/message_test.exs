@@ -4,6 +4,7 @@ defmodule MM1.MessageTest do
   alias MM1.{Result, Headers, Message, Bcc, Cc}
   import Message
 
+  @tag :skip
   test "decode" do
     assert decode(<<129, 0, 130, 0>>) == %Result{
              module: Message,
@@ -30,6 +31,7 @@ defmodule MM1.MessageTest do
            }) == <<129, 0, 130, 0>>
   end
 
+  @tag :skip
   test "new" do
     assert new(%Result{ value: [
              %Result{module: Bcc, value: ""},

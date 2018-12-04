@@ -37,7 +37,8 @@ defmodule MM1.Headers do
   ]
 
   use MM1.Codecs.Base
-  import MM1.Result
+  alias MM1.Result
+  import Result
 
   def decode bytes do
     decode bytes, []
@@ -57,8 +58,7 @@ defmodule MM1.Headers do
 
   defp decode rest, headers do
     headers = Enum.reverse headers
-    bytes = List.foldl(headers, <<>>, fn header, bytes -> bytes <> header.bytes end)
-    %Result{module: __MODULE__, value: headers, bytes: bytes, rest: Enum.at(headers, -1).rest}
+    %Result{module: __MODULE__, value: headers, bytes: bytes(headers), rest: Enum.at(headers, -1).rest}
   end
 
   def encode result do
@@ -70,10 +70,14 @@ defmodule MM1.Headers do
   end
 
   def new headers do
-    new_ok Enum.map(headers, fn header -> header.module.new(header.value)  end), <<>>
+    %Result{module: __MODULE__, value: headers, bytes: bytes(headers)}
   end
 
   def add headers, header do
-    %MM1.Result{headers | value: headers.value ++ [header]}
+    %Result{headers | value: headers.value ++ [header]}
+  end
+
+  defp bytes headers do
+    List.foldl(headers, <<>>, fn header, bytes -> bytes <> header.bytes end)
   end
 end

@@ -3,8 +3,6 @@ defmodule MM1.Headers2Test do
   alias MM1.{Result, Headers}
   alias MM1.{XMmsMessageSize}
 
-#  import Headers
-
   use MM1.Codecs.TestExamples,
       codec: Headers,
       examples: [
