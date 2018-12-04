@@ -9,10 +9,13 @@ defmodule MM1.Codecs.Default do
         %Result{module: __MODULE__, err: :insufficient_bytes}
       end
 
+      def encode result do
+        result.bytes
+      end
+
       def new nil do
         %Result{module: __MODULE__, err: :value_cannot_be_nil}
       end
-      use MM1.Codecs.Encode
     end
   end
 end
