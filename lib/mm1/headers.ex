@@ -36,7 +36,7 @@ defmodule MM1.Headers do
     #MM1.XMmsPreviouslySentDate,
   ]
 
-  use MM1.Codecs.Default
+  use MM1.Codecs.Base
   alias MM1.Result
   import Result
 

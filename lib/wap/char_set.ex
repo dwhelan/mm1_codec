@@ -11,7 +11,7 @@ defmodule WAP.CharSet do
   """
   alias WAP.{CharSets, ShortInteger, LongInteger}
 
-  use MM1.Codecs.Default
+  use MM1.Codecs.Base
 
   def decode(<<byte, _::binary>> = bytes) when is_short_integer_byte(byte) do
     _decode bytes, ShortInteger

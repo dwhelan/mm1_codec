@@ -1,5 +1,5 @@
 defmodule WAP.ValueLength do
-  use MM1.Codecs.Default
+  use MM1.Codecs.Base
   alias WAP.{ShortLength, Uintvar}
   alias MM1.Result
 

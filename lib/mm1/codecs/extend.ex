@@ -1,7 +1,7 @@
 defmodule MM1.Codecs.Extend do
   defmacro __using__(_opts) do
     quote do
-      use MM1.Codecs.Default
+      use MM1.Codecs.Base
 
       def decode bytes do
         decode bytes, __MODULE__

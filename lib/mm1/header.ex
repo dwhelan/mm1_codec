@@ -3,7 +3,7 @@ defmodule MM1.Header do
     quote bind_quoted: [opts: opts] do
       @codec opts[:codec]
 
-      use MM1.Codecs.Default
+      use MM1.Codecs.Base
 
       if opts[:map] do
         @codec String.to_atom "#{__MODULE__}.Codec"

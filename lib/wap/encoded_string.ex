@@ -1,5 +1,5 @@
 defmodule WAP.EncodedString do
-  use MM1.Codecs.Default
+  use MM1.Codecs.Base
   alias MM1.Result
 
   alias WAP.{ValueLength, CharSet, TextString}
