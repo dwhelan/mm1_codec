@@ -1,50 +1,21 @@
 defmodule MM1.MessageTest do
   use ExUnit.Case
 
-  alias MM1.{Result, Headers, Message, Bcc, Cc}
-  import Message
+  alias MM1.{Result, Headers, Message}
 
-  @tag :skip
-  test "decode" do
-    assert decode(<<129, 0, 130, 0>>) == %Result{
-             module: Message,
-             value: %Result{
-               module: Headers,
-               value: [
-                 %Result{bytes: <<129, 0>>, module: Bcc, value: "", rest: <<130, 0>>},
-                 %Result{bytes: <<130, 0>>, module: Cc,  value: ""}
-               ]
-             }
-           }
-  end
-
-  test "encode" do
-    assert encode(%Result{
-             module: Message,
-             value: %Result{
-               module: Headers,
-               value: [
-                 %Result{bytes: <<129, 0>>, module: Bcc, value: "", rest: <<130, 0>>},
-                 %Result{bytes: <<130, 0>>, module: Cc,  value: ""}
-               ]
-             }
-           }) == <<129, 0, 130, 0>>
-  end
-
-  @tag :skip
-  test "new" do
-    assert new(%Result{ value: [
-             %Result{module: Bcc, value: ""},
-             %Result{module: Cc,  value: ""}
-           ]}) == %Result{
-             module: Message,
-             value: %Result{
-               module: Headers,
-               value: [
-                 %Result{bytes: <<129, 0>>, module: Bcc, value: ""},
-                 %Result{bytes: <<130, 0>>, module: Cc,  value: ""}
-               ]
-             }
-           }
-  end
+  use MM1.Codecs.TestExamples,
+      codec: Message,
+      examples: [
+        {
+          <<0x81, "x", 0, 0x82, "x", 0>>,
+          %Result{
+            bytes: <<0x81, "x", 0, 0x82, "x", 0>>,
+            module: Headers,
+            value: [
+              %Result{module: MM1.Bcc, value: "x", bytes: <<0x81, "x", 0>>, rest: <<0x82, "x", 0, "rest">>},
+              %Result{module: MM1.Cc,  value: "x", bytes: <<0x82, "x", 0>>, rest: "rest"                  }
+            ]
+          }
+        },
+      ]
 end
