@@ -2,14 +2,14 @@ defmodule WAP.TextString do
   use MM1.Codecs.Base
 
   def decode <<bytes::binary>> do
-    handle String.split bytes, <<0>>, parts: 2
+    _decode String.split bytes, <<0>>, parts: 2
   end
 
-  defp handle [text | [rest]] do
+  defp _decode [text | [rest]] do
     decode_ok text, text <> <<0>>, rest
   end
 
-  defp handle [text | []] do
+  defp _decode [text | []] do
     decode_error :missing_terminator, text, text, <<>>
   end
 

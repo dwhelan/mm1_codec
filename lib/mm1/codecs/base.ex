@@ -5,6 +5,10 @@ defmodule MM1.Codecs.Base do
       alias MM1.Result
       import Result
 
+      def decode(value) when is_binary(value) == false do
+        %Result{module: __MODULE__, err: :must_be_a_binary}
+      end
+
       def decode <<>> do
         %Result{module: __MODULE__, err: :insufficient_bytes}
       end
