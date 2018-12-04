@@ -58,7 +58,7 @@ defmodule MM1.Headers do
 
   defp decode rest, headers do
     headers = Enum.reverse headers
-    %Result{module: __MODULE__, value: headers, bytes: bytes(headers), rest: rest}
+    decode_ok headers, bytes(headers), rest
   end
 
   def new do
@@ -66,7 +66,7 @@ defmodule MM1.Headers do
   end
 
   def new headers do
-    %Result{module: __MODULE__, value: headers, bytes: bytes(headers)}
+    new_ok headers, bytes(headers)
   end
 
   def add headers, header do
