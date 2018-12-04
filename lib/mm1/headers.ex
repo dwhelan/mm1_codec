@@ -36,7 +36,7 @@ defmodule MM1.Headers do
     #MM1.XMmsPreviouslySentDate,
   ]
 
-  use MM1.Codecs.Base
+  use MM1.Codecs.Default
   alias MM1.Result
   import Result
 
@@ -61,9 +61,9 @@ defmodule MM1.Headers do
     %Result{module: __MODULE__, value: headers, bytes: bytes(headers), rest: Enum.at(headers, -1).rest}
   end
 
-  def encode result do
-    result.value |> Enum.map(& &1.bytes) |> Enum.join
-  end
+#  def encode result do
+#    result.value |> Enum.map(& &1.bytes) |> Enum.join
+#  end
 
   def new do
     new_ok [], <<>>
@@ -78,6 +78,6 @@ defmodule MM1.Headers do
   end
 
   defp bytes headers do
-    List.foldl(headers, <<>>, fn header, bytes -> bytes <> header.bytes end)
+    headers |> List.foldl(<<>>, & &2 <> &1.bytes)
   end
 end
