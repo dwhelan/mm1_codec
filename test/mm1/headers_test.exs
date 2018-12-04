@@ -14,38 +14,38 @@ defmodule MM1.HeadersTest do
    {MM1.XMmsMessageSize, <<142,   0>>},
   ]
 
-  Enum.each(headers, fn {module, bytes} ->
-    @module module
-    @bytes  bytes
-
-    test "decode(#{inspect bytes}) => #{module}" do
-      assert %{module: Headers, value: [%{module: @module}]} = decode @bytes
-    end
-
-    test "encode([#{module}]) => #{inspect bytes}" do
-      assert @bytes |> decode |> encode == @bytes
-    end
-  end)
-
-  describe "new" do
-    test "new() returns a Result with empty headers" do
-      assert new() == %Result{module: Headers, value: []}
-    end
-
-    test "new([]) returns a Result with empty headers" do
-      assert new([]) == %Result{module: Headers, value: []}
-    end
-
-    test "new([%Result{value}]) should create new bytes" do
-      bcc = MM1.Bcc.new "abc"
-      assert new([bcc]).value == [%Result{bcc | bytes: <<129, "abc", 0>>}]
-    end
-  end
-
-  test "add" do
-    bcc = MM1.Bcc.new "abc"
-    headers = add new(), bcc
-    assert headers.value == [bcc]
-  end
+#  Enum.each(headers, fn {module, bytes} ->
+#    @module module
+#    @bytes  bytes
+#
+#    test "decode(#{inspect bytes}) => #{module}" do
+#      assert %{module: Headers, value: [%{module: @module}]} = decode @bytes
+#    end
+#
+#    test "encode([#{module}]) => #{inspect bytes}" do
+#      assert @bytes |> decode |> encode == @bytes
+#    end
+#  end)
+#
+#  describe "new" do
+#    test "new() returns a Result with empty headers" do
+#      assert new() == %Result{module: Headers, value: []}
+#    end
+#
+#    test "new([]) returns a Result with empty headers" do
+#      assert new([]) == %Result{module: Headers, value: []}
+#    end
+#
+#    test "new([%Result{value}]) should create new bytes" do
+#      bcc = MM1.Bcc.new "abc"
+#      assert new([bcc]).value == [%Result{bcc | bytes: <<129, "abc", 0>>}]
+#    end
+#  end
+#
+#  test "add" do
+#    bcc = MM1.Bcc.new "abc"
+#    headers = add new(), bcc
+#    assert headers.value == [bcc]
+#  end
 
 end

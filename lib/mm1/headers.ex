@@ -56,7 +56,9 @@ defmodule MM1.Headers do
   )
 
   defp decode rest, headers do
-    decode_ok Enum.reverse(headers), <<>>, rest
+    headers = Enum.reverse headers
+    bytes = List.foldl(headers, <<>>, fn header, bytes -> bytes <> header.bytes end)
+    %Result{module: __MODULE__, value: headers, bytes: bytes, rest: Enum.at(headers, -1).rest}
   end
 
   def encode result do
