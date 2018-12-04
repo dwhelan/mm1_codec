@@ -1,19 +1,9 @@
 defmodule MM1.Codecs.Mapper do
   alias MM1.Codecs.Mapper
 
-  def create module, opts do
-    options = Macro.escape(opts)
-    contents = quote do
-      use Mapper, unquote(options)
-    end
-
-    Module.create module, contents, Macro.Env.location(__ENV__)
-  end
-
   defmacro __using__(opts) do
     quote bind_quoted: [opts: opts] do
-      alias MM1.Codecs.Mapper
-      import Mapper
+      import MM1.Codecs.Mapper
       use MM1.Codecs.Extend
 
       @codec opts[:codec]
@@ -42,22 +32,23 @@ defmodule MM1.Codecs.Mapper do
     end
   end
 
+  def create module, opts do
+    options  = Macro.escape(opts)
+    contents = quote do use Mapper, unquote(options) end
+
+    Module.create module, contents, Macro.Env.location(__ENV__)
+  end
+
   def decode bytes, module do
-    bytes
-    |> module.codec().decode
-    |> map(module)
+    bytes |> module.codec().decode |> map(module)
   end
 
   def encode result, module do
-    result
-    |> module.codec().encode
+    result |> module.codec().encode
   end
 
   def new value, module do
-    value
-    |> module.unmap
-    |> module.codec().new
-    |> map(module)
+    value |> module.unmap |> module.codec().new |> map(module)
   end
 
   def map result, module do
