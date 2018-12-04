@@ -1,4 +1,7 @@
 defmodule MM1.Codecs.Base do
+  @module_docs """
+test
+  """
   defmacro __using__(_opts) do
     quote do
       import WAP.Guards
@@ -11,6 +14,10 @@ defmodule MM1.Codecs.Base do
 
       def decode <<>> do
         %Result{module: __MODULE__, err: :insufficient_bytes}
+      end
+
+      def encode nil do
+        :value_cannot_be_nil
       end
 
       def encode result do
