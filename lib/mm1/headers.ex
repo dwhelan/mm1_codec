@@ -50,20 +50,16 @@ defmodule MM1.Headers do
       @header_byte @module.header_byte
 
       defp decode <<@header_byte, _ :: binary>> = bytes, headers do
-        %{rest: rest} = header = @module.decode bytes
-        decode rest, [header | headers]
+        header = @module.decode bytes
+        decode header.rest, [header | headers]
       end
     end
   )
 
   defp decode rest, headers do
     headers = Enum.reverse headers
-    %Result{module: __MODULE__, value: headers, bytes: bytes(headers), rest: Enum.at(headers, -1).rest}
+    %Result{module: __MODULE__, value: headers, bytes: bytes(headers), rest: rest}
   end
-
-#  def encode result do
-#    result.value |> Enum.map(& &1.bytes) |> Enum.join
-#  end
 
   def new do
     new_ok [], <<>>

@@ -14,8 +14,8 @@ defmodule WAP.Guards do
     is_integer value, 0, 127
   end
 
-  defmacro is_short_integer_byte byte do
-    is_integer byte, 128, 255
+  defmacro is_short_integer_byte value do
+    is_integer value, 128, 255
   end
 
   defmacro is_byte value do
