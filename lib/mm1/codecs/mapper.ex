@@ -10,8 +10,6 @@ defmodule MM1.Codecs.Mapper do
     Module.create module, contents, Macro.Env.location(__ENV__)
   end
 
-  use MM1.Codecs.Checks
-
   defmacro __using__(opts) do
     quote bind_quoted: [opts: opts] do
       alias MM1.Codecs.Mapper

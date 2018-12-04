@@ -1,8 +1,6 @@
 defmodule MM1.Codecs.Wrapper do
   alias MM1.Result
 
-  use MM1.Codecs.Checks
-
   defmacro __using__(opts) do
     quote do
       import MM1.Codecs.Wrapper

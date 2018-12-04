@@ -35,6 +35,7 @@ defmodule MM1.Headers do
     #MM1.XMmsPreviouslySentBy,
     #MM1.XMmsPreviouslySentDate,
   ]
+
   use MM1.Codecs.Base
   import MM1.Result
 
