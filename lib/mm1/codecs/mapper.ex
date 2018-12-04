@@ -4,7 +4,7 @@ defmodule MM1.Codecs.Mapper do
   defmacro __using__(opts) do
     quote bind_quoted: [opts: opts] do
       import MM1.Codecs.Mapper
-      use MM1.Codecs.Extend
+      use MM1.Codecs.Extender
 
       @codec opts[:codec]
 

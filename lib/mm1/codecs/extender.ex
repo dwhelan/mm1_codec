@@ -1,4 +1,4 @@
-defmodule MM1.Codecs.Extend do
+defmodule MM1.Codecs.Extender do
   defmacro __using__(_opts) do
     quote do
       use MM1.Codecs.Base

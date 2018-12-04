@@ -4,7 +4,7 @@ defmodule MM1.Codecs.Composer do
   defmacro __using__(opts) do
     quote do
       import MM1.Codecs.Composer
-      use MM1.Codecs.Extend
+      use MM1.Codecs.Extender
     end
   end
 

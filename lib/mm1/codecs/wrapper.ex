@@ -4,7 +4,7 @@ defmodule MM1.Codecs.Wrapper do
   defmacro __using__(opts) do
     quote do
       import MM1.Codecs.Wrapper
-      use MM1.Codecs.Extend
+      use MM1.Codecs.Extender
     end
   end
 
