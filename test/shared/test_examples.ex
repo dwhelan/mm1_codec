@@ -7,6 +7,7 @@ defmodule MM1.Codecs.TestExamples do
       new_errors    = opts[:new_errors]    || []
 
       alias MM1.Result
+      alias MM1.Codecs.Test
 
       test "insufficient bytes" do
         assert @codec.decode(<<>>) === %Result{module: @codec, value: nil, err: :insufficient_bytes}
@@ -19,16 +20,16 @@ defmodule MM1.Codecs.TestExamples do
       Enum.each(examples, fn {bytes, value} ->
         @bytes bytes; @value value; @error nil; @rest "rest"
 
-        test "decode(#{inspect bytes}) === #{inspect value}" do
+        test "decode(#{inspect bytes}) === #{Test.inspect value}" do
           assert_result @codec.decode(@bytes <> @rest), @value, @error, @bytes, @rest
         end
 
-        test "encode(#{inspect value}) == #{inspect bytes}" do
+        test "encode(#{Test.inspect value}) == #{inspect @bytes}" do
           result = %Result{value: @value, bytes: @bytes}
           assert @codec.encode(result) === @bytes
         end
 
-        test "new(#{inspect value})" do
+        test "new(#{Test.inspect value})" do
           assert_result @codec.new(@value), @value, @error, @bytes, <<>>
         end
 
@@ -36,7 +37,7 @@ defmodule MM1.Codecs.TestExamples do
           assert @bytes |> @codec.decode |> @codec.encode === @bytes
         end
 
-        test "#{@codec} #{inspect @value} |> new |> encode  === <bytes>" do
+        test "#{@codec} #{Test.inspect @value} |> new |> encode  === <bytes>" do
           assert @value |> @codec.new |> @codec.encode === @bytes
         end
       end)
@@ -58,7 +59,7 @@ defmodule MM1.Codecs.TestExamples do
         {value, error, bytes} = if (tuple_size(test_case) == 2), do: Tuple.append(test_case, <<>>), else: test_case
         @value value; @error error; @bytes bytes; @rest <<>>
 
-        test "new(#{inspect @value}) == #{inspect @error}" do
+        test "new(#{Test.inspect @value}) == #{inspect @error}" do
           assert_result @codec.new(@value), @value, @error, @bytes, @rest
         end
       end)
