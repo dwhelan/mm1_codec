@@ -16,12 +16,12 @@ end
 
 # Codec functions
 
-## decode(binary) -> Result
-It must return a `%MM1.Result{}` with:
-- `module` set to the codec moule, i.e.`__MODULE__`
+## decode
+`decode(input)` must return a `%MM1.Result{}` with:
+- `module` set to the module of the codec, i.e.`__MODULE__`
 - `bytes` set to the bytes consumed by the codec
 - `rest` set to remaining bytes
-- `bytes <> rest` must equal `binary`
+- `bytes <> rest` equal to `input`
 
 If the input can be decoded:
 - `value` set to the codec's understanding of the bytes consumed (non `nil`)
@@ -29,12 +29,15 @@ If the input can be decoded:
 
 If the input cannot be decoded:
 - `value` set to `nil`
-- `err` set to a list of error atoms
+- `err` set to a list of error atoms:
+    - `:must_be_a_binary` if `input` is not a `binary`
+    - `:insufficient_bytes` if `input == <<>>`
+    - or an error specific to the codec
 
 ## encode(Result) -> binary
 
 # Base decoder     
-If you `use MM1.Base` in a module many of the responsibilites of the Codec functions will be provided:
+If you `use MM1.Base` in your    module many of the responsibilites of the Codec functions will be provided:
 - your module's `decode/1` function is guaranteed to be passed a non-zero length `binary`.
 
 # Documentation

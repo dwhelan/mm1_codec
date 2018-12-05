@@ -3,10 +3,8 @@ defmodule MM1.XMmsMessageSizeTest do
 
   alias MM1.XMmsMessageSize
 
-  header_byte = XMmsMessageSize.header_byte()
-
   use MM1.Codecs.TestExamples, codec: XMmsMessageSize,
       examples: [
-        {<<header_byte, 1, 42>>, 42}
+        {<<0x8e, 1, 42>>, 42}
       ]
 end
