@@ -30,7 +30,7 @@ defmodule WAP2.ShortLengthTest do
       ],
 
       decode_errors: [
-        {<<31>>, :must_be_an_integer_between_0_and_30, 31, <<31>>},
+        {<<31>>, :must_be_an_integer_between_0_and_30},
       ],
 
       encode_errors: [
