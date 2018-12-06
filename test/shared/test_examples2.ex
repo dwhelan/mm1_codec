@@ -11,7 +11,7 @@ defmodule MM1.Codecs2.TestExamples do
         @value value
 
         test "decode(#{inspect bytes}) === {:ok, #{inspect value}}" do
-          assert @codec.decode(@bytes <> "rest") === {:ok, {@value, "rest"}}
+          assert @codec.decode(@bytes <> "rest") === {:ok, {@value, [@codec], "rest"}}
         end
 
         test "encode(#{inspect value}) === {:ok, #{inspect bytes}}" do

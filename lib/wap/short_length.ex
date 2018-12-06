@@ -22,7 +22,7 @@ defmodule WAP2.ShortLength do
   import WAP.Guards
 
   def decode(<<value, rest::binary>>) when is_short_length(value) do
-    {:ok, {value, rest}}
+    {:ok, {value, [__MODULE__], rest}}
   end
 
   def decode <<value, rest::binary>> do
