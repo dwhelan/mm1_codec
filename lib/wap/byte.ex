@@ -18,7 +18,7 @@ defmodule WAP2.Byte do
   import WAP.Guards
 
   def decode <<value, rest::binary>> do
-    {:ok, value, rest}
+    {:ok, {value, rest}}
   end
 
   def encode(value) when is_byte(value) do
