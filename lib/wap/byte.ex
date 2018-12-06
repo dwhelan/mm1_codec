@@ -26,6 +26,6 @@ defmodule WAP2.Byte do
   end
 
   def encode value do
-    {:err, :must_be_an_integer_between_0_and_255}
+    {:error, :must_be_an_integer_between_0_and_255}
   end
 end

@@ -53,25 +53,25 @@ defmodule MM1.Codecs2.TestExamples do
 #        end
       end)
 
-#      Enum.each(decode_errors, fn test_case ->
-#        {input, error, value, bytes} = if (tuple_size(test_case) == 3), do: Tuple.append(test_case, <<>>), else: test_case
-#        @input input; @error error; @value value; @bytes bytes
-#
-#        rest_start  = byte_size(bytes)
-#        rest_length = byte_size(input) - rest_start
-#        @rest binary_part(@input, rest_start, rest_length)
-#
-#        test "decode(#{inspect @input}) => Error: #{inspect @error}" do
-#          assert_result @codec.decode(@input), @value, @error, @bytes, @rest
-#        end
-#      end)
+      Enum.each(decode_errors, fn test_case ->
+        {input, error, value, bytes} = if (tuple_size(test_case) == 3), do: Tuple.append(test_case, <<>>), else: test_case
+        @input input; @error error; @value value; @bytes bytes
+
+        rest_start  = byte_size(bytes)
+        rest_length = byte_size(input) - rest_start
+        @rest binary_part(@input, rest_start, rest_length)
+
+        test "decode(#{inspect @input}) => Error: #{inspect @error}" do
+          assert @codec.decode(@input) === {:error, @error}
+        end
+      end)
 
       Enum.each(encode_errors, fn test_case ->
         {value, error, bytes} = if (tuple_size(test_case) == 2), do: Tuple.append(test_case, <<>>), else: test_case
         @value value; @error error; @bytes bytes; @rest <<>>
 
         test "encode(#{Test.inspect @value}) => {:err, #{inspect @error}}" do
-          assert @codec.encode(@value) === {:err, @error}
+          assert @codec.encode(@value) === {:error, @error}
         end
       end)
 
