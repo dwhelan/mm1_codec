@@ -33,7 +33,7 @@ defmodule MM1.Codecs2.TestExamples do
         @error error
 
         test "encode(#{inspect @value}) => {:error, #{inspect @error}}" do
-          assert @codec.encode(@value) === {:error, {@error, @codec}}
+          assert @codec.encode(@value) === {:error, {@error, @codec, @value}}
         end
       end)
     end

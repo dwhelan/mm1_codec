@@ -52,7 +52,7 @@ defmodule WAP2.ShortInteger do
     ok <<value+128>>, value
   end
 
-  def encode _ do
-    error :must_be_an_integer_between_0_and_127
+  def encode value do
+    error :must_be_an_integer_between_0_and_127, value
   end
 end
