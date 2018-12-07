@@ -31,18 +31,6 @@ defmodule WAP.Guards do
     end
   end
 
-  defmacro encode2(value, codec) do
-    quote do
-      unquote(value) |> unquote(codec).encode |> return
-    end
-  end
-
-  defmacro encode3(value, codec) do
-    quote do
-      unquote(value) |> unquote(codec).encode |> return
-    end
-  end
-
   # Guards
   defp is_integer value, min, max do
     quote do
