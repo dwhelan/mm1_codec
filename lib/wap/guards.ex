@@ -25,6 +25,12 @@ defmodule WAP.Guards do
     end
   end
 
+  defmacro error reason, rest do
+    quote do
+      {:error, {unquote(reason), __MODULE__, unquote(rest)}}
+    end
+  end
+
   defmacro encode2(value, codec) do
     quote do
       unquote(value) |> unquote(codec).encode |> return
