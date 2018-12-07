@@ -29,14 +29,17 @@ end
 defmodule MM1.Codecs2.Wrapper do
   defmacro wrap codec do
     quote do
+      import WAP.Guards
+
+      @codec unquote(codec)
+
       def decode bytes do
-        {result, { x, codec             , rest}} = bytes |> unquote(codec).decode
+        {result, { x, codec             , rest}} = bytes |> @codec.decode
         {result, {{x, codec}, __MODULE__, rest}}
       end
 
       def encode {value, _codec} do
-        {result, {x, _codec    }} = value |> unquote(codec).encode
-        {result, {x, __MODULE__}}
+        encode2(value, @codec)
       end
     end
   end

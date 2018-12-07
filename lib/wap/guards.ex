@@ -1,8 +1,8 @@
 defmodule WAP.Guards do
   # Should be in MM1.Codec?
-  defmacro return x do
+  defmacro return result do
     quote do
-      {result, {value, _module}} = unquote(x)
+      {result, {value, _module}} = unquote(result)
       {result, {value, __MODULE__}}
     end
   end
@@ -22,6 +22,12 @@ defmodule WAP.Guards do
   defmacro error reason do
     quote do
       {:error, {unquote(reason), __MODULE__}}
+    end
+  end
+
+  defmacro encode2(value, codec) do
+    quote do
+      unquote(value) |> unquote(codec).encode |> return
     end
   end
 

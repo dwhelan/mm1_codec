@@ -66,12 +66,15 @@ defmodule MM1.Codecs2.Mapper do
       @unmap @map |>                    Enum.reduce(%{}, fn {k, v}, unmap -> Map.put(unmap, v, k) end)
 
       def decode bytes do
-        {result, {value,     codec      , rest}} = bytes |> unquote(@codec).decode
-        ok map(value), rest
+        bytes |> @codec.decode |> map
       end
 
       def encode value do
-        return value |> unmap |> unquote(@codec).encode
+        value |> unmap |> encode2(@codec)
+      end
+
+      defp map {result, {value, codec, rest}} do
+        {result, {map(value), __MODULE__, rest}}
       end
 
       defp map value do
