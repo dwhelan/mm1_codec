@@ -1,4 +1,9 @@
 defmodule WAP.Guards do
+  defmacro return value, rest do
+    quote do
+      {:ok, {unquote(value), __MODULE__, unquote(rest)}}
+    end
+  end
 
   defp is_integer value, min, max do
     quote do
