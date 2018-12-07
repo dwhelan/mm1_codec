@@ -13,12 +13,6 @@ defmodule WAP.Guards do
     end
   end
 
-  defmacro error reason do
-    quote do
-      {:error, {unquote(reason), __MODULE__}}
-    end
-  end
-
   defmacro error reason, other do
     quote do
       {:error, {unquote(reason), __MODULE__, unquote(other)}}
