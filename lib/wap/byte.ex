@@ -18,14 +18,14 @@ defmodule WAP2.Byte do
   import WAP.Guards
 
   def decode <<value, rest::binary>> do
-    {:ok, {value, [__MODULE__], rest}}
+    {:ok, {value, __MODULE__, rest}}
   end
 
   def encode(value) when is_byte(value) do
-    {:ok, <<value>>}
+    {:ok, {<<value>>, __MODULE__}}
   end
 
   def encode value do
-    {:error, :must_be_an_integer_between_0_and_255}
+    {:error, {:must_be_an_integer_between_0_and_255, __MODULE__}}
   end
 end

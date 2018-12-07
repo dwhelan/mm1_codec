@@ -22,18 +22,18 @@ defmodule WAP2.ShortLength do
   import WAP.Guards
 
   def decode(<<value, rest::binary>>) when is_short_length(value) do
-    {:ok, {value, [__MODULE__], rest}}
+    {:ok, {value, __MODULE__, rest}}
   end
 
   def decode <<value, rest::binary>> do
-    {:error, :must_be_an_integer_between_0_and_30}
+    {:error, {:must_be_an_integer_between_0_and_30, __MODULE__}}
   end
 
   def encode(value) when is_short_length(value) do
-    {:ok, <<value>>}
+    {:ok, {<<value>>, __MODULE__}}
   end
 
   def encode value do
-    {:error, :must_be_an_integer_between_0_and_30}
+    {:error, {:must_be_an_integer_between_0_and_30, __MODULE__}}
   end
 end
