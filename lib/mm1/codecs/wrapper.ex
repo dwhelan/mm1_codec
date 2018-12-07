@@ -38,8 +38,9 @@ defmodule MM1.Codecs2.Wrapper do
         {result, {{x, codec}, __MODULE__, rest}}
       end
 
-      def encode {value, _codec} do
-        encode2(value, @codec)
+      def encode {value, codec} do
+        {result, {x, _codec    , _value}} = value |> @codec.encode
+        {result, {x, __MODULE__, {value, codec}}}
       end
     end
   end

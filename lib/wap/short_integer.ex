@@ -49,7 +49,7 @@ defmodule WAP2.ShortInteger do
   end
 
   def encode(value) when is_short_integer(value) do
-    ok <<value+128>>
+    ok <<value+128>>, value
   end
 
   def encode _ do

@@ -22,7 +22,7 @@ defmodule WAP2.Byte do
   end
 
   def encode(value) when is_byte(value) do
-    ok <<value>>
+    ok <<value>>, value
   end
 
   def encode value do
