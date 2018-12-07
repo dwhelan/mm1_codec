@@ -30,7 +30,7 @@ defmodule WAP2.ShortIntegerTest do
       ],
 
       decode_errors: [
-#        {<<127>>, :most_signficant_bit_must_be_1},
+        {<<127>>, :most_signficant_bit_must_be_1},
       ],
 
       encode_errors: [

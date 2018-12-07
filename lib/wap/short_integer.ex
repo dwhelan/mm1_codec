@@ -44,8 +44,8 @@ defmodule WAP2.ShortInteger do
     ok value, rest
   end
 
-  def decode <<_, rest::binary>> do
-    error :most_signficant_bit_must_be_1, rest
+  def decode bytes do
+    error :most_signficant_bit_must_be_1, bytes
   end
 
   def encode(value) when is_short_integer(value) do

@@ -24,7 +24,7 @@ defmodule MM1.Codecs2.TestExamples do
         @error error
 
         test "decode(#{inspect @bytes}) => {:error, {#{inspect @error}}}" do
-          assert @codec.decode(@bytes) === {:error, {@error, @codec}}
+          assert @codec.decode(@bytes) === {:error, {@error, @codec, @bytes}}
         end
       end)
 
