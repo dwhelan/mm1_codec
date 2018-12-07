@@ -60,18 +60,18 @@ defmodule MM1.Codecs2.Mapper do
 
   defmacro map codec, map do
     quote bind_quoted: [codec: codec, map: map] do
+      import WAP.Guards
       @codec codec
       @map   map  |> Enum.with_index |> Enum.reduce(%{}, fn {v, i},   map -> Map.put( map,  i, v) end)
       @unmap @map |>                    Enum.reduce(%{}, fn {k, v}, unmap -> Map.put(unmap, v, k) end)
 
       def decode bytes do
         {result, {value,     codec      , rest}} = bytes |> unquote(@codec).decode
-        {result, {map(value), __MODULE__, rest}}
+        ok map(value), rest
       end
 
       def encode value do
-        {result, {bytes, _codec}} = value |> unmap |> unquote(@codec).encode
-        {result, {bytes, __MODULE__}}
+        return value |> unmap |> unquote(@codec).encode
       end
 
       defp map value do
