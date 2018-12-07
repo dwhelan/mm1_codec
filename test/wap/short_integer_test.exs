@@ -13,11 +13,9 @@ defmodule WAP.ShortIntegerTest do
       ],
 
       new_errors: [
-        {-1,   :must_be_an_integer_between_0_and_127},
-        {128,  :must_be_an_integer_between_0_and_127},
-        {1.23, :must_be_an_integer_between_0_and_127},
-        {"x",  :must_be_an_integer_between_0_and_127},
-        {:foo, :must_be_an_integer_between_0_and_127},
+        {-1,  :must_be_an_integer_between_0_and_127},
+        {128, :must_be_an_integer_between_0_and_127},
+        {"x", :must_be_an_integer_between_0_and_127},
       ]
 end
 
@@ -35,12 +33,10 @@ defmodule WAP2.ShortIntegerTest do
 #        {<<127>>, :most_signficant_bit_must_be_1},
       ],
 
-      new_errors: [
-        {-1, :must_be_an_integer_between_0_and_127},
+      encode_errors: [
+        {-1,  :must_be_an_integer_between_0_and_127},
         {128, :must_be_an_integer_between_0_and_127},
-        {1.23, :must_be_an_integer_between_0_and_127},
         {"x", :must_be_an_integer_between_0_and_127},
-        {:foo, :must_be_an_integer_between_0_and_127},
       ]
 end
 
