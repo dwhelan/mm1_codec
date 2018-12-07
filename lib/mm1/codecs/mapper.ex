@@ -55,3 +55,32 @@ defmodule MM1.Codecs.Mapper do
     %MM1.Result{result | module: module, value: module.map(result.value)}
   end
 end
+
+defmodule MM1.Codecs2.Mapper do
+
+  defmacro map codec, map do
+    quote bind_quoted: [codec: codec, map: map] do
+      @codec codec
+      @map   map  |> Enum.with_index |> Enum.reduce(%{}, fn {v, i},   map -> Map.put( map,  i, v) end)
+      @unmap @map |>                    Enum.reduce(%{}, fn {k, v}, unmap -> Map.put(unmap, v, k) end)
+
+      def decode bytes do
+        {result, {value,     codec      , rest}} = bytes |> unquote(@codec).decode
+        {result, {map(value), __MODULE__, rest}}
+      end
+
+      def encode value do
+        {result, {bytes, _codec}} = value |> unmap |> unquote(@codec).encode
+        {result, {bytes, __MODULE__}}
+      end
+
+      defp map value do
+        Map.get @map, value, value
+      end
+
+      defp unmap mapped_value do
+        Map.get @unmap, mapped_value, mapped_value
+      end
+    end
+  end
+end

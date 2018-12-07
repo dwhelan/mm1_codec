@@ -94,3 +94,17 @@ defmodule MM1.Codecs.Mapper.ImportTest do
         {<<2>>, 2},
       ]
 end
+
+defmodule MM1.Codecs2.Mapper.ListTest do
+  use ExUnit.Case
+
+  import MM1.Codecs2.Mapper
+  map WAP2.Byte, [false, true]
+
+  use MM1.Codecs2.TestExamples,
+      examples: [
+        {<<0>>, false},
+        {<<1>>, true},
+        {<<2>>, 2},
+      ]
+end
