@@ -1,7 +1,7 @@
 defmodule MM1.Codecs2.TestExamples do
   defmacro __using__(opts) do
     quote bind_quoted: [opts: opts] do
-      @codec          opts[:codec]
+      @codec          opts[:codec]         || __MODULE__
       examples      = opts[:examples]      || []
       decode_errors = opts[:decode_errors] || []
       encode_errors = opts[:encode_errors] || []
@@ -10,7 +10,7 @@ defmodule MM1.Codecs2.TestExamples do
         @bytes bytes
         @value value
 
-        test "decode(#{inspect bytes}) === {:ok, {{inspect value}}}" do
+        test "decode(#{inspect bytes}) === {:ok, {#{inspect value}}}" do
           assert @codec.decode(@bytes <> "rest") === {:ok, {@value, @codec, "rest"}}
         end
 
@@ -23,7 +23,7 @@ defmodule MM1.Codecs2.TestExamples do
         @bytes bytes
         @error error
 
-        test "decode(#{inspect @bytes}) => {:error, {{inspect @error}}}" do
+        test "decode(#{inspect @bytes}) => {:error, {#{inspect @error}}}" do
           assert @codec.decode(@bytes) === {:error, {@error, @codec}}
         end
       end)

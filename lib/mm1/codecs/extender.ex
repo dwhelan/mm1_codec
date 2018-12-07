@@ -17,3 +17,17 @@ defmodule MM1.Codecs.Extender do
     end
   end
 end
+
+defmodule MM1.Codecs2.Extender do
+  defmacro __using__(_opts) do
+    quote do
+      def decode bytes do
+        decode bytes, __MODULE__
+      end
+
+      def encode result do
+        encode result, __MODULE__
+      end
+    end
+  end
+end
