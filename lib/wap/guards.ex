@@ -1,11 +1,5 @@
 defmodule WAP.Guards do
   # Should be in MM1.Codec?
-  defmacro return result do
-    quote do
-      {result, {value, _module}} = unquote(result)
-      {result, {value, __MODULE__}}
-    end
-  end
 
   defmacro ok value, other do
     quote do
