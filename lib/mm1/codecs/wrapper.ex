@@ -27,22 +27,17 @@ defmodule MM1.Codecs.Wrapper do
 end
 
 defmodule MM1.Codecs2.Wrapper do
-  alias MM1.Result
-
-  defmacro __using__(opts) do
+  defmacro wrap codec do
     quote do
-      import MM1.Codecs2.Wrapper
-      use MM1.Codecs2.Extender
+      def decode bytes do
+        {result, { x, codec             , rest}} = bytes |> unquote(codec).decode
+        {result, {{x, codec}, __MODULE__, rest}}
+      end
+
+      def encode {value, _codec} do
+        {result, {x, _codec    }} = value |> unquote(codec).encode
+        {result, {x, __MODULE__}}
+      end
     end
-  end
-
-  def decode bytes, module do
-   {result, { value, codec, rest}} = bytes |> module.codec().decode
-   {result, {{value, codec}, module, rest}}
-  end
-
-  def encode {value, _codec}, module do
-    {result, {bytes, _codec}} = value |> module.codec().encode
-    {result, {bytes, module}}
   end
 end
