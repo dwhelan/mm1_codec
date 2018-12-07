@@ -7,15 +7,9 @@ defmodule WAP.Guards do
     end
   end
 
-  defmacro ok value do
+  defmacro ok value, other do
     quote do
-      {:ok, {unquote(value), __MODULE__}}
-    end
-  end
-
-  defmacro ok value, rest do
-    quote do
-      {:ok, {unquote(value), __MODULE__, unquote(rest)}}
+      {:ok, {unquote(value), __MODULE__, unquote(other)}}
     end
   end
 
@@ -25,9 +19,9 @@ defmodule WAP.Guards do
     end
   end
 
-  defmacro error reason, rest do
+  defmacro error reason, other do
     quote do
-      {:error, {unquote(reason), __MODULE__, unquote(rest)}}
+      {:error, {unquote(reason), __MODULE__, unquote(other)}}
     end
   end
 
