@@ -1,28 +1,6 @@
 defmodule WAP.Guards do
   # Should be in MM1.Codec?
 
-  defmacro value result, fun do
-    quote bind_quoted: [result: result, fun: fun] do
-      {x, {value,       _,          y}} = result
-      {x, {fun.(value), __MODULE__, y}}
-    end
-  end
-
-
-  defmacro module result do
-    quote do
-      {x, {y, _,          z}} = unquote(result)
-      {x, {y, __MODULE__, z}}
-    end
-  end
-
-  defmacro other result, other do
-    quote do
-      {x, {y, _,          _             }} = unquote(result)
-      {x, {y, __MODULE__, unquote(other)}}
-    end
-  end
-
   defmacro ok value, other do
     quote do
       {:ok, {unquote(value), __MODULE__, unquote(other)}}
@@ -32,6 +10,20 @@ defmodule WAP.Guards do
   defmacro error reason, other do
     quote do
       {:error, {unquote(reason), __MODULE__, unquote(other)}}
+    end
+  end
+
+  defmacro value result, fun do
+    quote do
+      {x, {value,                _,          y}} = unquote(result)
+      {x, {unquote(fun).(value), __MODULE__, y}}
+    end
+  end
+
+  defmacro other result, other do
+    quote do
+      {x, {y, _,          _             }} = unquote(result)
+      {x, {y, __MODULE__, unquote(other)}}
     end
   end
 
