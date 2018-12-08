@@ -12,9 +12,10 @@ defmodule MM1.Codecs2.Composer do
                   |> Enum.reverse
                   |> tl
 
-        case result(results) do
-          :ok    -> ok    value(results), rest(results)
-          :error -> error value(results), bytes
+        if successful? results do
+          ok value(results), rest(results)
+        else
+          error value(results), bytes
         end
       end
 
@@ -22,9 +23,11 @@ defmodule MM1.Codecs2.Composer do
         results = @codecs
                   |> Enum.with_index
                   |> Enum.map(fn {codec, index} -> codec.encode(Enum.at(values, index)) end)
-        case result(results) do
-          :ok    -> ok    bytes(results), values
-          :error -> error value(results), values
+
+        if successful? results do
+          ok bytes(results), values
+        else
+          error value(results), values
         end
       end
 
@@ -37,8 +40,7 @@ defmodule MM1.Codecs2.Composer do
       end
 
       defp decode_one codec, results do
-        previous = hd results
-        case previous do
+        case hd results do
           {:ok, {_, _, rest}} -> [codec.decode(rest) | results]
           error -> results
         end
@@ -62,27 +64,9 @@ defmodule MM1.Codecs2.Composer do
         rest
       end
 
-      defp result results do
-        if Enum.any?(results, fn {result, x} -> result == :error end), do: :error, else: :ok
+      defp successful? results do
+        Enum.all?(results, fn {result, x} -> result == :ok end)
       end
-#
-#      defp error results do
-#        errors = Enum.map(results, & &1.err)
-#        if Enum.all?(errors, &is_nil &1), do: nil, else: errors
-#      end
-#
-#      defp bytes results do
-#        {_, bytes} = List.foldl(results, {[%Result{}], <<>>},
-#          fn result, {results, bytes} ->
-#            if hd(results).err, do: {results, bytes}, else: {[result | results], bytes <> result.bytes}
-#          end)
-#        bytes
-#      end
-#
-#      defp result results do
-#        Enum.at(results, -1).rest
-#      end
-#
     end
   end
 end
