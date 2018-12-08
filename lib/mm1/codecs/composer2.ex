@@ -19,8 +19,8 @@ defmodule MM1.Codecs2.Composer do
         results = previous ++ [result]
 
         case result do
-          {:ok,    _}             -> decode rest(result), codecs, results, bytes
-          {:error, {error, _, _}} -> error {error, length(results)-1}, bytes
+          {:ok,    {_,     _, rest}} -> decode rest, codecs, results, bytes
+          {:error, {error, _, _   }} -> error {error, length(results)-1}, bytes
         end
       end
 
@@ -29,7 +29,7 @@ defmodule MM1.Codecs2.Composer do
       end
 
       def encode(values) when is_list(values) do
-        error :incorrect_list_length, values
+        error {:incorrect_list_length, length(values), length(@codecs)}, values
       end
 
       def encode(values) do
@@ -51,7 +51,7 @@ defmodule MM1.Codecs2.Composer do
       end
 
       defp values results do
-        results |> Enum.map & value &1
+        results |> Enum.map(& value &1)
       end
 
       defp bytes results do
