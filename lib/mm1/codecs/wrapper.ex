@@ -34,11 +34,11 @@ defmodule MM1.Codecs2.Wrapper do
       @codec unquote(codec)
 
       def decode bytes do
-        bytes |> @codec.decode |> value(& {&1, @codec})
+        bytes |> @codec.decode |> value & {&1, @codec}
       end
 
       def encode {value, codec} do
-        value |> @codec.encode |> other({value, codec})
+        value |> @codec.encode |> other {value, codec}
       end
     end
   end
