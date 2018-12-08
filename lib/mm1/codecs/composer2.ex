@@ -19,8 +19,8 @@ defmodule MM1.Codecs2.Composer do
         results = previous ++ [result]
 
         case result do
-          {:ok,    _} -> decode rest(result), tl(codecs), results, bytes
-          {:error, _} -> error value(results), bytes
+          {:ok,    _}             -> decode rest(result), tl(codecs), results, bytes
+          {:error, {error, _, _}} -> error {error, length(results)-1}, bytes
         end
       end
 
@@ -29,6 +29,7 @@ defmodule MM1.Codecs2.Composer do
                   |> Enum.zip(values)
                   |> Enum.map(fn {codec, value} -> codec.encode(value) end)
 
+        IO.inspect results
         if successful? results do
           ok bytes(results), values
         else
