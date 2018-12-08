@@ -8,9 +8,13 @@ defmodule MM1.Codecs2.Composer do
 
       def decode bytes do
         results = @codecs
-                  |> Enum.reduce([ok(nil, bytes)], &decode_one/2)
-                  |> Enum.reverse
-                  |> tl
+                  |> Enum.reduce([], fn codec, results ->
+                      if successful? results do
+                        results ++ [codec.decode(rest(results) || bytes)]
+                      else
+                        results
+                      end
+                  end)
 
         if successful? results do
           ok value(results), rest(results)
@@ -19,10 +23,19 @@ defmodule MM1.Codecs2.Composer do
         end
       end
 
+      defp rest [] do
+        nil
+      end
+
+      defp rest results do
+         {_, {_, _, rest}} = Enum.at(results, -1)
+         rest
+      end
+
       def encode(values) when is_list(values) and length(values) == length(@codecs) do
         results = @codecs
-                  |> Enum.with_index
-                  |> Enum.map(fn {codec, index} -> codec.encode(Enum.at(values, index)) end)
+                  |> Enum.zip(values)
+                  |> Enum.map(fn {codec, value} -> codec.encode(value) end)
 
         if successful? results do
           ok bytes(results), values
@@ -39,13 +52,6 @@ defmodule MM1.Codecs2.Composer do
         error :must_be_a_list, values
       end
 
-      defp decode_one codec, results do
-        case hd results do
-          {:ok, {_, _, rest}} -> [codec.decode(rest) | results]
-          error -> results
-        end
-      end
-
       defp value results do
         results |> Enum.map(fn {_, {value, _, _}} -> value end)
       end
@@ -59,13 +65,8 @@ defmodule MM1.Codecs2.Composer do
           end)
       end
 
-      defp rest results do
-        {_, {_, _, rest}} = Enum.at(results, -1)
-        rest
-      end
-
       defp successful? results do
-        Enum.all?(results, fn {result, x} -> result == :ok end)
+        results |> Enum.all?(fn {result, _} -> result == :ok end)
       end
     end
   end
