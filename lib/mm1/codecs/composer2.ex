@@ -24,15 +24,17 @@ defmodule MM1.Codecs2.Composer do
         end
       end
 
+      defp value results do
+        results |> Enum.map(fn {_, {value, _, _}} -> value end)
+      end
+
       def encode(values) when is_list(values) and length(values) == length(@codecs) do
         results = @codecs
                   |> Enum.zip(values)
                   |> Enum.map(fn {codec, value} -> codec.encode(value) end)
 
-        error_with_index = error_with_index results
-
-        if error_with_index do
-          error error_with_index, values
+        if error = error_with_index results do
+          error error, values
         else
           ok bytes(results), values
         end
@@ -53,10 +55,6 @@ defmodule MM1.Codecs2.Composer do
         error :must_be_a_list, values
       end
 
-      defp value results do
-        results |> Enum.map(fn {_, {value, _, _}} -> value end)
-      end
-
       defp bytes results do
         results |> Enum.reduce(<<>>, fn result, bytes ->
           case result do
@@ -64,10 +62,6 @@ defmodule MM1.Codecs2.Composer do
             _ -> bytes
           end
           end)
-      end
-
-      defp successful? results do
-        results |> Enum.all?(fn {result, _} -> result == :ok end)
       end
     end
   end
