@@ -7,34 +7,28 @@ defmodule MM1.Codecs2.Composer do
       @codecs unquote(codecs)
 
       def decode bytes do
-        results = @codecs
-                  |> Enum.reduce_while([], fn codec, previous ->
-                        result  = previous |> remaining(bytes) |> codec.decode
-                        previous ++ [result] |> halt_after_error result
-                      end)
+        {results, rest} = decode(bytes, @codecs, [])
 
         case successful? results do
-          true  ->    ok value(results), remaining(results, bytes)
+          true  ->    ok value(results), rest
           false -> error value(results), bytes
         end
       end
 
-      defp remaining [], bytes do
-        bytes
+      defp decode rest, [], results do
+        {results, rest}
       end
 
-      defp remaining results, _bytes do
-         {_, {_, _, rest}} = Enum.at(results, -1)
-         rest
-      end
+      defp decode bytes, codecs, results do
+        [codec | codecs] = codecs
+        {_, {_, _, rest}} = result = bytes |> codec.decode
 
-      def halt_after_error results, result do
         case result do
-          {:ok,    _} -> {:cont, results}
-          {:error, _} -> {:halt, results}
+          {:ok,    _} -> decode rest, codecs, results ++ [result]
+          {:error, _} -> {results ++ [result], rest}
         end
       end
-
+      
       def encode(values) when is_list(values) and length(values) == length(@codecs) do
         results = @codecs
                   |> Enum.zip(values)
