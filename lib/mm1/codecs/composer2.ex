@@ -18,11 +18,19 @@ defmodule MM1.Codecs2.Composer do
         end
       end
 
-      def encode values do
+      def encode(values) when is_list(values) and length(values) == length(@codecs) do
         results = @codecs
                   |> Enum.with_index
                   |> Enum.map(fn {codec, index} -> codec.encode(Enum.at(values, index)) end)
         {:ok, {bytes(results), __MODULE__, values}}
+      end
+
+      def encode(values) when is_list(values) do
+        error :incorrect_list_length, values
+      end
+
+      def encode(values) do
+        error :must_be_a_list, values
       end
 
       defp decode_one codec, results do
