@@ -62,11 +62,12 @@ defmodule MM1.Codecs2.Mapper do
     quote bind_quoted: [codec: codec, map: map] do
       import WAP.Guards
       @codec codec
-      @map   map  |> Enum.with_index |> Enum.reduce(%{}, fn {v, i},   map -> Map.put( map,  i, v) end)
-      @unmap @map |>                    Enum.reduce(%{}, fn {k, v}, unmap -> Map.put(unmap, v, k) end)
+      @map   map  |> Enum.with_index
+                  |> Enum.reduce(%{}, fn {v, i},   map -> Map.put( map,  i, v) end)
+      @unmap @map |> Enum.reduce(%{}, fn {k, v}, unmap -> Map.put(unmap, v, k) end)
 
       def decode bytes do
-        bytes |> @codec.decode |> map2( fn value -> Map.get(@map, value, value) end)
+        bytes |> @codec.decode |> map_value(fn value -> Map.get(@map, value, value) end)
       end
 
       def encode value do
