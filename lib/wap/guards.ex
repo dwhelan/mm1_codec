@@ -1,15 +1,29 @@
 defmodule WAP.Guards do
   # Should be in MM1.Codec?
 
-  defmacro map_value foo, map do
-    quote bind_quoted: [foo: foo, map: map] do
-      {result, {value,       _,          rest}} = foo
-      {result, {map.(value), __MODULE__, rest}}
+  defmacro value result, fun do
+    quote bind_quoted: [result: result, fun: fun] do
+      {x, {value,       _,          y}} = result
+      {x, {fun.(value), __MODULE__, y}}
     end
   end
 
   defmacro unmap_encode value, codec, unmap do
     quote bind_quoted: [value: value, codec: codec, unmap: unmap] do
+      {result, {x, _,          _    }} = value |> unmap.() |> codec.encode
+      {result, {x, __MODULE__, value}}
+    end
+  end
+
+  defmacro module result do
+    quote do
+      {x, {y, _,          z}} = unquote(result)
+      {x, {y, __MODULE__, z}}
+    end
+  end
+
+  defmacro unmap_value value, unmap do
+    quote bind_quoted: [value: value, unmap: unmap] do
       {result, {x, _,          _    }} = value |> unmap.() |> codec.encode
       {result, {x, __MODULE__, value}}
     end
