@@ -34,8 +34,7 @@ defmodule MM1.Codecs2.Wrapper do
       @codec unquote(codec)
 
       def decode bytes do
-        {result, { x, codec             , rest}} = bytes |> @codec.decode
-        {result, {{x, codec}, __MODULE__, rest}}
+        decode_map bytes, @codec, & {&1, @codec}
       end
 
       def encode {value, codec} do

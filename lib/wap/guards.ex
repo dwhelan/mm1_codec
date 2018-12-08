@@ -1,6 +1,13 @@
 defmodule WAP.Guards do
   # Should be in MM1.Codec?
 
+  defmacro decode_map bytes, codec, map do
+    quote bind_quoted: [bytes: bytes, codec: codec, map: map] do
+      {result, {value,       _,          rest}} = bytes |> codec.decode
+      {result, {map.(value), __MODULE__, rest}}
+    end
+  end
+
   defmacro ok value, other do
     quote do
       {:ok, {unquote(value), __MODULE__, unquote(other)}}
