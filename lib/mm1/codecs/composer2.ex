@@ -29,21 +29,20 @@ defmodule MM1.Codecs2.Composer do
       end
 
       def encode(values) when is_list(values) and length(values) == length(@codecs) do
-        results = @codecs
-                  |> Enum.zip(values)
-                  |> Enum.map(fn {codec, value} -> codec.encode(value) end)
-
-        if error = error_with_index results do
-          error error, values
-        else
-          ok bytes(results), values
-        end
+        encode Enum.zip(@codecs, values), [], values
       end
 
-      defp error_with_index results do
-        case Enum.find_index(results, & error?/1) do
-          nil   -> nil
-          index -> {error(Enum.at(results, index)), index}
+      defp encode [], results, values do
+        ok bytes(results), values
+      end
+
+      defp encode [{codec, value} | codecs], previous, values do
+        result  = codec.encode value
+        results = previous ++ [result]
+
+        case result do
+          {:ok,    _}             -> encode codecs, results, values
+          {:error, {error, _, _}} -> error {error, length(results)-1}, values
         end
       end
 
