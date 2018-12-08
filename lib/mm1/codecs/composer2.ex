@@ -20,15 +20,16 @@ defmodule MM1.Codecs2.Composer do
       end
 
       defp decode bytes, codecs, results do
-        [codec | codecs] = codecs
-        {_, {_, _, rest}} = result = bytes |> codec.decode
+        result = hd(codecs).decode bytes
+        results = results ++ [result]
+        rest = rest(result)
 
         case result do
-          {:ok,    _} -> decode rest, codecs, results ++ [result]
-          {:error, _} -> {results ++ [result], rest}
+          {:ok,    _} -> decode rest, tl(codecs), results
+          {:error, _} -> {results, rest}
         end
       end
-      
+
       def encode(values) when is_list(values) and length(values) == length(@codecs) do
         results = @codecs
                   |> Enum.zip(values)

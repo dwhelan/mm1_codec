@@ -27,6 +27,11 @@ defmodule WAP.Guards do
     end
   end
 
+  def rest result do
+    {_, {_, _, rest}} = result
+    rest
+  end
+
   # Guards
   defp is_integer value, min, max do
     quote do
