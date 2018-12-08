@@ -34,7 +34,7 @@ defmodule MM1.Codecs2.Wrapper do
       @codec unquote(codec)
 
       def decode bytes do
-        decode_map bytes, @codec, & {&1, @codec}
+        bytes |> @codec.decode |> map2(fn value -> {value, @codec} end)
       end
 
       def encode {value, codec} do
