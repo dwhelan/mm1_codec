@@ -25,15 +25,15 @@ defmodule WAP2.ShortLength do
     {:ok, {value, __MODULE__, rest}}
   end
 
-  def decode <<value, rest::binary>> do
-    {:error, {:must_be_an_integer_between_0_and_30, __MODULE__}}
+  def decode bytes do
+    {:error, {:must_be_an_integer_between_0_and_30, __MODULE__, bytes}}
   end
 
   def encode(value) when is_short_length(value) do
-    {:ok, {<<value>>, __MODULE__}}
+    {:ok, {<<value>>, __MODULE__, value}}
   end
 
   def encode value do
-    {:error, {:must_be_an_integer_between_0_and_30, __MODULE__}}
+    {:error, {:must_be_an_integer_between_0_and_30, __MODULE__, value}}
   end
 end
