@@ -8,7 +8,7 @@ defmodule MM1.Codecs2.Composer do
 
       def decode bytes do
         results = @codecs
-                  |> List.foldl([ok(nil, bytes)], &decode_one/2)
+                  |> Enum.reduce([ok(nil, bytes)], &decode_one/2)
                   |> Enum.reverse
                   |> tl
 
@@ -22,7 +22,10 @@ defmodule MM1.Codecs2.Composer do
         results = @codecs
                   |> Enum.with_index
                   |> Enum.map(fn {codec, index} -> codec.encode(Enum.at(values, index)) end)
-        {:ok, {bytes(results), __MODULE__, values}}
+        case result(results) do
+          :ok    -> ok    bytes(results), values
+          :error -> error value(results), values
+        end
       end
 
       def encode(values) when is_list(values) do
@@ -60,8 +63,7 @@ defmodule MM1.Codecs2.Composer do
       end
 
       defp result results do
-        {result, _} = Enum.at(results, -1)
-        result
+        if Enum.any?(results, fn {result, x} -> result == :error end), do: :error, else: :ok
       end
 #
 #      defp error results do
