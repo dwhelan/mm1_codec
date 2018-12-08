@@ -99,12 +99,20 @@ defmodule MM1.Codecs2.Mapper.ListTest do
   use ExUnit.Case
 
   import MM1.Codecs2.Mapper
-  map WAP2.Byte, [false, true]
+  map WAP2.ShortLength, [false, true]
 
   use MM1.Codecs2.TestExamples,
       examples: [
         {<<0>>, false},
         {<<1>>, true},
         {<<2>>, 2},
+      ],
+
+      decode_errors: [
+        {<<31>>, :must_be_an_integer_between_0_and_30},
+      ],
+
+      encode_errors: [
+        {-1, :must_be_an_integer_between_0_and_30},
       ]
 end

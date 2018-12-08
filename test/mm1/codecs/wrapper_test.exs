@@ -19,5 +19,4 @@ defmodule MM.Codecs2.Wrapper.WrapperTest do
       encode_errors: [
         {{-1, ShortInteger}, :must_be_an_integer_between_0_and_127},
       ]
-
 end
