@@ -27,10 +27,6 @@ defmodule WAP.Guards do
     end
   end
 
-  def rest {_, {_, _, rest}} do
-    rest
-  end
-
   def error? {:error, {_, _, _}} do
     true
   end
@@ -47,6 +43,14 @@ defmodule WAP.Guards do
     nil
   end
 
+  def value {_, {value, _, _}} do
+    value
+  end
+
+  def rest {_, {_, _, rest}} do
+    rest
+  end
+  
   # Guards
   defp is_integer value, min, max do
     quote do
