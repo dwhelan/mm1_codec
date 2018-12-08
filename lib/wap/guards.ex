@@ -8,12 +8,6 @@ defmodule WAP.Guards do
     end
   end
 
-  defmacro unmap_encode value, codec, unmap do
-    quote bind_quoted: [value: value, codec: codec, unmap: unmap] do
-      {result, {x, _,          _    }} = value |> unmap.() |> codec.encode
-      {result, {x, __MODULE__, value}}
-    end
-  end
 
   defmacro module result do
     quote do
@@ -22,10 +16,10 @@ defmodule WAP.Guards do
     end
   end
 
-  defmacro unmap_value value, unmap do
-    quote bind_quoted: [value: value, unmap: unmap] do
-      {result, {x, _,          _    }} = value |> unmap.() |> codec.encode
-      {result, {x, __MODULE__, value}}
+  defmacro other result, other do
+    quote do
+      {x, {y, _,          _             }} = unquote(result)
+      {x, {y, __MODULE__, unquote(other)}}
     end
   end
 

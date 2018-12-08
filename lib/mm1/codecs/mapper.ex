@@ -63,17 +63,23 @@ defmodule MM1.Codecs2.Mapper do
       import WAP.Guards
       @codec codec
       @map   map  |> Enum.with_index
-                  |> Enum.reduce(%{}, fn {v, i},   map -> Map.put( map,  i, v) end)
+                  |> Enum.reduce(%{}, fn {v, i},   map -> Map.put(  map, i, v) end)
       @unmap @map |> Enum.reduce(%{}, fn {k, v}, unmap -> Map.put(unmap, v, k) end)
 
       def decode bytes do
-        bytes |> @codec.decode |> value(& Map.get(@map, &1, &1))
+        bytes |> @codec.decode |> value &map/1
       end
 
       def encode value do
-        Map.get(@unmap, value, value) |> @codec.encode |> module
-#        unmap_encode value, @codec, & Map.get(@unmap, &1, &1)
-#        unmap_encode value, @codec, & Map.get(@unmap, &1, &1)
+        value |> unmap |> @codec.encode |> other value
+      end
+
+      defp map value do
+        Map.get @map, value, value
+      end
+
+      defp unmap value do
+        Map.get @unmap, value, value
       end
     end
   end

@@ -38,9 +38,7 @@ defmodule MM1.Codecs2.Wrapper do
       end
 
       def encode {value, codec} do
-#        unmap_encode value, @codec, &
-        {result, {x, _         , _             }} = value |> @codec.encode
-        {result, {x, __MODULE__, {value, codec}}}
+        value |> @codec.encode |> other({value, codec})
       end
     end
   end
