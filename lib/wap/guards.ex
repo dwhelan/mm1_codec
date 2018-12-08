@@ -27,14 +27,16 @@ defmodule WAP.Guards do
     end
   end
 
-  def rest result do
-    {_, {_, _, rest}} = result
+  def rest {_, {_, _, rest}} do
     rest
   end
 
-  def error? result do
-    {status, {_, _, _}} = result
-    status == :error
+  def error? {:error, {_, _, _}} do
+    true
+  end
+
+  def error? _ do
+    false
   end
 
   def error {:error, {error, _, _}} do
