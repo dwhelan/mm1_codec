@@ -29,11 +29,19 @@ defmodule MM1.Codecs2.Composer do
                   |> Enum.zip(values)
                   |> Enum.map(fn {codec, value} -> codec.encode(value) end)
 
-        IO.inspect results
-        if successful? results do
-          ok bytes(results), values
+        error_with_index = error_with_index results
+
+        if error_with_index do
+          error error_with_index, values
         else
-          error value(results), values
+          ok bytes(results), values
+        end
+      end
+
+      defp error_with_index results do
+        case Enum.find_index(results, & error?/1) do
+          nil   -> nil
+          index -> {error(Enum.at(results, index)), index}
         end
       end
 

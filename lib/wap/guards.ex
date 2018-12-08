@@ -32,6 +32,19 @@ defmodule WAP.Guards do
     rest
   end
 
+  def error? result do
+    {status, {_, _, _}} = result
+    status == :error
+  end
+
+  def error {:error, {error, _, _}} do
+    error
+  end
+
+  def error _ do
+    nil
+  end
+
   # Guards
   defp is_integer value, min, max do
     quote do
