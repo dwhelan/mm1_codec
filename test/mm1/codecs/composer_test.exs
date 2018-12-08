@@ -55,7 +55,9 @@ defmodule MM1.Codecs2.ComposerTest do
         { [ 0, -1,  2], {:must_be_an_integer_between_0_and_127, 1}},
         { [ 0,  1, -1], {:must_be_an_integer_between_0_and_127, 2}},
 
-        { [ 0,  1],     {:incorrect_list_length, 2, 3}},
-        { :not_a_list,  :must_be_a_list       },
+        { [ 0,  1],       {:incorrect_list_length, 2, 3}},
+        { [ 0,  1, 3, 4], {:incorrect_list_length, 4, 3}},
+
+        { :not_a_list, :must_be_a_list},
       ]
 end
