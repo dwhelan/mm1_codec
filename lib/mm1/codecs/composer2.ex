@@ -7,26 +7,20 @@ defmodule MM1.Codecs2.Composer do
       @codecs unquote(codecs)
 
       def decode bytes do
-        {results, rest} = decode(bytes, @codecs, [])
-
-        case successful? results do
-          true  ->    ok value(results), rest
-          false -> error value(results), bytes
-        end
+        decode bytes, @codecs, [], bytes
       end
 
-      defp decode rest, [], results do
-        {results, rest}
+      defp decode rest, [], results, _ do
+        ok value(results), rest
       end
 
-      defp decode bytes, codecs, results do
-        result = hd(codecs).decode bytes
-        results = results ++ [result]
-        rest = rest(result)
+      defp decode rest, codecs, previous, bytes do
+        result  = hd(codecs).decode rest
+        results = previous ++ [result]
 
         case result do
-          {:ok,    _} -> decode rest, tl(codecs), results
-          {:error, _} -> {results, rest}
+          {:ok,    _} -> decode rest(result), tl(codecs), results, bytes
+          {:error, _} -> error value(results), bytes
         end
       end
 
