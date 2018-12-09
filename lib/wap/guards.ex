@@ -13,24 +13,6 @@ defmodule WAP.Guards do
     end
   end
 
-  defmacro value result, fun do
-    quote do
-      {x, {value,                y}} = unquote(result)
-      {x, {unquote(fun).(value), y}}
-    end
-  end
-
-  defmacro other result, other do
-    quote do
-      {x, {_,          y, _             }} = unquote(result)
-      {x, {__MODULE__, y, unquote(other)}}
-    end
-  end
-
-  def value {_, {value, rest}} do
-    value
-  end
-
   # Guards
   defp is_integer value, min, max do
     quote do
