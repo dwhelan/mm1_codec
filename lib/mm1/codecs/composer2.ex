@@ -10,15 +10,15 @@ defmodule MM1.Codecs2.Composer do
         decode bytes, [], @codecs
       end
 
-      defp decode rest, values, [codec | codecs] do
-        case codec.decode rest do
-          {:ok,    {value, rest}} -> decode rest, values ++ [value], codecs
+      defp decode bytes, values, [codec | codecs] do
+        case codec.decode bytes do
+          {:ok,    {value, rest}} -> decode rest, [value | values], codecs
           {:error, reason}        -> error {codec, {reason, length(values)}}
         end
       end
 
       defp decode rest, values, [] do
-        ok values, rest
+        ok Enum.reverse(values), rest
       end
 
       def encode(values) when is_list(values) and length(values) == length(@codecs) do
