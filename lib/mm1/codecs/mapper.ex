@@ -61,26 +61,22 @@ defmodule MM1.Codecs2.Mapper do
   defmacro map codec, map do
     quote bind_quoted: [codec: codec, map: map] do
       import WAP.Guards
+
       @codec codec
       @map   map  |> Enum.with_index
                   |> Enum.reduce(%{}, fn {v, i},   map -> Map.put(  map, i, v) end)
       @unmap @map |> Enum.reduce(%{}, fn {k, v}, unmap -> Map.put(unmap, v, k) end)
 
       def decode bytes do
-        bytes |> @codec.decode |> map
+        case @codec.decode bytes do
+          {:ok, {value, rest}} -> {:ok, {Map.get(@map, value, value), rest}}
+          error                -> error
+        end
       end
 
       def encode value do
         value |> unmap |> @codec.encode
       end
-
-      defp map result do
-        case result do
-          {:ok, {value, rest}} -> {:ok, {Map.get(@map, value, value), rest}}
-          error -> error
-        end
-      end
-
       defp unmap value do
         Map.get @unmap, value, value
       end

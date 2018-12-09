@@ -1,12 +1,6 @@
 defmodule WAP.Guards do
   # Should be in MM1.Codec?
 
-  defmacro ok value, rest do
-    quote do
-      {:ok, {unquote(value), unquote(rest)}}
-    end
-  end
-
   defmacro ok value do
     quote do
       {:ok, unquote(value)}

@@ -18,23 +18,19 @@ defmodule MM1.Codecs2.Composer do
       end
 
       defp decode rest, values, [] do
-        ok Enum.reverse(values), rest
+        ok {Enum.reverse(values), rest}
       end
 
-      def encode(values) when is_list(values) and length(values) == length(@codecs) do
-        values |> Enum.zip(@codecs) |> encode([])
-      end
-
-      def encode(values) when is_list(values) do
-        error :incorrect_list_length
-      end
-
-      def encode(values) do
+      def encode(values) when is_list(values) == false do
         error :must_be_a_list
       end
 
-      defp encode [], results do
-        ok Enum.join results
+      def encode(values) when length(values) != length(@codecs) do
+        error :incorrect_list_length
+      end
+
+      def encode values do
+        encode Enum.zip(values, @codecs), []
       end
 
       defp encode [{value, codec} | values], results do
@@ -42,6 +38,10 @@ defmodule MM1.Codecs2.Composer do
           {:ok,    bytes}  -> encode values, results ++ [bytes]
           {:error, reason} -> error {codec, {reason, length(results)}}
         end
+      end
+
+      defp encode [], results do
+        ok Enum.join results
       end
     end
   end

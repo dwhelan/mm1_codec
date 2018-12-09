@@ -41,7 +41,7 @@ defmodule WAP2.ShortInteger do
   import WAP.Guards
 
   def decode(<<1::1, value::7, rest::binary>>) do
-    ok value, rest
+    ok {value, rest}
   end
 
   def decode bytes do
