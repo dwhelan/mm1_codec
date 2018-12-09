@@ -36,8 +36,8 @@ defmodule MM1.Codecs2.Wrapper do
 
       def decode bytes do
         case @codec.decode bytes do
-          {:ok,    {value, rest}} -> {:ok,    {{@codec, value}, rest}}
-          {:error, reason       } -> {:error, {@codec, reason}}
+          {:ok,    {value, rest}} -> ok    {{@codec, value}, rest}
+          {:error, reason       } -> error {@codec, reason}
         end
       end
 
