@@ -27,22 +27,6 @@ defmodule WAP.Guards do
     end
   end
 
-  def error? {:error, {_, _, _}} do
-    true
-  end
-
-  def error? _ do
-    false
-  end
-
-  def error {:error, { _, error,_}} do
-    error
-  end
-
-  def error _ do
-    nil
-  end
-
   def value {_, {_, value, _}} do
     value
   end
