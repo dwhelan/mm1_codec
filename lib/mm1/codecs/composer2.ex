@@ -10,17 +10,14 @@ defmodule MM1.Codecs2.Composer do
         decode [], bytes, @codecs
       end
 
-      defp decode results, rest, [] do
-        ok values(results), rest
+      defp decode values, rest, [] do
+        ok values, rest
       end
 
-      defp decode previous, rest, [codec | codecs] do
-        result  = codec.decode rest
-        results = previous ++ [result]
-
-        case result do
-          {:ok,    {value, rest}} -> decode results, rest, codecs
-          {:error, reason}        -> error {codec, {reason, length(results)-1}}
+      defp decode values, rest, [codec | codecs] do
+        case codec.decode rest do
+          {:ok,    {value, rest}} -> decode values ++ [value], rest, codecs
+          {:error, reason}        -> error {codec, {reason, length(values)}}
         end
       end
 
