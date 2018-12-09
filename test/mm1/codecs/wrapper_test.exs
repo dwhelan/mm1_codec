@@ -9,11 +9,11 @@ defmodule MM.Codecs2.Wrapper.WrapperTest do
 
   use MM1.Codecs2.TestExamples,
       examples: [
-        {<<128>>, {0, ShortInteger}},
+        {<<128>>, {ShortInteger, 0}},
       ],
 
       decode_errors: [
-        {<<127>>, {:most_signficant_bit_must_be_1, ShortInteger}},
+        {<<127>>, {ShortInteger, :most_signficant_bit_must_be_1}},
       ],
 
       encode_errors: [

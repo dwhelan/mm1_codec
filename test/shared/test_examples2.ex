@@ -10,30 +10,30 @@ defmodule MM1.Codecs2.TestExamples do
         @bytes bytes
         @value value
 
-        test "decode(#{inspect bytes}) === {:ok, {#{inspect value}}}" do
-          assert @codec.decode(@bytes <> "rest") === {:ok, {@codec, @value, "rest"}}
+        test "decode #{inspect bytes} === {:ok, {#{inspect value}, 'rest'}}" do
+          assert @codec.decode(@bytes <> "rest") === {:ok, {@value, "rest"}}
         end
 
-        test "encode(#{inspect value}) === {:ok, #{inspect bytes}}" do
-          assert @codec.encode(@value) === {:ok, {@codec, @bytes, @value}}
-        end
-      end)
-
-      Enum.each(decode_errors, fn {bytes, error} ->
-        @bytes bytes
-        @error error
-
-        test "decode(#{inspect @bytes}) => {:error, {#{inspect @error}}}" do
-          assert @codec.decode(@bytes) === {:error, {@codec, @error, @bytes}}
+        test "encode #{inspect value} === {:ok, #{inspect bytes}}" do
+          assert @codec.encode(@value) === {:ok, @bytes}
         end
       end)
 
-      Enum.each(encode_errors, fn {value, error} ->
-        @value value
-        @error error
+      Enum.each(decode_errors, fn {bytes, reason} ->
+        @bytes  bytes
+        @reason reason
 
-        test "encode(#{inspect @value}) => {:error, #{inspect @error}}" do
-          assert @codec.encode(@value) === {:error, {@codec, @error, @value}}
+        test "decode #{inspect bytes} => {:error, #{inspect reason}}" do
+          assert @codec.decode(@bytes) === {:error, @reason}
+        end
+      end)
+
+      Enum.each(encode_errors, fn {value, reason} ->
+        @value  value
+        @reason reason
+
+        test "encode #{inspect value} => {:error, #{inspect reason}}" do
+          assert @codec.encode(@value) === {:error, @reason}
         end
       end)
     end

@@ -22,10 +22,10 @@ defmodule WAP2.Byte do
   end
 
   def encode(value) when is_byte(value) do
-    ok <<value>>, value
+    ok <<value>>
   end
 
   def encode value do
-    error :must_be_an_integer_between_0_and_255, value
+    error :must_be_an_integer_between_0_and_255
   end
 end

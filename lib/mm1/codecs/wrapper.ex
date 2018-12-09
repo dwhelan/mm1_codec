@@ -35,11 +35,18 @@ defmodule MM1.Codecs2.Wrapper do
       @codec unquote(codec)
 
       def decode bytes do
-        bytes |> @codec.decode |> value(& {&1, @codec})
+        bytes |> @codec.decode |> wrap_value
       end
 
-      def encode {value, codec} do
-        value |> @codec.encode |> other({value, codec})
+      def encode {_codec, value} do
+        value |> @codec.encode
+      end
+
+      def wrap_value result do
+        case result do
+          {:error, reason       } -> {:error, {@codec, reason}}
+          {:ok,    {value, rest}} -> {:ok,    {{@codec, value}, rest}}
+        end
       end
     end
   end

@@ -1,22 +1,28 @@
 defmodule WAP.Guards do
   # Should be in MM1.Codec?
 
-  defmacro ok value, other do
+  defmacro ok value, rest do
     quote do
-      {:ok, {__MODULE__, unquote(value), unquote(other)}}
+      {:ok, {unquote(value), unquote(rest)}}
     end
   end
 
-  defmacro error reason, other do
+  defmacro ok value do
     quote do
-      {:error, {__MODULE__, unquote(reason), unquote(other)}}
+      {:ok, unquote(value)}
+    end
+  end
+
+  defmacro error reason do
+    quote do
+      {:error, unquote(reason)}
     end
   end
 
   defmacro value result, fun do
     quote do
-      {x, {_,          value,                y}} = unquote(result)
-      {x, {__MODULE__, unquote(fun).(value), y}}
+      {x, {value,                y}} = unquote(result)
+      {x, {unquote(fun).(value), y}}
     end
   end
 
@@ -27,7 +33,7 @@ defmodule WAP.Guards do
     end
   end
 
-  def value {_, {_, value, _}} do
+  def value {_, {value, rest}} do
     value
   end
 

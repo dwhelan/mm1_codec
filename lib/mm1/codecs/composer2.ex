@@ -19,34 +19,34 @@ defmodule MM1.Codecs2.Composer do
         results = previous ++ [result]
 
         case result do
-          {:ok,    {_, _,     rest}} -> decode rest, codecs, results, bytes
-          {:error, {_, error, _   }} -> error {error, length(results)-1}, bytes
+          {:ok,    {value, rest}} -> decode rest, codecs, results, bytes
+          {:error, reason}        -> error {codec, {reason, length(results)-1}}
         end
       end
 
       def encode(values) when is_list(values) and length(values) == length(@codecs) do
-        values |> Enum.zip(@codecs) |> encode([], values)
+        values |> Enum.zip(@codecs) |> encode([])
       end
 
       def encode(values) when is_list(values) do
-        error {:incorrect_list_length, length(values), length(@codecs)}, values
+        error :incorrect_list_length
       end
 
       def encode(values) do
-        error :must_be_a_list, values
+        error :must_be_a_list
       end
 
-      defp encode [], results, values do
-        ok bytes(results), values
+      defp encode [], results do
+        ok bytes(results)
       end
 
-      defp encode [{value, codec} | pairs], previous, values do
+      defp encode [{value, codec} | pairs], previous do
         result  = codec.encode value
         results = previous ++ [result]
 
         case result do
-          {:ok, _}                -> encode pairs, results, values
-          {:error, {_, error, _}} -> error {error, length(results)-1}, values
+          {:ok, _}         -> encode pairs, results
+          {:error, reason} -> error {codec, {reason, length(results)-1}}
         end
       end
 
@@ -55,7 +55,7 @@ defmodule MM1.Codecs2.Composer do
       end
 
       defp bytes results do
-        results |> values |> Enum.join
+        results |> Enum.map(fn {:ok, bytes} -> bytes end) |> Enum.join
       end
     end
   end

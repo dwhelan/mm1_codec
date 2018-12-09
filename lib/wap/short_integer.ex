@@ -45,14 +45,14 @@ defmodule WAP2.ShortInteger do
   end
 
   def decode bytes do
-    error :most_signficant_bit_must_be_1, bytes
+    error :most_signficant_bit_must_be_1
   end
 
   def encode(value) when is_short_integer(value) do
-    ok <<value+128>>, value
+    ok <<value+128>>
   end
 
   def encode value do
-    error :must_be_an_integer_between_0_and_127, value
+    error :must_be_an_integer_between_0_and_127
   end
 end
