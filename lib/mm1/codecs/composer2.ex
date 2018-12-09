@@ -40,15 +40,12 @@ defmodule MM1.Codecs2.Composer do
       defp encode [{value, codec} | pairs], previous do
         result  = codec.encode value
         results = previous ++ [result]
+        results = previous ++ [result]
 
         case result do
           {:ok, _}         -> encode pairs, results
           {:error, reason} -> error {codec, {reason, length(results)-1}}
         end
-      end
-
-      defp values results do
-        results |> Enum.map(& value &1)
       end
 
       defp bytes results do
