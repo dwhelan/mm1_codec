@@ -3,27 +3,27 @@ defmodule WAP.Guards do
 
   defmacro ok value, other do
     quote do
-      {:ok, {unquote(value), __MODULE__, unquote(other)}}
+      {:ok, {__MODULE__, unquote(value), unquote(other)}}
     end
   end
 
   defmacro error reason, other do
     quote do
-      {:error, {unquote(reason), __MODULE__, unquote(other)}}
+      {:error, {__MODULE__, unquote(reason), unquote(other)}}
     end
   end
 
   defmacro value result, fun do
     quote do
-      {x, {value,                _,          y}} = unquote(result)
-      {x, {unquote(fun).(value), __MODULE__, y}}
+      {x, {_,          value,                y}} = unquote(result)
+      {x, {__MODULE__, unquote(fun).(value), y}}
     end
   end
 
   defmacro other result, other do
     quote do
-      {x, {y, _,          _             }} = unquote(result)
-      {x, {y, __MODULE__, unquote(other)}}
+      {x, {_,          y, _             }} = unquote(result)
+      {x, {__MODULE__, y, unquote(other)}}
     end
   end
 
@@ -35,7 +35,7 @@ defmodule WAP.Guards do
     false
   end
 
-  def error {:error, {error, _, _}} do
+  def error {:error, { _, error,_}} do
     error
   end
 
@@ -43,7 +43,7 @@ defmodule WAP.Guards do
     nil
   end
 
-  def value {_, {value, _, _}} do
+  def value {_, {_, value, _}} do
     value
   end
 

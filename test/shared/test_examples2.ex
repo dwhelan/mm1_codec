@@ -11,11 +11,11 @@ defmodule MM1.Codecs2.TestExamples do
         @value value
 
         test "decode(#{inspect bytes}) === {:ok, {#{inspect value}}}" do
-          assert @codec.decode(@bytes <> "rest") === {:ok, {@value, @codec, "rest"}}
+          assert @codec.decode(@bytes <> "rest") === {:ok, {@codec, @value, "rest"}}
         end
 
         test "encode(#{inspect value}) === {:ok, #{inspect bytes}}" do
-          assert @codec.encode(@value) === {:ok, {@bytes, @codec, @value}}
+          assert @codec.encode(@value) === {:ok, {@codec, @bytes, @value}}
         end
       end)
 
@@ -24,7 +24,7 @@ defmodule MM1.Codecs2.TestExamples do
         @error error
 
         test "decode(#{inspect @bytes}) => {:error, {#{inspect @error}}}" do
-          assert @codec.decode(@bytes) === {:error, {@error, @codec, @bytes}}
+          assert @codec.decode(@bytes) === {:error, {@codec, @error, @bytes}}
         end
       end)
 
@@ -33,7 +33,7 @@ defmodule MM1.Codecs2.TestExamples do
         @error error
 
         test "encode(#{inspect @value}) => {:error, #{inspect @error}}" do
-          assert @codec.encode(@value) === {:error, {@error, @codec, @value}}
+          assert @codec.encode(@value) === {:error, {@codec, @error, @value}}
         end
       end)
     end

@@ -19,8 +19,8 @@ defmodule MM1.Codecs2.Composer do
         results = previous ++ [result]
 
         case result do
-          {:ok,    {_,     _, rest}} -> decode rest, codecs, results, bytes
-          {:error, {error, _, _   }} -> error {error, length(results)-1}, bytes
+          {:ok,    {_, _,     rest}} -> decode rest, codecs, results, bytes
+          {:error, {_, error, _   }} -> error {error, length(results)-1}, bytes
         end
       end
 
@@ -45,8 +45,8 @@ defmodule MM1.Codecs2.Composer do
         results = previous ++ [result]
 
         case result do
-          {:ok,    _}             -> encode pairs, results, values
-          {:error, {error, _, _}} -> error {error, length(results)-1}, values
+          {:ok, _}                -> encode pairs, results, values
+          {:error, {_, error, _}} -> error {error, length(results)-1}, values
         end
       end
 
