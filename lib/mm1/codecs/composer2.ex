@@ -35,13 +35,13 @@ defmodule MM1.Codecs2.Composer do
 
       defp encode [{value, codec} | values], results do
         case codec.encode value do
-          {:ok,    bytes}  -> encode values, results ++ [bytes]
+          {:ok,    bytes}  -> encode values, [bytes | results]
           {:error, reason} -> error {codec, {reason, length(results)}}
         end
       end
 
       defp encode [], results do
-        ok Enum.join results
+        ok results |> Enum.reverse |> Enum.join
       end
     end
   end
