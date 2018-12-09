@@ -75,10 +75,7 @@ defmodule MM1.Codecs2.Mapper do
       end
 
       def encode value do
-        value |> unmap |> @codec.encode
-      end
-      defp unmap value do
-        Map.get @unmap, value, value
+        @codec.encode(Map.get @unmap, value, value)
       end
     end
   end
