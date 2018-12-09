@@ -7,19 +7,19 @@ defmodule MM1.Codecs2.Composer do
       @codecs unquote(codecs)
 
       def decode bytes do
-        decode bytes, @codecs, []
+        decode [], bytes, @codecs
       end
 
-      defp decode rest, [], results do
+      defp decode results, rest, [] do
         ok values(results), rest
       end
 
-      defp decode rest, [codec | codecs], previous do
+      defp decode previous, rest, [codec | codecs] do
         result  = codec.decode rest
         results = previous ++ [result]
 
         case result do
-          {:ok,    {value, rest}} -> decode rest, codecs, results
+          {:ok,    {value, rest}} -> decode results, rest, codecs
           {:error, reason}        -> error {codec, {reason, length(results)-1}}
         end
       end
