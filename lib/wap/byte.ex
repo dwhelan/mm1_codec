@@ -15,6 +15,7 @@ defmodule WAP.Byte do
 end
 
 defmodule WAP2.Byte do
+  import MM1.OkError
   import WAP.Guards
 
   def decode <<value, rest::binary>> do

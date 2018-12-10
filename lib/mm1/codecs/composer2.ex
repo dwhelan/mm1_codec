@@ -2,7 +2,7 @@ defmodule MM1.Codecs2.Composer do
 
   defmacro compose codecs do
     quote do
-      import WAP.Guards
+      import MM1.OkError
 
       @codecs unquote(codecs)
 

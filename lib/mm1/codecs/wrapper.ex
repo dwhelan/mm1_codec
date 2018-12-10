@@ -30,7 +30,7 @@ end
 defmodule MM1.Codecs2.Wrapper do
   defmacro wrap codec do
     quote do
-      import WAP.Guards
+      import MM1.OkError
 
       @codec unquote(codec)
 

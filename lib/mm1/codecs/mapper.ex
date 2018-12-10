@@ -60,7 +60,7 @@ defmodule MM1.Codecs2.Mapper do
 
   defmacro map codec, map do
     quote bind_quoted: [codec: codec, map: map] do
-      import WAP.Guards
+      import MM1.OkError
 
       @codec codec
       @map   map  |> Enum.with_index

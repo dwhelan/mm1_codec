@@ -1,19 +1,4 @@
 defmodule WAP.Guards do
-  # Should be in MM1.Codec?
-
-  defmacro ok value do
-    quote do
-      {:ok, unquote(value)}
-    end
-  end
-
-  defmacro error reason do
-    quote do
-      {:error, unquote(reason)}
-    end
-  end
-
-  # Guards
   defp is_integer value, min, max do
     quote do
       is_integer(unquote value) and unquote(value) >= unquote(min) and unquote(value) <= unquote(max)

@@ -19,6 +19,7 @@ defmodule WAP.ShortLength do
 end
 
 defmodule WAP2.ShortLength do
+  import MM1.OkError
   import WAP.Guards
 
   def decode(<<value, rest::binary>>) when is_short_length(value) do

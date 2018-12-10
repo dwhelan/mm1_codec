@@ -38,6 +38,7 @@ defmodule WAP2.ShortInteger do
     significant bit set to one (1xxx xxxx) and with the value in the remaining
     least significant bits.
   """
+  import MM1.OkError
   import WAP.Guards
 
   def decode(<<1::1, value::7, rest::binary>>) do
