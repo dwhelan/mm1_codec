@@ -70,7 +70,7 @@ defmodule MM1.Codecs2.Mapper do
       def decode bytes do
         case @codec.decode bytes do
           {:ok, {value, rest}} -> ok {map(value), rest}
-          error                        -> error
+          error                -> error
         end
       end
 
