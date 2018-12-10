@@ -69,9 +69,13 @@ defmodule MM1.Codecs2.Mapper do
 
       def decode bytes do
         case @codec.decode bytes do
-          {:ok, {value, rest}} -> ok {Map.get(@map, value, value), rest}
-          error                -> error
+          {:ok, {value, rest}} -> ok {map(value), rest}
+          error                        -> error
         end
+      end
+
+      defp map value do
+        Map.get @map, value, value
       end
 
       def encode value do

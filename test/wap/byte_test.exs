@@ -22,8 +22,8 @@ defmodule WAP2.ByteTest do
   use MM1.Codecs2.TestExamples,
       codec: WAP2.Byte,
       examples: [
-        {<<0>>,     0},
-        {<<255>>, 255},
+        {<<0>>,   {  0, <<>>}},
+        {<<255>>, {255, <<>>}},
       ],
 
       encode_errors: [

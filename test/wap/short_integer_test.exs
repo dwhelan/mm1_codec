@@ -25,8 +25,8 @@ defmodule WAP2.ShortIntegerTest do
   use MM1.Codecs2.TestExamples,
       codec: WAP2.ShortInteger,
       examples: [
-        {<<128>>, 0},
-        {<<255>>, 127},
+        {<<128>>, {  0, <<>>}},
+        {<<255>>, {127, <<>>}},
       ],
 
       decode_errors: [

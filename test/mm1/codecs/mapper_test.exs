@@ -98,14 +98,16 @@ end
 defmodule MM1.Codecs2.Mapper.ListTest do
   use ExUnit.Case
 
+  alias WAP2.ShortLength
+
   import MM1.Codecs2.Mapper
-  map WAP2.ShortLength, [false, true]
+  map ShortLength, [false, true]
 
   use MM1.Codecs2.TestExamples,
       examples: [
-        {<<0>>, false},
-        {<<1>>, true},
-        {<<2>>, 2},
+        {<<0>>, {false, <<>>}},
+        {<<1>>, { true, <<>>}},
+        {<<2>>, {    2, <<>>}},
       ],
 
       decode_errors: [

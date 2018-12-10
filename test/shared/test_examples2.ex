@@ -11,11 +11,21 @@ defmodule MM1.Codecs2.TestExamples do
         @value value
 
         test "decode #{inspect bytes} === {:ok, {#{inspect value}, 'rest'}}" do
-          assert @codec.decode(@bytes <> "rest") === {:ok, {@value, "rest"}}
+          if is_tuple(@value) do
+            {value, rest} = @value
+            assert @codec.decode(@bytes <> "rest") === {:ok, {value, rest <> "rest"}}
+          else
+            assert @codec.decode(@bytes <> "rest") === {:ok, {@value, "rest"} }
+          end
         end
 
         test "encode #{inspect value} === {:ok, #{inspect bytes}}" do
-          assert @codec.encode(@value) === {:ok, @bytes}
+          if is_tuple(@value) do
+            {value, rest} = @value
+            assert @codec.encode(value) === {:ok, @bytes}
+          else
+            assert @codec.encode(@value) === {:ok, @bytes}
+          end
         end
       end)
 

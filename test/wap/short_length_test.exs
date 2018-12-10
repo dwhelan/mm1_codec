@@ -26,8 +26,8 @@ defmodule WAP2.ShortLengthTest do
   use MM1.Codecs2.TestExamples,
       codec: WAP2.ShortLength,
       examples: [
-        {<<0>>,   0},
-        {<<30>>, 30},
+        {<<0>>,  { 0, <<>>}},
+        {<<30>>, {30, <<>>}},
       ],
 
       decode_errors: [

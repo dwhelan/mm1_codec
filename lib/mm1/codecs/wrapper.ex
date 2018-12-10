@@ -35,6 +35,7 @@ defmodule MM1.Codecs2.Wrapper do
       @codec unquote(codec)
 
       def decode bytes do
+        IO.inspect @codec.decode bytes
         case @codec.decode bytes do
           {:ok,    {value, rest}} -> ok    {{@codec, value}, rest}
           {:error, reason       } -> error {@codec, reason}

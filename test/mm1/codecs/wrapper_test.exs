@@ -9,7 +9,7 @@ defmodule MM.Codecs2.Wrapper.WrapperTest do
 
   use MM1.Codecs2.TestExamples,
       examples: [
-        {<<128>>, {ShortInteger, 0}},
+        {<<128>>, {{ShortInteger, 0}, <<>>}},
       ],
 
       decode_errors: [
