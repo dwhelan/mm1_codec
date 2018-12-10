@@ -34,31 +34,33 @@ end
 defmodule MM2.Header do
   defmacro __using__(opts) do
     quote bind_quoted: [opts: opts] do
-      @codec opts[:codec]
+      import MM1.OkError
 
-      use MM1.Codecs.Base
+      @codec  opts[:codec]
+      @byte opts[:byte]
 
-      if opts[:map] do
-        @codec String.to_atom "#{__MODULE__}.Codec"
-        MM1.Codecs.Mapper.create @codec, opts
+      def decode <<@byte, bytes::binary>> do
+        bytes |> @codec.decode |> wrap(__MODULE__)
       end
 
-      @header opts[:value]
+      def encode {codec, value} do
+       value |> @codec.encode |> wrap(__MODULE__)
+      end
 
       def header_byte do
-        @header
+        @byte
       end
 
-      def decode <<@header, bytes::binary>> do
-        bytes |> @codec.decode |> map_result
+      defp wrap {:error, reason}, codec do
+        error {codec, reason}
       end
 
-      def new value do
-        value |> @codec.new |> map_result
+      defp wrap {:ok, {value, rest}}, codec do
+        ok {{codec, value}, rest}
       end
 
-      defp map_result result do
-        %MM1.Result{result | module: __MODULE__, bytes: <<header_byte()>> <> result.bytes}
+      defp wrap {:ok, bytes}, _codec do
+        ok <<@byte>> <> bytes
       end
     end
   end
