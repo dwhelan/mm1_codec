@@ -22,14 +22,14 @@ defmodule WAP2.TextString do
   import MM1.OkError
 
   def decode <<bytes::binary>> do
-    _decode String.split bytes, <<0>>, parts: 2
+    bytes |> String.split(<<0>>, parts: 2) |> decode
   end
 
-  defp _decode [text | [rest]] do
+  defp decode [text | [rest]] do
     ok {text, rest}
   end
 
-  defp _decode [text | []] do
+  defp decode [text | []] do
     error :missing_terminator
   end
 
