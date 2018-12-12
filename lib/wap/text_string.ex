@@ -25,11 +25,11 @@ defmodule WAP2.TextString do
     bytes |> String.split(<<0>>, parts: 2) |> decode
   end
 
-  defp decode [text | [rest]] do
+  def decode [text | [rest]] do
     ok {text, rest}
   end
 
-  defp decode [text | []] do
+  def decode [text | []] do
     error :missing_terminator
   end
 
