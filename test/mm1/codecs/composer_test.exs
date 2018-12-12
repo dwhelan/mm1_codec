@@ -41,7 +41,7 @@ defmodule MM1.Codecs2.ComposerTest do
 
   use MM1.Codecs2.TestExamples,
       examples: [
-        {<<128, 129, 130>>, [0, 1, 2]},
+        {<<128, 129, 130>>, {[0, 1, 2], <<>>}},
       ],
 
       decode_errors: [

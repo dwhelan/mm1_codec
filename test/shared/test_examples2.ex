@@ -6,26 +6,17 @@ defmodule MM1.Codecs2.TestExamples do
       decode_errors = opts[:decode_errors] || []
       encode_errors = opts[:encode_errors] || []
 
-      Enum.each(examples, fn {bytes, value} ->
-        @bytes bytes
-        @value value
+      Enum.each(examples, fn {bytes, result} ->
+        @bytes  bytes
+        @result result
 
-        test "decode #{inspect bytes} === {:ok, {#{inspect value}, 'rest'}}" do
-          if is_tuple(@value) do
-            {value, rest} = @value
-            assert @codec.decode(@bytes <> "rest") === {:ok, {value, rest <> "rest"}}
-          else
-            assert @codec.decode(@bytes <> "rest") === {:ok, {@value, "rest"} }
-          end
+        test "decode #{inspect bytes} === {:ok, {#{inspect result}}}" do
+          assert @codec.decode(@bytes) === {:ok, @result}
         end
 
-        test "encode #{inspect value} === {:ok, #{inspect bytes}}" do
-          if is_tuple(@value) do
-            {value, rest} = @value
-            assert @codec.encode(value) === {:ok, @bytes}
-          else
-            assert @codec.encode(@value) === {:ok, @bytes}
-          end
+        test "encode #{inspect result} === {:ok, #{inspect bytes}}" do
+          {value, rest} = @result
+          assert @codec.encode(value) === {:ok, @bytes}
         end
       end)
 
