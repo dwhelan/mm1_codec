@@ -15,6 +15,14 @@ defmodule MM1.Codecs.Test do
   end
 
   def inspect value do
+    string = Kernel.inspect value
+  end
+
+  def inspect value do
     Kernel.inspect value
   end
+
+  def inspect2 value do
+    string = value |> Kernel.inspect |> String.slice(0..40)
+    end
 end

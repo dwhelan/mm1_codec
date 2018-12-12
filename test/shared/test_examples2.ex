@@ -1,6 +1,9 @@
 defmodule MM1.Codecs2.TestExamples do
   defmacro __using__(opts) do
     quote bind_quoted: [opts: opts] do
+      import Kernel, except: [inspect: 1]
+      import MM1.Codecs.Test
+
       @codec          opts[:codec]         || __MODULE__
       examples      = opts[:examples]      || []
       decode_errors = opts[:decode_errors] || []
@@ -10,11 +13,11 @@ defmodule MM1.Codecs2.TestExamples do
         @bytes  bytes
         @result result
 
-        test "decode #{inspect bytes} === {:ok, {#{inspect result}}}" do
+        test "decode #{inspect2 @bytes} === {:ok, {#{inspect2 result}}}" do
           assert @codec.decode(@bytes) === {:ok, @result}
         end
 
-        test "encode #{inspect result} === {:ok, #{inspect bytes}}" do
+        test "encode #{inspect2 result} === {:ok, #{inspect2 @bytes}" do
           {value, rest} = @result
           assert @codec.encode(value) === {:ok, @bytes}
         end
@@ -24,7 +27,7 @@ defmodule MM1.Codecs2.TestExamples do
         @bytes  bytes
         @reason reason
 
-        test "decode #{inspect bytes} => {:error, #{inspect reason}}" do
+        test "decode #{inspect2 @bytes} => {:error, #{inspect2 reason}}" do
           assert @codec.decode(@bytes) === {:error, @reason}
         end
       end)
@@ -33,7 +36,7 @@ defmodule MM1.Codecs2.TestExamples do
         @value  value
         @reason reason
 
-        test "encode #{inspect value} => {:error, #{inspect reason}}" do
+        test "encode #{inspect2 value} => {:error, #{inspect2 reason}}" do
           assert @codec.encode(@value) === {:error, @reason}
         end
       end)
