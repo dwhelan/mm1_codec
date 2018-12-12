@@ -17,3 +17,23 @@ defmodule WAP.TextString do
     new_ok text, text <> <<0>>
   end
 end
+
+defmodule WAP2.TextString do
+  import MM1.OkError
+
+  def decode <<bytes::binary>> do
+    _decode String.split bytes, <<0>>, parts: 2
+  end
+
+  defp _decode [text | [rest]] do
+    ok {text, rest}
+  end
+
+  defp _decode [text | []] do
+    error :missing_terminator
+  end
+
+  def encode text do
+    ok text <> <<0>>
+  end
+end
