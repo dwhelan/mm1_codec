@@ -557,11 +557,11 @@ defmodule WAP2.CharSets do
 
   @char_sets_by_code Enum.reduce(@char_sets, %{}, fn {k,v}, map -> Map.put(map, v, k) end)
 
-  def map value do
-    @char_sets[value] || value
+  def map byte do
+    @char_sets[byte] || byte
   end
 
-  def unmap code do
-    @char_sets_by_code[code] || code
+  def unmap charset do
+    @char_sets_by_code[charset] || charset
   end
 end
