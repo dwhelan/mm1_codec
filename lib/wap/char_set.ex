@@ -94,11 +94,11 @@ defmodule WAP2.CharSet do
     charset |> CharSets.unmap |> _encode
   end
 
-  def _encode(code) when is_short_integer(code) do
+  defp _encode(code) when is_short_integer(code) do
     code |> ShortInteger.encode
   end
 
-  def _encode code  do
+  defp _encode code  do
     code |> LongInteger.encode
   end
 end
