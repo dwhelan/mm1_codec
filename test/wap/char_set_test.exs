@@ -24,7 +24,7 @@ defmodule WAP2.CharSetTest do
       codec: WAP2.CharSet,
       examples: [
         {<<0xea>>,          {:csUTF8, <<>>}},
-#        {<<2, 0x03, 0xe8>>, {:csUnicode, <<>>}},
+        {<<2, 0x03, 0xe8>>, {:csUnicode, <<>>}},
 #        {<<2, 0x0b, 0xb8>>, {:reserved, <<>>}},
       ]
 

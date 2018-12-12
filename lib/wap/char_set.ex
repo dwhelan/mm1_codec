@@ -13,7 +13,7 @@ defmodule WAP.CharSet do
 
   use MM1.Codecs.Base
 
-  def decode(<<byte, _::binary>> = bytes) when is_short_integer_byte(byte) do
+  def decode(<<byte, _::binary>> = bytes) when byte >= 128 do
     _decode bytes, ShortInteger
   end
 
@@ -70,49 +70,35 @@ defmodule WAP2.CharSet do
   import MM1.OkError
   import WAP.Guards
 
-  def decode(<<byte, _::binary>> = bytes) when is_short_integer_byte(byte) do
-    with {:ok, {code, rest}} <- ShortInteger.decode(bytes)
-      do
-      ok {CharSets.map(code), rest}
-    else
-      error -> error
-    end
-#    bytes |> ShortInteger.decode
+  def decode(<<byte, _::binary>> = bytes) when byte >= 128 do
+    bytes |> decode(ShortInteger)
   end
 
   def decode bytes do
-    bytes |> LongInteger.decode
+    bytes |> decode(LongInteger)
+  end
+
+  defp decode bytes, module do
+    bytes |> module.decode |> map
+  end
+
+  defp map {:ok, {code, rest}} do
+    ok {CharSets.map(code), rest}
+  end
+
+  defp map error do
+    error
   end
 
   def encode charset do
-    charset |> CharSets.unmap |> ShortInteger.encode
+    charset |> CharSets.unmap |> _encode
   end
 
-#  def new(name) when is_atom(name) do
-#    _new CharSets.unmap name
-#  end
-#
-#  def new(code) when is_integer(code) and code >= 0 do
-#    _new code
-#  end
-#
-#  def new code do
-#    new_error :must_be_an_integer_greater_than_or_equal_to_0, code
-#  end
-#
-#  defp _new(name) when is_atom(name) do
-#    new_error :unknown_char_set, name
-#  end
-#
-#  defp _new code do
-#    new_ok CharSets.map(code), bytes(code)
-#  end
-#
-#  defp bytes(code) when is_short_integer(code) do
-#    ShortInteger.new(code).bytes
-#  end
-#
-#  defp bytes code do
-#    LongInteger.new(code).bytes
-#  end
+  def _encode(code) when is_short_integer(code) do
+    code |> ShortInteger.encode
+  end
+
+  def _encode code  do
+    code |> LongInteger.encode
+  end
 end
