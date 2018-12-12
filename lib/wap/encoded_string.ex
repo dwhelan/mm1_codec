@@ -36,11 +36,21 @@ defmodule WAP2.EncodedString do
   import MM1.OkError
   import WAP.Guards
 
-  alias WAP.{ValueLength, CharSet}
-  alias WAP2.{TextString}
+  alias WAP2.{ValueLength, Charset, TextString}
 
   def decode(<<value, _::binary>> = bytes) when is_text(value) do
     bytes |> TextString.decode
+  end
+
+  def decode bytes do
+    with {:ok, {length, rest}} <- ValueLength.decode(bytes),
+         {:ok, {charset, rest}} <- Charset.decode(rest),
+         {:ok, {text, rest}} <- TextString.decode(rest)
+        do
+          ok {length, charset, text}
+        else
+          error -> error
+        end
   end
 
 #  def decode data do
@@ -53,6 +63,7 @@ defmodule WAP2.EncodedString do
 #  end
 
   def encode value do
+
     value |> TextString.encode
   end
 
