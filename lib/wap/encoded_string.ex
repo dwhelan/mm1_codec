@@ -43,9 +43,9 @@ defmodule WAP2.EncodedString do
   end
 
   def decode bytes do
-    with {:ok, {length, rest}}  <- ValueLength.decode(bytes),
-         {:ok, {charset, rest}} <- CharSet.decode(rest),
-         {:ok, {text, rest}}    <- TextString.decode(rest)
+    with {:ok, {length,  charset_bytes}} <- ValueLength.decode(bytes),
+         {:ok, {charset, text_bytes   }} <- CharSet.decode(charset_bytes),
+         {:ok, {text,    rest         }} <- TextString.decode(text_bytes)
     do
       ok {{length, charset, text}, rest}
     else
@@ -54,9 +54,9 @@ defmodule WAP2.EncodedString do
   end
 
   def encode {length, charset, text} do
-    with {:ok, length_bytes}  <- ValueLength.encode(length),
+    with {:ok, length_bytes } <- ValueLength.encode(length),
          {:ok, charset_bytes} <- CharSet.encode(charset),
-         {:ok, text_bytes}    <- TextString.encode(text)
+         {:ok, text_bytes   } <- TextString.encode(text)
     do
       ok length_bytes <> charset_bytes <> text_bytes
     else
