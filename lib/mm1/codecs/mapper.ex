@@ -67,16 +67,20 @@ defmodule MM1.Codecs2.Mapper do
     Map.get(map, value, value) |> codec.encode
   end
 
-  def reverse map do
-    map |> Enum.reduce(%{}, fn {k, v}, reverse_map -> Map.put(reverse_map, v, k) end)
-  end
-
   defp map_value {:ok, {value, rest}}, map do
     ok {Map.get(map, value, value), rest}
   end
 
-  defp map_value error, _map do
+  defp map_value error, _ do
     error
+  end
+
+  def reverse(map) when is_map(map) do
+    map |> Enum.reduce(%{}, fn {k, v}, reverse_map -> Map.put(reverse_map, v, k) end)
+  end
+
+  def indexed(values) when is_list(values) do
+    values |> Enum.with_index |> Enum.reduce(%{}, fn {v, i}, map -> Map.put(map, i, v) end)
   end
 
   defmacro map codec, map do
@@ -85,8 +89,7 @@ defmodule MM1.Codecs2.Mapper do
       import Mapper
 
       @codec codec
-      @map   map  |> Enum.with_index
-                  |> Enum.reduce(%{}, fn {v, i},   map -> Map.put(  map, i, v) end)
+      @map   map  |> indexed
       @unmap @map |> reverse
 
       def decode bytes do

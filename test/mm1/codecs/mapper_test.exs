@@ -152,7 +152,11 @@ defmodule MM1.Codecs2.Mapper.Test do
         {-1, :must_be_an_integer_between_0_and_30},
       ]
 
-  test "map" do
-    assert reverse(%{a: 1, b: 2}) == %{1 => :a, 2 => :b}
+  test "reverse" do
+    assert reverse(%{a: 0, b: 1}) == %{0 => :a, 1 => :b}
+  end
+
+  test "indexed" do
+    assert indexed([:a, :b]) == %{0 => :a, 1 => :b}
   end
 end
