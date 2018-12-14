@@ -24,23 +24,21 @@ end
 defmodule MM2.XMmsMessageTypeTest do
   use ExUnit.Case
 
-  alias MM2.XMmsMessageType
-
-  use MM1.Codecs.TestExamples,
-      codec: XMmsMessageType,
+  use MM1.Codecs2.TestExamples,
+      codec: MM2.XMmsMessageType,
       examples: [
-#        {<<128>>, :m_send_conf       },
-#        {<<129>>, :m_notification_ind},
-#        {<<130>>, :m_notifyresp_ind  },
-#        {<<131>>, :m_send_req        },
-#        {<<132>>, :m_retrieve_conf   },
-#        {<<133>>, :m_acknowledge_ind },
-#        {<<134>>, :m_delivery_ind    },
-#        {<<135>>, :m_read_rec_ind    },
-#        {<<136>>, :m_read_orig_ind   },
-#        {<<137>>, :m_forward_ind     },
-#        {<<138>>, :m_forward_conf    },
-#        {<<139>>, 11                 },
+        {<<128>>, {:m_send_conf,        <<>>}},
+        {<<129>>, {:m_notification_ind, <<>>}},
+        {<<130>>, {:m_notifyresp_ind,   <<>>}},
+        {<<131>>, {:m_send_req,         <<>>}},
+        {<<132>>, {:m_retrieve_conf,    <<>>}},
+        {<<133>>, {:m_acknowledge_ind,  <<>>}},
+        {<<134>>, {:m_delivery_ind,     <<>>}},
+        {<<135>>, {:m_read_rec_ind,     <<>>}},
+        {<<136>>, {:m_read_orig_ind,    <<>>}},
+        {<<137>>, {:m_forward_ind,      <<>>}},
+        {<<138>>, {:m_forward_conf,     <<>>}},
+        {<<139>>, {11,                  <<>>}},
       ]
 end
 

@@ -18,10 +18,9 @@ defmodule MM1.XMmsMessageType do
 end
 
 defmodule MM2.XMmsMessageType do
-  use MM1.Header,
-      value: 0x8c,
-      codec: WAP.ShortInteger,
-      map: [
+  use MM1.Codecs2.Mapper,
+      codec: WAP2.ShortInteger,
+      values: [
         :m_send_conf,
         :m_notification_ind,
         :m_notifyresp_ind,
