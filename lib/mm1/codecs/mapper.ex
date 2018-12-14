@@ -101,4 +101,23 @@ defmodule MM1.Codecs2.Mapper do
       end
     end
   end
+
+  defmacro __using__(opts) do
+    quote bind_quoted: [codec: opts[:codec], map: opts[:map], values: opts[:values]] do
+      alias MM1.Codecs2.Mapper
+      import Mapper
+
+      @codec codec
+      @map   map  || indexed(values)
+      @unmap @map |> reverse
+
+      def decode bytes do
+        bytes |> decode(@codec, @map)
+      end
+
+      def encode value do
+        value |> encode(@codec, @unmap)
+      end
+    end
+  end
 end

@@ -95,13 +95,35 @@ defmodule MM1.Codecs.Mapper.ImportTest do
       ]
 end
 
-defmodule MM1.Codecs2.Mapper.ListTest do
+defmodule MM1.Codecs2.Mapper.UseWithMapTest do
   use ExUnit.Case
 
   alias WAP2.ShortLength
 
-  import MM1.Codecs2.Mapper
-  map ShortLength, [false, true]
+  use MM1.Codecs2.Mapper, codec: ShortLength, map: %{0 => false, 1 => true}
+
+  use MM1.Codecs2.TestExamples,
+      examples: [
+        {<<0>>, {false, <<>>}},
+        {<<1>>, { true, <<>>}},
+        {<<2>>, {    2, <<>>}},
+      ],
+
+      decode_errors: [
+        {<<31>>, :must_be_an_integer_between_0_and_30},
+      ],
+
+      encode_errors: [
+        {-1, :must_be_an_integer_between_0_and_30},
+      ]
+end
+
+defmodule MM1.Codecs2.Mapper.UseWithValuesTest do
+  use ExUnit.Case
+
+  alias WAP2.ShortLength
+
+  use MM1.Codecs2.Mapper, codec: ShortLength, values: [false, true]
 
   use MM1.Codecs2.TestExamples,
       examples: [
