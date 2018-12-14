@@ -5,8 +5,5 @@ defmodule MM1.XMmsMessageSize do
 end
 
 defmodule MM2.XMmsMessageSize do
-  alias WAP2.LongInteger
-
-  defdelegate decode(bytes), to: LongInteger
-  defdelegate encode(value), to: LongInteger
+  use MM2.Embed, codec: WAP2.LongInteger
 end
