@@ -123,14 +123,18 @@ defmodule MM1.Codecs2.Mapper.Test do
   use ExUnit.Case
 
   alias WAP2.ShortLength
-  import MM1.Codecs2.Mapper
+  alias MM1.Codecs2.Mapper
+  import Mapper
+
+  @map %{0 => false, 1 => true}
+  @reverse_map @map |> Mapper.reverse
 
   def decode bytes do
-    bytes |> decode(ShortLength, %{0 => false, 1 => true})
+    bytes |> decode(ShortLength, @map)
   end
 
   def encode value do
-    value |> encode(ShortLength, %{false => 0, true => 1})
+    value |> encode(ShortLength, @reverse_map)
   end
 
   use MM1.Codecs2.TestExamples,
