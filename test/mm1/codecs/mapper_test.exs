@@ -119,7 +119,7 @@ defmodule MM1.Codecs2.Mapper.ListTest do
       ]
 end
 
-defmodule MM1.Codecs2.Mapper.ImportTest do
+defmodule MM1.Codecs2.Mapper.Test do
   use ExUnit.Case
 
   alias WAP2.ShortLength
@@ -147,4 +147,8 @@ defmodule MM1.Codecs2.Mapper.ImportTest do
       encode_errors: [
         {-1, :must_be_an_integer_between_0_and_30},
       ]
+
+  test "map" do
+    assert reverse(%{a: 1, b: 2}) == %{1 => :a, 2 => :b}
+  end
 end

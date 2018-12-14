@@ -67,6 +67,10 @@ defmodule MM1.Codecs2.Mapper do
     Map.get(map, value, value) |> codec.encode
   end
 
+  def reverse map do
+    map |> Enum.reduce(%{}, fn {k, v}, unmap -> Map.put(unmap, v, k) end)
+  end
+
   defp map_value {:ok, {value, rest}}, map do
     ok {Map.get(map, value, value), rest}
   end
