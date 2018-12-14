@@ -57,10 +57,28 @@ defmodule MM1.Codecs.Mapper do
 end
 
 defmodule MM1.Codecs2.Mapper do
+  import MM1.OkError
+
+  def decode bytes, codec, map do
+    bytes |> codec.decode |> map_value(map)
+  end
+
+  def encode value, codec, map do
+    Map.get(map, value, value) |> codec.encode
+  end
+
+  defp map_value {:ok, {value, rest}}, map do
+    ok {Map.get(map, value, value), rest}
+  end
+
+  defp map_value error, _map do
+    error
+  end
 
   defmacro map codec, map do
     quote bind_quoted: [codec: codec, map: map] do
       import MM1.OkError
+      import MM1.Codecs2.Mapper
 
       @codec codec
       @map   map  |> Enum.with_index
@@ -68,27 +86,11 @@ defmodule MM1.Codecs2.Mapper do
       @unmap @map |> Enum.reduce(%{}, fn {k, v}, unmap -> Map.put(unmap, v, k) end)
 
       def decode bytes do
-        bytes |> @codec.decode |> map
+        bytes |> decode(@codec, @map)
       end
 
       def encode value do
-        value |> unmap |> @codec.encode
-      end
-
-      defp map {:ok, {value, rest}} do
-        ok {map_value(value), rest}
-      end
-
-      defp map error do
-        error
-      end
-
-      defp map_value value do
-        Map.get @map, value, value
-      end
-
-      defp unmap value do
-        Map.get @unmap, value, value
+        value |> encode(@codec, @unmap)
       end
     end
   end
