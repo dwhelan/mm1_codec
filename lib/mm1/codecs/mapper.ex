@@ -2,19 +2,23 @@ defmodule MM1.Codecs.Mapper do
   import MM1.OkError
 
   def decode bytes, codec, map do
-    bytes |> codec.decode |> map_value(map)
+    bytes |> codec.decode |> map(map)
   end
 
   def encode value, codec, map do
-    Map.get(map, value, value) |> codec.encode
+    map |> get(value) |> codec.encode
   end
 
-  defp map_value {:ok, {value, rest}}, map do
-    ok {Map.get(map, value, value), rest}
+  defp map {:ok, {value, rest}}, map do
+    ok {get(map, value), rest}
   end
 
-  defp map_value error, _ do
+  defp map error, _ do
     error
+  end
+
+  def get map, key do
+    Map.get map, key, key
   end
 
   def reverse(map) when is_map(map) do
@@ -26,12 +30,12 @@ defmodule MM1.Codecs.Mapper do
   end
 
   defmacro __using__(opts) do
-    quote bind_quoted: [codec: opts[:codec], map: opts[:map], values: opts[:values]] do
+    quote bind_quoted: [opts: opts] do
       alias MM1.Codecs.Mapper
       import Mapper
 
-      @codec codec
-      @map   map  || indexed(values)
+      @codec opts[:codec]
+      @map   opts[:map]  || indexed(opts[:values])
       @unmap @map |> reverse
 
       def decode bytes do

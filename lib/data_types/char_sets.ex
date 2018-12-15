@@ -2,6 +2,7 @@ defmodule MMS.CharSets do
   @moduledoc """
     Specification: (IANA-CHARSET-MIB DEFINITIONS)[https://www.iana.org/assignments/character-sets/character-sets.xhtml]
   """
+  alias MM1.Codecs.Mapper
 
   @map %{
        1 => :other,
@@ -266,13 +267,13 @@ defmodule MMS.CharSets do
     3000 => :reserved,
   }
 
-  @reverse_map MM1.Codecs.Mapper.reverse(@map)
+  @reverse_map Mapper.reverse(@map)
 
   def map value do
-    Map.get @map, value, value
+    Mapper.get @map, value
   end
 
   def unmap char_set do
-    Map.get @reverse_map, char_set, char_set
+    Mapper.get @reverse_map, char_set
   end
 end
