@@ -28,7 +28,6 @@ end
 
 defmodule MM2.HeadersTest do
   use ExUnit.Case
-  alias MM1.Result
   alias MM2.Headers
 
   use MM1.Codecs2.TestExamples,
