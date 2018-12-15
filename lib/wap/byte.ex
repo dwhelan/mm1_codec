@@ -1,4 +1,4 @@
-defmodule WAP2.Byte do
+defmodule MMS.Byte do
   import MM1.OkError
   import WAP.Guards
 

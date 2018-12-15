@@ -1,7 +1,7 @@
 defmodule MM1.Codecs2.ComposerTest do
   use ExUnit.Case
 
-  alias WAP2.ShortInteger
+  alias MMS.ShortInteger
 
   import MM1.Codecs2.Composer
 

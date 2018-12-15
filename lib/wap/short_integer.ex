@@ -1,4 +1,4 @@
-defmodule WAP2.ShortInteger do
+defmodule MMS.ShortInteger do
   @moduledoc """
     Specification: WAP-230-WSP-20010705-a, 8.4.2.1 Basic rules
 

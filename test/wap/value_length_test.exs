@@ -1,11 +1,11 @@
-defmodule WAP2.ValueLengthTest do
+defmodule MMS.ValueLengthTest do
   use ExUnit.Case
 
   max_value = 0xffffffff
   length_quote = 31
 
   use MM1.Codecs2.TestExamples,
-      codec: WAP2.ValueLength,
+      codec: MMS.ValueLength,
       examples: [
         {<<0>>,  { 0, <<>>}},
         {<<30>>, {30, <<>>}},

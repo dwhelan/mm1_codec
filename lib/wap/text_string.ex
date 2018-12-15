@@ -1,4 +1,4 @@
-defmodule WAP2.TextString do
+defmodule MMS.TextString do
   import MM1.OkError
 
   def decode <<bytes::binary>> do

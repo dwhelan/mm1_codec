@@ -1,6 +1,6 @@
 defmodule MM2.XMmsMessageType do
   use MM1.Codecs2.Mapper,
-      codec: WAP2.ShortInteger,
+      codec: MMS.ShortInteger,
       values: [
         :m_send_conf,
         :m_notification_ind,

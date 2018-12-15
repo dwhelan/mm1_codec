@@ -1,10 +1,10 @@
-defmodule WAP2.UintvarTest do
+defmodule MMS.UintvarTest do
   use ExUnit.Case
 
   max_value = 0xffffffff
 
   use MM1.Codecs2.TestExamples,
-      codec: WAP2.Uintvar,
+      codec: MMS.Uintvar,
       examples: [
         {<<0>>, {0, <<>>}},
         {<<127>>, {127, <<>>}},

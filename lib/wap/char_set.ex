@@ -3,13 +3,13 @@
 #   codec: {ShortInteger, is_short_integer_byte, is_short_integer},
 #   codec: LongInteger,
 #
-defmodule WAP2.CharSet do
+defmodule MMS.CharSet do
   @moduledoc """
   Specification: WAP-230-WSP-20010705-a, 7.2.9 Encoded-string-value
 
   The Char-set values are registered by IANA as MIBEnum values.
   """
-  alias WAP2.{CharSets, ShortInteger, LongInteger}
+  alias MMS.{CharSets, ShortInteger, LongInteger}
 
   import MM1.OkError
   import WAP.Guards

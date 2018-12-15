@@ -1,8 +1,8 @@
-defmodule WAP2.ShortIntegerTest do
+defmodule MMS.ShortIntegerTest do
   use ExUnit.Case
 
   use MM1.Codecs2.TestExamples,
-      codec: WAP2.ShortInteger,
+      codec: MMS.ShortInteger,
       examples: [
         {<<128>>, {  0, <<>>}},
         {<<255>>, {127, <<>>}},

@@ -1,7 +1,7 @@
 defmodule MM.Codecs2.Wrapper.WrapperTest do
   use ExUnit.Case
 
-  alias WAP2.ShortInteger
+  alias MMS.ShortInteger
 
   import MM1.Codecs2.Wrapper
 

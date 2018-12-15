@@ -1,9 +1,9 @@
-defmodule WAP2.LongIntegerTest do
+defmodule MMS.LongIntegerTest do
   use ExUnit.Case
 
   thirty_0xffs = 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
 
-  use MM1.Codecs2.TestExamples, codec: WAP2.LongInteger,
+  use MM1.Codecs2.TestExamples, codec: MMS.LongInteger,
     examples: [
       {<<1,   0>>,      {     0, <<>>}},
       {<<1, 255>>,      {   255, <<>>}},

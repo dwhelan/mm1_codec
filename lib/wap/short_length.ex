@@ -1,4 +1,4 @@
-defmodule WAP2.ShortLength do
+defmodule MMS.ShortLength do
   import MM1.OkError
   import WAP.Guards
 

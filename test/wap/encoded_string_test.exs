@@ -1,8 +1,8 @@
-defmodule WAP2.EncodedStringTest do
+defmodule MMS.EncodedStringTest do
   use ExUnit.Case
 
   use MM1.Codecs2.TestExamples,
-      codec: WAP2.EncodedString,
+      codec: MMS.EncodedString,
       examples: [
         {<<0>>,                                {""                      , <<>>}},
         {<<"text", 0>>,                        {"text"                  , <<>>}},

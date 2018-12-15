@@ -1,8 +1,8 @@
-defmodule WAP2.ByteTest do
+defmodule MMS.ByteTest do
   use ExUnit.Case
 
   use MM1.Codecs2.TestExamples,
-      codec: WAP2.Byte,
+      codec: MMS.Byte,
       examples: [
         {<<0>>,   {  0, <<>>}},
         {<<255>>, {255, <<>>}},

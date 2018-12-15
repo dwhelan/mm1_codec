@@ -1,4 +1,4 @@
-defmodule WAP2.Uintvar do
+defmodule MMS.Uintvar do
   use Bitwise
 
   import MM1.OkError

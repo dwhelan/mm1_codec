@@ -1,4 +1,4 @@
-defmodule WAP2.CharSets do
+defmodule MMS.CharSets do
   @moduledoc """
     Specification: (IANA-CHARSET-MIB DEFINITIONS)[https://www.iana.org/assignments/character-sets/character-sets.xhtml]
   """

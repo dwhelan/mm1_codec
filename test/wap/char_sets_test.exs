@@ -1,5 +1,5 @@
-defmodule WAP2.CharSetsTest do
-  import WAP2.CharSets
+defmodule MMS.CharSetsTest do
+  import MMS.CharSets
   alias MM1.Result
 
   use ExUnit.Case

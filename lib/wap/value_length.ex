@@ -1,5 +1,5 @@
-defmodule WAP2.ValueLength do
-  alias WAP2.{ShortLength, Uintvar}
+defmodule MMS.ValueLength do
+  alias MMS.{ShortLength, Uintvar}
 
   import MM1.OkError
   import WAP.Guards

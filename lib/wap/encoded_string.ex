@@ -1,8 +1,8 @@
-defmodule WAP2.EncodedString do
+defmodule MMS.EncodedString do
   import MM1.OkError
   import WAP.Guards
 
-  alias WAP2.{ValueLength, CharSet, TextString}
+  alias MMS.{ValueLength, CharSet, TextString}
 
   def decode(<<byte, _::binary>> = bytes) when is_text(byte) do
     bytes |> TextString.decode

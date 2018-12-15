@@ -1,7 +1,7 @@
 defmodule MM1.Codecs2.Mapper.UseWithMapTest do
   use ExUnit.Case
 
-  alias WAP2.ShortLength
+  alias MMS.ShortLength
 
   use MM1.Codecs2.Mapper, codec: ShortLength, map: %{0 => false, 1 => true}
 
@@ -24,7 +24,7 @@ end
 defmodule MM1.Codecs2.Mapper.UseWithValuesTest do
   use ExUnit.Case
 
-  alias WAP2.ShortLength
+  alias MMS.ShortLength
 
   use MM1.Codecs2.Mapper, codec: ShortLength, values: [false, true]
 
@@ -47,7 +47,7 @@ end
 defmodule MM1.Codecs2.Mapper.Test do
   use ExUnit.Case
 
-  alias WAP2.ShortLength
+  alias MMS.ShortLength
   alias MM1.Codecs2.Mapper
   import Mapper
 

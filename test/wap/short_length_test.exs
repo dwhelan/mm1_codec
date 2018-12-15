@@ -1,8 +1,8 @@
-defmodule WAP2.ShortLengthTest do
+defmodule MMS.ShortLengthTest do
   use ExUnit.Case
 
   use MM1.Codecs2.TestExamples,
-      codec: WAP2.ShortLength,
+      codec: MMS.ShortLength,
       examples: [
         {<<0>>,  { 0, <<>>}},
         {<<30>>, {30, <<>>}},

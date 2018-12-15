@@ -1,8 +1,8 @@
-defmodule WAP2.CharSetTest do
+defmodule MMS.CharSetTest do
   use ExUnit.Case
 
   use MM1.Codecs2.TestExamples,
-      codec: WAP2.CharSet,
+      codec: MMS.CharSet,
       examples: [
         {<<0xea>>,          {:csUTF8, <<>>}},
         {<<2, 0x03, 0xe8>>, {:csUnicode, <<>>}},
