@@ -3,7 +3,7 @@ defmodule MMS.CharSets do
     Specification: (IANA-CHARSET-MIB DEFINITIONS)[https://www.iana.org/assignments/character-sets/character-sets.xhtml]
   """
 
-  @char_sets %{
+  @map %{
        1 => :other,
        2 => :unknown,
        3 => :csASCII,
@@ -266,13 +266,13 @@ defmodule MMS.CharSets do
     3000 => :reserved,
   }
 
-  @char_sets_by_code Enum.reduce(@char_sets, %{}, fn {k,v}, map -> Map.put(map, v, k) end)
+  @reverse_map MM1.Codecs.Mapper.reverse(@map)
 
-  def map byte do
-    @char_sets[byte] || byte
+  def map value do
+    Map.get @map, value, value
   end
 
-  def unmap charset do
-    @char_sets_by_code[charset] || charset
+  def unmap char_set do
+    Map.get @reverse_map, char_set, char_set
   end
 end
