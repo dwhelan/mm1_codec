@@ -6,19 +6,7 @@ ExUnit.start exclude: [:skip], include: [
 defmodule MM1.Codecs.Test do
   import Kernel, except: [inspect: 1]
 
-  def inspect(values) when is_list(values) do
-    "[ #{values |> Enum.map(&inspect/1) |> Enum.join(", ")} ]"
-  end
-
-  def inspect value do
-    string = Kernel.inspect value
-  end
-
-  def inspect value do
-    Kernel.inspect value
-  end
-
   def inspect2 value do
     string = value |> Kernel.inspect |> String.slice(0..40)
-    end
+  end
 end
