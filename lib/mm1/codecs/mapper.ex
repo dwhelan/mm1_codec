@@ -1,5 +1,5 @@
 defmodule MM1.Codecs.Mapper do
-  import MM1.OkError
+  import MMS.OkError
 
   def decode bytes, codec, map do
     bytes |> codec.decode |> map(map)

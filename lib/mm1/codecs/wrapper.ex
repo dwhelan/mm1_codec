@@ -1,7 +1,7 @@
 defmodule MM1.Codecs.Wrapper do
   defmacro wrap codec do
     quote do
-      import MM1.OkError
+      import MMS.OkError
 
       @codec unquote(codec)
 

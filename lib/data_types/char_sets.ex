@@ -267,7 +267,7 @@ defmodule MMS.CharSets do
     3000 => :reserved,
   }
 
-  @reverse_map Mapper.reverse(@map)
+  @reverse_map @map |> Mapper.reverse
 
   def map value do
     Mapper.get @map, value

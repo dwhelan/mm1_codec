@@ -37,7 +37,7 @@ defmodule MM2.Headers do
   }
 
 
-  import MM1.OkError
+  import MMS.OkError
 
   def decode bytes do
     decode bytes, []

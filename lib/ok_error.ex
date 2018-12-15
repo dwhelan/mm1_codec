@@ -1,4 +1,4 @@
-defmodule MM1.OkError do
+defmodule MMS.OkError do
 
   defmacro ok value do
     quote do

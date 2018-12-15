@@ -1,5 +1,5 @@
 defmodule MMS.TextString do
-  import MM1.OkError
+  import MMS.OkError
 
   def decode <<bytes::binary>> do
     bytes |> String.split(<<0>>, parts: 2) |> decode

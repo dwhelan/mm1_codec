@@ -1,5 +1,5 @@
 defmodule MMS.Byte do
-  import MM1.OkError
+  import MMS.OkError
   import MMS.DataTypes
 
   def decode <<value, rest::binary>> do

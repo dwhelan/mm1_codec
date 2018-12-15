@@ -8,7 +8,7 @@ defmodule MMS.ShortInteger do
     significant bit set to one (1xxx xxxx) and with the value in the remaining
     least significant bits.
   """
-  import MM1.OkError
+  import MMS.OkError
   import MMS.DataTypes
 
   def decode(<<1::1, value::7, rest::binary>>) do

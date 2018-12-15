@@ -2,7 +2,7 @@ defmodule MM1.Codecs.Composer do
 
   defmacro compose codecs do
     quote do
-      import MM1.OkError
+      import MMS.OkError
 
       @codecs unquote(codecs)
 

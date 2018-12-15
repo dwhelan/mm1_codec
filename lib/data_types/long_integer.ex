@@ -11,7 +11,7 @@ defmodule MMS.LongInteger do
     The minimum number of octets must be used to encode the value.
   """
 
-  import MM1.OkError
+  import MMS.OkError
   import MMS.DataTypes
 
   def decode(<<length, rest::binary>>) when length < 1 or length > 30 do
