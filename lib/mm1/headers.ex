@@ -80,7 +80,7 @@ end
 
 defmodule MM2.Headers do
   # Based on OMA-WAP-MMS-ENC-V1_1-20040715-A: Table 12. Field Name Assignments
-  @headers %{
+  @map %{
     0x81 => MM2.Bcc,
     0x82 => MM2.Cc,
     #MM1.XMmsContentLocation,
@@ -116,8 +116,6 @@ defmodule MM2.Headers do
     #MM1.XMmsPreviouslySentDate,
   }
 
-  @keys Map.keys(@headers)
-  @header_bytes MM1.Codecs2.Mapper.reverse(@headers)
 
   import MM1.OkError
 
@@ -125,11 +123,14 @@ defmodule MM2.Headers do
     decode bytes, []
   end
 
-  defp decode(<<header_byte, bytes:: binary>>, headers) when header_byte in @keys do
-    header = @headers[header_byte]
+  @header_bytes Map.keys(@map)
+
+  defp decode(<<byte, bytes:: binary>>, headers) when byte in @header_bytes do
+    header = @map[byte]
+
     case header.decode bytes do
       {:ok,    {value, rest}} -> decode rest, [{header, value} | headers]
-      error -> error
+      {:error,        reason} -> error {header, reason}
     end
   end
 
@@ -141,15 +142,20 @@ defmodule MM2.Headers do
     encode headers, []
   end
 
+  @reverse_map MM1.Codecs2.Mapper.reverse(@map)
+
   defp encode [{header, value} | headers], results do
     case header.encode value do
-      {:ok,    bytes}  -> encode headers, [<<@header_bytes[header]>> <> bytes | results]
+      {:ok,     bytes} -> encode headers, [{header, bytes} | results]
       {:error, reason} -> error {header, reason}
     end
   end
 
   defp encode [], results do
-    ok results |> Enum.reverse |> Enum.join
+    ok results |> Enum.reverse |> Enum.map(&prepend_header_byte/1) |> Enum.join
   end
 
+  defp prepend_header_byte {header, bytes} do
+    <<@reverse_map[header]>> <> bytes
+  end
 end
