@@ -81,7 +81,8 @@ end
 defmodule MM2.Headers do
   # Based on OMA-WAP-MMS-ENC-V1_1-20040715-A: Table 12. Field Name Assignments
   @headers %{
-    0x81 => MM2.Bcc
+    0x81 => MM2.Bcc,
+    0x82 => MM2.Cc,
 #    MM1.Cc,
     #MM1.XMmsContentLocation,
     #MM1.ContentType,
@@ -116,6 +117,8 @@ defmodule MM2.Headers do
     #MM1.XMmsPreviouslySentDate,
   }
 
+  @header_bytes MM1.Codecs2.Mapper.reverse(@headers)
+
   import MM1.OkError
 
   def decode <<header_byte, bytes:: binary>> do
@@ -126,6 +129,6 @@ defmodule MM2.Headers do
 
   def encode [{header, value} | headers] do
     {:ok, bytes} = header.encode(value)
-    ok <<0x81>> <> bytes
+    ok <<@header_bytes[header]>> <> bytes
   end
 end
