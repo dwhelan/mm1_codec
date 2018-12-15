@@ -83,7 +83,6 @@ defmodule MM2.Headers do
   @headers %{
     0x81 => MM2.Bcc,
     0x82 => MM2.Cc,
-#    MM1.Cc,
     #MM1.XMmsContentLocation,
     #MM1.ContentType,
     #MM1.Date,
@@ -95,7 +94,7 @@ defmodule MM2.Headers do
     #MM1.M1:MessageID,
     0x8c => MM2.XMmsMessageType,
     #MM1.XMmsMMSVersion,
-#    MM1.XMmsMessageSize,
+    0x8e => MM2.XMmsMessageSize,
     #MM1.XMmsPriority,
     #MM1.XMmsReportAllowed,
     #MM1.XMmsResponseStatus,
