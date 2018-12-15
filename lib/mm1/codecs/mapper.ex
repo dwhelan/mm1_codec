@@ -25,25 +25,6 @@ defmodule MM1.Codecs.Mapper do
     values |> Enum.with_index |> Enum.reduce(%{}, fn {v, i}, map -> Map.put(map, i, v) end)
   end
 
-  defmacro map codec, map do
-    quote bind_quoted: [codec: codec, map: map] do
-      alias MM1.Codecs.Mapper
-      import Mapper
-
-      @codec codec
-      @map   map  |> indexed
-      @unmap @map |> reverse
-
-      def decode bytes do
-        bytes |> decode(@codec, @map)
-      end
-
-      def encode value do
-        value |> encode(@codec, @unmap)
-      end
-    end
-  end
-
   defmacro __using__(opts) do
     quote bind_quoted: [codec: opts[:codec], map: opts[:map], values: opts[:values]] do
       alias MM1.Codecs.Mapper
