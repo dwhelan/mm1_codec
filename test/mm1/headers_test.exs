@@ -38,10 +38,6 @@ defmodule MM2.HeadersTest do
         {<<0x82, "x", 0>>, {[{MM2.Cc, "x"}], <<>>}},
         {<<0x8c, 128>>, {[{MM2.XMmsMessageType, :m_send_conf}], <<>>}},
         {<<0x8e, 1, 0>>, {[{MM2.XMmsMessageSize, 0}], <<>>}},
-#        {<<0x82, "x", 0>>, [%Result{bytes: <<0x82, "x", 0>>, module: MM1.Cc,              rest: "rest", value: "x"         }]},
-#        {<<0x8c,    128>>, [%Result{bytes: <<0x8c,    128>>, module: MM1.XMmsMessageType, rest: "rest", value: :m_send_conf}]},
-#        {<<0x8e,   1, 0>>, [%Result{bytes: <<0x8e,   1, 0>>, module: MM1.XMmsMessageSize, rest: "rest", value:  0          }]},
-#
 #        {
 #          <<0x81, "x", 0, 0x82, "x", 0>>,
 #          [
@@ -50,10 +46,9 @@ defmodule MM2.HeadersTest do
 #          ]
 #        },
       ]
-#  test "add" do
-#    bcc = MM1.Bcc.new "abc"
-#    original = Headers.new
-#    headers = Headers.add original, bcc
-#    assert headers.value == [bcc]
-#  end
+
+  test "multiple headers" do
+    headers = Headers.decode <<0x81, "x", 0, 0x81, "y", 0>>
+    assert headers == {:ok, {[{MM2.Bcc, "x"}, {MM2.Bcc, "y"}], <<>>}}
+  end
 end
