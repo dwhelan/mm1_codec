@@ -120,10 +120,21 @@ defmodule MM2.Headers do
 
   import MM1.OkError
 
-  def decode <<header_byte, bytes:: binary>> do
+  def decode bytes do
+    decode bytes, []
+  end
+
+  @keys Map.keys(@headers)
+  def decode(<<header_byte, bytes:: binary>>, headers) when header_byte in @keys do
     header = @headers[header_byte]
-    {:ok, {value, rest}} = header.decode(bytes)
-    ok {[{header, value}], rest}
+    case header.decode bytes do
+      {:ok,    {value, rest}} -> decode rest, [{header, value} | headers]
+      error -> error
+    end
+  end
+
+  def decode(rest, headers) do
+    ok {Enum.reverse(headers), rest}
   end
 
   def encode [{header, value} | headers] do

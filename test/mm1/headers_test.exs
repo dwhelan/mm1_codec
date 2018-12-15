@@ -38,13 +38,6 @@ defmodule MM2.HeadersTest do
         {<<0x82, "x", 0>>, {[{MM2.Cc, "x"}], <<>>}},
         {<<0x8c, 128>>, {[{MM2.XMmsMessageType, :m_send_conf}], <<>>}},
         {<<0x8e, 1, 0>>, {[{MM2.XMmsMessageSize, 0}], <<>>}},
-#        {
-#          <<0x81, "x", 0, 0x82, "x", 0>>,
-#          [
-#            %Result{module: MM1.Bcc, value: "x", bytes: <<0x81, "x", 0>>, rest: <<0x82, "x", 0, "rest">>},
-#            %Result{module: MM1.Cc,  value: "x", bytes: <<0x82, "x", 0>>, rest: "rest"                  }
-#          ]
-#        },
       ]
 
   test "multiple headers" do
