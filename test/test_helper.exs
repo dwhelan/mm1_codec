@@ -3,10 +3,3 @@ ExUnit.start exclude: [:skip], include: [
 #     :focus], exclude: [:test
   ]
 
-defmodule MM1.Codecs.Test do
-  import Kernel, except: [inspect: 1]
-
-  def inspect2 value do
-    string = value |> Kernel.inspect |> String.slice(0..40)
-  end
-end
