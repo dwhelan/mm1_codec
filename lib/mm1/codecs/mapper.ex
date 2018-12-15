@@ -1,4 +1,4 @@
-defmodule MM1.Codecs.Mapper do
+defmodule MMS.Mapper do
   import MMS.OkError
 
   def decode bytes, codec, map do
@@ -31,8 +31,7 @@ defmodule MM1.Codecs.Mapper do
 
   defmacro __using__(opts) do
     quote bind_quoted: [opts: opts] do
-      alias MM1.Codecs.Mapper
-      import Mapper
+      import MMS.Mapper
 
       @codec opts[:codec]
       @map   opts[:map]  || indexed(opts[:values])

@@ -1,5 +1,5 @@
 defmodule MM2.XMmsMessageType do
-  use MM1.Codecs.Mapper,
+  use MMS.Mapper,
       codec: MMS.ShortInteger,
       values: [
         :m_send_conf,

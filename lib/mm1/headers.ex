@@ -62,7 +62,7 @@ defmodule MM2.Headers do
     encode headers, []
   end
 
-  @reverse_map MM1.Codecs.Mapper.reverse(@map)
+  @reverse_map MMS.Mapper.reverse(@map)
 
   defp encode [{header, value} | headers], results do
     case header.encode value do

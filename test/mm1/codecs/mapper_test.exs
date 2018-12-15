@@ -1,9 +1,9 @@
-defmodule MM1.Codecs.Mapper.UseWithMapTest do
+defmodule MMS.Mapper.UseWithMapTest do
   use ExUnit.Case
 
   alias MMS.ShortLength
 
-  use MM1.Codecs.Mapper, codec: ShortLength, map: %{0 => false, 1 => true}
+  use MMS.Mapper, codec: ShortLength, map: %{0 => false, 1 => true}
 
   use MM1.Codecs.TestExamples,
       examples: [
@@ -21,12 +21,12 @@ defmodule MM1.Codecs.Mapper.UseWithMapTest do
       ]
 end
 
-defmodule MM1.Codecs.Mapper.UseWithValuesTest do
+defmodule MMS.Mapper.UseWithValuesTest do
   use ExUnit.Case
 
   alias MMS.ShortLength
 
-  use MM1.Codecs.Mapper, codec: ShortLength, values: [false, true]
+  use MMS.Mapper, codec: ShortLength, values: [false, true]
 
   use MM1.Codecs.TestExamples,
       examples: [
@@ -44,11 +44,11 @@ defmodule MM1.Codecs.Mapper.UseWithValuesTest do
       ]
 end
 
-defmodule MM1.Codecs.Mapper.Test do
+defmodule MMS.Mapper.Test do
   use ExUnit.Case
 
   alias MMS.ShortLength
-  alias MM1.Codecs.Mapper
+  alias MMS.Mapper
   import Mapper
 
   @map %{0 => false, 1 => true}

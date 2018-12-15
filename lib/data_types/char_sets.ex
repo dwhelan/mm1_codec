@@ -2,7 +2,7 @@ defmodule MMS.CharSets do
   @moduledoc """
     Specification: (IANA-CHARSET-MIB DEFINITIONS)[https://www.iana.org/assignments/character-sets/character-sets.xhtml]
   """
-  alias MM1.Codecs.Mapper
+  alias MMS.Mapper
 
   @map %{
        1 => :other,
