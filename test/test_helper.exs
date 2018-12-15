@@ -10,10 +10,6 @@ defmodule MM1.Codecs.Test do
     "[ #{values |> Enum.map(&inspect/1) |> Enum.join(", ")} ]"
   end
 
-  def inspect %MM1.Result{} = result do
-    "%{module: #{result.module}, value: #{inspect result.value}"
-  end
-
   def inspect value do
     string = Kernel.inspect value
   end
