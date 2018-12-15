@@ -116,6 +116,7 @@ defmodule MM2.Headers do
     #MM1.XMmsPreviouslySentDate,
   }
 
+  @keys Map.keys(@headers)
   @header_bytes MM1.Codecs2.Mapper.reverse(@headers)
 
   import MM1.OkError
@@ -124,8 +125,7 @@ defmodule MM2.Headers do
     decode bytes, []
   end
 
-  @keys Map.keys(@headers)
-  def decode(<<header_byte, bytes:: binary>>, headers) when header_byte in @keys do
+  defp decode(<<header_byte, bytes:: binary>>, headers) when header_byte in @keys do
     header = @headers[header_byte]
     case header.decode bytes do
       {:ok,    {value, rest}} -> decode rest, [{header, value} | headers]
@@ -133,12 +133,23 @@ defmodule MM2.Headers do
     end
   end
 
-  def decode(rest, headers) do
+  defp decode(rest, headers) do
     ok {Enum.reverse(headers), rest}
   end
 
-  def encode [{header, value} | headers] do
-    {:ok, bytes} = header.encode(value)
-    ok <<@header_bytes[header]>> <> bytes
+  def encode headers do
+    encode headers, []
   end
+
+  defp encode [{header, value} | headers], results do
+    case header.encode value do
+      {:ok,    bytes}  -> encode headers, [<<@header_bytes[header]>> <> bytes | results]
+      {:error, reason} -> error {header, reason}
+    end
+  end
+
+  defp encode [], results do
+    ok results |> Enum.reverse |> Enum.join
+  end
+
 end
