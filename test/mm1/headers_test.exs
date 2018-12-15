@@ -36,6 +36,7 @@ defmodule MM2.HeadersTest do
       examples: [
         {<<0x81, "x", 0>>, {[{MM2.Bcc, "x"}], <<>>}},
         {<<0x82, "x", 0>>, {[{MM2.Cc, "x"}], <<>>}},
+        {<<0x8c, 128>>, {[{MM2.XMmsMessageType, :m_send_conf}], <<>>}},
 #        {<<0x82, "x", 0>>, [%Result{bytes: <<0x82, "x", 0>>, module: MM1.Cc,              rest: "rest", value: "x"         }]},
 #        {<<0x8c,    128>>, [%Result{bytes: <<0x8c,    128>>, module: MM1.XMmsMessageType, rest: "rest", value: :m_send_conf}]},
 #        {<<0x8e,   1, 0>>, [%Result{bytes: <<0x8e,   1, 0>>, module: MM1.XMmsMessageSize, rest: "rest", value:  0          }]},

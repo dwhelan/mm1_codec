@@ -93,7 +93,7 @@ defmodule MM2.Headers do
     #MM1.M1:From,
     #MM1.M1:XMmsMessageClass,
     #MM1.M1:MessageID,
-#    MM1.XMmsMessageType,
+    0x8c => MM2.XMmsMessageType,
     #MM1.XMmsMMSVersion,
 #    MM1.XMmsMessageSize,
     #MM1.XMmsPriority,
