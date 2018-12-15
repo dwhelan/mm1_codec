@@ -77,3 +77,55 @@ defmodule MM1.Headers do
     headers |> List.foldl(<<>>, & &2 <> &1.bytes)
   end
 end
+
+defmodule MM2.Headers do
+  # Based on OMA-WAP-MMS-ENC-V1_1-20040715-A: Table 12. Field Name Assignments
+  @headers %{
+    0x81 => MM2.Bcc
+#    MM1.Cc,
+    #MM1.XMmsContentLocation,
+    #MM1.ContentType,
+    #MM1.Date,
+    #MM1.XMmsDeliveryReport,
+    #MM1.M1:XMmsDeliveryTime,
+    #MM1.M1:XMmsExpiry,
+    #MM1.M1:From,
+    #MM1.M1:XMmsMessageClass,
+    #MM1.M1:MessageID,
+#    MM1.XMmsMessageType,
+    #MM1.XMmsMMSVersion,
+#    MM1.XMmsMessageSize,
+    #MM1.XMmsPriority,
+    #MM1.XMmsReportAllowed,
+    #MM1.XMmsResponseStatus,
+    #MM1.XMmsResponseText,
+    #MM1.XMmsSenderVisibility,
+    #MM1.XMmsReadReport,
+    #MM1.XMmsStatus,
+    #MM1.Subject,
+    #MM1.To,
+    #MM1.XMmsTransactionId,
+    #MM1.XMmsRetrieveStatus,
+    #MM1.XMmsRetrieveText,
+    #MM1.XMmsReadStatus,
+    #MM1.XMmsReplyCharging,
+    #MM1.XMmsReplyChargingDeadline,
+    #MM1.XMmsReplyChargingID,
+    #MM1.XMmsReplyChargingSize,
+    #MM1.XMmsPreviouslySentBy,
+    #MM1.XMmsPreviouslySentDate,
+  }
+
+  import MM1.OkError
+
+  def decode <<header_byte, bytes:: binary>> do
+    header = @headers[header_byte]
+    {:ok, {value, rest}} = header.decode(bytes)
+    ok {[{header, value}], rest}
+  end
+
+  def encode [{header, value} | headers] do
+    {:ok, bytes} = header.encode(value)
+    ok <<0x81>> <> bytes
+  end
+end
