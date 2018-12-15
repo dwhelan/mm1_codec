@@ -2,7 +2,7 @@ defmodule MM2.HeadersTest do
   use ExUnit.Case
   alias MM2.Headers
 
-  use MM1.Codecs2.TestExamples,
+  use MM1.Codecs.TestExamples,
       codec: Headers,
       examples: [
         {<<0x81,   "x", 0>>, {[{MM2.Bcc,                      "x"}], <<>>}},

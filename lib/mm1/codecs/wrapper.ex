@@ -1,4 +1,4 @@
-defmodule MM1.Codecs2.Wrapper do
+defmodule MM1.Codecs.Wrapper do
   defmacro wrap codec do
     quote do
       import MM1.OkError

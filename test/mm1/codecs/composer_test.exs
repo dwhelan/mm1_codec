@@ -1,13 +1,13 @@
-defmodule MM1.Codecs2.ComposerTest do
+defmodule MM1.Codecs.ComposerTest do
   use ExUnit.Case
 
   alias MMS.ShortInteger
 
-  import MM1.Codecs2.Composer
+  import MM1.Codecs.Composer
 
   compose [ShortInteger, ShortInteger, ShortInteger]
 
-  use MM1.Codecs2.TestExamples,
+  use MM1.Codecs.TestExamples,
       examples: [
         {<<128, 129, 130>>, {[0, 1, 2], <<>>}},
       ],

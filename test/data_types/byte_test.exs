@@ -1,7 +1,7 @@
 defmodule MMS.ByteTest do
   use ExUnit.Case
 
-  use MM1.Codecs2.TestExamples,
+  use MM1.Codecs.TestExamples,
       codec: MMS.Byte,
       examples: [
         {<<0>>,   {  0, <<>>}},

@@ -3,7 +3,7 @@ defmodule MM2.CcTest do
 
   alias MM2.Cc
 
-  use MM1.Codecs2.TestExamples,
+  use MM1.Codecs.TestExamples,
       codec: Cc,
       examples: [
         {<<"abc", 0>>, {"abc", <<>>}}

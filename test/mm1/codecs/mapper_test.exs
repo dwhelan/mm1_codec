@@ -1,11 +1,11 @@
-defmodule MM1.Codecs2.Mapper.UseWithMapTest do
+defmodule MM1.Codecs.Mapper.UseWithMapTest do
   use ExUnit.Case
 
   alias MMS.ShortLength
 
-  use MM1.Codecs2.Mapper, codec: ShortLength, map: %{0 => false, 1 => true}
+  use MM1.Codecs.Mapper, codec: ShortLength, map: %{0 => false, 1 => true}
 
-  use MM1.Codecs2.TestExamples,
+  use MM1.Codecs.TestExamples,
       examples: [
         {<<0>>, {false, <<>>}},
         {<<1>>, { true, <<>>}},
@@ -21,14 +21,14 @@ defmodule MM1.Codecs2.Mapper.UseWithMapTest do
       ]
 end
 
-defmodule MM1.Codecs2.Mapper.UseWithValuesTest do
+defmodule MM1.Codecs.Mapper.UseWithValuesTest do
   use ExUnit.Case
 
   alias MMS.ShortLength
 
-  use MM1.Codecs2.Mapper, codec: ShortLength, values: [false, true]
+  use MM1.Codecs.Mapper, codec: ShortLength, values: [false, true]
 
-  use MM1.Codecs2.TestExamples,
+  use MM1.Codecs.TestExamples,
       examples: [
         {<<0>>, {false, <<>>}},
         {<<1>>, { true, <<>>}},
@@ -44,11 +44,11 @@ defmodule MM1.Codecs2.Mapper.UseWithValuesTest do
       ]
 end
 
-defmodule MM1.Codecs2.Mapper.Test do
+defmodule MM1.Codecs.Mapper.Test do
   use ExUnit.Case
 
   alias MMS.ShortLength
-  alias MM1.Codecs2.Mapper
+  alias MM1.Codecs.Mapper
   import Mapper
 
   @map %{0 => false, 1 => true}
@@ -62,7 +62,7 @@ defmodule MM1.Codecs2.Mapper.Test do
     value |> encode(ShortLength, @reverse_map)
   end
 
-  use MM1.Codecs2.TestExamples,
+  use MM1.Codecs.TestExamples,
       examples: [
         {<<0>>, {false, <<>>}},
         {<<1>>, { true, <<>>}},

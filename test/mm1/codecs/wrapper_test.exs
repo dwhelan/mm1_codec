@@ -1,13 +1,13 @@
-defmodule MM.Codecs2.Wrapper.WrapperTest do
+defmodule MM.Codecs.Wrapper.WrapperTest do
   use ExUnit.Case
 
   alias MMS.ShortInteger
 
-  import MM1.Codecs2.Wrapper
+  import MM1.Codecs.Wrapper
 
   wrap ShortInteger
 
-  use MM1.Codecs2.TestExamples,
+  use MM1.Codecs.TestExamples,
       examples: [
         {<<128>>, {{ShortInteger, 0}, <<>>}},
       ],

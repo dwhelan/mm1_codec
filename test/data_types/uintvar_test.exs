@@ -3,7 +3,7 @@ defmodule MMS.UintvarTest do
 
   max_value = 0xffffffff
 
-  use MM1.Codecs2.TestExamples,
+  use MM1.Codecs.TestExamples,
       codec: MMS.Uintvar,
       examples: [
         {<<0>>, {0, <<>>}},

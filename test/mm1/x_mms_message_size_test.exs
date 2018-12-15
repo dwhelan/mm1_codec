@@ -3,7 +3,7 @@ defmodule MM2.XMmsMessageSizeTest do
 
   alias MM2.XMmsMessageSize
 
-  use MM1.Codecs2.TestExamples,
+  use MM1.Codecs.TestExamples,
       codec: XMmsMessageSize,
       examples: [
         {<<1, 42>>, {42, ""}}

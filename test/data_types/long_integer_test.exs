@@ -3,7 +3,7 @@ defmodule MMS.LongIntegerTest do
 
   thirty_0xffs = 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
 
-  use MM1.Codecs2.TestExamples, codec: MMS.LongInteger,
+  use MM1.Codecs.TestExamples, codec: MMS.LongInteger,
     examples: [
       {<<1,   0>>,      {     0, <<>>}},
       {<<1, 255>>,      {   255, <<>>}},

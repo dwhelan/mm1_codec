@@ -1,4 +1,4 @@
-defmodule MM1.Codecs2.Composer do
+defmodule MM1.Codecs.Composer do
 
   defmacro compose codecs do
     quote do

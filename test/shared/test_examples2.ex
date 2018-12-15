@@ -1,4 +1,4 @@
-defmodule MM1.Codecs2.TestExamples do
+defmodule MM1.Codecs.TestExamples do
   defmacro __using__(opts) do
     quote bind_quoted: [opts: opts] do
       import Kernel, except: [inspect: 1]

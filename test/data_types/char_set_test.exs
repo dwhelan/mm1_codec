@@ -1,7 +1,7 @@
 defmodule MMS.CharSetTest do
   use ExUnit.Case
 
-  use MM1.Codecs2.TestExamples,
+  use MM1.Codecs.TestExamples,
       codec: MMS.CharSet,
       examples: [
         {<<0xea>>,          {:csUTF8, <<>>}},

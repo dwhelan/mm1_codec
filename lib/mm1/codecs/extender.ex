@@ -18,7 +18,7 @@ defmodule MM1.Codecs.Extender do
   end
 end
 
-defmodule MM1.Codecs2.Extender do
+defmodule MM1.Codecs.Extender do
   defmacro __using__(_opts) do
     quote do
       def decode bytes do

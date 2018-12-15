@@ -1,4 +1,4 @@
-defmodule MM1.Codecs2.Mapper do
+defmodule MM1.Codecs.Mapper do
   import MM1.OkError
 
   def decode bytes, codec, map do
@@ -27,7 +27,7 @@ defmodule MM1.Codecs2.Mapper do
 
   defmacro map codec, map do
     quote bind_quoted: [codec: codec, map: map] do
-      alias MM1.Codecs2.Mapper
+      alias MM1.Codecs.Mapper
       import Mapper
 
       @codec codec
@@ -46,7 +46,7 @@ defmodule MM1.Codecs2.Mapper do
 
   defmacro __using__(opts) do
     quote bind_quoted: [codec: opts[:codec], map: opts[:map], values: opts[:values]] do
-      alias MM1.Codecs2.Mapper
+      alias MM1.Codecs.Mapper
       import Mapper
 
       @codec codec
