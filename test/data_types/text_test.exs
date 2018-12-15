@@ -1,4 +1,4 @@
-defmodule MMS.TextStringTest do
+defmodule MMS.TextTest do
   use ExUnit.Case
 
   use MM1.Codecs.TestExamples,
