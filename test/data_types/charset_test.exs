@@ -1,8 +1,8 @@
-defmodule MMS.CharSetTest do
+defmodule MMS.CharsetTest do
   use ExUnit.Case
 
   use MM1.Codecs.TestExamples,
-      codec: MMS.CharSet,
+      codec: MMS.Charset,
       examples: [
         {<<0xea>>,          {:csUTF8, <<>>}},
         {<<2, 0x03, 0xe8>>, {:csUnicode, <<>>}},
@@ -13,7 +13,7 @@ defmodule MMS.CharSetTest do
 #        {-1, :must_be_an_integer_greater_than_or_equal_to_0},
 #        {1.23, :must_be_an_integer_greater_than_or_equal_to_0},
 #        {"x", :must_be_an_integer_greater_than_or_equal_to_0},
-#        {:foo, :unknown_char_set},
+#        {:foo, :unknown_charset},
 #      ]
 end
 

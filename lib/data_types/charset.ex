@@ -3,13 +3,13 @@
 #   codec: {ShortInteger, is_short_integer_byte, is_short_integer},
 #   codec: LongInteger,
 #
-defmodule MMS.CharSet do
+defmodule MMS.Charset do
   @moduledoc """
   Specification: WAP-230-WSP-20010705-a, 7.2.9 Encoded-string-value
 
   The Char-set values are registered by IANA as MIBEnum values.
   """
-  alias MMS.{CharSets, ShortInteger, LongInteger}
+  alias MMS.{Charsets, ShortInteger, LongInteger}
 
   import MMS.OkError
   import MMS.DataTypes
@@ -27,7 +27,7 @@ defmodule MMS.CharSet do
   end
 
   defp map {:ok, {code, rest}} do
-    ok {CharSets.map(code), rest}
+    ok {Charsets.map(code), rest}
   end
 
   defp map error do
@@ -35,7 +35,7 @@ defmodule MMS.CharSet do
   end
 
   def encode charset do
-    charset |> CharSets.unmap |> _encode
+    charset |> Charsets.unmap |> _encode
   end
 
   defp _encode(code) when is_short_integer(code) do

@@ -1,4 +1,4 @@
-defmodule MMS.CharSets do
+defmodule MMS.Charsets do
   @moduledoc """
     Specification: (IANA-CHARSET-MIB DEFINITIONS)[https://www.iana.org/assignments/character-sets/character-sets.xhtml]
   """
@@ -273,7 +273,7 @@ defmodule MMS.CharSets do
     Mapper.get @map, value
   end
 
-  def unmap char_set do
-    Mapper.get @reverse_map, char_set
+  def unmap charset do
+    Mapper.get @reverse_map, charset
   end
 end
