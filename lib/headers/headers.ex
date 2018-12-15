@@ -1,8 +1,8 @@
-defmodule MM2.Headers do
+defmodule MMS.Headers do
   # Based on OMA-WAP-MMS-ENC-V1_1-20040715-A: Table 12. Field Name Assignments
   @map %{
-    0x81 => MM2.Bcc,
-    0x82 => MM2.Cc,
+    0x81 => MMS.Bcc,
+    0x82 => MMS.Cc,
     #MM1.XMmsContentLocation,
     #MM1.ContentType,
     #MM1.Date,
@@ -12,9 +12,9 @@ defmodule MM2.Headers do
     #MM1.M1:From,
     #MM1.M1:XMmsMessageClass,
     #MM1.M1:MessageID,
-    0x8c => MM2.XMmsMessageType,
+    0x8c => MMS.XMmsMessageType,
     #MM1.XMmsMMSVersion,
-    0x8e => MM2.XMmsMessageSize,
+    0x8e => MMS.XMmsMessageSize,
     #MM1.XMmsPriority,
     #MM1.XMmsReportAllowed,
     #MM1.XMmsResponseStatus,

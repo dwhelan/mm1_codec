@@ -1,8 +1,8 @@
-defmodule MM2.XMmsMessageTypeTest do
+defmodule MMS.XMmsMessageTypeTest do
   use ExUnit.Case
 
   use MM1.Codecs.TestExamples,
-      codec: MM2.XMmsMessageType,
+      codec: MMS.XMmsMessageType,
       examples: [
         {<<128>>, {:m_send_conf,        <<>>}},
         {<<129>>, {:m_notification_ind, <<>>}},

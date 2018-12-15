@@ -1,7 +1,7 @@
-defmodule MM2.CcTest do
+defmodule MMS.CcTest do
   use ExUnit.Case
 
-  alias MM2.Cc
+  alias MMS.Cc
 
   use MM1.Codecs.TestExamples,
       codec: Cc,

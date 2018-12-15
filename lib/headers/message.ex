@@ -1,5 +1,5 @@
-defmodule MM2.Message do
+defmodule MMS.Message do
   import MM1.Codecs.Wrapper
 
-  wrap MM2.Headers
+  wrap MMS.Headers
 end

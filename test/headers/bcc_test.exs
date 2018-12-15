@@ -1,7 +1,7 @@
-defmodule MM2.BccTest do
+defmodule MMS.BccTest do
   use ExUnit.Case
 
-  alias MM2.Bcc
+  alias MMS.Bcc
 
   use MM1.Codecs.TestExamples,
       codec: Bcc,

@@ -1,4 +1,4 @@
-defmodule MM2.XMmsMessageType do
+defmodule MMS.XMmsMessageType do
   use MMS.Mapper,
       codec: MMS.ShortInteger,
       values: [

@@ -1,7 +1,7 @@
-defmodule MM2.XMmsMessageSizeTest do
+defmodule MMS.XMmsMessageSizeTest do
   use ExUnit.Case
 
-  alias MM2.XMmsMessageSize
+  alias MMS.XMmsMessageSize
 
   use MM1.Codecs.TestExamples,
       codec: XMmsMessageSize,
