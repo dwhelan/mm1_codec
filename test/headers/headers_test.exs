@@ -2,7 +2,7 @@ defmodule MMS.HeadersTest do
   use ExUnit.Case
   alias MMS.Headers
 
-  use MM1.Codecs.TestExamples,
+  use MMS.TestExamples,
       codec: Headers,
       examples: [
         {<<0x81,   "x", 0>>, {[{MMS.Bcc,                      "x"}], <<>>}},

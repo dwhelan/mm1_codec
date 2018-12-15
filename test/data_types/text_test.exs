@@ -1,7 +1,7 @@
 defmodule MMS.TextTest do
   use ExUnit.Case
 
-  use MM1.Codecs.TestExamples,
+  use MMS.TestExamples,
       codec: MMS.Text,
       examples: [
         {<<0>>,         {    "", <<>>}},

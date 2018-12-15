@@ -1,7 +1,7 @@
 defmodule MMS.ShortLengthTest do
   use ExUnit.Case
 
-  use MM1.Codecs.TestExamples,
+  use MMS.TestExamples,
       codec: MMS.ShortLength,
       examples: [
         {<<0>>,  { 0, <<>>}},

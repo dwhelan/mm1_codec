@@ -1,11 +1,11 @@
-defmodule MM1.Codecs.TestExamples do
+defmodule MMS.TestExamples do
   def text value do
     value |> Kernel.inspect |> String.slice(0..40)
   end
 
   defmacro __using__(opts) do
     quote bind_quoted: [opts: opts] do
-      import MM1.Codecs.TestExamples
+      import MMS.TestExamples
 
       @codec          opts[:codec]         || __MODULE__
       examples      = opts[:examples]      || []

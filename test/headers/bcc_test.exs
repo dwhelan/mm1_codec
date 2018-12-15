@@ -3,7 +3,7 @@ defmodule MMS.BccTest do
 
   alias MMS.Bcc
 
-  use MM1.Codecs.TestExamples,
+  use MMS.TestExamples,
       codec: Bcc,
       examples: [
         {<<"abc", 0>>, {"abc", <<>>}}

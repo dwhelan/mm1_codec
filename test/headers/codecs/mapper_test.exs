@@ -5,7 +5,7 @@ defmodule MMS.Mapper.UseWithMapTest do
 
   use MMS.Mapper, codec: ShortLength, map: %{0 => false, 1 => true}
 
-  use MM1.Codecs.TestExamples,
+  use MMS.TestExamples,
       examples: [
         {<<0>>, {false, <<>>}},
         {<<1>>, { true, <<>>}},
@@ -28,7 +28,7 @@ defmodule MMS.Mapper.UseWithValuesTest do
 
   use MMS.Mapper, codec: ShortLength, values: [false, true]
 
-  use MM1.Codecs.TestExamples,
+  use MMS.TestExamples,
       examples: [
         {<<0>>, {false, <<>>}},
         {<<1>>, { true, <<>>}},
@@ -62,7 +62,7 @@ defmodule MMS.Mapper.Test do
     value |> encode(ShortLength, @reverse_map)
   end
 
-  use MM1.Codecs.TestExamples,
+  use MMS.TestExamples,
       examples: [
         {<<0>>, {false, <<>>}},
         {<<1>>, { true, <<>>}},

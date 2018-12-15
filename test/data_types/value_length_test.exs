@@ -4,7 +4,7 @@ defmodule MMS.ValueLengthTest do
   max_value = 0xffffffff
   length_quote = 31
 
-  use MM1.Codecs.TestExamples,
+  use MMS.TestExamples,
       codec: MMS.ValueLength,
       examples: [
         {<<0>>,  { 0, <<>>}},
