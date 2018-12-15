@@ -1,8 +1,8 @@
-defmodule MMS.EncodedStringTest do
+defmodule MMS.EncodedTextTest do
   use ExUnit.Case
 
   use MM1.Codecs.TestExamples,
-      codec: MMS.EncodedString,
+      codec: MMS.EncodedText,
       examples: [
         {<<0>>,                                {""                      , <<>>}},
         {<<"text", 0>>,                        {"text"                  , <<>>}},

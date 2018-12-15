@@ -1,4 +1,4 @@
-defmodule MMS.TextString do
+defmodule MMS.Text do
   import MMS.OkError
 
   def decode <<bytes::binary>> do
