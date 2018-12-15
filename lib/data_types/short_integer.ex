@@ -9,7 +9,7 @@ defmodule MMS.ShortInteger do
     least significant bits.
   """
   import MM1.OkError
-  import WAP.Guards
+  import MMS.DataTypes
 
   def decode(<<1::1, value::7, rest::binary>>) do
     ok {value, rest}

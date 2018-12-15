@@ -2,7 +2,7 @@ defmodule MMS.ValueLength do
   alias MMS.{ShortLength, Uintvar}
 
   import MM1.OkError
-  import WAP.Guards
+  import MMS.DataTypes
 
   @length_quote 31
 

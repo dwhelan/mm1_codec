@@ -4,7 +4,7 @@ test
   """
   defmacro __using__(_opts) do
     quote do
-      import WAP.Guards
+      import MMS.DataTypes
       alias MM1.Result
       import Result
 

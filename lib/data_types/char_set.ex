@@ -12,7 +12,7 @@ defmodule MMS.CharSet do
   alias MMS.{CharSets, ShortInteger, LongInteger}
 
   import MM1.OkError
-  import WAP.Guards
+  import MMS.DataTypes
 
   def decode(<<byte, _::binary>> = bytes) when byte >= 128 do
     bytes |> decode(ShortInteger)

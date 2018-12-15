@@ -1,4 +1,4 @@
-defmodule WAP.Guards do
+defmodule MMS.DataTypes do
   defp is_integer value, min, max do
     quote do
       is_integer(unquote value) and unquote(value) >= unquote(min) and unquote(value) <= unquote(max)

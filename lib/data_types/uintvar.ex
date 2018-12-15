@@ -2,7 +2,7 @@ defmodule MMS.Uintvar do
   use Bitwise
 
   import MM1.OkError
-  import WAP.Guards
+  import MMS.DataTypes
 
   def decode bytes do
     _decode bytes, 0, <<>>

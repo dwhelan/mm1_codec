@@ -12,7 +12,7 @@ defmodule MMS.LongInteger do
   """
 
   import MM1.OkError
-  import WAP.Guards
+  import MMS.DataTypes
 
   def decode(<<length, rest::binary>>) when length < 1 or length > 30 do
     error :length_must_be_between_1_and_30
