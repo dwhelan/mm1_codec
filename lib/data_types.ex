@@ -20,7 +20,7 @@ defmodule MMS.DataTypes do
     is_integer value, 0, thirty_0xffs
   end
 
-  defmacro is_text value do
+  defmacro is_string value do
     quote do
       unquote(value) == 0 or unquote(value) >= 32
     end

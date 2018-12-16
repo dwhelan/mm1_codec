@@ -4,11 +4,11 @@ defmodule MMS.StringTest do
   use MMS.TestExamples,
       codec: MMS.String,
       examples: [
-        {<<0>>,             ""},
-        {<<"text", 0>>, "text"},
+        {<<0>>,           ""      },
+        {<<"string", 0>>, "string"},
       ],
 
       decode_errors: [
-        {<<"text">>, :missing_terminator},
+        {<<"string">>, :missing_terminator},
       ]
 end
