@@ -1,10 +1,8 @@
 defmodule MMS.BccTest do
   use ExUnit.Case
 
-  alias MMS.Bcc
-
   use MMS.TestExamples,
-      codec: Bcc,
+      codec: MMS.Bcc,
       examples: [
         {<<"abc", 0>>, "abc"}
       ]

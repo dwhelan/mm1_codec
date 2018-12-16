@@ -1,8 +1,8 @@
-defmodule MMS.CcTest do
+defmodule MMS.ContentLocationTest do
   use ExUnit.Case
 
   use MMS.TestExamples,
-      codec: MMS.Cc,
+      codec: MMS.ContentLocation,
       examples: [
         {<<"abc", 0>>, "abc"}
       ]
