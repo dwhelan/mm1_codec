@@ -17,5 +17,11 @@ defmodule MMS.OkError do
       {:error, unquote(reason)}
     end
   end
+
+  defmacro error codec, reason do
+    quote do
+      {:error, {unquote(codec), unquote(reason)}}
+    end
+  end
 end
 

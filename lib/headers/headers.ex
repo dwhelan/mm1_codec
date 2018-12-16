@@ -49,7 +49,7 @@ defmodule MMS.Headers do
 
     case header.decode bytes do
       {:ok,    {value, rest}} -> decode rest, [{header, value} | headers]
-      {:error,        reason} -> error {header, reason}
+      {:error,        reason} -> error header, reason
     end
   end
 
@@ -61,18 +61,18 @@ defmodule MMS.Headers do
     encode headers, []
   end
 
-  @reverse_map MMS.Mapper.reverse(@map)
-
   defp encode [{header, value} | headers], results do
     case header.encode value do
       {:ok,     bytes} -> encode headers, [{header, bytes} | results]
-      {:error, reason} -> error {header, reason}
+      {:error, reason} -> error header, reason
     end
   end
 
   defp encode [], results do
     ok results |> Enum.reverse |> Enum.map(&prepend_header_byte/1) |> Enum.join
   end
+
+  @reverse_map MMS.Mapper.reverse(@map)
 
   defp prepend_header_byte {header, bytes} do
     <<@reverse_map[header]>> <> bytes

@@ -16,6 +16,6 @@ defmodule MMS.Message do
   end
 
   defp wrap {:error, reason} do
-    error {Headers, reason}
+    error Headers, reason
   end
 end
