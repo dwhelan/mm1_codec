@@ -1,19 +1,19 @@
-defmodule MMS.Text do
+defmodule MMS.String do
   import MMS.OkError
 
   def decode <<bytes::binary>> do
     bytes |> String.split(<<0>>, parts: 2) |> decode
   end
 
-  def decode [text | [rest]] do
-    ok text, rest
+  def decode [string | [rest]] do
+    ok string, rest
   end
 
-  def decode [text | []] do
+  def decode [_string | []] do
     error :missing_terminator
   end
 
-  def encode text do
-    ok text <> <<0>>
+  def encode string do
+    ok string <> <<0>>
   end
 end
