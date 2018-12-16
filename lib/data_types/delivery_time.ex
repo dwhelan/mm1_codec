@@ -25,8 +25,4 @@ defmodule MMS.DeliveryTime do
       error -> error
     end
   end
-
-  def encode string do
-    string |> String.encode
-  end
 end
