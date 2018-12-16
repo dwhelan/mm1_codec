@@ -2,7 +2,7 @@ defmodule MMS.DeliveryTime do
   import MMS.OkError
   import MMS.DataTypes
 
-  alias MMS.{Length, LongInteger, ShortInteger, Mapper}
+  alias MMS.{Length, ShortInteger, Mapper, LongInteger}
 
   def decode bytes do
     with {:ok, {length,   absolute_bytes}} <- Length.decode(bytes),
