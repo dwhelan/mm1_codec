@@ -1,8 +1,8 @@
-defmodule MMS.XMmsMessageSizeTest do
+defmodule MMS.MessageSizeTest do
   use ExUnit.Case
 
   use MMS.TestExamples,
-      codec: MMS.XMmsMessageSize,
+      codec: MMS.MessageSize,
       examples: [
         {<<1, 42>>, 42}
       ]
