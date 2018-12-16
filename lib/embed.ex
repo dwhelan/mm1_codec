@@ -6,4 +6,3 @@ defmodule MMS.Embed do
     end
   end
 end
-®

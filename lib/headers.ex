@@ -3,7 +3,7 @@ defmodule MMS.Headers do
   @map %{
     0x81 => MMS.Bcc,
     0x82 => MMS.Cc,
-    #MMS.XMmsContentLocation,
+    0x83 => MMS.ContentLocation,
     #MMS.ContentType,
     #MMS.Date,
     #MMS.XMmsDeliveryReport,
