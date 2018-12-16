@@ -1,11 +1,11 @@
-defmodule MMS.ValueLengthTest do
+defmodule MMS.LengthTest do
   use ExUnit.Case
 
   max_value = 0xffffffff
   length_quote = 31
 
   use MMS.TestExamples,
-      codec: MMS.ValueLength,
+      codec: MMS.Length,
       examples: [
         {<<0>>,   0},
         {<<30>>, 30},

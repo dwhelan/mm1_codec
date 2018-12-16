@@ -2,14 +2,14 @@ defmodule MMS.EncodedString do
   import MMS.OkError
   import MMS.DataTypes
 
-  alias MMS.{ValueLength, Charset, String}
+  alias MMS.{Length, Charset, String}
 
   def decode(<<byte, _::binary>> = bytes) when is_string(byte) do
     bytes |> String.decode
   end
 
   def decode bytes do
-    with {:ok, {length,  charset_bytes}} <- ValueLength.decode(bytes),
+    with {:ok, {length,  charset_bytes}} <- Length.decode(bytes),
          {:ok, {charset, string_bytes }} <- Charset.decode(charset_bytes),
          {:ok, {string,  rest         }} <- String.decode(string_bytes)
     do
@@ -20,7 +20,7 @@ defmodule MMS.EncodedString do
   end
 
   def encode {length, charset, string} do
-    with {:ok, length_bytes } <- ValueLength.encode(length),
+    with {:ok, length_bytes } <- Length.encode(length),
          {:ok, charset_bytes} <- Charset.encode(charset),
          {:ok, string_bytes } <- String.encode(string)
     do

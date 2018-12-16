@@ -1,4 +1,4 @@
-defmodule MMS.ValueLength do
+defmodule MMS.Length do
   alias MMS.{ShortLength, Uintvar}
 
   import MMS.OkError
