@@ -6,7 +6,7 @@ defmodule MMS.BccTest do
   use MMS.TestExamples,
       codec: Bcc,
       examples: [
-        {<<"abc", 0>>, {"abc", <<>>}}
+        {<<"abc", 0>>, "abc"}
       ]
 end
 

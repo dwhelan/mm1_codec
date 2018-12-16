@@ -4,8 +4,8 @@ defmodule MMS.CharsetTest do
   use MMS.TestExamples,
       codec: MMS.Charset,
       examples: [
-        {<<0xea>>,          {:csUTF8, <<>>}},
-        {<<2, 0x03, 0xe8>>, {:csUnicode, <<>>}},
+        {<<0xea>>,          :csUTF8   },
+        {<<2, 0x03, 0xe8>>, :csUnicode},
 #        {<<2, 0x0b, 0xb8>>, {:reserved, <<>>}},
       ]
 

@@ -4,8 +4,8 @@ defmodule MMS.ShortLengthTest do
   use MMS.TestExamples,
       codec: MMS.ShortLength,
       examples: [
-        {<<0>>,  { 0, <<>>}},
-        {<<30>>, {30, <<>>}},
+        {<<0>>,   0},
+        {<<30>>, 30},
       ],
 
       decode_errors: [

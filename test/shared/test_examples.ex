@@ -12,17 +12,16 @@ defmodule MMS.TestExamples do
       decode_errors = opts[:decode_errors] || []
       encode_errors = opts[:encode_errors] || []
 
-      Enum.each(examples, fn {bytes, result} ->
+      Enum.each(examples, fn {bytes, value} ->
         @bytes  bytes
-        @result result
+        @value value
 
-        test "decode #{text @bytes} === {:ok, {#{text result}}}" do
-          assert @codec.decode(@bytes) === {:ok, @result}
+        test "decode #{text @bytes} === {:ok, {#{text value}, <<>>}}" do
+          assert @codec.decode(@bytes) === {:ok, {@value, <<>>}}
         end
 
-        test "encode #{text result} === {:ok, #{text @bytes}" do
-          {value, rest} = @result
-          assert @codec.encode(value) === {:ok, @bytes}
+        test "encode #{text value} === {:ok, #{text @bytes}" do
+          assert @codec.encode(@value) === {:ok, @bytes}
         end
       end)
 

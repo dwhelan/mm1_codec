@@ -4,8 +4,8 @@ defmodule MMS.ByteTest do
   use MMS.TestExamples,
       codec: MMS.Byte,
       examples: [
-        {<<0>>,   {  0, <<>>}},
-        {<<255>>, {255, <<>>}},
+        {<<0>>,     0},
+        {<<255>>, 255},
       ],
 
       encode_errors: [

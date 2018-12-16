@@ -1,12 +1,10 @@
 defmodule MMS.XMmsMessageSizeTest do
   use ExUnit.Case
 
-  alias MMS.XMmsMessageSize
-
   use MMS.TestExamples,
-      codec: XMmsMessageSize,
+      codec: MMS.XMmsMessageSize,
       examples: [
-        {<<1, 42>>, {42, ""}}
+        {<<1, 42>>, 42}
       ]
 end
 

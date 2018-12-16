@@ -6,6 +6,6 @@ defmodule MMS.CcTest do
   use MMS.TestExamples,
       codec: Cc,
       examples: [
-        {<<"abc", 0>>, {"abc", <<>>}}
+        {<<"abc", 0>>, "abc"}
       ]
 end

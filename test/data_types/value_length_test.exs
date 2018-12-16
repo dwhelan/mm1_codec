@@ -7,13 +7,13 @@ defmodule MMS.ValueLengthTest do
   use MMS.TestExamples,
       codec: MMS.ValueLength,
       examples: [
-        {<<0>>,  { 0, <<>>}},
-        {<<30>>, {30, <<>>}},
+        {<<0>>,   0},
+        {<<30>>, 30},
 
-        {<<length_quote, 31>>, {31, <<>>}},
-        {<<length_quote, 32>>, {32, <<>>}},
+        {<<length_quote, 31>>, 31},
+        {<<length_quote, 32>>, 32},
 
-        {<<length_quote, 143, 255, 255, 255, 127>>, {max_value, <<>>}},
+        {<<length_quote, 143, 255, 255, 255, 127>>, max_value},
       ],
 
       decode_errors: [

@@ -4,8 +4,8 @@ defmodule MMS.ShortIntegerTest do
   use MMS.TestExamples,
       codec: MMS.ShortInteger,
       examples: [
-        {<<128>>, {  0, <<>>}},
-        {<<255>>, {127, <<>>}},
+        {<<128>>,   0},
+        {<<255>>, 127},
       ],
 
       decode_errors: [

@@ -5,12 +5,12 @@ defmodule MMS.LongIntegerTest do
 
   use MMS.TestExamples, codec: MMS.LongInteger,
     examples: [
-      {<<1,   0>>,      {     0, <<>>}},
-      {<<1, 255>>,      {   255, <<>>}},
-      {<<2,   1,   0>>, {   256, <<>>}},
-      {<<2, 255, 255>>, {65_535, <<>>}},
+      {<<1,   0>>,           0},
+      {<<1, 255>>,         255},
+      {<<2,   1,   0>>,    256},
+      {<<2, 255, 255>>, 65_535},
 
-      {<<30, thirty_0xffs::240>>, {thirty_0xffs, <<>>}}
+      {<<30, thirty_0xffs::240>>, thirty_0xffs}
     ],
 
     decode_errors: [

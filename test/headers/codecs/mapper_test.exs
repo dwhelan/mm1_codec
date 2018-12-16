@@ -7,9 +7,9 @@ defmodule MMS.Mapper.UseWithMapTest do
 
   use MMS.TestExamples,
       examples: [
-        {<<0>>, {false, <<>>}},
-        {<<1>>, { true, <<>>}},
-        {<<2>>, {    2, <<>>}},
+        {<<0>>, false},
+        {<<1>>,  true},
+        {<<2>>,     2},
       ],
 
       decode_errors: [
@@ -30,9 +30,9 @@ defmodule MMS.Mapper.UseWithValuesTest do
 
   use MMS.TestExamples,
       examples: [
-        {<<0>>, {false, <<>>}},
-        {<<1>>, { true, <<>>}},
-        {<<2>>, {    2, <<>>}},
+        {<<0>>, false},
+        {<<1>>,  true},
+        {<<2>>,     2},
       ],
 
       decode_errors: [
@@ -64,9 +64,9 @@ defmodule MMS.Mapper.Test do
 
   use MMS.TestExamples,
       examples: [
-        {<<0>>, {false, <<>>}},
-        {<<1>>, { true, <<>>}},
-        {<<2>>, {    2, <<>>}},
+        {<<0>>, false},
+        {<<1>>,  true},
+        {<<2>>,     2},
       ],
 
       decode_errors: [
