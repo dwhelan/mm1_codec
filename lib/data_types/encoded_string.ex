@@ -10,8 +10,8 @@ defmodule MMS.EncodedString do
 
   def decode bytes do
     with {:ok, {length,  charset_bytes}} <- ValueLength.decode(bytes),
-         {:ok, {charset, string_bytes   }} <- Charset.decode(charset_bytes),
-         {:ok, {string,    rest         }} <- String.decode(string_bytes)
+         {:ok, {charset, string_bytes }} <- Charset.decode(charset_bytes),
+         {:ok, {string,  rest         }} <- String.decode(string_bytes)
     do
       ok {length, charset, string}, rest
     else
@@ -22,7 +22,7 @@ defmodule MMS.EncodedString do
   def encode {length, charset, string} do
     with {:ok, length_bytes } <- ValueLength.encode(length),
          {:ok, charset_bytes} <- Charset.encode(charset),
-         {:ok, string_bytes   } <- String.encode(string)
+         {:ok, string_bytes } <- String.encode(string)
     do
       ok length_bytes <> charset_bytes <> string_bytes
     else
