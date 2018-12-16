@@ -1,8 +1,8 @@
-defmodule MMS.XMmsPriorityTest do
+defmodule MMS.PriorityTest do
   use ExUnit.Case
 
   use MMS.TestExamples,
-      codec: MMS.XMmsPriority,
+      codec: MMS.Priority,
       examples: [
         {<<128>>, :low   },
         {<<129>>, :normal},

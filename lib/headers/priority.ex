@@ -1,4 +1,4 @@
-defmodule MMS.XMmsPriority do
+defmodule MMS.Priority do
   use MMS.Mapper,
       codec: MMS.ShortInteger,
       values: [

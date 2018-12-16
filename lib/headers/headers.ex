@@ -15,7 +15,7 @@ defmodule MMS.Headers do
     0x8c => MMS.MessageType,
     #MMS.XMmsMMSVersion,
     0x8e => MMS.MessageSize,
-    0x8f => MMS.XMmsPriority,
+    0x8f => MMS.Priority,
     #MMS.XMmsReportAllowed,
     #MMS.XMmsResponseStatus,
     #MMS.XMmsResponseText,
