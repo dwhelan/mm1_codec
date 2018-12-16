@@ -5,6 +5,7 @@ defmodule MMS.DeliveryTimeTest do
       codec: MMS.DeliveryTime,
       examples: [
         {<<3, 128, 1, 0>>, {0, :absolute, 3}},
+        {<<3, 129, 1, 0>>, {0, :relative, 3}},
       ],
 
       decode_errors: [
