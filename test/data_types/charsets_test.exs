@@ -1,6 +1,5 @@
 defmodule MMS.CharsetsTest do
   import MMS.Charsets
-  alias MM1.Result
 
   use ExUnit.Case
 

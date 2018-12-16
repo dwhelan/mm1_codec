@@ -5,18 +5,18 @@ defmodule MMS.Uintvar do
   import MMS.DataTypes
 
   def decode bytes do
-    _decode bytes, 0, <<>>
+    decode bytes, 0, <<>>
   end
 
-  defp _decode<<1::1, value::7, rest::binary>>, total, bytes do
-    _decode rest, add(value, total), bytes <> <<1::1, value::7>>
+  defp decode<<1::1, value::7, rest::binary>>, total, bytes do
+    decode rest, add(value, total), bytes <> <<1::1, value::7>>
   end
 
-  defp _decode(<<value, rest::binary>>, total, bytes) when byte_size(bytes) > 4 do
+  defp decode(<<value, rest::binary>>, total, bytes) when byte_size(bytes) > 4 do
     error :uintvar_length_must_be_5_bytes_or_less
   end
 
-  defp _decode <<value, rest::binary>>, total, bytes do
+  defp decode <<value, rest::binary>>, total, bytes do
     ok add(value, total), rest
   end
 
