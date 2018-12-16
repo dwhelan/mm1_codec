@@ -27,7 +27,7 @@ defmodule MMS.Charset do
   end
 
   defp map {:ok, {code, rest}} do
-    ok {Charsets.map(code), rest}
+    ok Charsets.map(code), rest
   end
 
   defp map error do

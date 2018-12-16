@@ -10,7 +10,7 @@ defmodule MMS.Mapper do
   end
 
   defp map {:ok, {value, rest}}, map do
-    ok {get(map, value), rest}
+    ok get(map, value), rest
   end
 
   defp map error, _ do
@@ -34,7 +34,7 @@ defmodule MMS.Mapper do
       import MMS.Mapper
 
       @codec opts[:codec]
-      @map   opts[:map]  || indexed(opts[:values])
+      @map   opts[:map] || indexed(opts[:values])
       @unmap @map |> reverse
 
       def decode bytes do

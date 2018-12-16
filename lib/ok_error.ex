@@ -1,5 +1,11 @@
 defmodule MMS.OkError do
 
+  defmacro ok value, rest do
+    quote do
+      {:ok, unquote({value, rest})}
+    end
+  end
+
   defmacro ok value do
     quote do
       {:ok, unquote(value)}

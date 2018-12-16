@@ -12,7 +12,7 @@ defmodule MMS.Message do
   end
 
   defp wrap {:ok, {value, rest}} do
-    ok {{Headers, value}, rest}
+    ok {Headers, value}, rest
   end
 
   defp wrap {:error, reason} do

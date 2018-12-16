@@ -6,7 +6,7 @@ defmodule MMS.Text do
   end
 
   def decode [text | [rest]] do
-    ok {text, rest}
+    ok text, rest
   end
 
   def decode [text | []] do

@@ -24,7 +24,7 @@ defmodule MMS.LongInteger do
 
   def decode <<length, bytes::binary>> do
     {value_bytes, rest} = String.split_at bytes, length
-    ok {:binary.decode_unsigned(value_bytes), rest}
+    ok :binary.decode_unsigned(value_bytes), rest
   end
 
   def encode(value) when is_long_integer(value) do

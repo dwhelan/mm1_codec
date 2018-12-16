@@ -13,7 +13,7 @@ defmodule MMS.EncodedText do
          {:ok, {charset, text_bytes   }} <- Charset.decode(charset_bytes),
          {:ok, {text,    rest         }} <- Text.decode(text_bytes)
     do
-      ok {{length, charset, text}, rest}
+      ok {length, charset, text}, rest
     else
       error -> error
     end

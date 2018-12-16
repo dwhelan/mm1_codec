@@ -3,7 +3,7 @@ defmodule MMS.Byte do
   import MMS.DataTypes
 
   def decode <<value, rest::binary>> do
-    ok {value, rest}
+    ok value, rest
   end
 
   def encode(value) when is_byte(value) do

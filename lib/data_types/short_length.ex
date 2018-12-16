@@ -3,7 +3,7 @@ defmodule MMS.ShortLength do
   import MMS.DataTypes
 
   def decode(<<value, rest::binary>>) when is_short_length(value) do
-    ok {value, rest}
+    ok value, rest
   end
 
   def decode bytes do

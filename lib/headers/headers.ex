@@ -36,7 +36,6 @@ defmodule MMS.Headers do
     #MM1.XMmsPreviouslySentDate,
   }
 
-
   import MMS.OkError
 
   def decode bytes do
@@ -55,7 +54,7 @@ defmodule MMS.Headers do
   end
 
   defp decode(rest, headers) do
-    ok {Enum.reverse(headers), rest}
+    ok Enum.reverse(headers), rest
   end
 
   def encode headers do

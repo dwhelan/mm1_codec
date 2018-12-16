@@ -17,7 +17,7 @@ defmodule MMS.Uintvar do
   end
 
   defp _decode <<value, rest::binary>>, total, bytes do
-    ok {add(value, total), rest}
+    ok add(value, total), rest
   end
 
   def encode(value) when is_uintvar(value) do
