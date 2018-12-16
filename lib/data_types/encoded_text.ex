@@ -34,4 +34,3 @@ defmodule MMS.EncodedText do
     text |> Text.encode
   end
 end
-
