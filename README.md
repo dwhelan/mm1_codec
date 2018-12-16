@@ -17,7 +17,7 @@ end
 # Codec functions
 
 ## decode
-`decode(input)` must return a `%MM1.Result{}` with:
+`decode(input)` must return a `%MMS.Result{}` with:
 - `module` set to the module of the codec, i.e.`__MODULE__`
 - `bytes` set to the bytes consumed by the codec
 - `rest` set to remaining bytes
