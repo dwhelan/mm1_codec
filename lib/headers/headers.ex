@@ -12,7 +12,7 @@ defmodule MMS.Headers do
     #MMS.M1:From,
     #MMS.M1:XMmsMessageClass,
     #MMS.M1:MessageID,
-    0x8c => MMS.XMmsMessageType,
+    0x8c => MMS.MessageType,
     #MMS.XMmsMMSVersion,
     0x8e => MMS.MessageSize,
     0x8f => MMS.XMmsPriority,
