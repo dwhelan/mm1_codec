@@ -53,7 +53,7 @@ defmodule MMS.Headers do
     end
   end
 
-  defp decode(rest, headers) do
+  defp decode rest, headers do
     ok Enum.reverse(headers), rest
   end
 
