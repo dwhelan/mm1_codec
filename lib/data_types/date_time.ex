@@ -18,6 +18,14 @@ defmodule MMS.DateTime do
 
   @reverse_map @map |> MMS.Mapper.reverse
 
+  def encode %DateTime{} = date_time do
+    encode {DateTime.to_unix(date_time), :absolute}
+  end
+
+  def encode(value) when is_integer(value) do
+    encode {value, :absolute}
+  end
+
   def encode {value, absolute, length} do
     with {:ok, length_bytes} <- Length.encode(length),
          {:ok, data_bytes  } <- encode(value, absolute)
