@@ -20,7 +20,7 @@ defmodule MMS.DateTime do
 
   def encode {value, absolute, length} do
     with {:ok, length_bytes} <- Length.encode(length),
-         {:ok, data_bytes  } <- encode_data({value, absolute})
+         {:ok, data_bytes  } <- encode(value, absolute)
     do
       ok length_bytes <> data_bytes
     else
@@ -29,7 +29,7 @@ defmodule MMS.DateTime do
   end
 
   def encode {value, absolute} do
-    with {:ok, data_bytes} <- encode_data({value, absolute})
+    with {:ok, data_bytes} <- encode value, absolute
     do
       ok <<byte_size(data_bytes)>> <> data_bytes
     else
@@ -37,7 +37,7 @@ defmodule MMS.DateTime do
     end
   end
 
-  defp encode_data {value, absolute} do
+  defp encode value, absolute do
     with {:ok, absolute_bytes} <- Mapper.encode(absolute, ShortInteger, @reverse_map),
          {:ok, value_bytes   } <- LongInteger.encode(value)
     do
