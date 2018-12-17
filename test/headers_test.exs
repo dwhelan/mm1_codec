@@ -11,6 +11,7 @@ defmodule MMS.HeadersTest do
         {<<0x85,   1,   0      >>, [{MMS.Date,            0                }]},
         {<<0x86, 128           >>, [{MMS.DeliveryReport,  :yes             }]},
         {<<0x87,   3, 128, 1, 0>>, [{MMS.DeliveryTime,    {0, :absolute, 3}}]},
+        {<<0x88,   3, 128, 1, 0>>, [{MMS.Expiry,          {0, :absolute, 3}}]},
         {<<0x8c, 128           >>, [{MMS.MessageType,     :m_send_conf     }]},
         {<<0x8e,   1,   0      >>, [{MMS.MessageSize,     0                }]},
         {<<0x8f, 128           >>, [{MMS.Priority,        :low             }]},
