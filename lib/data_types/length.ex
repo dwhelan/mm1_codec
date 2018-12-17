@@ -14,7 +14,7 @@ defmodule MMS.Length do
     rest |> Uint32.decode
   end
 
-  def decode <<value, rest::binary>> do
+  def decode _ do
     error :first_byte_must_be_less_than_32
   end
 
@@ -26,7 +26,7 @@ defmodule MMS.Length do
     ok value |> Uint32.encode |> prefix_with_length_quote
   end
 
-  def encode value do
+  def encode _ do
     error :must_be_an_unsigned_32_bit_integer
   end
 

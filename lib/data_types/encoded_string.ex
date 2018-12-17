@@ -38,6 +38,10 @@ defmodule MMS.EncodedString do
     end
   end
 
+  def encode string do
+    string |> String.encode
+  end
+
   defp encode string, charset do
     with {:ok, charset_bytes} <- Charset.encode(charset),
          {:ok, string_bytes } <- String.encode(string)
@@ -46,9 +50,5 @@ defmodule MMS.EncodedString do
     else
       error -> error
     end
-  end
-
-  def encode string do
-    string |> String.encode
   end
 end

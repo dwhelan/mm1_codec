@@ -15,7 +15,7 @@ defmodule MMS.Short do
     ok value, rest
   end
 
-  def decode bytes do
+  def decode _ do
     error :most_signficant_bit_must_be_1
   end
 
@@ -23,7 +23,7 @@ defmodule MMS.Short do
     ok <<value+128>>
   end
 
-  def encode value do
+  def encode _ do
     error :must_be_an_integer_between_0_and_127
   end
 end

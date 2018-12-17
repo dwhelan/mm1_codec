@@ -12,11 +12,11 @@ defmodule MMS.Uint32 do
     decode rest, add(value, total), bytes <> <<1::1, value::7>>
   end
 
-  defp decode(<<value, rest::binary>>, total, bytes) when byte_size(bytes) > 4 do
+  defp decode(_, _, bytes) when byte_size(bytes) > 4 do
     error :uintvar_length_must_be_5_bytes_or_less
   end
 
-  defp decode <<value, rest::binary>>, total, bytes do
+  defp decode <<value, rest::binary>>, total, _ do
     ok add(value, total), rest
   end
 
@@ -24,7 +24,7 @@ defmodule MMS.Uint32 do
     ok bytes_for(value >>> 7, <<value &&& 0x7f>>)
   end
 
-  def encode value do
+  def encode _ do
     error :must_be_an_unsigned_32_bit_integer
   end
 

@@ -6,7 +6,7 @@ defmodule MMS.ShortLength do
     ok value, rest
   end
 
-  def decode bytes do
+  def decode _ do
     error :must_be_an_integer_between_0_and_30
   end
 
@@ -14,7 +14,7 @@ defmodule MMS.ShortLength do
     ok <<value>>
   end
 
-  def encode value do
+  def encode _ do
     error :must_be_an_integer_between_0_and_30
   end
 end

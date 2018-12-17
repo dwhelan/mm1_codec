@@ -14,11 +14,11 @@ defmodule MMS.Long do
   import MMS.OkError
   import MMS.DataTypes
 
-  def decode(<<length, rest::binary>>) when length < 1 or length > 30 do
+  def decode(<<length, _::binary>>) when length < 1 or length > 30 do
     error :length_must_be_between_1_and_30
   end
 
-  def decode(<<length, rest::binary>> = bytes) when byte_size(rest) < length do
+  def decode(<<length, rest::binary>>) when byte_size(rest) < length do
     error :insufficient_bytes
   end
 
@@ -32,7 +32,7 @@ defmodule MMS.Long do
     ok <<byte_size(bytes)>> <> bytes
   end
 
-  def encode value do
+  def encode _ do
     error :must_be_an_integer_between_1_and_30_bytes_long
   end
 end
