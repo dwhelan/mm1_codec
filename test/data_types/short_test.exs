@@ -1,8 +1,8 @@
-defmodule MMS.ShortIntegerTest do
+defmodule MMS.ShortTest do
   use ExUnit.Case
 
   use MMS.TestExamples,
-      codec: MMS.ShortInteger,
+      codec: MMS.Short,
       examples: [
         {<<128>>,   0},
         {<<255>>, 127},

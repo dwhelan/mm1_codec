@@ -1,14 +1,14 @@
 defmodule MMS.Seconds do
   import MMS.OkError
 
-  alias MMS.{Length, ShortInteger, Mapper, LongInteger}
+  alias MMS.{Length, Short, Mapper, LongInteger}
 
   @map         %{0 => :absolute, 1 => :relative}
   @reverse_map %{absolute: 0,    relative: 1   }
 
   def decode bytes do
     with {:ok, {length,   absolute_bytes}} <- Length.decode(bytes),
-         {:ok, {absolute, value_bytes   }} <- Mapper.decode(absolute_bytes, ShortInteger, @map),
+         {:ok, {absolute, value_bytes   }} <- Mapper.decode(absolute_bytes, Short, @map),
          {:ok, {value,    rest          }} <- LongInteger.decode(value_bytes)
     do
       ok {value, absolute, length}, rest
@@ -45,7 +45,7 @@ defmodule MMS.Seconds do
   end
 
   defp encode value, absolute do
-    with {:ok, absolute_bytes} <- Mapper.encode(absolute, ShortInteger, @reverse_map),
+    with {:ok, absolute_bytes} <- Mapper.encode(absolute, Short, @reverse_map),
          {:ok, value_bytes   } <- LongInteger.encode(value)
     do
       ok absolute_bytes <> value_bytes

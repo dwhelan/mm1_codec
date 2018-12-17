@@ -1,6 +1,6 @@
 defmodule MMS.MessageType do
   use MMS.Mapper,
-      codec: MMS.ShortInteger,
+      codec: MMS.Short,
       values: [
         :m_send_conf,
         :m_notification_ind,

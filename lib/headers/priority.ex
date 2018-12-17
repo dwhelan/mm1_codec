@@ -1,6 +1,6 @@
 defmodule MMS.Priority do
   use MMS.Mapper,
-      codec: MMS.ShortInteger,
+      codec: MMS.Short,
       values: [
         :low,
         :normal,

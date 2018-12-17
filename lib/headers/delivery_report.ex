@@ -1,6 +1,6 @@
 defmodule MMS.DeliveryReport do
   use MMS.Mapper,
-      codec: MMS.ShortInteger,
+      codec: MMS.Short,
       values: [
         :yes,
         :no,
