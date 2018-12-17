@@ -1,8 +1,10 @@
 defmodule MMS.DeliveryTimeTest do
   use ExUnit.Case
 
+  alias MMS.DeliveryTime
+
   use MMS.TestExamples,
-      codec: MMS.DeliveryTime,
+      codec: DeliveryTime,
       examples: [
         # short length
         {<<3, 128, 1, 0>>, {0, :absolute, 3}},
@@ -23,5 +25,9 @@ defmodule MMS.DeliveryTimeTest do
         {{0,         128,        3}, :must_be_an_integer_between_0_and_127          }, # absolute/relative error
         {{:not_long, :absolute,  3}, :must_be_an_integer_between_1_and_30_bytes_long}, # value error
       ]
+
+  test "encode should calculate length" do
+    assert DeliveryTime.encode({0, :absolute}) == {:ok, <<3, 128, 1, 0>>}
+  end
 end
 
