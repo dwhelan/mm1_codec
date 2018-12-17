@@ -1,10 +1,10 @@
-defmodule MMS.UintvarTest do
+defmodule MMS.Uint32Test do
   use ExUnit.Case
 
   max_value = 0xffffffff
 
   use MMS.TestExamples,
-      codec: MMS.Uintvar,
+      codec: MMS.Uint32,
       examples: [
         {<<0>>, 0},
         {<<127>>, 127},

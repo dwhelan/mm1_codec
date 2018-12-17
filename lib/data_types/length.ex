@@ -1,5 +1,5 @@
 defmodule MMS.Length do
-  alias MMS.{ShortLength, Uintvar}
+  alias MMS.{ShortLength, Uint32}
 
   import MMS.OkError
   import MMS.DataTypes
@@ -11,7 +11,7 @@ defmodule MMS.Length do
   end
 
   def decode <<@length_quote, rest::binary>> do
-    rest |> Uintvar.decode
+    rest |> Uint32.decode
   end
 
   def decode <<value, rest::binary>> do
@@ -23,7 +23,7 @@ defmodule MMS.Length do
   end
 
   def encode(value) when is_uintvar(value) do
-    ok value |> Uintvar.encode |> prefix_with_length_quote
+    ok value |> Uint32.encode |> prefix_with_length_quote
   end
 
   def encode value do

@@ -1,4 +1,4 @@
-defmodule MMS.Uintvar do
+defmodule MMS.Uint32 do
   use Bitwise
 
   import MMS.OkError
