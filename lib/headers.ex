@@ -72,9 +72,9 @@ defmodule MMS.Headers do
     ok results |> Enum.reverse |> Enum.map(&prepend_header_byte/1) |> Enum.join
   end
 
-  @reverse_map MMS.Mapper.reverse(@decode_map)
+  @encode_map MMS.Mapper.reverse(@decode_map)
 
   defp prepend_header_byte {header, bytes} do
-    <<@reverse_map[header]>> <> bytes
+    <<@encode_map[header]>> <> bytes
   end
 end

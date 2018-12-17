@@ -34,15 +34,15 @@ defmodule MMS.Mapper do
       import MMS.Mapper
 
       @codec opts[:codec]
-      @decode_map   opts[:map] || indexed(opts[:values])
-      @unmap @decode_map |> reverse
+      @decode_map opts[:map] || indexed(opts[:values])
+      @encode_map reverse @decode_map
 
       def decode bytes do
         bytes |> decode(@codec, @decode_map)
       end
 
       def encode value do
-        value |> encode(@codec, @unmap)
+        value |> encode(@codec, @encode_map)
       end
     end
   end

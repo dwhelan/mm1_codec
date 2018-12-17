@@ -4,7 +4,7 @@ defmodule MMS.Charsets do
   """
   alias MMS.Mapper
 
-  @decode_map %{
+  @map %{
        1 => :other,
        2 => :unknown,
        3 => :csASCII,
@@ -267,13 +267,13 @@ defmodule MMS.Charsets do
     3000 => :reserved,
   }
 
-  @reverse_map @decode_map |> Mapper.reverse
+  @unmap Mapper.reverse @map
 
   def map value do
-    Mapper.get @decode_map, value
+    Mapper.get @map, value
   end
 
   def unmap charset do
-    Mapper.get @reverse_map, charset
+    Mapper.get @unmap, charset
   end
 end
