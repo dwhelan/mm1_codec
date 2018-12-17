@@ -1,3 +1,3 @@
 defmodule MMS.Expiry do
-  use MMS.Delegate, codec: MMS.DateTime
+  use MMS.Delegate, codec: MMS.Seconds
 end

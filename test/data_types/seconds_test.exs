@@ -1,8 +1,10 @@
-defmodule MMS.DateTimeTest do
+defmodule MMS.SecondsTest do
   use ExUnit.Case
 
+  alias MMS.Seconds
+
   use MMS.TestExamples,
-      codec: MMS.DateTime,
+      codec: Seconds,
       examples: [
         # short length
         {<<3, 128, 1, 0>>, {0, :absolute, 3}},
@@ -25,15 +27,15 @@ defmodule MMS.DateTimeTest do
       ]
 
   test "encode({value, absolute}) should calculate length" do
-    assert MMS.DateTime.encode({0, :absolute}) == {:ok, <<3, 128, 1, 0>>}
+    assert Seconds.encode({0, :absolute}) == {:ok, <<3, 128, 1, 0>>}
   end
 
   test "encode(%DateTime{}) should use Unix seconds, absolute" do
-    assert MMS.DateTime.encode(DateTime.from_unix! 0) == {:ok, <<3, 128, 1, 0>>}
+    assert Seconds.encode(DateTime.from_unix! 0) == {:ok, <<3, 128, 1, 0>>}
   end
 
   test "encode(integer) should use integer value, absolute" do
-    assert MMS.DateTime.encode(0) == {:ok, <<3, 128, 1, 0>>}
+    assert Seconds.encode(0) == {:ok, <<3, 128, 1, 0>>}
   end
 end
 

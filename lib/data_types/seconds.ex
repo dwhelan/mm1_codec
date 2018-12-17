@@ -1,4 +1,4 @@
-defmodule MMS.DateTime do
+defmodule MMS.Seconds do
   import MMS.OkError
 
   alias MMS.{Length, ShortInteger, Mapper, LongInteger}
