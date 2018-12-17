@@ -51,11 +51,11 @@ defmodule MMS.Mapper.Test do
   alias MMS.Mapper
   import Mapper
 
-  @map %{0 => false, 1 => true}
-  @reverse_map @map |> Mapper.reverse
+  @decode_map %{0 => false, 1 => true}
+  @reverse_map @decode_map |> Mapper.reverse
 
   def decode bytes do
-    bytes |> decode(ShortLength, @map)
+    bytes |> decode(ShortLength, @decode_map)
   end
 
   def encode value do

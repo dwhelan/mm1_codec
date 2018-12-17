@@ -1,6 +1,6 @@
 defmodule MMS.Headers do
   # Based on OMA-WAP-MMS-ENC-V1_1-20040715-A: Table 12. Field Name Assignments
-  @map %{
+  @decode_map %{
     0x81 => MMS.Bcc,
     0x82 => MMS.Cc,
     0x83 => MMS.ContentLocation,
@@ -42,10 +42,10 @@ defmodule MMS.Headers do
     decode bytes, []
   end
 
-  @header_bytes Map.keys(@map)
+  @header_bytes Map.keys(@decode_map)
 
   defp decode(<<byte, bytes:: binary>>, headers) when byte in @header_bytes do
-    header = @map[byte]
+    header = @decode_map[byte]
 
     case header.decode bytes do
       {:ok,    {value, rest}} -> decode rest, [{header, value} | headers]
@@ -72,7 +72,7 @@ defmodule MMS.Headers do
     ok results |> Enum.reverse |> Enum.map(&prepend_header_byte/1) |> Enum.join
   end
 
-  @reverse_map MMS.Mapper.reverse(@map)
+  @reverse_map MMS.Mapper.reverse(@decode_map)
 
   defp prepend_header_byte {header, bytes} do
     <<@reverse_map[header]>> <> bytes
