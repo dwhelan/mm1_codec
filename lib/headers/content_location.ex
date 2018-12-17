@@ -1,3 +1,3 @@
 defmodule MMS.ContentLocation do
-  use MMS.Embed, codec: MMS.String
+  use MMS.Delegate, codec: MMS.String
 end

@@ -1,3 +1,3 @@
 defmodule MMS.Date do
-  use MMS.Embed, codec: MMS.LongInteger
+  use MMS.Delegate, codec: MMS.LongInteger
 end

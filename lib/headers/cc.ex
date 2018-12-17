@@ -1,3 +1,3 @@
 defmodule MMS.Cc do
-  use MMS.Embed, codec: MMS.EncodedString
+  use MMS.Delegate, codec: MMS.EncodedString
 end
