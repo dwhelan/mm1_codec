@@ -1,6 +1,5 @@
-defmodule MMS.DeliveryTime do
+defmodule MMS.DateTime do
   import MMS.OkError
-  import MMS.DataTypes
 
   alias MMS.{Length, ShortInteger, Mapper, LongInteger}
 
