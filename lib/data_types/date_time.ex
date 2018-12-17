@@ -3,7 +3,8 @@ defmodule MMS.DateTime do
 
   alias MMS.{Length, ShortInteger, Mapper, LongInteger}
 
-  @map %{0 => :absolute, 1 => :relative}
+  @map         %{0 => :absolute, 1 => :relative}
+  @reverse_map %{absolute: 0,    relative: 1   }
 
   def decode bytes do
     with {:ok, {length,   absolute_bytes}} <- Length.decode(bytes),
@@ -14,16 +15,6 @@ defmodule MMS.DateTime do
     else
       error -> error
     end
-  end
-
-  @reverse_map @map |> MMS.Mapper.reverse
-
-  def encode %DateTime{} = date_time do
-    encode {DateTime.to_unix(date_time), :absolute}
-  end
-
-  def encode(value) when is_integer(value) do
-    encode {value, :absolute}
   end
 
   def encode {value, absolute, length} do
@@ -43,6 +34,14 @@ defmodule MMS.DateTime do
     else
       error -> error
     end
+  end
+
+  def encode %DateTime{} = date_time do
+    encode {DateTime.to_unix(date_time), :absolute}
+  end
+
+  def encode value do
+    encode {value, :absolute}
   end
 
   defp encode value, absolute do

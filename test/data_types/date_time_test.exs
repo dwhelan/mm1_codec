@@ -24,15 +24,15 @@ defmodule MMS.DateTimeTest do
         {{0,         :absolute, -1}, :must_be_an_unsigned_32_bit_integer            }, # length error
       ]
 
-  test "encode should calculate length if not provided" do
+  test "encode({value, absolute}) should calculate length" do
     assert MMS.DateTime.encode({0, :absolute}) == {:ok, <<3, 128, 1, 0>>}
   end
 
-  test "encode %DateTime should use Unix seconds, absolute" do
+  test "encode(%DateTime{}) should use Unix seconds, absolute" do
     assert MMS.DateTime.encode(DateTime.from_unix! 0) == {:ok, <<3, 128, 1, 0>>}
   end
 
-  test "encode integer should use integer value, absolute" do
+  test "encode(integer) should use integer value, absolute" do
     assert MMS.DateTime.encode(0) == {:ok, <<3, 128, 1, 0>>}
   end
 end
