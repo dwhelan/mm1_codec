@@ -19,22 +19,29 @@ defmodule MMS.DateTime do
   @reverse_map @map |> MMS.Mapper.reverse
 
   def encode {value, absolute, length} do
-    with {:ok, length_bytes  } <- Length.encode(length),
-         {:ok, absolute_bytes} <- Mapper.encode(absolute, ShortInteger, @reverse_map),
-         {:ok, value_bytes   } <- LongInteger.encode(value)
+    with {:ok, length_bytes} <- Length.encode(length),
+         {:ok, data_bytes  } <- encode_data({value, absolute})
     do
-      ok length_bytes <> absolute_bytes <> value_bytes
+      ok length_bytes <> data_bytes
     else
       error -> error
     end
   end
 
   def encode {value, absolute} do
+    with {:ok, data_bytes} <- encode_data({value, absolute})
+    do
+      ok <<byte_size(data_bytes)>> <> data_bytes
+    else
+      error -> error
+    end
+  end
+
+  defp encode_data {value, absolute} do
     with {:ok, absolute_bytes} <- Mapper.encode(absolute, ShortInteger, @reverse_map),
          {:ok, value_bytes   } <- LongInteger.encode(value)
     do
-      length = byte_size(absolute_bytes) + byte_size(value_bytes)
-      ok <<length>> <> absolute_bytes <> value_bytes
+      ok absolute_bytes <> value_bytes
     else
       error -> error
     end

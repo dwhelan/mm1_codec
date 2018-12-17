@@ -26,7 +26,7 @@ defmodule MMS.DeliveryTimeTest do
         {{:not_long, :absolute,  3}, :must_be_an_integer_between_1_and_30_bytes_long}, # value error
       ]
 
-  test "encode should calculate length" do
+  test "encode should calculate length if not provided1p" do
     assert DeliveryTime.encode({0, :absolute}) == {:ok, <<3, 128, 1, 0>>}
   end
 end
