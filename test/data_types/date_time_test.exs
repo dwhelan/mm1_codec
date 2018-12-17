@@ -1,8 +1,10 @@
 defmodule MMS.DateTimeTest do
   use ExUnit.Case
 
+  alias MMS.DateTime
+
   use MMS.TestExamples,
-      codec: MMS.DateTime,
+      codec: DateTime,
       examples: [
         # short length
         {<<3, 128, 1, 0>>, {0, :absolute, 3}},
@@ -19,9 +21,13 @@ defmodule MMS.DateTimeTest do
       ],
 
       encode_errors: [
-        {{0,         :absolute, -1}, :must_be_an_unsigned_32_bit_integer            }, # length error
-        {{0,         128,        3}, :must_be_an_integer_between_0_and_127          }, # absolute/relative error
         {{:not_long, :absolute,  3}, :must_be_an_integer_between_1_and_30_bytes_long}, # value error
+        {{0,         128,        3}, :must_be_an_integer_between_0_and_127          }, # absolute/relative error
+        {{0,         :absolute, -1}, :must_be_an_unsigned_32_bit_integer            }, # length error
       ]
+
+  test "encode should calculate length if not provided1p" do
+    assert DateTime.encode({0, :absolute}) == {:ok, <<3, 128, 1, 0>>}
+  end
 end
 
