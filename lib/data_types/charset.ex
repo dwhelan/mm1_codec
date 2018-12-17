@@ -1,7 +1,7 @@
 #
 # use EitherCodec,
 #   codec: {Short, is_short_integer_byte, is_short_integer},
-#   codec: LongInteger,
+#   codec: Long,
 #
 defmodule MMS.Charset do
   @moduledoc """
@@ -9,7 +9,7 @@ defmodule MMS.Charset do
 
   The Char-set values are registered by IANA as MIBEnum values.
   """
-  alias MMS.{Charsets, Short, LongInteger}
+  alias MMS.{Charsets, Short, Long}
 
   import MMS.OkError
   import MMS.DataTypes
@@ -19,7 +19,7 @@ defmodule MMS.Charset do
   end
 
   def decode bytes do
-    bytes |> decode(LongInteger)
+    bytes |> decode(Long)
   end
 
   defp decode bytes, module do
@@ -43,6 +43,6 @@ defmodule MMS.Charset do
   end
 
   defp _encode code  do
-    code |> LongInteger.encode
+    code |> Long.encode
   end
 end

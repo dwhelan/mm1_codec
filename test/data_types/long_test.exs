@@ -1,9 +1,9 @@
-defmodule MMS.LongIntegerTest do
+defmodule MMS.LongTest do
   use ExUnit.Case
 
   thirty_0xffs = 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
 
-  use MMS.TestExamples, codec: MMS.LongInteger,
+  use MMS.TestExamples, codec: MMS.Long,
     examples: [
       {<<1,   0>>,           0},
       {<<1, 255>>,         255},
