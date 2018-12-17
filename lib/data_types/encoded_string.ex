@@ -13,13 +13,13 @@ defmodule MMS.EncodedString do
          {:ok, {charset, string_bytes }} <- Charset.decode(charset_bytes),
          {:ok, {string,  rest         }} <- String.decode(string_bytes)
     do
-      ok {length, charset, string}, rest
+      ok {string, charset, length}, rest
     else
       error -> error
     end
   end
 
-  def encode {length, charset, string} do
+  def encode {string, charset, length} do
     with {:ok, length_bytes } <- Length.encode(length),
          {:ok, charset_bytes} <- Charset.encode(charset),
          {:ok, string_bytes } <- String.encode(string)
