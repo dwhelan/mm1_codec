@@ -13,7 +13,7 @@ defmodule MMS.SecondsTest do
         {<<3, 129, 1, 0>>, 0                     }, # short length, relative
 
         {<<length_quote, 32, 129>> <> max_long_bytes(), max_long()}, # uint32 length, relative
-        # Note a max long converted to a DateTime is too large for DateTime.from_unix
+        # Note: cannot test an absolute max_long converted to a DateTime because it is too large for DateTime.from_unix
       ],
 
       decode_errors: [
@@ -23,7 +23,7 @@ defmodule MMS.SecondsTest do
       ],
 
       encode_errors: [
-#        {-1, :must_be_an_unsigned_32_bit_integer            }, # length error
+        {-1, :must_be_an_integer_between_1_and_30_bytes_long}, # value error
       ]
 end
 
