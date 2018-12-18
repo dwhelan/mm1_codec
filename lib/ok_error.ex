@@ -1,27 +1,18 @@
 defmodule MMS.OkError do
 
-  defmacro ok value, rest do
-    quote do
-      {:ok, unquote({value, rest})}
-    end
+  def ok value, rest do
+    {:ok, {value, rest}}
   end
 
-  defmacro ok value do
-    quote do
-      {:ok, unquote(value)}
-    end
+  def ok value do
+    {:ok, value}
   end
 
-  defmacro error reason do
-    quote do
-      {:error, unquote(reason)}
-    end
+  def error codec, reason do
+    {:error, {codec, reason}}
   end
 
-  defmacro error codec, reason do
-    quote do
-      {:error, {unquote(codec), unquote(reason)}}
-    end
+  def error reason do
+    {:error, reason}
   end
 end
-
