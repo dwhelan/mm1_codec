@@ -19,7 +19,7 @@ defmodule MMS.Short do
     error :most_signficant_bit_must_be_1
   end
 
-  def encode(value) when is_short_integer(value) do
+  def encode(value) when is_short(value) do
     ok <<value+128>>
   end
 

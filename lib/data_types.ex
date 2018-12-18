@@ -3,7 +3,7 @@ defmodule MMS.DataTypes do
     is_integer value, 0, 30
   end
 
-  defmacro is_short_integer value do
+  defmacro is_short value do
     is_integer value, 0, 127
   end
 

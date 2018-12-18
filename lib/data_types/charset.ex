@@ -1,6 +1,6 @@
 #
 # use EitherCodec,
-#   codec: {Short, is_short_integer_byte, is_short_integer},
+#   codec: {Short, is_short_byte, is_short},
 #   codec: Long,
 #
 defmodule MMS.Charset do
@@ -38,7 +38,7 @@ defmodule MMS.Charset do
     charset |> Charsets.unmap |> _encode
   end
 
-  defp _encode(code) when is_short_integer(code) do
+  defp _encode(code) when is_short(code) do
     code |> Short.encode
   end
 
