@@ -20,7 +20,7 @@ defmodule MMS.Uint32 do
     ok add(value, total), rest
   end
 
-  def encode(value) when is_uintvar(value) do
+  def encode(value) when is_uint32(value) do
     ok bytes_for(value >>> 7, <<value &&& 0x7f>>)
   end
 

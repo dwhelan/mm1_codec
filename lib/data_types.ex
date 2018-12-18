@@ -11,7 +11,7 @@ defmodule MMS.DataTypes do
     is_integer value, 0, 255
   end
 
-  defmacro is_uintvar value do
+  defmacro is_uint32 value do
     is_integer value, 0, 0xffffffff
   end
 

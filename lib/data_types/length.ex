@@ -22,7 +22,7 @@ defmodule MMS.Length do
     value |> ShortLength.encode
   end
 
-  def encode(value) when is_uintvar(value) do
+  def encode(value) when is_uint32(value) do
     ok value |> Uint32.encode |> prefix_with_length_quote
   end
 
