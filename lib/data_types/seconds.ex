@@ -9,17 +9,35 @@ defmodule MMS.Seconds do
   def decode bytes do
     with {:ok, {length,   absolute_bytes}} <- Length.decode(bytes),
          {:ok, {absolute, value_bytes   }} <- Mapper.decode(absolute_bytes, Short, @decode_map),
-         {:ok, {value,    rest          }} <- Long.decode(value_bytes)
+         {:ok, {seconds,    rest          }} <- Long.decode(value_bytes)
     do
-      ok {value, absolute, length}, rest
+      ok {value(seconds, absolute), length}, rest
     else
       error -> error
     end
   end
 
-  def encode {value, absolute, length} do
+  defp value seconds, :absolute do
+    DateTime.from_unix! seconds
+  end
+
+  defp value seconds, :relative do
+    seconds
+  end
+
+  def encode {%DateTime{} = date_time, length} do
     with {:ok, length_bytes} <- Length.encode(length),
-         {:ok, data_bytes  } <- encode(value, absolute)
+         {:ok, data_bytes  } <- date_time |> DateTime.to_unix |> encode(:absolute)
+    do
+      ok length_bytes <> data_bytes
+    else
+      error -> error
+    end
+  end
+
+  def encode {value, length} do
+    with {:ok, length_bytes} <- Length.encode(length),
+         {:ok, data_bytes  } <- encode(value, :relative)
     do
       ok length_bytes <> data_bytes
     else
@@ -40,8 +58,12 @@ defmodule MMS.Seconds do
     encode {DateTime.to_unix(date_time), :absolute}
   end
 
+  def encode %DateTime{} = date_time do
+    encode {DateTime.to_unix(date_time), :absolute}
+  end
+
   def encode value do
-    encode {value, :absolute}
+    encode {value, :relative}
   end
 
   defp encode value, absolute do
