@@ -13,20 +13,16 @@ defmodule MMS.EncodedStringTest do
         {<<"x", 0>>, "x"},
 
         # Encoded
-        {<< 3, 0xea, "x", 0>>,              {"x", :csUTF8,     3}},
-        {<< 5, 2, 0x03, 0xe8, "x", 0>>,     {"x", :csUnicode, 5}},
+        {<< 3, 0xea, "x", 0>>,              {"x", :csUTF8}},
+        {<< 5, 2, 0x03, 0xe8, "x", 0>>,     {"x", :csUnicode}},
 
-        {<<31, 32, 0xea>> <> string30 <> <<0>>, {string30, :csUTF8, 32}},
+        {<<31, 32, 0xea>> <> string30 <> <<0>>, {string30, :csUTF8}},
       ],
 
       decode_errors: [
         {<< 2, 0xea, "x", 0>>, :incorrect_length},
-        {<<"x">>,          :missing_terminator},
-        {<<6, 0xea, "x">>, :missing_terminator},
+        {<<"x">>,              :missing_terminator},
+        {<<6, 0xea, "x">>,     :missing_terminator},
       ]
-
-  test "encode should calculate length if not provided" do
-    assert EncodedString.encode({"x", :csUTF8}) == {:ok, <<3, 0xea, "x", 0>>}
-  end
 end
 
