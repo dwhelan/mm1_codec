@@ -33,7 +33,7 @@ defmodule MMS.Long do
   end
 
   def encode _ do
-    error :must_be_an_integer_between_1_and_30_bytes_long
+    error :must_be_an_unsigned_integer_between_1_and_30_bytes_long
   end
 end
 

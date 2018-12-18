@@ -7,7 +7,7 @@ defmodule MMS.LengthTest do
   use MMS.TestExamples,
       codec: MMS.Length,
       examples: [
-        {<<0>>,   0},
+        {<< 1>>,  1},
         {<<30>>, 30},
 
         {<<length_quote, 31>>, 31},

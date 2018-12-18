@@ -23,8 +23,7 @@ defmodule MMS.SecondsTest do
       ],
 
       encode_errors: [
-        {-1,             :must_be_an_integer_between_1_and_30_bytes_long},
-        {max_long() + 1, :must_be_an_integer_between_1_and_30_bytes_long},
+        {-1,             :must_be_an_unsigned_integer_between_1_and_30_bytes_long},
+        {max_long() + 1, :must_be_an_unsigned_integer_between_1_and_30_bytes_long},
       ]
 end
-
