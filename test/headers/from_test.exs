@@ -11,13 +11,13 @@ defmodule MMS.FromTest do
       ],
 
       decode_errors: [
-        {<<32>>,            :first_byte_must_be_less_than_32     }, # length error
-        {<<3,   0,  1, 0>>, {:address_token_must_be_128_to_129,0}}, # address token error
-        {<<3, 128, "x">>,   :missing_terminator                  }, # string error
+        {<<32>>,            :first_byte_must_be_less_than_32      }, # length error
+        {<<3,   0,  1, 0>>, {:address_token_must_be_128_to_129, 0}}, # address token error
+        {<<3, 128, "x">>,   :missing_terminator                   }, # string error
+      ],
+
+      encode_errors: [
+        {{0, -1}, :must_be_a_uint32}, # length error
       ]
-#
-#      encode_errors: [
-#        {{0, -1}, :must_be_a_uint32            }, # length error
-#      ]
 end
 
