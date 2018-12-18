@@ -10,7 +10,8 @@ defmodule MMS.Seconds do
     with {:ok, {length,   absolute_bytes}} <- Length.decode(bytes),
          {:ok, {absolute, value_bytes   }} <- Byte.decode(absolute_bytes),
          {:ok, {seconds,  rest          }} <- Long.decode(value_bytes),
-         :ok                               <- check_length(length, absolute_bytes, rest)
+         :ok                               <- check_length(length, absolute_bytes, rest),
+         :ok                               <- check_absolute(absolute)
     do
       ok value(seconds, absolute), rest
     else
@@ -24,6 +25,14 @@ defmodule MMS.Seconds do
 
   defp check_length _, _, _  do
     {:error, :incorrect_length}
+  end
+
+  defp check_absolute(absolute) when absolute in [@absolute, @relative]   do
+    :ok
+  end
+
+  defp check_absolute absolute do
+    {:error, {:absolute_value_must_be_128_to_129, absolute}}
   end
 
   defp value seconds, @absolute do
