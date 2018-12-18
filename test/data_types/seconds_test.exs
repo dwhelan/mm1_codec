@@ -1,20 +1,18 @@
 defmodule MMS.SecondsTest do
   use ExUnit.Case
+  import MMS.DataTypes
 
   alias MMS.Seconds
 
-  time_zero    = DateTime.from_unix!(0)
   length_quote = 31
-
-  thirty_0xffs = 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
 
   use MMS.TestExamples,
       codec: Seconds,
       examples: [
-        {<<3, 128, 1, 0>>, time_zero}, # short length, absolute
-        {<<3, 129, 1, 0>>, 0        }, # short length, relative
+        {<<3, 128, 1, 0>>, DateTime.from_unix!(0)}, # short length, absolute
+        {<<3, 129, 1, 0>>, 0                     }, # short length, relative
 
-        {<<length_quote, 32, 129, 30, thirty_0xffs::240>>, thirty_0xffs}, # uint32 length, absolute
+        {<<length_quote, 32, 129>> <> max_long_bytes(), max_long()}, # uint32 length, absolute
       ],
 
       decode_errors: [

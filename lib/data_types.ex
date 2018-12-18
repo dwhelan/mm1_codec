@@ -15,9 +15,16 @@ defmodule MMS.DataTypes do
     is_integer value, 0, 0xffffffff
   end
 
+  def max_long do
+    0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+  end
+
+  def max_long_bytes do
+    <<30, max_long()::240>>
+  end
+
   defmacro is_long_integer value do
-    thirty_0xffs = 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-    is_integer value, 0, thirty_0xffs
+    is_integer value, 0, max_long()
   end
 
   defmacro is_string value do
