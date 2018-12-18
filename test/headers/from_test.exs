@@ -6,7 +6,8 @@ defmodule MMS.FromTest do
   use MMS.TestExamples,
       codec: From,
       examples: [
-        {<<3, 128, "x", 0>>, "x"},
+        {<<3, 128, "x", 0>>, "x"                  }, # address present token
+        {<<1, 129>>,         :insert_address_token}, # insert address token
       ]
 #
 #      decode_errors: [
