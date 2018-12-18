@@ -17,7 +17,11 @@ defmodule MMS.FromTest do
       ],
 
       encode_errors: [
-        {{0, -1}, :must_be_a_uint32}, # length error
       ]
 end
 
+# Addressing
+#   phone: string ["+"] 1*( DIGIT / written-sep ) written-sep =("-"/".")
+#   email: string not any of the others? or simple has a '@' https://gist.github.com/mgamini/4f3a8bc55bdcc96be2c6
+#   ipv4 : string (to charset) or charset parseable via inet:parse_address/1
+#   ipv6 : string (to charset) or charset parseable via inet:parse_address/1

@@ -1,6 +1,5 @@
 defmodule MMS.Seconds do
   import MMS.OkError
-  import MMS.DataTypes
 
   alias MMS.{Length, Byte, Long}
 
@@ -40,12 +39,8 @@ defmodule MMS.Seconds do
     encode DateTime.to_unix(date_time), @absolute
   end
 
-  def encode(value) when is_long(value) do
-    encode value, @relative
-  end
-
   def encode value do
-    Long.encode value
+    encode value, @relative
   end
 
   defp encode value, absolute do
