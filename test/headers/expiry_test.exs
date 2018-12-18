@@ -4,7 +4,7 @@ defmodule MMS.ExpiryTest do
   use MMS.TestExamples,
       codec: MMS.Expiry,
       examples: [
-        {<<3, 128, 1, 0>>, {DateTime.from_unix!(0), 3}},
+        {<<3, 129, 1, 0>>, 0},
       ]
 end
 

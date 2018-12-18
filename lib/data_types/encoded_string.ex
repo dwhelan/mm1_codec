@@ -20,11 +20,11 @@ defmodule MMS.EncodedString do
     end
   end
 
-  defp check_length(length, charset_bytes, rest) when length == byte_size(charset_bytes) - byte_size(rest) do
+  defp check_length(length, data_bytes, rest) when length == byte_size(data_bytes) - byte_size(rest) do
     :ok
   end
 
-  defp check_length(length, bytes, rest)  do
+  defp check_length _, _, _  do
     {:error, :incorrect_length}
   end
 

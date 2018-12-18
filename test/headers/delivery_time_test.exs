@@ -1,12 +1,10 @@
 defmodule MMS.DeliveryTimeTest do
   use ExUnit.Case
 
-  alias MMS.DeliveryTime
-
   use MMS.TestExamples,
-      codec: DeliveryTime,
+      codec: MMS.DeliveryTime,
       examples: [
-        {<<3, 128, 1, 0>>, {DateTime.from_unix!(0), 3}},
+        {<<3, 129, 1, 0>>, 0},
       ]
 end
 

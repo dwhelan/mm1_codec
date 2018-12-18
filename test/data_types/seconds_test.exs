@@ -3,17 +3,18 @@ defmodule MMS.SecondsTest do
 
   alias MMS.Seconds
 
-  time_zero = DateTime.from_unix!(0)
+  time_zero    = DateTime.from_unix!(0)
+  length_quote = 31
 
   use MMS.TestExamples,
       codec: Seconds,
       examples: [
-        # short length
-        {<<3, 128, 1, 0>>, {time_zero, 3}},
-        {<<3, 129, 1, 0>>, {0        , 3}},
+        {<<3, 128, 1, 0>>, time_zero}, # short length, absolute
+        {<<3, 129, 1, 0>>, 0        }, # short length, relative
 
-        # long length
-        {<<31, 32, 128, 1, 0>>, {time_zero, 32}},
+#        {<<3, 128, 1, 0>>, time_zero}, # uint32 length, absolute
+        # uint32 length
+#        {<<31, 32, 128, 1, 0>>, {time_zero, 32}},
       ],
 
       decode_errors: [
@@ -23,7 +24,7 @@ defmodule MMS.SecondsTest do
       ],
 
       encode_errors: [
-        {{0, -1}, :must_be_an_unsigned_32_bit_integer            }, # length error
+#        {-1, :must_be_an_unsigned_32_bit_integer            }, # length error
       ]
 end
 
