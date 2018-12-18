@@ -3,26 +3,30 @@ defmodule MMS.EncodedStringTest do
 
   alias MMS.EncodedString
 
-use MMS.TestExamples,
+  string30 = String.duplicate("x", 30)
+
+  use MMS.TestExamples,
       codec: EncodedString,
       examples: [
         # Not encoded
-        {<<0>>,           ""      },
-        {<<"string", 0>>, "string"},
+        {<<0>>,       ""},
+        {<<"x", 0>>, "x"},
 
         # Encoded
-        {<< 8, 0xea, "string", 0>>,               {"string", :csUTF8,     8}},
-        {<<10, 2, 0x03, 0xe8, "string", 0>>,      {"string", :csUnicode, 10}},
-        {<<31, 42, 2, 0x03, 0xe8, "string", 0>>, {"string", :csUnicode, 42}},
+        {<< 3, 0xea, "x", 0>>,              {"x", :csUTF8,     3}},
+        {<< 5, 2, 0x03, 0xe8, "x", 0>>,     {"x", :csUnicode, 5}},
+
+        {<<31, 32, 0xea>> <> string30 <> <<0>>, {string30, :csUTF8, 32}},
       ],
 
       decode_errors: [
-        {<<"string">>,          :missing_terminator},
-        {<<6, 0xea, "string">>, :missing_terminator},
+        {<< 2, 0xea, "x", 0>>, :incorrect_length},
+        {<<"x">>,          :missing_terminator},
+        {<<6, 0xea, "x">>, :missing_terminator},
       ]
 
   test "encode should calculate length if not provided" do
-    assert EncodedString.encode({"string", :csUTF8}) == {:ok, <<8, 0xea, "string", 0>>}
+    assert EncodedString.encode({"x", :csUTF8}) == {:ok, <<3, 0xea, "x", 0>>}
   end
 end
 
