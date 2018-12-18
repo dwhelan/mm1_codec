@@ -1,7 +1,6 @@
 defmodule MMS.Uint32Test do
   use ExUnit.Case
-
-  max_value = 0xffffffff
+  import MMS.DataTypes
 
   use MMS.TestExamples,
       codec: MMS.Uint32,
@@ -15,7 +14,7 @@ defmodule MMS.Uint32Test do
         {<<129, 128, 128, 0>>, 2_097_152},
         {<<255, 255, 255, 127>>, 268_435_455},
         {<<129, 128, 128, 128, 0>>, 268_435_456},
-        {<<143, 255, 255, 255, 127>>, max_value},
+        {<<143, 255, 255, 255, 127>>, max_uint32()},
       ],
 
       decode_errors: [
@@ -25,8 +24,8 @@ defmodule MMS.Uint32Test do
       ],
 
       encode_errors: [
-        {-1,              :must_be_an_unsigned_32_bit_integer},
-        {max_value + 1,   :must_be_an_unsigned_32_bit_integer},
-        {:not_an_integer, :must_be_an_unsigned_32_bit_integer},
+        {-1,               :must_be_an_unsigned_32_bit_integer},
+        {max_uint32() + 1, :must_be_an_unsigned_32_bit_integer},
+        {:not_an_integer,  :must_be_an_unsigned_32_bit_integer},
       ]
 end

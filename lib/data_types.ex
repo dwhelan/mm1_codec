@@ -11,8 +11,12 @@ defmodule MMS.DataTypes do
     is_integer value, 0, 255
   end
 
+  def max_uint32 do
+    0xffffffff
+  end
+
   defmacro is_uint32 value do
-    is_integer value, 0, 0xffffffff
+    is_integer value, 0, max_uint32()
   end
 
   def max_long do

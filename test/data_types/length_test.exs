@@ -1,7 +1,7 @@
 defmodule MMS.LengthTest do
   use ExUnit.Case
+  import MMS.DataTypes
 
-  max_value = 0xffffffff
   length_quote = 31
 
   use MMS.TestExamples,
@@ -13,7 +13,7 @@ defmodule MMS.LengthTest do
         {<<length_quote, 31>>, 31},
         {<<length_quote, 32>>, 32},
 
-        {<<length_quote, 143, 255, 255, 255, 127>>, max_value},
+        {<<length_quote, 143, 255, 255, 255, 127>>, max_uint32()},
       ],
 
       decode_errors: [
@@ -22,9 +22,9 @@ defmodule MMS.LengthTest do
       ],
 
       encode_errors: [
-        {-1,              :must_be_an_unsigned_32_bit_integer},
-        {max_value + 1,   :must_be_an_unsigned_32_bit_integer},
-        {:not_an_integer, :must_be_an_unsigned_32_bit_integer},
+        {-1,               :must_be_an_unsigned_32_bit_integer},
+        {max_uint32() + 1, :must_be_an_unsigned_32_bit_integer},
+        {:not_an_integer,  :must_be_an_unsigned_32_bit_integer},
       ]
 end
 
