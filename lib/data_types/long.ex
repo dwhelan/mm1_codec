@@ -27,7 +27,7 @@ defmodule MMS.Long do
     ok :binary.decode_unsigned(value_bytes), rest
   end
 
-  def encode(value) when is_long_integer(value) do
+  def encode(value) when is_long(value) do
     bytes = :binary.encode_unsigned(value)
     ok <<byte_size(bytes)>> <> bytes
   end

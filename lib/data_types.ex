@@ -24,7 +24,7 @@ defmodule MMS.DataTypes do
     <<30, max_long()::240>>
   end
 
-  defmacro is_long_integer value do
+  defmacro is_long value do
     is_integer value, 0, max_long()
   end
 

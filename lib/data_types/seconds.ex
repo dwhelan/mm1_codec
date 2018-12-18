@@ -48,7 +48,7 @@ defmodule MMS.Seconds do
     encode DateTime.to_unix(date_time), @absolute
   end
 
-  def encode(value) when is_long_integer(value) do
+  def encode(value) when is_long(value) do
     encode value, @relative
   end
 
