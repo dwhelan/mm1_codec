@@ -6,7 +6,7 @@ defmodule MMS.DeliveryTimeTest do
   use MMS.TestExamples,
       codec: DeliveryTime,
       examples: [
-        {<<3, 128, 1, 0>>, {0, :absolute, 3}},
+        {<<3, 128, 1, 0>>, {DateTime.from_unix!(0), 3}},
       ]
 end
 

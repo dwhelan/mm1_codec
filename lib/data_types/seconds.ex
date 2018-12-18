@@ -9,7 +9,7 @@ defmodule MMS.Seconds do
   def decode bytes do
     with {:ok, {length,   absolute_bytes}} <- Length.decode(bytes),
          {:ok, {absolute, value_bytes   }} <- Mapper.decode(absolute_bytes, Short, @decode_map),
-         {:ok, {seconds,    rest          }} <- Long.decode(value_bytes)
+         {:ok, {seconds,  rest          }} <- Long.decode(value_bytes)
     do
       ok {value(seconds, absolute), length}, rest
     else
@@ -25,28 +25,34 @@ defmodule MMS.Seconds do
     seconds
   end
 
+  def encode %DateTime{} = date_time do
+    encode DateTime.to_unix(date_time), :absolute
+  end
+
   def encode {%DateTime{} = date_time, length} do
+    encode DateTime.to_unix(date_time), :absolute, length
+  end
+
+  def encode(value) when is_integer(value) do
+    encode value, :relative
+  end
+
+  def encode({value, length}) when is_integer(value) do
+    encode value, :relative, length
+  end
+
+  defp encode value, absolute, length do
     with {:ok, length_bytes} <- Length.encode(length),
-         {:ok, data_bytes  } <- date_time |> DateTime.to_unix |> encode(:absolute)
-    do
+         {:ok, data_bytes  } <- encode_data(value, absolute)
+      do
       ok length_bytes <> data_bytes
     else
       error -> error
     end
   end
 
-  def encode {value, length} do
-    with {:ok, length_bytes} <- Length.encode(length),
-         {:ok, data_bytes  } <- encode(value, :relative)
-    do
-      ok length_bytes <> data_bytes
-    else
-      error -> error
-    end
-  end
-
-  def encode {value, absolute} do
-    with {:ok, data_bytes} <- encode value, absolute
+  defp encode value, absolute do
+    with {:ok, data_bytes} <- encode_data value, absolute
     do
       ok <<byte_size(data_bytes)>> <> data_bytes
     else
@@ -54,19 +60,7 @@ defmodule MMS.Seconds do
     end
   end
 
-  def encode %DateTime{} = date_time do
-    encode {DateTime.to_unix(date_time), :absolute}
-  end
-
-  def encode %DateTime{} = date_time do
-    encode {DateTime.to_unix(date_time), :absolute}
-  end
-
-  def encode value do
-    encode {value, :relative}
-  end
-
-  defp encode value, absolute do
+  defp encode_data value, absolute do
     with {:ok, absolute_bytes} <- Mapper.encode(absolute, Short, @encode_map),
          {:ok, value_bytes   } <- Long.encode(value)
     do
