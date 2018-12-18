@@ -15,7 +15,7 @@ defmodule MMS.Long do
   import MMS.DataTypes
 
   def decode(<<length, _::binary>>) when length < 1 or length > 30 do
-    error :length_must_be_between_1_and_30
+    error {:length_must_be_between_1_and_30, length}
   end
 
   def decode(<<length, rest::binary>>) when byte_size(rest) < length do

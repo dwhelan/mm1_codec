@@ -19,11 +19,12 @@ defmodule MMS.SecondsTest do
       decode_errors: [
         {<<32>>,            :first_byte_must_be_less_than_32},        # length error
         {<<3,   0,  1, 0>>, {:absolute_value_must_be_128_to_129, 0}}, # absolute/relative error
-        {<<3, 128, 31, 0>>, :length_must_be_between_1_and_30},        # value error
+        {<<3, 128, 31, 0>>, {:length_must_be_between_1_and_30,  31}}, # value error
       ],
 
       encode_errors: [
-        {-1, :must_be_an_integer_between_1_and_30_bytes_long}, # value error
+        {-1,             :must_be_an_integer_between_1_and_30_bytes_long},
+        {max_long() + 1, :must_be_an_integer_between_1_and_30_bytes_long},
       ]
 end
 
