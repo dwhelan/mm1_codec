@@ -3,9 +3,6 @@ defmodule MMS.From do
 
   alias MMS.{Length, Byte, Short, Mapper, Long, EncodedString}
 
-  @decode_map %{0 => :absolute, 1 => :relative}
-  @encode_map MMS.Mapper.reverse @decode_map
-
   @address_present_token 128
   @insert_address_token  129
 
