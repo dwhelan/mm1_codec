@@ -1,7 +1,6 @@
 defmodule MMS.LongTest do
   use ExUnit.Case
-
-  thirty_0xffs = 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+  import MMS.DataTypes
 
   use MMS.TestExamples, codec: MMS.Long,
     examples: [
@@ -10,7 +9,7 @@ defmodule MMS.LongTest do
       {<<2,   1,   0>>,    256},
       {<<2, 255, 255>>, 65_535},
 
-      {<<30, thirty_0xffs::240>>, thirty_0xffs}
+      {max_long_bytes(), max_long()}
     ],
 
     decode_errors: [
@@ -20,8 +19,8 @@ defmodule MMS.LongTest do
     ],
 
     encode_errors: [
-      { -1,             :must_be_an_integer_between_1_and_30_bytes_long},
-      {thirty_0xffs+1,  :must_be_an_integer_between_1_and_30_bytes_long},
+      {-1,              :must_be_an_integer_between_1_and_30_bytes_long},
+      {max_long()+1,    :must_be_an_integer_between_1_and_30_bytes_long},
       {:not_an_integer, :must_be_an_integer_between_1_and_30_bytes_long},
     ]
 end

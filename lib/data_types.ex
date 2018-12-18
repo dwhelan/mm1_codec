@@ -16,6 +16,7 @@ defmodule MMS.DataTypes do
   end
 
   def max_long do
+    # 30 0xffs
     0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
   end
 
