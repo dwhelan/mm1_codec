@@ -25,10 +25,8 @@ defmodule MMS.EncodedString do
   end
 
   defp check_length(length, bytes, rest)  do
-    IO.inspect {:check_length, length, bytes, rest}
     {:error, :incorrect_length}
   end
-
 
   def encode(string) when is_binary(string) do
     string |> String.encode
