@@ -6,7 +6,7 @@ defmodule MMS.FromTest do
   use MMS.TestExamples,
       codec: From,
       examples: [
-#        {<<3, 128, "x", 0>>, {"x", 3}},
+        {<<3, 128, "x", 0>>, "x"},
       ]
 #
 #      decode_errors: [

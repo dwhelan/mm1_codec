@@ -33,4 +33,12 @@ defmodule MMS.Length do
   defp prefix_with_length_quote {:ok, bytes} do
     <<@length_quote>> <> bytes
   end
+
+  def check(length, bytes, rest) when length == byte_size(bytes) - byte_size(rest) do
+    :ok
+  end
+
+  def check _, _, _  do
+    {:error, :incorrect_length}
+  end
 end

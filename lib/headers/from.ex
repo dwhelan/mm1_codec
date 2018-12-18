@@ -1,32 +1,44 @@
 defmodule MMS.From do
   import MMS.OkError
 
-  alias MMS.{Length, Short, Mapper, Long}
+  alias MMS.{Length, Byte, Short, Mapper, Long, EncodedString}
 
   @decode_map %{0 => :absolute, 1 => :relative}
   @encode_map MMS.Mapper.reverse @decode_map
 
+  @address_present_token 128
+  @insert_address_token  129
+
   def decode bytes do
     with {:ok, {length,   absolute_bytes}} <- Length.decode(bytes),
-         {:ok, {absolute, value_bytes   }} <- Mapper.decode(absolute_bytes, Short, @decode_map),
-         {:ok, {seconds,  rest          }} <- Long.decode(value_bytes)
+         {:ok, {absolute, value_bytes   }} <- Byte.decode(absolute_bytes)
     do
-      ok {value(seconds, absolute), length}, rest
+      decode(value_bytes, absolute)
     else
       error -> error
     end
   end
 
-  defp value seconds, :absolute do
-    DateTime.from_unix! seconds
+  defp decode bytes, @address_present_token do
+    EncodedString.decode bytes
   end
 
-  defp value seconds, :relative do
-    seconds
+  defp decode _, @insert_address_token do
+    {:ok, :insert_address}
   end
 
-  def encode %DateTime{} = date_time do
-    encode DateTime.to_unix(date_time), :absolute
+  defp decode _, absolute do
+    {:error, {:address_token_must_be_128_to_129, absolute}}
+  end
+
+  def encode string do
+    with {:ok, string_bytes} <- EncodedString.encode(string),
+         {:ok, length_bytes} <- Length.encode(1 + byte_size(string_bytes))
+    do
+      ok length_bytes <> <<@address_present_token>> <> string_bytes
+    else
+      error -> error
+    end
   end
 
   def encode {%DateTime{} = date_time, length} do

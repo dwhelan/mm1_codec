@@ -12,20 +12,12 @@ defmodule MMS.EncodedString do
     with {:ok, {length,  charset_bytes}} <- Length.decode(bytes),
          {:ok, {charset, string_bytes }} <- Charset.decode(charset_bytes),
          {:ok, {string,  rest         }} <- String.decode(string_bytes),
-         :ok                             <- check_length(length, charset_bytes, rest)
+         :ok                             <- Length.check(length, charset_bytes, rest)
     do
       ok {string, charset}, rest
     else
       error -> error
     end
-  end
-
-  defp check_length(length, data_bytes, rest) when length == byte_size(data_bytes) - byte_size(rest) do
-    :ok
-  end
-
-  defp check_length _, _, _  do
-    {:error, :incorrect_length}
   end
 
   def encode(string) when is_binary(string) do

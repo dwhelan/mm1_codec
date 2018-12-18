@@ -11,21 +11,13 @@ defmodule MMS.Seconds do
     with {:ok, {length,   absolute_bytes}} <- Length.decode(bytes),
          {:ok, {absolute, value_bytes   }} <- Byte.decode(absolute_bytes),
          {:ok, {seconds,  rest          }} <- Long.decode(value_bytes),
-         :ok                               <- check_length(length, absolute_bytes, rest),
+         :ok                               <- Length.check(length, absolute_bytes, rest),
          :ok                               <- check_absolute(absolute)
     do
       ok value(seconds, absolute), rest
     else
       error -> error
     end
-  end
-
-  defp check_length(length, data_bytes, rest) when length == byte_size(data_bytes) - byte_size(rest) do
-    :ok
-  end
-
-  defp check_length _, _, _  do
-    {:error, :incorrect_length}
   end
 
   defp check_absolute(absolute) when absolute in [@absolute, @relative]   do
