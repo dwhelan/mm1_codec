@@ -18,13 +18,13 @@ defmodule MMS.LengthTest do
 
       decode_errors: [
         {<<32>>, :first_byte_must_be_less_than_32},
-        {<<length_quote, 128, 255, 255, 255, 255, 127>>, :uintvar_length_must_be_5_bytes_or_less},
+        {<<length_quote, 128, 255, 255, 255, 255, 127>>, :uint32_length_must_be_5_bytes_or_less},
       ],
 
       encode_errors: [
-        {-1,               :must_be_an_unsigned_32_bit_integer},
-        {max_uint32() + 1, :must_be_an_unsigned_32_bit_integer},
-        {:not_an_integer,  :must_be_an_unsigned_32_bit_integer},
+        {-1,               :must_be_a_uint32},
+        {max_uint32() + 1, :must_be_a_uint32},
+        {:not_an_integer,  :must_be_a_uint32},
       ]
 end
 

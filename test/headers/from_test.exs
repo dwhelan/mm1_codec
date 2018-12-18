@@ -16,7 +16,7 @@ defmodule MMS.FromTest do
 #      ],
 #
 #      encode_errors: [
-#        {{0, -1}, :must_be_an_unsigned_32_bit_integer            }, # length error
+#        {{0, -1}, :must_be_a_uint32            }, # length error
 #      ]
 end
 

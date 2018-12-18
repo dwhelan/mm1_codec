@@ -27,7 +27,7 @@ defmodule MMS.Length do
   end
 
   def encode _ do
-    error :must_be_an_unsigned_32_bit_integer
+    error :must_be_a_uint32
   end
 
   defp prefix_with_length_quote {:ok, bytes} do

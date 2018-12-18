@@ -36,4 +36,3 @@ defmodule MMS.Long do
     error :must_be_an_unsigned_integer_between_1_and_30_bytes_long
   end
 end
-
