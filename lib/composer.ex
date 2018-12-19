@@ -33,4 +33,11 @@ defmodule MMS.Composer do
   defp check _, _, _  do
     {:error, :incorrect_length}
   end
+
+#  def encode values, codecs do
+#    encode Enum.zip(Tuple.to_list(values), Tuple.to_list(codecs))
+#  end
+#
+#  defp encode [{value, codec} | tuples] do
+#  end
 end

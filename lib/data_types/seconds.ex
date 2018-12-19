@@ -22,7 +22,7 @@ defmodule MMS.Seconds do
   end
 
   defp evaluate {{absolute, _}, _} do
-    error {:absolute_value_must_be_128_to_129, absolute}
+    error :absolute_value_must_be_128_to_129
   end
 
   def encode %DateTime{} = date_time do
