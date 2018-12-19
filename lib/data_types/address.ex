@@ -1,12 +1,76 @@
-defmodule MMS.IPv6 do
-  import MMS.DataTypes
+defmodule MMS.Address.PhoneNumber do
+  import MMS.OkError
 
   def map string do
-    string |> double_colon |> to_charlist |> :inet.parse_ipv6_address
+    case MMS.Address.Email.is_email? string do
+      false -> ok string
+      true  -> error :invalid_phone_number
+    end
   end
 
-  def unmap ipv6 do
-    (ipv6 |> :inet.ntoa |> to_string |> single_colon) <> "/TYPE=IPv6"
+  def unmap value do
+    value <> "/TYPE=PLMN"
+  end
+end
+
+defmodule MMS.Address.Email do
+  import MMS.OkError
+
+  def map string do
+    case is_email? string do
+      true  -> ok string
+      false -> error :invalid_email
+    end
+  end
+
+  def unmap value do
+    value
+  end
+
+  def is_email? string do
+    String.contains? string, "@"
+  end
+end
+
+defmodule MMS.Address.IPv4 do
+  import MMS.OkError
+
+  def map string do
+    case string |> to_charlist |> :inet.parse_ipv4_address do
+      {:ok, ipv4} -> ok ipv4
+      _         -> error :invalid_ipv4_address
+    end
+  end
+
+  def unmap value do
+    (value |> :inet.ntoa |> to_string) <> "/TYPE=IPv4"
+  end
+end
+
+defmodule MMS.Address.Unknown do
+  import MMS.OkError
+
+  def map string do
+     ok string
+  end
+
+  def unmap value do
+    value
+  end
+end
+
+defmodule MMS.Address.IPv6 do
+  import MMS.OkError
+
+  def map string do
+    case string |> double_colon |> to_charlist |> :inet.parse_ipv6_address do
+      {:ok, ipv6} -> ok ipv6
+      _           -> error :invalid_ipv6_address
+    end
+  end
+
+  def unmap value do
+    (value |> :inet.ntoa |> to_string |> single_colon) <> "/TYPE=IPv6"
   end
 
   defp double_colon string do
@@ -22,7 +86,8 @@ defmodule MMS.Address do
   import MMS.OkError
   import MMS.DataTypes
 
-  alias MMS.{EncodedString, IPv6}
+  alias MMS.{EncodedString}
+  alias MMS.Address.{IPv4, IPv6, PhoneNumber, Email, Unknown}
 
   def decode bytes do
     case bytes |> EncodedString.decode do
@@ -31,51 +96,26 @@ defmodule MMS.Address do
     end
   end
 
-  def map_address string, rest do
-    string |> split |> map(rest)
+  def map_address value, rest do
+    result = case value |> split do
+      {string, "IPv4"} -> IPv4.map string
+      {string, "IPv6"} -> IPv6.map string
+      {string, "PLMN"} -> PhoneNumber.map string
+      {string, :email} -> Email.map string
+      {string, _     } -> ok value
+    end
+
+    case result do
+      {:error, reason} -> error reason
+      {:ok, value} -> ok value, rest
+    end
   end
 
-  def split string do
-    case string |> String.split("/TYPE=", parts: 2) do
+  def split value do
+    case value |> String.split("/TYPE=", parts: 2) do
       [string, type] -> {string, type}
       [string]       -> {string, :email}
     end
-  end
-
-  def map {string, :email}, rest do
-    case is_email? string do
-      true  -> ok string, rest
-      false -> error :invalid_email
-    end
-  end
-
-  def map {string, "PLMN"}, rest do
-    case is_email? string do
-      false -> ok string, rest
-      true  -> error :invalid_phone_number
-    end
-  end
-
-  def map {string, "IPv4"}, rest do
-    case string |> to_charlist |> :inet.parse_ipv4_address do
-      {:ok, ip} -> ok ip, rest
-      _         -> error :invalid_ipv4_address
-    end
-  end
-
-  def map {string, "IPv6"}, rest do
-    case string |> IPv6.map do
-      {:ok, ip} -> ok ip, rest
-      _         -> error :invalid_ipv6_address
-    end
-  end
-
-  defp single_colon string do
-    Regex.replace ~r/::/, string, ":"
-  end
-
-  def map {string, unknown}, rest do
-    ok string <> "/TYPE=#{unknown}", rest
   end
 
   def encode {charset, value} do
@@ -86,19 +126,13 @@ defmodule MMS.Address do
     value |> unmap |> EncodedString.encode
   end
 
-  defp unmap(value) when is_ipv4(value) do
-    (value |> :inet.ntoa |> to_string) <> "/TYPE=IPv4"
-  end
-
-  defp unmap(value) when is_ipv6_address(value) do
-    value |> IPv6.unmap
-  end
-
-  defp unmap(value) when is_binary(value) do
+  defp unmap value do
     cond do
-      contains_type? value -> value
-      is_email? value      -> value
-      true                 -> value <> "/TYPE=PLMN"
+      is_ipv4_address value -> IPv4.unmap value
+      is_ipv6_address value -> IPv6.unmap value
+      contains_type? value -> Unknown.unmap value
+      is_email? value      -> Email.unmap value
+      true                 -> PhoneNumber.unmap value
     end
   end
 

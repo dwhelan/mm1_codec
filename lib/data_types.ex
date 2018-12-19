@@ -38,7 +38,7 @@ defmodule MMS.DataTypes do
     end
   end
 
-  defmacro is_ipv4 value do
+  defmacro is_ipv4_address value do
     quote do
       is_tuple(unquote value) and tuple_size(unquote value) == 4
     end
