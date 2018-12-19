@@ -1,8 +1,28 @@
+defmodule MMS.IPv6 do
+  import MMS.DataTypes
+
+  def map string do
+    string |> double_colon |> to_charlist |> :inet.parse_ipv6_address
+  end
+
+  def unmap ipv6 do
+    (ipv6 |> :inet.ntoa |> to_string |> single_colon) <> "/TYPE=IPv6"
+  end
+
+  defp double_colon string do
+    Regex.replace ~r/:/, string, "::"
+  end
+
+  defp single_colon string do
+    Regex.replace ~r/::/, string, ":"
+  end
+end
+
 defmodule MMS.Address do
   import MMS.OkError
   import MMS.DataTypes
 
-  alias MMS.EncodedString
+  alias MMS.{EncodedString, IPv6}
 
   def decode bytes do
     case bytes |> EncodedString.decode do
@@ -44,14 +64,10 @@ defmodule MMS.Address do
   end
 
   def map {string, "IPv6"}, rest do
-    case string |> double_colon |> to_charlist |> :inet.parse_ipv6_address do
+    case string |> IPv6.map do
       {:ok, ip} -> ok ip, rest
       _         -> error :invalid_ipv6_address
     end
-  end
-
-  defp double_colon string do
-    Regex.replace ~r/:/, string, "::"
   end
 
   defp single_colon string do
@@ -75,7 +91,7 @@ defmodule MMS.Address do
   end
 
   defp unmap(value) when is_ipv6_address(value) do
-    (value |> :inet.ntoa |> to_string |> single_colon) <> "/TYPE=IPv6"
+    value |> IPv6.unmap
   end
 
   defp unmap(value) when is_binary(value) do
