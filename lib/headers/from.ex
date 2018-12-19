@@ -1,31 +1,31 @@
 defmodule MMS.From do
   import MMS.OkError
 
-  alias MMS.{Length, Byte, EncodedString}
+  alias MMS.{Composer, Length, Byte, EncodedString}
 
   @address_present_token 128
   @insert_address_token  129
 
   def decode bytes do
-    with {:ok, {_length, token_bytes}} <- Length.decode(bytes),
-         {:ok, {token,   value_bytes}} <- Byte.decode(token_bytes)
+    with {:ok, {length, token_bytes}} <- Length.decode(bytes),
+         {:ok, {token,         rest}} <- Byte.decode(token_bytes)
     do
-      decode(value_bytes, token)
+      decode token, rest
     else
       error -> error
     end
   end
 
-  defp decode bytes, @address_present_token do
-    EncodedString.decode bytes
+  defp decode @address_present_token, rest do
+    EncodedString.decode rest
   end
 
-  defp decode rest, @insert_address_token do
+  defp decode @insert_address_token, rest do
     ok :insert_address_token, rest
   end
 
-  defp decode _, address_token do
-    {:error, {:address_token_must_be_128_to_129, address_token}}
+  defp decode _, _ do
+    error :address_token_must_be_128_to_129
   end
 
   def encode(string) when is_binary(string) do
