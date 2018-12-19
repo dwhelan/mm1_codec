@@ -44,6 +44,12 @@ defmodule MMS.DataTypes do
     end
   end
 
+  defmacro is_ipv6_address value do
+    quote do
+      is_tuple(unquote value) and tuple_size(unquote value) == 8
+    end
+  end
+
   defp is_integer value, min, max do
     quote do
       is_integer(unquote value) and unquote(value) >= unquote(min) and unquote(value) <= unquote(max)

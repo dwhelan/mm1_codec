@@ -13,6 +13,7 @@ defmodule MMS.AddressTest do
         {<<"1234567890/TYPE=PLMN", 0>>, "1234567890"},
         {<<"0.0.0.0/TYPE=unknown", 0>>, "0.0.0.0/TYPE=unknown"},
         {<<"0.0.0.0/TYPE=IPv4",    0>>, {0, 0, 0, 0}},
+        {<<":1/TYPE=IPv6",         0>>, {0, 0, 0, 0, 0, 0, 0, 1}},
 
         # Encoded with short length
 #        {<< 3, 0xea, "x", 0>>,          {:csUTF8,    "x"}},

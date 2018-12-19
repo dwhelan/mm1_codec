@@ -43,6 +43,21 @@ defmodule MMS.Address do
     end
   end
 
+  def map {string, "IPv6"}, rest do
+    case string |> double_colon |> to_charlist |> :inet.parse_ipv6_address do
+      {:ok, ip} -> ok ip, rest
+      _         -> error :invalid_ipv6_address
+    end
+  end
+
+  defp double_colon string do
+    Regex.replace ~r/:/, string, "::"
+  end
+
+  defp single_colon string do
+    Regex.replace ~r/::/, string, ":"
+  end
+
   def map {string, unknown}, rest do
     ok string <> "/TYPE=#{unknown}", rest
   end
@@ -57,6 +72,10 @@ defmodule MMS.Address do
 
   defp unmap(value) when is_ipv4(value) do
     (value |> :inet.ntoa |> to_string) <> "/TYPE=IPv4"
+  end
+
+  defp unmap(value) when is_ipv6_address(value) do
+    (value |> :inet.ntoa |> to_string |> single_colon) <> "/TYPE=IPv6"
   end
 
   defp unmap(value) when is_binary(value) do
