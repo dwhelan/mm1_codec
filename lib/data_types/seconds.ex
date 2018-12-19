@@ -8,29 +8,21 @@ defmodule MMS.Seconds do
 
   def decode bytes do
     case Composer.decode bytes, [Byte, Long] do
-      {:ok, results} -> check results
+      {:ok, results} -> evaluate results
       error          -> error
     end
   end
 
-  defp check {{@absolute, seconds}, rest} do
+  defp evaluate {{@absolute, seconds}, rest} do
     ok DateTime.from_unix!(seconds), rest
   end
 
-  defp check {{@relative, seconds}, rest} do
+  defp evaluate {{@relative, seconds}, rest} do
     ok seconds, rest
   end
 
-  defp check {{absolute, _}, _} do
+  defp evaluate {{absolute, _}, _} do
     error {:absolute_value_must_be_128_to_129, absolute}
-  end
-
-  defp value @absolute, seconds do
-    DateTime.from_unix! seconds
-  end
-
-  defp value @relative, seconds do
-    seconds
   end
 
   def encode %DateTime{} = date_time do
@@ -52,3 +44,4 @@ defmodule MMS.Seconds do
     end
   end
 end
+
