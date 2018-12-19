@@ -7,7 +7,7 @@ defmodule MMS.Seconds do
   @relative 129
 
   def decode bytes do
-    case Composer.decode bytes, {Byte, Long} do
+    case bytes |> Composer.decode({Byte, Long}) do
       {:ok, results} -> evaluate results
       error          -> error
     end
@@ -34,7 +34,6 @@ defmodule MMS.Seconds do
   end
 
   defp encode absolute, value do
-    Composer.encode {absolute, value}, {Byte, Long}
+    {absolute, value} |> Composer.encode({Byte, Long})
   end
 end
-
