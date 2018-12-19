@@ -25,23 +25,18 @@ defmodule MMS.Address do
   def map {string, :email}, rest do
     case is_email? string do
       true  -> ok string, rest
-      false -> error :email_must_contain_an_at
+      false -> error :invalid_email
     end
   end
 
   def map {string, "PLMN"}, rest do
-    ok string, rest
+    case is_email? string do
+      false -> ok string, rest
+      true  -> error :invalid_phone_number
+    end
   end
 
   defp is_email? string do
-    String.contains? string, "@"
-  end
-
-  defp is_phone_number? string do
-    String.match? string, ~r/TYPE=PLMN/
-  end
-
-  defp is_valid_email? string do
     String.contains? string, "@"
   end
 

@@ -9,7 +9,6 @@ defmodule MMS.AddressTest do
   use MMS.TestExamples,
       codec: Address,
       examples: [
-        # Default to email if no /TYPE= suffix
         {<<"@", 0>>, "@"},
 
         {<<"1234567890/TYPE=PLMN", 0>>, "1234567890"},
@@ -24,6 +23,8 @@ defmodule MMS.AddressTest do
       ],
 
       decode_errors: [
+        {<<"x", 0>>,           :invalid_email       },
+        {<<"@/TYPE=PLMN", 0>>, :invalid_phone_number},
 #        {<<3, 0xea, "x">>, :missing_terminator},
 #        {<<"x">>,          :missing_terminator},
 #
