@@ -1,7 +1,7 @@
 defmodule MMS.Seconds do
   import MMS.OkError
 
-  alias MMS.{Composer, Length, Byte, Long}
+  alias MMS.{Composer, Byte, Long}
 
   @absolute 128
   @relative 129
@@ -21,27 +21,20 @@ defmodule MMS.Seconds do
     ok seconds, rest
   end
 
-  defp evaluate {{absolute, _}, _} do
+  defp evaluate _ do
     error :absolute_value_must_be_128_to_129
   end
 
   def encode %DateTime{} = date_time do
-    encode DateTime.to_unix(date_time), @absolute
+    encode @absolute, DateTime.to_unix(date_time)
   end
 
   def encode value do
-    encode value, @relative
+    encode @relative, value
   end
 
-  defp encode value, absolute do
-    with {:ok, absolute_bytes} <- Byte.encode(absolute),
-         {:ok, value_bytes   } <- Long.encode(value),
-         {:ok, length_bytes  } <- Length.encode(1 + byte_size(value_bytes))
-    do
-      ok length_bytes <> absolute_bytes <> value_bytes
-    else
-      error -> error
-    end
+  defp encode absolute, value do
+    Composer.encode {absolute, value}, {Byte, Long}
   end
 end
 

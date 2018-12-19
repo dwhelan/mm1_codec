@@ -18,7 +18,7 @@ defmodule MMS.Composer do
 
   defp do_decode bytes, [codec | codecs], values do
     case codec.decode bytes do
-      {:ok, {value, rest}} -> decode rest, codecs, [value | values]
+      {:ok, {value, rest}} -> do_decode rest, codecs, [value | values]
       error                -> error
     end
   end
@@ -36,12 +36,14 @@ defmodule MMS.Composer do
   end
 
   def encode values, codecs do
-    do_encode Enum.zip(Tuple.to_list(values), Tuple.to_list(codecs)), []
+    values = Tuple.to_list values
+    codecs = Tuple.to_list codecs
+    do_encode Enum.zip(values, codecs), []
   end
 
   defp do_encode [{value, codec} | tuples], bytes_list do
     case codec.encode value do
-      {:ok, bytes} -> encode tuples, [bytes | bytes_list]
+      {:ok, bytes} -> do_encode tuples, [bytes | bytes_list]
       error        -> error
     end
   end
