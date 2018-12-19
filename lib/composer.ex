@@ -15,7 +15,7 @@ defmodule MMS.Composer do
   defp decode bytes, [codec | codecs], values do
     case codec.decode bytes do
       {:ok,    {value, rest}} -> decode rest, codecs, [value | values]
-      {:error, reason       } -> error codec, reason
+      error -> error
     end
   end
 
