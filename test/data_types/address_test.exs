@@ -12,6 +12,8 @@ defmodule MMS.AddressTest do
         {<<"@", 0>>, "@"},
 
         {<<"1234567890/TYPE=PLMN", 0>>, "1234567890"},
+        {<<"0.0.0.0/TYPE=unknown", 0>>, "0.0.0.0/TYPE=unknown"},
+#        {<<"0.0.0.0/TYPE=IPv4", 0>>, {0, 0, 0, 0}},
 #        {<<"x", 0>>, "x"},
 
         # Encoded with short length

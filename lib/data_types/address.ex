@@ -36,8 +36,8 @@ defmodule MMS.Address do
     end
   end
 
-  defp is_email? string do
-    String.contains? string, "@"
+  def map {string, unknown}, rest do
+    ok string <> "/TYPE=#{unknown}", rest
   end
 
   def encode(string) when is_binary(string) do
@@ -50,8 +50,17 @@ defmodule MMS.Address do
 
   defp unmap string do
     cond do
+      contains_type? string -> string
       is_email? string -> string
       true -> string <> "/TYPE=PLMN"
     end
+  end
+
+  defp is_email? string do
+    String.contains? string, "@"
+  end
+
+  defp contains_type? string do
+    String.contains? string, "/TYPE"
   end
 end
