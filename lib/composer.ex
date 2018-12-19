@@ -1,8 +1,11 @@
 defmodule MMS.Composer do
   import MMS.OkError
 
+  alias MMS.Length
+
   def decode bytes, codecs do
-    with {:ok, {length, data_bytes}} <- MMS.Length.decode(bytes),
+    codecs = Tuple.to_list codecs
+    with {:ok, {length, data_bytes}} <- Length.decode(bytes),
          {:ok, {values, rest      }} <- decode(data_bytes, codecs, []),
          :ok                         <- check(length, data_bytes, rest)
     do

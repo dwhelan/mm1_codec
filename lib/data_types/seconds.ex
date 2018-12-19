@@ -7,7 +7,7 @@ defmodule MMS.Seconds do
   @relative 129
 
   def decode bytes do
-    case Composer.decode bytes, [Byte, Long] do
+    case Composer.decode bytes, {Byte, Long} do
       {:ok, results} -> evaluate results
       error          -> error
     end

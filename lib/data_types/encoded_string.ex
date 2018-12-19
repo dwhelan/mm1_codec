@@ -9,7 +9,7 @@ defmodule MMS.EncodedString do
   end
 
   def decode bytes do
-    Composer.decode bytes, [Charset, String]
+    Composer.decode bytes, {Charset, String}
   end
 
   def encode(string) when is_binary(string) do
