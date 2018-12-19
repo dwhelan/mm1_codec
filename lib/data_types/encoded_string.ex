@@ -9,17 +9,12 @@ defmodule MMS.EncodedString do
   end
 
   def decode bytes do
-    with {:ok, {length,  charset_bytes}} <- Length.decode(bytes),
-         {:ok, {charset, string_bytes }} <- Charset.decode(charset_bytes),
-         {:ok, {string,  rest         }} <- String.decode(string_bytes),
-         :ok                             <- Length.check(length, charset_bytes, rest)
-    do
-      ok {string, charset}, rest
-    else
-      error -> error
+    case Length.decode bytes, [Charset, String] do
+      {:ok, {[charset, string], rest}} -> ok {string, charset}, rest
+      error          -> error
     end
   end
-
+  
   def encode(string) when is_binary(string) do
     string |> String.encode
   end

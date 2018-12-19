@@ -1,5 +1,5 @@
 defmodule MMS.Length do
-  alias MMS.{ShortLength, Uint32}
+  alias MMS.{ShortLength, Uint32, Composer}
 
   import MMS.OkError
   import MMS.DataTypes
@@ -18,6 +18,25 @@ defmodule MMS.Length do
     error :first_byte_must_be_less_than_32
   end
 
+  def decode bytes, codecs do
+    with {:ok, {length,  data_bytes}} <- decode(bytes),
+         {:ok, {values,  rest      }} <- Composer.decode(data_bytes, codecs),
+         :ok                          <- check(length, data_bytes, rest)
+    do
+      ok values, rest
+    else
+      error -> error
+    end
+  end
+
+  defp check(length, bytes, rest) when length == byte_size(bytes) - byte_size(rest) do
+    :ok
+  end
+
+  defp check _, _, _  do
+    {:error, :incorrect_length}
+  end
+
   def encode(value) when is_short_length(value) do
     value |> ShortLength.encode
   end
@@ -32,13 +51,5 @@ defmodule MMS.Length do
 
   defp prefix_with_length_quote {:ok, bytes} do
     <<@length_quote>> <> bytes
-  end
-
-  def check(length, bytes, rest) when length == byte_size(bytes) - byte_size(rest) do
-    :ok
-  end
-
-  def check _, _, _  do
-    {:error, :incorrect_length}
   end
 end

@@ -22,7 +22,7 @@ defmodule MMS.EncodedStringTest do
       ],
 
       decode_errors: [
-        {<<3, 0xea, "x">>, :missing_terminator},
+        {<<3, 0xea, "x">>, {MMS.String, :missing_terminator}},
         {<<"x">>,          :missing_terminator},
 
         {<<2, 0xea, "x", 0>>,                             :incorrect_length}, #  short length
