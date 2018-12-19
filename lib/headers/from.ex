@@ -16,7 +16,6 @@ defmodule MMS.From do
     end
   end
 
-
   defp decode bytes, @address_present_token do
     EncodedString.decode bytes
   end

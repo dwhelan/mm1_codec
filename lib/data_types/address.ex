@@ -86,35 +86,30 @@ defmodule MMS.Address do
   import MMS.OkError
   import MMS.DataTypes
 
-  alias MMS.{EncodedString}
+  alias MMS.{EncodedString, Composer}
   alias MMS.Address.{IPv4, IPv6, PhoneNumber, Email, Unknown}
 
   def decode bytes do
     case bytes |> EncodedString.decode do
-      {:ok, {string, rest}} -> map_address string, rest
-      error -> error
+      {:ok, {string, rest}} -> map string, rest
+      error                 -> error
     end
   end
 
-  def map_address value, rest do
-    result = case value |> split do
-      {string, "IPv4"} -> IPv4.map string
-      {string, "IPv6"} -> IPv6.map string
-      {string, "PLMN"} -> PhoneNumber.map string
-      {string, :email} -> Email.map string
-      {string, _     } -> ok value
+  defp map value, rest do
+    [string | type] = value |> String.split("/TYPE=", parts: 2)
+
+    result = case type do
+      ["IPv4"] -> IPv4.map string
+      ["IPv6"] -> IPv6.map string
+      ["PLMN"] -> PhoneNumber.map string
+      []       -> Email.map string
+      _        -> Unknown.map value
     end
 
     case result do
+      {:ok,     value} -> ok value, rest
       {:error, reason} -> error reason
-      {:ok, value} -> ok value, rest
-    end
-  end
-
-  def split value do
-    case value |> String.split("/TYPE=", parts: 2) do
-      [string, type] -> {string, type}
-      [string]       -> {string, :email}
     end
   end
 
@@ -130,14 +125,10 @@ defmodule MMS.Address do
     cond do
       is_ipv4_address value -> IPv4.unmap value
       is_ipv6_address value -> IPv6.unmap value
-      contains_type? value -> Unknown.unmap value
-      is_email? value      -> Email.unmap value
-      true                 -> PhoneNumber.unmap value
+      contains_type?  value -> Unknown.unmap value
+      Email.is_email? value -> Email.unmap value
+      true                  -> PhoneNumber.unmap value
     end
-  end
-
-  defp is_email? string do
-    String.contains? string, "@"
   end
 
   defp contains_type? string do
