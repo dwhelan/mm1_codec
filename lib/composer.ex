@@ -7,7 +7,7 @@ defmodule MMS.Composer do
     codecs = Tuple.to_list codecs
 
     with {:ok, {length, data_bytes}} <- Length.decode(bytes),
-         {:ok, {values, rest      }} <- do_decode(data_bytes, codecs, []),
+         {:ok, {values, rest      }} <- do_decode(data_bytes, codecs, [], length),
          :ok                         <- check(length, data_bytes, rest)
     do
       ok values, rest
@@ -16,14 +16,22 @@ defmodule MMS.Composer do
     end
   end
 
-  defp do_decode bytes, [codec | codecs], values do
+  defp do_decode <<>>, _, [], length do
+    error :insufficient_bytes
+  end
+
+  defp do_decode bytes, _, values, 0 do
+    ok values |> Enum.reverse |> List.to_tuple, bytes
+  end
+
+  defp do_decode bytes, [codec | codecs], values, length do
     case codec.decode bytes do
-      {:ok, {value, rest}} -> do_decode rest, codecs, [value | values]
+      {:ok, {value, rest}} -> do_decode rest, codecs, [value | values], length - byte_size(bytes) - byte_size(rest)
       error                -> error
     end
   end
 
-  defp do_decode rest, [], values do
+  defp do_decode rest, [], values, length do
     ok values |> Enum.reverse |> List.to_tuple, rest
   end
 

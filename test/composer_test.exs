@@ -1,8 +1,8 @@
 defmodule MMS.ComposerTest do
   use ExUnit.Case
-  import MMS.OkError
-
   alias MMS.{Composer, ShortLength}
+
+  import MMS.OkError
   import Composer
 
   describe "decode" do
@@ -28,6 +28,14 @@ defmodule MMS.ComposerTest do
 
     test "error with subsequent values" do
       assert decode(<<2, 3, 255>>, {ShortLength, ShortLength}) == error :must_be_an_integer_between_1_and_30
+    end
+
+    test "error with insufficient bytes for one codec" do
+      assert decode(<<1>>, {ShortLength}) == error :insufficient_bytes
+    end
+
+    test "partial results when number of bytes consumed == length" do
+      assert decode(<<1, 2>>, {ShortLength, ShortLength}) == ok {2}, <<>>
     end
   end
 end
