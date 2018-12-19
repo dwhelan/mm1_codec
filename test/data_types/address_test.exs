@@ -9,12 +9,10 @@ defmodule MMS.AddressTest do
   use MMS.TestExamples,
       codec: Address,
       examples: [
-        {<<"@", 0>>, "@"},
-
+        {<<"email@address",        0>>, "email@address"},
         {<<"1234567890/TYPE=PLMN", 0>>, "1234567890"},
         {<<"0.0.0.0/TYPE=unknown", 0>>, "0.0.0.0/TYPE=unknown"},
-#        {<<"0.0.0.0/TYPE=IPv4", 0>>, {0, 0, 0, 0}},
-#        {<<"x", 0>>, "x"},
+        {<<"0.0.0.0/TYPE=IPv4",    0>>, {0, 0, 0, 0}},
 
         # Encoded with short length
 #        {<< 3, 0xea, "x", 0>>,          {:csUTF8,    "x"}},
@@ -25,8 +23,9 @@ defmodule MMS.AddressTest do
       ],
 
       decode_errors: [
-        {<<"x", 0>>,           :invalid_email       },
-        {<<"@/TYPE=PLMN", 0>>, :invalid_phone_number},
+        {<<"x", 0>>,                 :invalid_email       },
+        {<<"@/TYPE=PLMN", 0>>,       :invalid_phone_number},
+        {<<"x.0.0.0/TYPE=IPv4", 0>>, :invalid_ipv4_address},
 #        {<<3, 0xea, "x">>, :missing_terminator},
 #        {<<"x">>,          :missing_terminator},
 #

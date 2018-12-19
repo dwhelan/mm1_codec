@@ -36,23 +36,34 @@ defmodule MMS.Address do
     end
   end
 
+  def map {string, "IPv4"}, rest do
+    case string |> to_charlist |> :inet.parse_ipv4_address do
+      {:ok, ip} -> ok ip, rest
+      _         -> error :invalid_ipv4_address
+    end
+  end
+
   def map {string, unknown}, rest do
     ok string <> "/TYPE=#{unknown}", rest
   end
 
-  def encode(string) when is_binary(string) do
-    string |> unmap |> EncodedString.encode
+  def encode {charset, value} do
+    {charset, value} |> Composer.encode({Charset, String})
   end
 
-  def encode {charset, string} do
-    {charset, string} |> Composer.encode({Charset, String})
+  def encode value do
+    value |> unmap |> EncodedString.encode
   end
 
-  defp unmap string do
+  defp unmap(value) when is_ipv4(value) do
+    (value |> :inet.ntoa |> to_string) <> "/TYPE=IPv4"
+  end
+
+  defp unmap(value) when is_binary(value) do
     cond do
-      contains_type? string -> string
-      is_email? string -> string
-      true -> string <> "/TYPE=PLMN"
+      contains_type? value -> value
+      is_email? value      -> value
+      true                 -> value <> "/TYPE=PLMN"
     end
   end
 
