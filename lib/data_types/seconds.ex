@@ -13,15 +13,15 @@ defmodule MMS.Seconds do
     end
   end
 
-  defp check {[@absolute, seconds], rest} do
+  defp check {{@absolute, seconds}, rest} do
     ok DateTime.from_unix!(seconds), rest
   end
 
-  defp check {[@relative, seconds], rest} do
+  defp check {{@relative, seconds}, rest} do
     ok seconds, rest
   end
 
-  defp check {[absolute, _], _} do
+  defp check {{absolute, _}, _} do
     error {:absolute_value_must_be_128_to_129, absolute}
   end
 
