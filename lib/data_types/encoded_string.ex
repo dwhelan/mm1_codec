@@ -2,19 +2,19 @@ defmodule MMS.EncodedString do
   import MMS.OkError
   import MMS.DataTypes
 
-  alias MMS.{Length, Charset, String}
+  alias MMS.{Composer, Length, Charset, String}
 
   def decode(<<byte, _::binary>> = bytes) when is_string(byte) do
     bytes |> String.decode
   end
 
   def decode bytes do
-    case Length.decode bytes, [Charset, String] do
+    case Composer.decode bytes, [Charset, String] do
       {:ok, {[charset, string], rest}} -> ok {string, charset}, rest
       error          -> error
     end
   end
-  
+
   def encode(string) when is_binary(string) do
     string |> String.encode
   end

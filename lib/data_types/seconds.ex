@@ -1,13 +1,13 @@
 defmodule MMS.Seconds do
   import MMS.OkError
 
-  alias MMS.{Length, Byte, Long}
+  alias MMS.{Composer, Length, Byte, Long}
 
   @absolute 128
   @relative 129
 
   def decode bytes do
-    case Length.decode bytes, [Byte, Long] do
+    case Composer.decode bytes, [Byte, Long] do
       {:ok, results} -> check results
       error          -> error
     end
