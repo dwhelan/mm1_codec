@@ -38,7 +38,7 @@ defmodule MMS.Address.IPv4 do
   def map string do
     case string |> to_charlist |> :inet.parse_ipv4_address do
       {:ok, ipv4} -> ok ipv4
-      _         -> error :invalid_ipv4_address
+      _           -> error :invalid_ipv4_address
     end
   end
 
@@ -86,35 +86,41 @@ defmodule MMS.Address do
   import MMS.OkError
   import MMS.DataTypes
 
-  alias MMS.{EncodedString, Composer}
+  alias MMS.EncodedString
   alias MMS.Address.{IPv4, IPv6, PhoneNumber, Email, Unknown}
 
   def decode bytes do
-    case bytes |> EncodedString.decode do
-      {:ok, {string, rest}} -> map string, rest
-      error                 -> error
+    case_ok EncodedString.decode bytes do
+      {value, rest} -> map value, rest
     end
   end
 
-  defp map value, rest do
-    [string | type] = value |> String.split("/TYPE=", parts: 2)
-
-    result = case type do
-      ["IPv4"] -> IPv4.map string
-      ["IPv6"] -> IPv6.map string
-      ["PLMN"] -> PhoneNumber.map string
-      []       -> Email.map string
-      _        -> Unknown.map value
+  defp map {codec, string}, rest do
+    case_ok map string do
+      string -> ok {codec, string}, rest
     end
+  end
 
-    case result do
-      {:ok,     value} -> ok value, rest
-      {:error, reason} -> error reason
+  defp map string, rest do
+    case_ok map string do
+      string -> ok string, rest
+    end
+  end
+
+  defp map string do
+    [address | type] = string |> String.split("/TYPE=", parts: 2)
+
+    case type do
+      ["IPv4"] -> IPv4.map address
+      ["IPv6"] -> IPv6.map address
+      ["PLMN"] -> PhoneNumber.map address
+      []       -> Email.map string
+      _        -> Unknown.map string
     end
   end
 
   def encode {charset, value} do
-    {charset, value} |> Composer.encode({Charset, String})
+    {charset, unmap(value)} |> EncodedString.encode
   end
 
   def encode value do

@@ -16,7 +16,7 @@ defmodule MMS.AddressTest do
         {<<":1/TYPE=IPv6",         0>>, {0, 0, 0, 0, 0, 0, 0, 1}},
 
         # Encoded with short length
-#        {<< 3, 0xea, "x", 0>>,          {:csUTF8,    "x"}},
+        {<< 3, 0xea, "@", 0>>,          {:csUTF8,    "@"}},
 #        {<< 5, 2, 0x03, 0xe8, "x", 0>>, {:csUnicode, "x"}},
 
         # Encoded with uint32 length
