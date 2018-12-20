@@ -3,9 +3,6 @@ defmodule MMS.AddressTest do
 
   alias MMS.Address
 
-  string30     = String.duplicate "x", 30
-  length_quote = 31
-
   use MMS.TestExamples,
       codec: Address,
       examples: [
@@ -15,12 +12,8 @@ defmodule MMS.AddressTest do
         {<<"0.0.0.0/TYPE=IPv4",    0>>, {0, 0, 0, 0}},
         {<<":1/TYPE=IPv6",         0>>, {0, 0, 0, 0, 0, 0, 0, 1}},
 
-        # Encoded with short length
+        # Encoded
         {<< 3, 0xea, "@", 0>>,          {:csUTF8,    "@"}},
-#        {<< 5, 2, 0x03, 0xe8, "x", 0>>, {:csUnicode, "x"}},
-
-        # Encoded with uint32 length
-#        {<<length_quote, 32, 0xea>> <> string30 <> <<0>>, {:csUTF8, string30}},
       ],
 
       decode_errors: [
@@ -28,11 +21,7 @@ defmodule MMS.AddressTest do
         {<<"@/TYPE=PLMN",       0>>, :invalid_phone_number},
         {<<"x.0.0.0/TYPE=IPv4", 0>>, :invalid_ipv4_address},
         {<<"::x/TYPE=IPv6",     0>>, :invalid_ipv6_address},
-#        {<<3, 0xea, "x">>, :missing_terminator},
-#        {<<"x">>,          :missing_terminator},
-#
-#        {<<2, 0xea, "x", 0>>,                             :incorrect_length}, #  short length
-#        {<<length_quote, 33, 0xea>> <> string30 <> <<0>>, :incorrect_length}, # uint32 length
+        {<<"@"                   >>, :missing_terminator  }, # Encoded string error
       ]
 end
 
