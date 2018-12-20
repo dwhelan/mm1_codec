@@ -7,7 +7,7 @@ defmodule MMS.PriorityTest do
         {<<128>>, :low   },
         {<<129>>, :normal},
         {<<130>>, :high  },
-        {<<131>>, 3      },
+        {<<131>>, 131    },
       ]
 end
 
