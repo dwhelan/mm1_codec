@@ -1,11 +1,11 @@
 defmodule MMS.MessageClass do
-  alias MMS.{Mapper, Short, String}
+  alias MMS.{Mapper, Byte, Short, String}
 
-  @decode_map Mapper.indexed [:personal, :advertisement, :informational, :auto]
+  @decode_map Mapper.indexed [:personal, :advertisement, :informational, :auto], 128
   @encode_map Mapper.reverse @decode_map
 
   def decode(<<value, _::binary>> = bytes) when value >= 128 do
-    bytes |> Mapper.decode(Short, @decode_map)
+    bytes |> Mapper.decode(Byte, @decode_map)
   end
 
   def decode bytes do
@@ -17,6 +17,6 @@ defmodule MMS.MessageClass do
   end
 
   def encode value do
-    value |> Mapper.encode(Short, @encode_map)
+    value |> Mapper.encode(Byte, @encode_map)
   end
 end

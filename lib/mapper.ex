@@ -25,8 +25,8 @@ defmodule MMS.Mapper do
     map |> Enum.reduce(%{}, fn {k, v}, reverse_map -> Map.put(reverse_map, v, k) end)
   end
 
-  def indexed(values) when is_list(values) do
-    values |> Enum.with_index |> Enum.reduce(%{}, fn {v, i}, map -> Map.put(map, i, v) end)
+  def indexed(values, offset \\ 0) when is_list(values) do
+    values |> Enum.with_index(offset) |> Enum.reduce(%{}, fn {v, i}, map -> Map.put(map, i, v) end)
   end
 
   defmacro __using__(opts) do
