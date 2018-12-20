@@ -6,7 +6,7 @@ defmodule MMS.DeliveryReportTest do
       examples: [
         {<<128>>, :yes},
         {<<129>>,  :no},
-        {<<130>>,    2},
+        {<<130>>,  130},
       ]
 end
 
