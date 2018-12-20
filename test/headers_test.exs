@@ -8,7 +8,7 @@ defmodule MMS.HeadersTest do
       codec: Headers,
       examples: [
         {<<0x81, "@",   0      >>, [{MMS.Bcc,             "@"         }]},
-        {<<0x82, "x",   0      >>, [{MMS.Cc,              "x"         }]},
+        {<<0x82, "@",   0      >>, [{MMS.Cc,              "@"         }]},
         {<<0x83, "x",   0      >>, [{MMS.ContentLocation, "x"         }]},
         {<<0x85,   1,   0      >>, [{MMS.Date,            0           }]},
         {<<0x86, 128           >>, [{MMS.DeliveryReport,  :yes        }]},

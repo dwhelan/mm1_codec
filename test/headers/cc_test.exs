@@ -4,6 +4,6 @@ defmodule MMS.CcTest do
   use MMS.TestExamples,
       codec: MMS.Cc,
       examples: [
-        {<<"abc", 0>>, "abc"}
+        {<<"@", 0>>, "@"}
       ]
 end
