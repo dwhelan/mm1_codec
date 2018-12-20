@@ -1,6 +1,5 @@
 defmodule MMS.MMSVersion do
   import MMS.OkError
-  alias MMS.Short
 
   def decode <<1::1, major::3, 15::4, rest::binary>> do
     ok "#{major}", rest
@@ -11,33 +10,31 @@ defmodule MMS.MMSVersion do
   end
 
   def encode version do
-    do_encode String.split version, "."
+    case do_encode String.split version, "." do
+      {major, minor} -> ok <<1::1, major::3, minor::4>>
+      :error         -> error :invalid_version_string
+    end
   end
 
   defp do_encode [major, minor] do
-    with major when is_integer(major) <- int(major,  7),
-         minor when is_integer(minor) <- int(minor, 14)
+    with major when is_integer(major) <- to_int(major,  7),
+         minor when is_integer(minor) <- to_int(minor, 14)
     do
-      ok <<1::1, major::3, minor::4>>
-    else
-      _ -> error :invalid_version_string
+      {major, minor}
     end
   end
 
   defp do_encode [major] do
-    with major when is_integer(major) <- int(major,  7)
+    with major when is_integer(major) <- to_int(major, 7)
     do
-      ok <<1::1, major::3, 15::4>>
-    else
-      _ -> error :invalid_version_string
+      {major, 15}
     end
   end
 
-  defp int string, max do
-    string |> String.to_integer |> check_max(max)
-  end
-
-  defp check_max value, max do
-    if value >=0 && value <= max, do: value, else: :error
+  defp to_int string, max do
+    case String.to_integer string do
+      value when is_integer(value) and value >=0 and value <= max -> value
+      _ -> :error
+    end
   end
 end
