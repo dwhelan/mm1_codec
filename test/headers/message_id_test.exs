@@ -1,8 +1,8 @@
-defmodule MMS.MessageIDTest do
+defmodule MMS.MessageIdTest do
   use ExUnit.Case
 
   use MMS.TestExamples,
-      codec: MMS.MessageID,
+      codec: MMS.MessageId,
       examples: [
         {<<"@", 0>>, "@"}
       ]

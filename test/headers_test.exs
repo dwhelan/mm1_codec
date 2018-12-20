@@ -24,7 +24,7 @@ defmodule MMS.HeadersTest do
         {<<0x88,   3, 128,   1, 0>>, header(MMS.Expiry,           time_zero   )},
         {<<0x89,   3, 128, "@", 0>>, header(MMS.From,             "@"         )},
         {<<0x8a, 128             >>, header(MMS.MessageClass,     :personal   )},
-        {<<0x8b, "@",   0        >>, header(MMS.MessageID,        "@"         )},
+        {<<0x8b, "@",   0        >>, header(MMS.MessageId,        "@"         )},
         {<<0x8c, 128             >>, header(MMS.MessageType,      :m_send_conf)},
         {<<0x8e,   1,   0        >>, header(MMS.MessageSize,      0           )},
         {<<0x8f, 128             >>, header(MMS.Priority,         :low        )},

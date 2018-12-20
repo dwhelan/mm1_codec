@@ -11,7 +11,7 @@ defmodule MMS.Headers do
     0x88 => MMS.Expiry,
     0x89 => MMS.From,
     0x8a => MMS.MessageClass,
-    0x8b => MMS.MessageID,
+    0x8b => MMS.MessageId,
     0x8c => MMS.MessageType,
     0x8d => MMS.Version,
     0x8e => MMS.MessageSize,
