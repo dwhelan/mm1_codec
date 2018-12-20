@@ -5,7 +5,7 @@ defmodule MMS.VersionTest do
       codec: MMS.Version,
       examples: [
         #     ___ major - 3 bits
-        #        ____ minor - 4 bits
+        #        ____ minor - 4 bits - all ones means major only
         {<<0b10000000>>, {0,  0}},
         {<<0b10000001>>, {0,  1}},
         {<<0b10001110>>, {0, 14}},

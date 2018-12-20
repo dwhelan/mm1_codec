@@ -22,8 +22,8 @@ defmodule MMS.EncodedStringTest do
       ],
 
       decode_errors: [
-        {<<2, 0xea, "x">>, :missing_terminator},
         {<<"x">>,          :missing_terminator},
+        {<<2, 0xea, "x">>, :missing_terminator},
 
         {<<2, 0xea, "x", 0>>,                             :incorrect_length}, #  short length
         {<<length_quote, 33, 0xea>> <> string30 <> <<0>>, :incorrect_length}, # uint32 length
