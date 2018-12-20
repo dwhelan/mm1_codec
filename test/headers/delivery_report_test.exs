@@ -4,9 +4,9 @@ defmodule MMS.DeliveryReportTest do
   use MMS.TestExamples,
       codec: MMS.DeliveryReport,
       examples: [
-        {<<128>>, :yes},
-        {<<129>>,  :no},
-        {<<130>>,  130},
+        {<<128>>,  true},
+        {<<129>>, false},
+        {<<130>>,   130},
       ]
 end
 

@@ -19,7 +19,7 @@ defmodule MMS.HeadersTest do
         {<<0x82, "@",   0        >>, header(MMS.Cc,              "@"         )},
         {<<0x83, "x",   0        >>, header(MMS.ContentLocation, "x"         )},
         {<<0x85,   1,   0        >>, header(MMS.Date,            0           )},
-        {<<0x86, 128             >>, header(MMS.DeliveryReport,  :yes        )},
+        {<<0x86, 128             >>, header(MMS.DeliveryReport,  true        )},
         {<<0x87,   3, 128,   1, 0>>, header(MMS.DeliveryTime,    time_zero   )},
         {<<0x88,   3, 128,   1, 0>>, header(MMS.Expiry,          time_zero   )},
         {<<0x89,   3, 128, "@", 0>>, header(MMS.From,            "@"         )},
