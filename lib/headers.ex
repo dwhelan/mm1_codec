@@ -9,7 +9,7 @@ defmodule MMS.Headers do
     0x86 => MMS.DeliveryReport,
     0x87 => MMS.DeliveryTime,
     0x88 => MMS.Expiry,
-    #0x89 => MMS.From,
+    0x89 => MMS.From,
     #0x8a => MMS.MessageClass,
     #0x8b => MMS.MessageID,
     0x8c => MMS.MessageType,
