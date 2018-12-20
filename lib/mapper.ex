@@ -26,15 +26,15 @@ defmodule MMS.Mapper do
   end
 
   def indexed(values, offset \\ 0) when is_list(values) do
-    values |> Enum.with_index(offset) |> Enum.reduce(%{}, fn {v, i}, map -> Map.put(map, i, v) end)
+    values |> Enum.with_index(offset || 0) |> Enum.reduce(%{}, fn {v, i}, map -> Map.put(map, i, v) end)
   end
 
   defmacro __using__(opts) do
     quote bind_quoted: [opts: opts] do
       import MMS.Mapper
 
-      @codec opts[:codec]
-      @decode_map opts[:map] || indexed(opts[:values])
+      @codec      opts[:codec]
+      @decode_map opts[:map] || indexed(opts[:values], opts[:offset])
       @encode_map reverse @decode_map
 
       def decode bytes do

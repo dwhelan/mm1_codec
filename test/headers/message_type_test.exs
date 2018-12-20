@@ -15,6 +15,6 @@ defmodule MMS.MessageTypeTest do
         {<<136>>, :m_read_orig_ind   },
         {<<137>>, :m_forward_ind     },
         {<<138>>, :m_forward_conf    },
-        {<<139>>, 11                 },
+        {<<139>>, 139                },
       ]end
 

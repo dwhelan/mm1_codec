@@ -1,6 +1,6 @@
 defmodule MMS.MessageType do
   use MMS.Mapper,
-      codec: MMS.Short,
+      codec: MMS.Byte,
       values: [
         :m_send_conf,
         :m_notification_ind,
@@ -13,5 +13,6 @@ defmodule MMS.MessageType do
         :m_read_orig_ind,
         :m_forward_ind,
         :m_forward_conf,
-      ]
+      ],
+      offset: 128
 end
