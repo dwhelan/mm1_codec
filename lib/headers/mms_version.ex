@@ -17,23 +17,23 @@ defmodule MMS.MMSVersion do
   end
 
   defp do_encode [major, minor] do
-    with major when is_integer(major) <- to_int(major,  7),
-         minor when is_integer(minor) <- to_int(minor, 14)
+    with major when is_integer(major) <- parse(major,  7),
+         minor when is_integer(minor) <- parse(minor, 14)
     do
       {major, minor}
     end
   end
 
   defp do_encode [major] do
-    with major when is_integer(major) <- to_int(major, 7)
+    with major when is_integer(major) <- parse(major, 7)
     do
       {major, 15}
     end
   end
 
-  defp to_int string, max do
-    case String.to_integer string do
-      value when is_integer(value) and value >=0 and value <= max -> value
+  defp parse string, max do
+    case Integer.parse string do
+      {value, _} when value >=0 and value <= max -> value
       _ -> :error
     end
   end
