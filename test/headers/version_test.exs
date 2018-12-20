@@ -1,8 +1,8 @@
-defmodule MMS.MMSVersionTest do
+defmodule MMS.VersionTest do
   use ExUnit.Case
 
   use MMS.TestExamples,
-      codec: MMS.MMSVersion,
+      codec: MMS.Version,
       examples: [
         #     ___ major - 3 bits
         #        ____ minor - 4 bits
@@ -21,8 +21,8 @@ defmodule MMS.MMSVersionTest do
         { {-1,  0}, :invalid_version},
         { { 8,  0}, :invalid_version},
         { { 0, :x}, :invalid_version},
-        { { 0  -1}, :invalid_version},
-        { { 0  15}, :invalid_version},
+        { { 0, -1}, :invalid_version},
+        { { 0, 15}, :invalid_version},
       ]
 end
 

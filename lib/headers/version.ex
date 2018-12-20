@@ -1,4 +1,4 @@
-defmodule MMS.MMSVersion do
+defmodule MMS.Version do
   import MMS.OkError
   import MMS.DataTypes
 
