@@ -4,20 +4,11 @@ defmodule MMS.Composer do
   alias MMS.Length
 
   def decode bytes, codecs do
-    codecs = Tuple.to_list codecs
-
-    with {:ok, {length, data_bytes}} <- Length.decode(bytes),
-         {:ok, {values, rest      }} <- do_decode(data_bytes, codecs, [], length)
-    do
-      ok values, rest
-    else
-      error -> error
+    case bytes |> Length.decode do
+      {:ok, {length, rest}} -> do_decode rest, Tuple.to_list(codecs), [], length
+      error                 -> error
     end
   end
-
-#  defp do_decode <<>>, _, [], length do
-#    error :insufficient_bytes
-#  end
 
   defp do_decode rest, _, values, 0 do
     return values, rest

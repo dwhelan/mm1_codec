@@ -7,25 +7,12 @@ defmodule MMS.From do
   @insert_address_token  129
 
   def decode bytes do
-    with {:ok, {length, token_bytes}} <- Length.decode(bytes),
-         {:ok, {token,         rest}} <- Byte.decode(token_bytes)
-    do
-      decode token, rest
-    else
+    case bytes |> Composer.decode {Byte, EncodedString} do
+      {:ok, {{@address_present_token, address}, rest}} -> ok address, rest
+      {:ok, {{@insert_address_token          }, rest}} -> ok :insert_address_token, rest
+      {:ok, {{invalid_token, address         }, rest}} -> error :address_token_must_be_128_to_129
       error -> error
     end
-  end
-
-  defp decode @address_present_token, rest do
-    EncodedString.decode rest
-  end
-
-  defp decode @insert_address_token, rest do
-    ok :insert_address_token, rest
-  end
-
-  defp decode _, _ do
-    error :address_token_must_be_128_to_129
   end
 
   def encode(string) when is_binary(string) do
