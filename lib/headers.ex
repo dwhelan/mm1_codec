@@ -4,7 +4,7 @@ defmodule MMS.Headers do
     0x81 => MMS.Bcc,
     0x82 => MMS.Cc,
     0x83 => MMS.ContentLocation,
-    #MMS.ContentType,
+    #0x84 => MMS.ContentType,
     0x85 => MMS.Date,
     0x86 => MMS.DeliveryReport,
     0x87 => MMS.DeliveryTime,
