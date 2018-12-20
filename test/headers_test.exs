@@ -28,7 +28,7 @@ defmodule MMS.HeadersTest do
         {<<0x8c, 128             >>, header(MMS.MessageType,     :m_send_conf)},
         {<<0x8e,   1,   0        >>, header(MMS.MessageSize,     0           )},
         {<<0x8f, 128             >>, header(MMS.Priority,        :low        )},
-        {<<0x8d, 128             >>, header(MMS.MMSVersion,      "0.0"       )},
+        {<<0x8d, 128             >>, header(MMS.MMSVersion,      {0, 0}       )},
         #{<<0x90, ... >>, header(MMS.ReportAllowed, value)},
         #{<<0x91, ... >>, header(MMS.ResponseStatus, value)},
         #{<<0x92, ... >>, header(MMS.ResponseText, value)},
