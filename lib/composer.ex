@@ -4,9 +4,8 @@ defmodule MMS.Composer do
   alias MMS.Length
 
   def decode bytes, codecs do
-    case bytes |> Length.decode do
-      {:ok, {length, rest}} -> do_decode rest, Tuple.to_list(codecs), [], length
-      error                 -> error
+    case_ok Length.decode bytes do
+      {length, rest} -> do_decode rest, Tuple.to_list(codecs), [], length
     end
   end
 
@@ -18,14 +17,13 @@ defmodule MMS.Composer do
     error :incorrect_length
   end
 
-  defp do_decode(rest, [], values, length) when length > 0 do
+  defp do_decode(_, [], _, length) when length > 0 do
     error :incorrect_length
   end
 
   defp do_decode bytes, [codec | codecs], values, length do
-    case codec.decode bytes do
-      {:ok, {value, rest}} -> do_decode rest, codecs, [value | values], remaining(length, bytes, rest)
-      error                -> error
+    case_ok codec.decode bytes do
+      {value, rest} -> do_decode rest, codecs, [value | values], remaining(length, bytes, rest)
     end
   end
 
@@ -37,25 +35,29 @@ defmodule MMS.Composer do
     length - byte_size(bytes) + byte_size(rest)
   end
 
-  def encode values, codecs do
-    values = Tuple.to_list values
-    codecs = Tuple.to_list codecs
-    do_encode Enum.zip(values, codecs), []
+  def encode(values, codecs) when is_tuple(values) and tuple_size(values) > 0 and is_tuple(codecs) and tuple_size(codecs) > 0 do
+    do_encode zip(values, codecs), []
   end
 
-  defp do_encode [{value, codec} | tuples], bytes_list do
-    case codec.encode value do
-      {:ok, bytes} -> do_encode tuples, [bytes | bytes_list]
-      error        -> error
+  def encode _, _ do
+    error :must_provide_at_least_one_value_and_codec
+  end
+
+  defp zip values, codecs do
+    Enum.zip Tuple.to_list(values), Tuple.to_list(codecs)
+  end
+
+  defp do_encode [{value, codec} | tuples], value_bytes do
+    case_ok codec.encode value do
+      bytes -> do_encode tuples, [bytes | value_bytes]
     end
   end
 
-  defp do_encode [], bytes_list do
-    data_bytes = bytes_list |> Enum.reverse |> Enum.join
+  defp do_encode [], value_bytes do
+    bytes = value_bytes |> Enum.reverse |> Enum.join
 
-    case data_bytes |> byte_size |> Length.encode do
-      {:ok, length_bytes} -> ok length_bytes <> data_bytes
-      error -> error
+    case_ok bytes |> byte_size |> Length.encode do
+      length_bytes -> ok length_bytes <> bytes
     end
   end
 end
