@@ -11,4 +11,8 @@ defmodule MMS.Address.IPv4 do
   def unmap value do
     (value |> :inet.ntoa |> to_string) <> "/TYPE=IPv4"
   end
+
+  def is_ipv4? value do
+    is_tuple(value) and tuple_size(value) == 4
+  end
 end

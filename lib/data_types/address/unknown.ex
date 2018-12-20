@@ -8,4 +8,8 @@ defmodule MMS.Address.Unknown do
   def unmap value do
     value
   end
+
+  def is_unknown? value do
+    is_binary(value) and String.contains?(value, "/TYPE=")
+  end
 end

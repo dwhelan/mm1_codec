@@ -8,8 +8,12 @@ defmodule MMS.Address.IPv6 do
     end
   end
 
-  def unmap value do
-    (value |> :inet.ntoa |> to_string |> single_colon) <> "/TYPE=IPv6"
+  def unmap ipv6 do
+    (ipv6 |> :inet.ntoa |> to_string |> single_colon) <> "/TYPE=IPv6"
+  end
+
+  def is_ipv6? value do
+    is_tuple(value) and tuple_size(value) == 8
   end
 
   defp double_colon string do

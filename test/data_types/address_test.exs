@@ -24,4 +24,3 @@ defmodule MMS.AddressTest do
         {<<"@"                   >>, :missing_terminator  }, # Encoded string error
       ]
 end
-

@@ -1,6 +1,5 @@
 defmodule MMS.Address do
   import MMS.OkError
-  import MMS.DataTypes
 
   alias MMS.EncodedString
   alias MMS.Address.{IPv4, IPv6, PhoneNumber, Email, Unknown}
@@ -11,49 +10,47 @@ defmodule MMS.Address do
     end
   end
 
-  defp map {codec, string}, rest do
+  defp map {charset, string}, rest do
     case_ok map string do
-      string -> ok {codec, string}, rest
+      address -> ok {charset, address}, rest
     end
   end
 
   defp map string, rest do
     case_ok map string do
-      string -> ok string, rest
+      address -> ok address, rest
     end
   end
 
   defp map string do
-    [address | type] = string |> String.split("/TYPE=", parts: 2)
+    [value | type] = string |> String.split("/TYPE=", parts: 2)
 
     case type do
-      ["IPv4"] -> IPv4.map address
-      ["IPv6"] -> IPv6.map address
-      ["PLMN"] -> PhoneNumber.map address
+      ["IPv4"] -> IPv4.map value
+      ["IPv6"] -> IPv6.map value
+      ["PLMN"] -> PhoneNumber.map value
       []       -> Email.map string
       _        -> Unknown.map string
     end
   end
 
-  def encode {charset, value} do
-    {charset, unmap(value)} |> EncodedString.encode
+  def encode {charset, address} do
+    {charset, unmap(address)} |> EncodedString.encode
   end
 
-  def encode value do
-    value |> unmap |> EncodedString.encode
+  def encode address do
+    address |> unmap |> EncodedString.encode
   end
 
-  defp unmap value do
-    cond do
-      is_ipv4_address value -> IPv4.unmap value
-      is_ipv6_address value -> IPv6.unmap value
-      contains_type?  value -> Unknown.unmap value
-      Email.is_email? value -> Email.unmap value
-      true                  -> PhoneNumber.unmap value
+  defp unmap address do
+    type = cond do
+      IPv4.is_ipv4? address                -> IPv4
+      IPv6.is_ipv6? address                -> IPv6
+      Email.is_email? address              -> Email
+      Unknown.is_unknown? address          -> Unknown
+      PhoneNumber.is_phone_number? address -> PhoneNumber
     end
-  end
 
-  defp contains_type? string do
-    String.contains? string, "/TYPE"
+    type.unmap address
   end
 end
