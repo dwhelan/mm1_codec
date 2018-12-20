@@ -2,6 +2,10 @@ defmodule MMS.MMSVersion do
   import MMS.OkError
   alias MMS.Short
 
+  def decode <<1::1, major::3, 15::4, rest::binary>> do
+    ok "#{major}", rest
+  end
+
   def decode <<1::1, major::3, minor::4, rest::binary>> do
     ok "#{major}.#{minor}", rest
   end
@@ -12,6 +16,10 @@ defmodule MMS.MMSVersion do
 
   defp do_encode [major, minor] do
     ok <<1::1, major(major)::3, minor(minor)::4>>
+  end
+
+  defp do_encode [major] do
+    ok <<1::1, major(major)::3, 15::4>>
   end
 
   defp major string do
