@@ -1,3 +1,3 @@
 defmodule MMS.Bcc do
-  use MMS.Delegate, codec: MMS.EncodedString
+  use MMS.Delegate, codec: MMS.Address
 end
