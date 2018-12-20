@@ -30,7 +30,7 @@ defmodule MMS.HeadersTest do
         {<<0x8f, 128             >>, header(MMS.Priority,        :low        )},
         {<<0x8d, 128             >>, header(MMS.Version,         {0, 0}      )},
         {<<0x90, 128             >>, header(MMS.ReportAllowed,   true        )},
-        #{<<0x91, ... >>, header(MMS.ResponseStatus, value)},
+        {<<0x91, 128             >>, header(MMS.ResponseStatus,  :ok         )},
         #{<<0x92, ... >>, header(MMS.ResponseText, value)},
         #{<<0x93, ... >>, header(MMS.SenderVisibility, value)},
         #{<<0x94, ... >>, header(MMS.ReadReport, value)},
