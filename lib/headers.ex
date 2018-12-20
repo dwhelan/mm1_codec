@@ -22,7 +22,7 @@ defmodule MMS.Headers do
     0x93 => MMS.SenderVisibility,
     0x94 => MMS.ReadReport,
     0x95 => MMS.Status,
-    #0x96 => MMS.Subject,
+    0x96 => MMS.Subject,
     #0x97 => MMS.To,
     #0x98 => MMS.TransactionId,
     #0x99 => MMS.RetrieveStatus,
@@ -42,7 +42,8 @@ defmodule MMS.Headers do
     decode bytes, []
   end
 
-  @header_bytes Map.keys(@decode_map)
+  @header_bytes Map.keys   @decode_map
+  @headers      Map.values @decode_map
 
   defp decode(<<byte, bytes:: binary>>, headers) when byte in @header_bytes do
     header = @decode_map[byte]
@@ -62,7 +63,7 @@ defmodule MMS.Headers do
   end
 
   defp encode [{header, value} | headers], results do
-    case header.encode value do
+    case encode_one header, value do
       {:ok,     bytes} -> encode headers, [{header, bytes} | results]
       {:error, reason} -> error header, reason
     end
@@ -70,6 +71,14 @@ defmodule MMS.Headers do
 
   defp encode [], results do
     ok results |> Enum.reverse |> Enum.map(&prepend_header_byte/1) |> Enum.join
+  end
+
+  defp encode_one(header, value) when header in @headers do
+    header.encode value
+  end
+
+  defp encode_one _, _ do
+    error :unknown_header
   end
 
   @encode_map MMS.Mapper.reverse(@decode_map)

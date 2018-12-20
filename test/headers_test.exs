@@ -35,7 +35,7 @@ defmodule MMS.HeadersTest do
         {<<0x93, 128             >>, header(MMS.SenderVisibility, :hide       )},
         {<<0x94, 128             >>, header(MMS.ReadReport,       true        )},
         {<<0x95, 128             >>, header(MMS.Status,           :expired    )},
-        #{<<0x96, ... >>, header(MMS.Subject, value)},
+        {<<0x96, "x",   0        >>, header(MMS.Subject,          "x")},
         #{<<0x97, ... >>, header(MMS.To, value)},
         #{<<0x98, ... >>, header(MMS.TransactionId, value)},
         #{<<0x99, ... >>, header(MMS.RetrieveStatus, value)},
@@ -50,5 +50,9 @@ defmodule MMS.HeadersTest do
 
         # Multiple headers
         {<<0x81, "@", 0, 0x82, "@", 0>>, [{MMS.Bcc, "@"}, {MMS.Cc, "@"}]},
+      ],
+
+      encode_errors: [
+        { [{MMS.NotAHeader, "x"}], {MMS.NotAHeader,  :unknown_header}},
       ]
 end
