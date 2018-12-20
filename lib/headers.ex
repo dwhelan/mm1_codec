@@ -21,7 +21,7 @@ defmodule MMS.Headers do
     0x92 => MMS.ResponseText,
     0x93 => MMS.SenderVisibility,
     0x94 => MMS.ReadReport,
-    #0x95 => MMS.Status,
+    0x95 => MMS.Status,
     #0x96 => MMS.Subject,
     #0x97 => MMS.To,
     #0x98 => MMS.TransactionId,
