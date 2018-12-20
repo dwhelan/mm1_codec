@@ -13,7 +13,7 @@ defmodule MMS.Headers do
     0x8a => MMS.MessageClass,
     0x8b => MMS.MessageID,
     0x8c => MMS.MessageType,
-    #0x8d => MMS.MMSVersion,
+    0x8d => MMS.MMSVersion,
     0x8e => MMS.MessageSize,
     0x8f => MMS.Priority,
     #0x90 => MMS.ReportAllowed,
