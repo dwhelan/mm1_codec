@@ -32,7 +32,7 @@ defmodule MMS.HeadersTest do
         {<<0x90, 128             >>, header(MMS.ReportAllowed,   true        )},
         {<<0x91, 128             >>, header(MMS.ResponseStatus,  :ok         )},
         {<<0x92, "x",   0        >>, header(MMS.ResponseText,    "x"         )},
-        #{<<0x93, ... >>, header(MMS.SenderVisibility, value)},
+        {<<0x93, 128             >>, header(MMS.SenderVisibility, :hide      )},
         #{<<0x94, ... >>, header(MMS.ReadReport, value)},
         #{<<0x95, ... >>, header(MMS.Status, value)},
         #{<<0x96, ... >>, header(MMS.Subject, value)},

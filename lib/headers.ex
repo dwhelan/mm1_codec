@@ -19,7 +19,7 @@ defmodule MMS.Headers do
     0x90 => MMS.ReportAllowed,
     0x91 => MMS.ResponseStatus,
     0x92 => MMS.ResponseText,
-    #0x93 => MMS.SenderVisibility,
+    0x93 => MMS.SenderVisibility,
     #0x94 => MMS.ReadReport,
     #0x95 => MMS.Status,
     #0x96 => MMS.Subject,
