@@ -37,7 +37,7 @@ defmodule MMS.HeadersTest do
         {<<0x95, 128             >>, header(MMS.Status,           :expired    )},
         {<<0x96, "x",   0        >>, header(MMS.Subject,          "x"         )},
         {<<0x97, "x",   0        >>, header(MMS.To,               "x"         )},
-        #{<<0x98, ... >>, header(MMS.TransactionId, value)},
+        {<<0x98, "x",   0        >>, header(MMS.TransactionId,    "x"         )},
         #{<<0x99, ... >>, header(MMS.RetrieveStatus, value)},
         #{<<0x9a, ... >>, header(MMS.RetrieveText, value)},
         {<<0x9b, 128             >>, header(MMS.ReadStatus,       :read       )},

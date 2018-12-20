@@ -24,7 +24,7 @@ defmodule MMS.Headers do
     0x95 => MMS.Status,
     0x96 => MMS.Subject,
     0x97 => MMS.To,
-    #0x98 => MMS.TransactionId,
+    0x98 => MMS.TransactionId,
     #0x99 => MMS.RetrieveStatus,
     #0x9a => MMS.RetrieveText,
     0x9b => MMS.ReadStatus,
