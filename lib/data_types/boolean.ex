@@ -1,4 +1,4 @@
-defmodule MMS.YesNo do
+defmodule MMS.Boolean do
   use MMS.Mapper,
       codec: MMS.Byte,
       values: [
