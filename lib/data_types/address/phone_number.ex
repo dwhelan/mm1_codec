@@ -3,7 +3,6 @@ defmodule MMS.Address.PhoneNumber do
   import MMS.Address.Email
 
   def map string do
-    IO.inspect string
     case is_phone_number? string do
       true  -> ok string
       false -> error :invalid_phone_number

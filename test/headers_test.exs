@@ -14,6 +14,7 @@ defmodule MMS.HeadersTest do
   use MMS.TestExamples,
       codec: Headers,
       examples: [
+        #{<<0x84, ... >>, header(MMS.ContentType, value)},
         {<<0x81, "@",   0        >>, header(MMS.Bcc,             "@"         )},
         {<<0x82, "@",   0        >>, header(MMS.Cc,              "@"         )},
         {<<0x83, "x",   0        >>, header(MMS.ContentLocation, "x"         )},
@@ -27,7 +28,6 @@ defmodule MMS.HeadersTest do
         {<<0x8c, 128             >>, header(MMS.MessageType,     :m_send_conf)},
         {<<0x8e,   1,   0        >>, header(MMS.MessageSize,     0           )},
         {<<0x8f, 128             >>, header(MMS.Priority,        :low        )},
-        #{<<0x84, ... >>, header(MMS.ContentType, value)},
         #{<<0x8d, ... >>, header(MMS.MMSVersion, value)},
         #{<<0x90, ... >>, header(MMS.ReportAllowed, value)},
         #{<<0x91, ... >>, header(MMS.ResponseStatus, value)},
