@@ -12,11 +12,11 @@ defmodule MMS.MessageClass do
     bytes |> String.decode
   end
 
-  def encode(value) when is_atom(value) do
-    value |> Mapper.encode(Short, @encode_map)
+  def encode(value) when is_binary(value) do
+    value |> String.encode
   end
 
   def encode value do
-    value |> String.encode
+    value |> Mapper.encode(Short, @encode_map)
   end
 end

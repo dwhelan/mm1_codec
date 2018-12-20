@@ -8,6 +8,7 @@ defmodule MMS.MessageClassTest do
         {<<129       >>, :advertisement},
         {<<130       >>, :informational},
         {<<131       >>, :auto         },
+        {<<132       >>, 4             },
         {<<"other", 0>>, "other"       },
       ]end
 
