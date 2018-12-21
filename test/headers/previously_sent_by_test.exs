@@ -1,10 +1,7 @@
 defmodule MMS.PreviouslySentByTest do
   use ExUnit.Case
-  import MMS.DataTypes
 
   alias MMS.PreviouslySentBy
-
-  length_quote = 31
 
   use MMS.TestExamples,
       codec: PreviouslySentBy,

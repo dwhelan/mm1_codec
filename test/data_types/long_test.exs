@@ -13,14 +13,14 @@ defmodule MMS.LongTest do
     ],
 
     decode_errors: [
-      {<< 0>>, :length_must_be_between_1_and_30},
-      {<<31>>, :length_must_be_between_1_and_30},
-      {<< 1>>, :insufficient_bytes             },
+      {<< 0>>, :invalid_long_length},
+      {<<31>>, :invalid_long_length},
+      {<< 1>>, :insufficient_bytes },
     ],
 
     encode_errors: [
-      {-1,              :must_be_an_unsigned_integer_between_1_and_30_bytes_long},
-      {max_long()+1,    :must_be_an_unsigned_integer_between_1_and_30_bytes_long},
-      {:not_an_integer, :must_be_an_unsigned_integer_between_1_and_30_bytes_long},
+      {-1,              :invalid_long},
+      {max_long()+1,    :invalid_long},
+      {:not_an_integer, :invalid_long},
     ]
 end

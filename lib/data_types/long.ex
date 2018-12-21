@@ -15,7 +15,7 @@ defmodule MMS.Long do
   import MMS.DataTypes
 
   def decode(<<length, _::binary>>) when is_short_length(length) == false do
-    error :length_must_be_between_1_and_30
+    error :invalid_long_length
   end
 
   def decode(<<length, rest::binary>>) when byte_size(rest) < length do
@@ -33,6 +33,6 @@ defmodule MMS.Long do
   end
 
   def encode _ do
-    error :must_be_an_unsigned_integer_between_1_and_30_bytes_long
+    error :invalid_long
   end
 end
