@@ -3,27 +3,35 @@ defmodule MMS.Composer do
 
   alias MMS.Length
 
-  def decode bytes, codecs do
+  def decode bytes, codecs, opts \\ [] do
     case_ok Length.decode bytes do
-      {length, rest} -> do_decode rest, Tuple.to_list(codecs), [], length
+      {length, rest} -> do_decode rest, Tuple.to_list(codecs), opts, [], length
     end
   end
 
-  defp do_decode rest, _, values, 0 do
+  defp do_decode rest, [codec | _], opts, values, 0 do
+    if opts[:allow_partial] do
+      return values, rest
+    else
+      error :incorrect_length
+    end
+  end
+
+  defp do_decode rest, _, opts, values, 0 do
     return values, rest
   end
 
-  defp do_decode(_, _, _, length) when length < 0 do
+  defp do_decode(_, _, _, _, length) when length < 0 do
     error :incorrect_length
   end
 
-  defp do_decode(_, [], _, length) when length > 0 do
+  defp do_decode(_, [], _, _, length) when length > 0 do
     error :incorrect_length
   end
 
-  defp do_decode bytes, [codec | codecs], values, length do
+  defp do_decode bytes, [codec | codecs], opts, values, length do
     case_ok codec.decode bytes do
-      {value, rest} -> do_decode rest, codecs, [value | values], remaining(length, bytes, rest)
+      {value, rest} -> do_decode rest, codecs, opts, [value | values], remaining(length, bytes, rest)
     end
   end
 
