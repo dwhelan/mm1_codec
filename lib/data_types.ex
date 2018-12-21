@@ -45,9 +45,9 @@ defmodule MMS.DataTypes do
     is_integer? value, min, max
   end
 
-  defmacro is_string value do
+  defmacro is_char value do
     quote do
-      unquote(value) == 0 or unquote(value) >= 32
+      unquote(value) == 0 or (unquote(value) >= 32 and unquote(value) <= 127)
     end
   end
   

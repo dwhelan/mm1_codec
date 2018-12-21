@@ -8,7 +8,7 @@ defmodule MMS.Media do
     WellKnownMedia.decode bytes
   end
 
-  def decode(<<byte, _::binary>> = bytes) when is_string(byte) do
+  def decode(<<byte, _::binary>> = bytes) when is_char(byte) do
     String.decode bytes
   end
 

@@ -4,7 +4,7 @@ defmodule MMS.EncodedString do
 
   alias MMS.{Composer, Charset, String}
 
-  def decode(<<byte, _::binary>> = bytes) when is_string(byte) do
+  def decode(<<byte, _::binary>> = bytes) when is_char(byte) do
     bytes |> String.decode
   end
 
