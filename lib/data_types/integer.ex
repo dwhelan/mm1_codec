@@ -4,11 +4,11 @@ defmodule MMS.Integer do
   import MMS.OkError
   import MMS.DataTypes
 
-  def decode(<<value, _::binary>> = bytes) when value >= 128 do
+  def decode(<<byte, _::binary>> = bytes) when is_short_byte(byte) do
     Short.decode bytes
   end
 
-  def decode(<<value, _::binary>> = bytes) when is_short_length(value) do
+  def decode(<<byte, _::binary>> = bytes) when is_short_length(byte) do
     Long.decode bytes
   end
 

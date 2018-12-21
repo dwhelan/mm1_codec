@@ -7,6 +7,10 @@ defmodule MMS.DataTypes do
     is_integer? value, 0, 127
   end
 
+  defmacro is_short_byte byte do
+    is_integer? byte, 128, 255
+  end
+
   defmacro is_byte value do
     is_integer? value, 0, 255
   end
