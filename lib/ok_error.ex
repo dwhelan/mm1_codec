@@ -18,9 +18,18 @@ defmodule MMS.OkError do
 
   defmacro case_ok value, do: block do
     quote do
-      case unquote(value) do
-        {:ok,value} -> case value, do: unquote(block)
-        error       -> error
+      case unquote value do
+        {:ok, value} -> case value, do: unquote(block)
+        error        -> error
+      end
+    end
+  end
+
+  defmacro case_error value, do: block do
+    quote do
+      case unquote value do
+        {:error , reason} -> case reason, do: unquote(block)
+        ok                -> ok
       end
     end
   end

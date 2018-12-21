@@ -93,5 +93,4 @@ defmodule MMS.WellKnownMedia do
         "text/x-vBookmark",
         "application/vnd.syncml.dm.notification",
       ]
-
 end

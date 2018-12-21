@@ -1,5 +1,5 @@
 defmodule MMS.Media do
-  alias MMS.{WellKnownMedia, String, Short, Long}
+  alias MMS.{WellKnownMedia, String}
 
   import MMS.OkError
   import MMS.DataTypes
@@ -13,9 +13,8 @@ defmodule MMS.Media do
   end
 
   def encode value do
-    case WellKnownMedia.encode value do
-      {:error, _} -> String.encode value
-      ok -> ok
+    case_error WellKnownMedia.encode value do
+      _ -> String.encode value
     end
   end
 end
