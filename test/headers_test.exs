@@ -14,7 +14,7 @@ defmodule MMS.HeadersTest do
   use MMS.TestExamples,
       codec: Headers,
       examples: [
-        #{<<0x84, ... >>, header(MMS.ContentType, value)},
+        {<<0x84, 128             >>, header(MMS.ContentType,           "*/*"       )},
         {<<0x81, "@",   0        >>, header(MMS.Bcc,                   "@"         )},
         {<<0x82, "@",   0        >>, header(MMS.Cc,                    "@"         )},
         {<<0x83, "x",   0        >>, header(MMS.ContentLocation,       "x"         )},

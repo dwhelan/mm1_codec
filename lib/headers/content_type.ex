@@ -1,5 +1,5 @@
 defmodule MMS.ContentType do
-  alias MMS.{Composer, Media, String}
+  alias MMS.{Composer, Media}
 
   import MMS.OkError
   import MMS.DataTypes
@@ -10,7 +10,7 @@ defmodule MMS.ContentType do
     end
   end
 
-  def decode(<<byte, _::binary>> = bytes) when is_short_length(byte) == false do
+  def decode bytes do
     Media.decode bytes
   end
 
