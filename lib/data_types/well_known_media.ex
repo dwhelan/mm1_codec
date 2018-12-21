@@ -1,5 +1,5 @@
 # http://www.openmobilealliance.org/wp/OMNA/wsp/wsp_content_type_codes.html
-defmodule MMS.Media do
+defmodule MMS.WellKnownMedia do
   use MMS.Mapper,
       codec: MMS.Byte,
       values: [
@@ -93,4 +93,5 @@ defmodule MMS.Media do
         "text/x-vBookmark",
         "application/vnd.syncml.dm.notification",
       ]
+
 end

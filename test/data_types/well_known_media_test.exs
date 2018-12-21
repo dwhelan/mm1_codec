@@ -1,8 +1,8 @@
-defmodule MMS.MediaTest do
+defmodule MMS.WellKnownMediaTest do
   use ExUnit.Case
 
   use MMS.TestExamples,
-      codec: MMS.Media,
+      codec: MMS.WellKnownMedia,
       examples: [
         {<<0x00>>, "*/*"},
         {<<0x01>>, "text/*"},
@@ -94,6 +94,6 @@ defmodule MMS.MediaTest do
         {<<0x57>>, "text/x-vBookmark"},
         {<<0x58>>, "application/vnd.syncml.dm.notification"},
 
-#        {<<"other">>, "other"}
+        {<<0x7f>>, 0x7f}
       ]
 end
