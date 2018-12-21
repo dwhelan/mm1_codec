@@ -8,8 +8,12 @@ defmodule MMS.Media do
     WellKnownMedia.decode bytes
   end
 
-  def decode bytes do
+  def decode(<<byte, _::binary>> = bytes) when is_string(byte) do
     String.decode bytes
+  end
+
+  def decode _ do
+    error :invalid_media
   end
 
   def encode value do

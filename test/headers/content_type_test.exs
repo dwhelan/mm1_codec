@@ -4,7 +4,8 @@ defmodule MMS.ContentTypeTest do
   use MMS.TestExamples,
       codec: MMS.ContentType,
       examples: [
-        {<<0x80>>, "*/*"}
+        {<<0x80>>, "*/*"}, # constrained media
+#        {<<1, 0x80>>, "*/*"}, # content general form
       ],
 
       decode_errors: [

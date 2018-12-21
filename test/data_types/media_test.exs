@@ -10,11 +10,13 @@ defmodule MMS.MediaTest do
 
         # Extension media
         {<<0>>,                <<>>         },
+        {<<32, 0>>,            " "          },
         {<<0x7f, 0>>,          <<0x7f>>     },
         {<<"other/other", 0>>, "other/other"},
       ],
 
       decode_errors: [
-        {<<"x">>, :missing_terminator},
+        {<< 1>>, :invalid_media},
+        {<<31>>, :invalid_media},
       ]
 end
