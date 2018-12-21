@@ -41,7 +41,7 @@ defmodule MMS.HeadersTest do
         {<<0x99, 128             >>, header(MMS.RetrieveStatus,   :ok         )},
         {<<0x9a, "x",   0        >>, header(MMS.RetrieveText,     "x"         )},
         {<<0x9b, 128             >>, header(MMS.ReadStatus,       :read       )},
-        #{<<0x9c, ... >>, header(MMS.ReplyCharging, value)},
+        {<<0x9c, 128             >>, header(MMS.ReplyCharging,    :requested  )},
         #{<<0x9d, ... >>, header(MMS.ReplyChargingDeadline, value)},
         #{<<0x9e, ... >>, header(MMS.ReplyChargingID, value)},
         #{<<0x9f, ... >>, header(MMS.ReplyChargingSize, value)},
