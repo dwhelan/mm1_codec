@@ -95,5 +95,10 @@ defmodule MMS.WellKnownMediaTest do
         {<<0xD8>>, "application/vnd.syncml.dm.notification"},
 
         {<<0xff>>, 0x7f}
+      ],
+
+      decode_errors: [
+        {<<0x00>>, :invalid_short_integer},
+        {<<0x7f>>, :invalid_short_integer},
       ]
 end

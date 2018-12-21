@@ -16,7 +16,7 @@ defmodule MMS.Short do
   end
 
   def decode _ do
-    error :most_signficant_bit_must_be_1
+    error :invalid_short_integer
   end
 
   def encode(value) when is_short(value) do
@@ -24,6 +24,6 @@ defmodule MMS.Short do
   end
 
   def encode _ do
-    error :must_be_an_integer_between_0_and_127
+    error :invalid_short_integer
   end
 end

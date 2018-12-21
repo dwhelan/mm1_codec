@@ -11,11 +11,11 @@ defmodule MMS.Mapper.UseWithMapTest do
       ],
 
       decode_errors: [
-        {<<127>>, :most_signficant_bit_must_be_1},
+        {<<127>>, :invalid_short_integer},
       ],
 
       encode_errors: [
-        {-1, :must_be_an_integer_between_0_and_127},
+        {-1, :invalid_short_integer},
       ]
 end
 
@@ -34,11 +34,11 @@ defmodule MMS.Mapper.UseWithValuesTest do
       ],
 
       decode_errors: [
-        {<<127>>, :most_signficant_bit_must_be_1},
+        {<<127>>, :invalid_short_integer},
       ],
 
       encode_errors: [
-        {-1, :must_be_an_integer_between_0_and_127},
+        {-1, :invalid_short_integer},
       ]
 end
 
@@ -68,11 +68,11 @@ defmodule MMS.Mapper.Test do
       ],
 
       decode_errors: [
-        {<<127>>, :most_signficant_bit_must_be_1},
+        {<<127>>, :invalid_short_integer},
       ],
 
       encode_errors: [
-        {-1, :must_be_an_integer_between_0_and_127},
+        {-1, :invalid_short_integer},
       ]
 
   test "reverse" do
