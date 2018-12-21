@@ -29,7 +29,7 @@ defmodule MMS.Headers do
     0x9a => MMS.RetrieveText,
     0x9b => MMS.ReadStatus,
     0x9c => MMS.ReplyCharging,
-    #0x9d => MMS.ReplyChargingDeadline,
+    0x9d => MMS.ReplyChargingDeadline,
     #0x9e => MMS.ReplyChargingID,
     #0x9f => MMS.ReplyChargingSize,
     #0xa0 => MMS.PreviouslySentBy,
