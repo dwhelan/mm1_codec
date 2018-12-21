@@ -44,7 +44,7 @@ defmodule MMS.HeadersTest do
         {<<0x9c, 128             >>, header(MMS.ReplyCharging,         :requested  )},
         {<<0x9d,   3, 128,   1, 0>>, header(MMS.ReplyChargingDeadline, time_zero   )},
         {<<0x9e, "x",   0        >>, header(MMS.ReplyChargingId,       "x"         )},
-#        {<<0x9f, ... >>, header(MMS.ReplyChargingSize, value)},
+        {<<0x9f,   1,   0        >>, header(MMS.ReplyChargingSize,     0           )},
         #{<<0xa0, ... >>, header(MMS.PreviouslySentBy, value)},
         #{<<0xa1, ... >>, header(MMS.PreviouslySentDate, value)},
 
