@@ -81,7 +81,7 @@ defmodule MMS.Headers do
     error :unknown_header
   end
 
-  @encode_map MMS.Mapper.reverse(@decode_map)
+  @encode_map MMS.Mapper.reverse @decode_map
 
   defp prepend_header_byte {header, bytes} do
     <<@encode_map[header]>> <> bytes
