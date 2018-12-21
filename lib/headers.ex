@@ -32,8 +32,8 @@ defmodule MMS.Headers do
     0x9d => MMS.ReplyChargingDeadline,
     0x9e => MMS.ReplyChargingId,
     0x9f => MMS.ReplyChargingSize,
-    #0xa0 => MMS.PreviouslySentBy,
-    #0xa1 => MMS.PreviouslySentDate,
+    0xa0 => MMS.PreviouslySentBy,
+    0xa1 => MMS.PreviouslySentDate,
   }
 
   import MMS.OkError
