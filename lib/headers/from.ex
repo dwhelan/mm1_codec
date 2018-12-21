@@ -10,7 +10,7 @@ defmodule MMS.From do
     case_ok Composer.decode bytes, {Byte, Address}, allow_partial: true do
       {{@address_present_token, address}, rest} -> ok address, rest
       {{@insert_address_token          }, rest} -> ok :insert_address_token, rest
-      _                                         -> error :address_token_must_be_128_to_129
+      _                                         -> error :invalid_address_token
     end
   end
 

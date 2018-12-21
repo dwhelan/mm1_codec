@@ -14,7 +14,7 @@ defmodule MMS.PreviouslySentDateTest do
       ],
 
       decode_errors: [
-        {<<32>>,              :first_byte_must_be_less_than_32}, # length error
+        {<<32>>,              :invalid_length}, # length error
         {<<2, 32>>,           :invalid_integer},                 # count error
 #        {<<5, 2, 1, 0, "@">>, :missing_terminator},              # date error
       ],

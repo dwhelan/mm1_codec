@@ -15,7 +15,7 @@ defmodule MMS.ComposerTest do
     end
 
     test "invalid length" do
-      assert decode(<<32, 2>>, {ShortLength}) == error :first_byte_must_be_less_than_32
+      assert decode(<<32, 2>>, {ShortLength}) == error :invalid_length
     end
 
     test "incorrect length" do

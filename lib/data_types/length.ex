@@ -15,7 +15,7 @@ defmodule MMS.Length do
   end
 
   def decode _ do
-    error :first_byte_must_be_less_than_32
+    error :invalid_length
   end
 
   def encode(value) when is_short_length(value) do

@@ -17,7 +17,7 @@ defmodule MMS.LengthTest do
       ],
 
       decode_errors: [
-        {<<32>>, :first_byte_must_be_less_than_32},
+        {<<32>>, :invalid_length},
         {<<length_quote, 128, 255, 255, 255, 255, 127>>, :uint32_length_must_be_5_bytes_or_less},
       ],
 

@@ -21,7 +21,7 @@ defmodule MMS.Seconds do
   end
 
   defp evaluate _ do
-    error :absolute_value_must_be_128_to_129
+    error :invalid_absolute_relative_token
   end
 
   def encode %DateTime{} = date_time do

@@ -17,9 +17,9 @@ defmodule MMS.SecondsTest do
       ],
 
       decode_errors: [
-        {<<32>>,            :first_byte_must_be_less_than_32},        # length error
-        {<<3,   0,  1, 0>>, :absolute_value_must_be_128_to_129}, # absolute/relative error
-        {<<3, 128, 31, 0>>, :invalid_long_length}, # value error
+        {<<32>>,            :invalid_length                 }, # length error
+        {<<3,   0,  1, 0>>, :invalid_absolute_relative_token}, # absolute/relative token error
+        {<<3, 128,  0, 0>>, :invalid_long_length            }, # value error
       ],
 
       encode_errors: [

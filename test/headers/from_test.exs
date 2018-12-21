@@ -11,10 +11,10 @@ defmodule MMS.FromTest do
       ],
 
       decode_errors: [
-        {<<32               >>, :first_byte_must_be_less_than_32 }, # length error
-        {<< 5,   0, "x@y", 0>>, :address_token_must_be_128_to_129}, # address token error
-        {<< 4, 128, "x@y"   >>, :missing_terminator              }, # string error
-        {<< 6, 128, "x@y", 0>>, :incorrect_length                }, # composer error
+        {<<0               >>, :invalid_length       }, # length error
+        {<<5,   0, "x@y", 0>>, :invalid_address_token}, # address token error
+        {<<4, 128, "x@y"   >>, :missing_terminator   }, # string error
+        {<<6, 128, "x@y", 0>>, :incorrect_length     }, # composer error
       ],
 
       encode_errors: [
