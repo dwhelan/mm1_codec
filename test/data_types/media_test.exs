@@ -10,7 +10,7 @@ defmodule MMS.MediaTest do
 
         # Extension media
         {<<0>>,                <<>>         },
-        {<<32, 0>>,            " "          },
+        {<<32, 0>>,            <<32>>       },
         {<<0x7f, 0>>,          <<0x7f>>     },
         {<<"other/other", 0>>, "other/other"},
       ],
