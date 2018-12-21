@@ -8,7 +8,7 @@ defmodule MMS.Integer do
     Short.decode bytes
   end
 
-  def decode(<<byte, _::binary>> = bytes) when is_short_length(byte) do
+  def decode(<<byte, _::binary>> = bytes) when is_long_byte(byte) do
     Long.decode bytes
   end
 
