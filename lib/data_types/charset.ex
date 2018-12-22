@@ -1,8 +1,3 @@
-#
-# use EitherCodec,
-#   codec: {Short, is_short_byte, is_short},
-#   codec: Long,
-#
 defmodule MMS.Charset do
   @moduledoc """
   Specification: WAP-230-WSP-20010705-a, 7.2.9 Encoded-string-value
