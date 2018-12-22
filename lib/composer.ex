@@ -9,7 +9,7 @@ defmodule MMS.Composer do
     end
   end
 
-  defp do_decode rest, [codec | _], opts, values, 0 do
+  defp do_decode rest, [_ | _], opts, values, 0 do
     if opts[:allow_partial] do
       return values, rest
     else
@@ -17,7 +17,7 @@ defmodule MMS.Composer do
     end
   end
 
-  defp do_decode rest, _, opts, values, 0 do
+  defp do_decode rest, _, _, values, 0 do
     return values, rest
   end
 
@@ -43,16 +43,12 @@ defmodule MMS.Composer do
     length - byte_size(bytes) + byte_size(rest)
   end
 
-  def encode([_|_] = values, [_|_] = codecs) do
+  def encode [_|_] = values, [_|_] = codecs do
     do_encode Enum.zip(values, codecs), []
   end
 
   def encode _, _ do
     error :must_provide_at_least_one_value_and_codec
-  end
-
-  defp zip values, codecs do
-    Enum.zip Tuple.to_list(values), Tuple.to_list(codecs)
   end
 
   defp do_encode [{value, codec} | list], value_bytes do
@@ -66,6 +62,22 @@ defmodule MMS.Composer do
 
     case_ok bytes |> byte_size |> Length.encode do
       length_bytes -> ok length_bytes <> bytes
+    end
+  end
+
+  defmacro __using__ opts \\ [] do
+    quote bind_quoted: [opts: opts ]do
+      alias MMS.Composer
+
+      @codecs opts[:codecs]
+
+      def decode bytes do
+        Composer.decode bytes, @codecs
+      end
+
+      def encode values do
+        Composer.encode values, @codecs
+      end
     end
   end
 end
