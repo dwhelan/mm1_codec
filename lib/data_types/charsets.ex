@@ -269,6 +269,10 @@ defmodule MMS.Charsets do
 
   @unmap Mapper.reverse @map
 
+  def the_map do
+    @map
+  end
+
   def map value do
     Mapper.get @map, value
   end
