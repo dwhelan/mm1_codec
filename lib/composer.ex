@@ -5,7 +5,7 @@ defmodule MMS.Composer do
 
   def decode bytes, codecs, opts \\ [] do
     case_ok Length.decode bytes do
-      {length, rest} -> do_decode rest, Tuple.to_list(codecs), opts, [], length
+      {length, rest} -> do_decode rest, codecs, opts, [], length
     end
   end
 
@@ -36,15 +36,15 @@ defmodule MMS.Composer do
   end
 
   defp return values, rest do
-    ok values |> Enum.reverse |> List.to_tuple, rest
+    ok Enum.reverse(values), rest
   end
 
   defp remaining length, bytes, rest do
     length - byte_size(bytes) + byte_size(rest)
   end
 
-  def encode(values, codecs) when is_tuple(values) and tuple_size(values) > 0 and is_tuple(codecs) and tuple_size(codecs) > 0 do
-    do_encode zip(values, codecs), []
+  def encode([_|_] = values, [_|_] = codecs) do
+    do_encode Enum.zip(values, codecs), []
   end
 
   def encode _, _ do
@@ -55,9 +55,9 @@ defmodule MMS.Composer do
     Enum.zip Tuple.to_list(values), Tuple.to_list(codecs)
   end
 
-  defp do_encode [{value, codec} | tuples], value_bytes do
+  defp do_encode [{value, codec} | list], value_bytes do
     case_ok codec.encode value do
-      bytes -> do_encode tuples, [bytes | value_bytes]
+      bytes -> do_encode list, [bytes | value_bytes]
     end
   end
 

@@ -5,7 +5,7 @@ defmodule MMS.ResponseTextTest do
       codec: MMS.ResponseText,
       examples: [
         {<<"x",    0        >>, "x"           },
-        {<< 3,  0xea, "x", 0>>, {:csUTF8, "x"}},
+        {<< 3,  0xea, "x", 0>>, [:csUTF8, "x"]},
       ],
 
       decode_errors: [

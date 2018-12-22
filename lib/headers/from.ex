@@ -7,9 +7,9 @@ defmodule MMS.From do
   @insert_address_token  129
 
   def decode bytes do
-    case_ok Composer.decode bytes, {Byte, Address}, allow_partial: true do
-      {{@address_present_token, address}, rest} -> ok address, rest
-      {{@insert_address_token          }, rest} -> ok :insert_address_token, rest
+    case_ok Composer.decode bytes, [Byte, Address], allow_partial: true do
+      {[@address_present_token, address], rest} -> ok address, rest
+      {[@insert_address_token          ], rest} -> ok :insert_address_token, rest
       _                                         -> error :invalid_address_token
     end
   end
@@ -19,6 +19,6 @@ defmodule MMS.From do
   end
 
   def encode string do
-    Composer.encode {@address_present_token, string}, {Byte, Address}
+    Composer.encode [@address_present_token, string], [Byte, Address]
   end
 end

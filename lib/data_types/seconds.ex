@@ -7,16 +7,16 @@ defmodule MMS.Seconds do
   @relative 129
 
   def decode bytes do
-    case_ok Composer.decode bytes, {Byte, Long} do
+    case_ok Composer.decode bytes, [Byte, Long] do
       results -> evaluate results
     end
   end
 
-  defp evaluate {{@absolute, seconds}, rest} do
+  defp evaluate {[@absolute, seconds], rest} do
     ok DateTime.from_unix!(seconds), rest
   end
 
-  defp evaluate {{@relative, seconds}, rest} do
+  defp evaluate {[@relative, seconds], rest} do
     ok seconds, rest
   end
 
@@ -33,6 +33,6 @@ defmodule MMS.Seconds do
   end
 
   defp encode absolute, value do
-    {absolute, value} |> Composer.encode({Byte, Long})
+    [absolute, value] |> Composer.encode([Byte, Long])
   end
 end

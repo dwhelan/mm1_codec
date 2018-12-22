@@ -1,5 +1,5 @@
 defmodule MMS.Length do
-  alias MMS.{ShortLength, Uint32, Composer}
+  alias MMS.{ShortLength, Uint32}
 
   import MMS.OkError
   import MMS.DataTypes

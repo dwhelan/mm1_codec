@@ -5,8 +5,8 @@ defmodule MMS.ContentType do
   import MMS.DataTypes
 
   def decode(<<byte, _::binary>> = bytes) when is_short_length(byte) do
-    case_ok Composer.decode bytes, {Media} do
-      {{media}, rest} -> ok {media, []}, rest
+    case_ok Composer.decode bytes, [Media] do
+      {[media], rest} -> ok [media, []], rest
     end
   end
 
@@ -14,8 +14,8 @@ defmodule MMS.ContentType do
     Media.decode bytes
   end
 
-  def encode {media, _parameters} do
-    Composer.encode {media}, {Media}
+  def encode [media, _parameters] do
+    Composer.encode [media], [Media]
   end
 
   def encode value do

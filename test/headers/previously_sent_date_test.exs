@@ -9,8 +9,8 @@ defmodule MMS.PreviouslySentDateTest do
         #  _                  <- length
         #     _________       <- forwarded count
         #                ____ <- date
-        {<<3, 129,       1, 0>>, {  1, 0}}, # short count
-        {<<5,   2, 1, 0, 1, 0>>, {256, 0}}, # long count
+        {<<3, 129,       1, 0>>, [  1, 0]}, # short count
+        {<<5,   2, 1, 0, 1, 0>>, [256, 0]}, # long count
       ],
 
       decode_errors: [
@@ -20,6 +20,6 @@ defmodule MMS.PreviouslySentDateTest do
       ],
 
       encode_errors: [
-        {{-1, "@"}, :invalid_integer},
+        {[-1, "@"], :invalid_integer},
       ]
 end

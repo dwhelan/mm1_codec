@@ -14,11 +14,11 @@ defmodule MMS.EncodedStringTest do
         {<<"x", 0>>, "x"},
 
         # Encoded with short length
-        {<< 3, 0xea, "x", 0>>,          {:csUTF8,    "x"}},
-        {<< 5, 2, 0x03, 0xe8, "x", 0>>, {:csUnicode, "x"}},
+        {<< 3, 0xea, "x", 0>>,          [:csUTF8,    "x"]},
+        {<< 5, 2, 0x03, 0xe8, "x", 0>>, [:csUnicode, "x"]},
 
         # Encoded with uint32 length
-        {<<length_quote, 32, 0xea>> <> string30 <> <<0>>, {:csUTF8, string30}},
+        {<<length_quote, 32, 0xea>> <> string30 <> <<0>>, [:csUTF8, string30]},
       ],
 
       decode_errors: [

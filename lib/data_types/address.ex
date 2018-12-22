@@ -10,9 +10,9 @@ defmodule MMS.Address do
     end
   end
 
-  defp map {charset, string}, rest do
+  defp map [charset, string], rest do
     case_ok map string do
-      address -> ok {charset, address}, rest
+      address -> ok [charset, address], rest
     end
   end
 
@@ -34,8 +34,8 @@ defmodule MMS.Address do
     end
   end
 
-  def encode {charset, address} do
-    {charset, unmap(address)} |> EncodedString.encode
+  def encode [charset, address] do
+    [charset, unmap(address)] |> EncodedString.encode
   end
 
   def encode address do

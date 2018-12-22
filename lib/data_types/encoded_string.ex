@@ -9,14 +9,14 @@ defmodule MMS.EncodedString do
   end
 
   def decode bytes do
-    bytes |> Composer.decode({Charset, String})
+    bytes |> Composer.decode([Charset, String])
   end
 
   def encode(string) when is_binary(string) do
     string |> String.encode
   end
 
-  def encode {charset, string} do
-    {charset, string} |> Composer.encode({Charset, String})
+  def encode [charset, string] do
+    [charset, string] |> Composer.encode([Charset, String])
   end
 end

@@ -45,8 +45,8 @@ defmodule MMS.HeadersTest do
         {<<0x9d,   3, 128,   1, 0>>, header(MMS.ReplyChargingDeadline, time_zero   )},
         {<<0x9e, "x",   0        >>, header(MMS.ReplyChargingId,       "x"         )},
         {<<0x9f,   1,   0        >>, header(MMS.ReplyChargingSize,     0           )},
-        {<<0xa0,   3, 129, "@", 0>>, header(MMS.PreviouslySentBy,      {1, "@"}    )},
-        {<<0xa1,   3, 129,  1,  0>>, header(MMS.PreviouslySentDate,    {1, 0}      )},
+        {<<0xa0,   3, 129, "@", 0>>, header(MMS.PreviouslySentBy,      [1, "@"]    )},
+        {<<0xa1,   3, 129,  1,  0>>, header(MMS.PreviouslySentDate,    [1, 0]      )},
 
         # Multiple headers
         {<<0x81, "@", 0, 0x82, "@", 0>>, [{MMS.Bcc, "@"}, {MMS.Cc, "@"}]},

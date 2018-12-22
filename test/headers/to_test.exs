@@ -5,7 +5,7 @@ defmodule MMS.ToTest do
       codec: MMS.To,
       examples: [
         {<<"x",    0        >>, "x"           },
-        {<< 3,  0xea, "x", 0>>, {:csUTF8, "x"}},
+        {<< 3,  0xea, "x", 0>>, [:csUTF8, "x"]},
       ],
 
       decode_errors: [
