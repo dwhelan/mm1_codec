@@ -16,6 +16,21 @@ defmodule MMS.OkError do
     {:error, reason}
   end
 
+#  defmacro _decode do: ok, else: error do
+#
+#    quote bind_quoted: [ok: ok, error: error] do
+#      @ok ok
+#      @error error
+#
+#      def decode bytes, codec do
+#        case codec.decode bytes do
+#          {:ok, {value, rest}} -> case {value, rest}, do: unquote(ok)
+#          {:error, reason}     -> case reason, do: unquote(error)
+#        end
+#      end
+#    end
+#  end
+
   defmacro case_ok value, do: block do
     quote do
       case unquote value do
