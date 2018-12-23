@@ -1,5 +1,5 @@
 defmodule MMS.MessageClass do
-  alias MMS.{Mapper, Byte, Short, String}
+  alias MMS.{Mapper, Byte, String}
 
   @decode_map Mapper.indexed [:personal, :advertisement, :informational, :auto], 128
   @encode_map Mapper.reverse @decode_map
