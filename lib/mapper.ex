@@ -2,22 +2,16 @@ defmodule MMS.Mapper do
   import MMS.OkError
 
   def decode bytes, codec, map do
-    bytes |> codec.decode |> map(map)
+    case_ok codec.decode bytes do
+      {value, rest} -> ok get(map, value), rest
+    end
   end
 
   def encode value, codec, map do
-    map |> get(value) |> codec.encode
+    get(map, value) |> codec.encode
   end
 
-  defp map {:ok, {value, rest}}, map do
-    ok get(map, value), rest
-  end
-
-  defp map error, _ do
-    error
-  end
-
-  def get map, key do
+  defp get map, key do
     Map.get map, key, key
   end
 
