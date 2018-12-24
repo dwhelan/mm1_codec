@@ -3,16 +3,12 @@ defmodule MMS.Mapper do
 
   def decode bytes, codec, map do
     case_ok codec.decode bytes do
-      {value, rest} -> ok get(map, value), rest
+      {value, rest} -> ok Map.get(map, value, value), rest
     end
   end
 
   def encode value, codec, map do
-    get(map, value) |> codec.encode
-  end
-
-  defp get map, key do
-    Map.get map, key, key
+    Map.get(map, value, value) |> codec.encode
   end
 
   def reverse(map) when is_map(map) do
@@ -20,7 +16,7 @@ defmodule MMS.Mapper do
   end
 
   def indexed(values, offset \\ 0) when is_list(values) do
-    values |> Enum.with_index(offset || 0) |> Enum.reduce(%{}, fn {v, i}, map -> Map.put(map, i, v) end)
+    values |> Enum.with_index(offset) |> Enum.reduce(%{}, fn {v, i}, map -> Map.put(map, i, v) end)
   end
 
   defmacro __using__(opts) do
@@ -28,15 +24,15 @@ defmodule MMS.Mapper do
       import MMS.Mapper
 
       @codec      opts[:codec]
-      @decode_map opts[:map] || indexed(opts[:values], opts[:offset])
+      @decode_map opts[:map] || indexed(opts[:values], opts[:offset] || 0)
       @encode_map reverse @decode_map
 
       def decode bytes do
-        bytes |> decode(@codec, @decode_map)
+        decode bytes, @codec, @decode_map
       end
 
       def encode value do
-        value |> encode(@codec, @encode_map)
+        encode value, @codec, @encode_map
       end
     end
   end
