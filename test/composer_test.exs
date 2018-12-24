@@ -31,11 +31,11 @@ defmodule MMS.ComposerTest do
     end
 
     test "error with first value" do
-      assert decode(<<1, 255>>, [ShortLength]) == error :must_be_an_integer_between_1_and_30
+      assert decode(<<1, 255>>, [ShortLength]) == error :invalid_short_length
     end
 
     test "error with subsequent values" do
-      assert decode(<<2, 3, 255>>, [ShortLength, ShortLength]) == error :must_be_an_integer_between_1_and_30
+      assert decode(<<2, 3, 255>>, [ShortLength, ShortLength]) == error :invalid_short_length
     end
   end
 
@@ -57,11 +57,11 @@ defmodule MMS.ComposerTest do
     end
 
     test "first value invalid" do
-      assert encode([0], [ShortLength]) == error :must_be_an_integer_between_1_and_30
+      assert encode([0], [ShortLength]) == error :invalid_short_length
     end
 
     test "subsequent value invalid" do
-      assert encode([1, 0], [ShortLength, ShortLength]) == error :must_be_an_integer_between_1_and_30
+      assert encode([1, 0], [ShortLength, ShortLength]) == error :invalid_short_length
     end
 
     test "[] -> <<>>" do

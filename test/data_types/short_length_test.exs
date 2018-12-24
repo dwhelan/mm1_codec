@@ -9,12 +9,12 @@ defmodule MMS.ShortLengthTest do
       ],
 
       decode_errors: [
-        {<<31>>, :must_be_an_integer_between_1_and_30},
+        {<<31>>, :invalid_short_length},
       ],
 
       encode_errors: [
-        {-1,  :must_be_an_integer_between_1_and_30},
-        {31,  :must_be_an_integer_between_1_and_30},
-        {"x", :must_be_an_integer_between_1_and_30},
+        {-1,  :invalid_short_length},
+        {31,  :invalid_short_length},
+        {"x", :invalid_short_length},
       ]
 end
