@@ -7,11 +7,11 @@ defmodule MMS.Length do
   @length_quote 31
 
   def decode(<<value, _::binary>> = bytes) when is_short_length(value) do
-    bytes |> ShortLength.decode
+    ShortLength.decode bytes
   end
 
   def decode <<@length_quote, rest::binary>> do
-    rest |> Uint32.decode
+    Uint32.decode rest
   end
 
   def decode _ do
@@ -19,11 +19,11 @@ defmodule MMS.Length do
   end
 
   def encode(value) when is_short_length(value) do
-    value |> ShortLength.encode
+    ShortLength.encode value
   end
 
   def encode(value) when is_uint32(value) do
-    ok value |> Uint32.encode |> prefix_with_length_quote
+    value |> Uint32.encode |> prefix_with_length_quote
   end
 
   def encode _ do
@@ -31,6 +31,6 @@ defmodule MMS.Length do
   end
 
   defp prefix_with_length_quote {:ok, bytes} do
-    <<@length_quote>> <> bytes
+    ok <<@length_quote>> <> bytes
   end
 end
