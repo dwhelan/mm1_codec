@@ -3,28 +3,29 @@ defmodule MMS.Composer do
 
   alias MMS.Length
 
-  def decode bytes, codecs, opts \\ [] do
+  def decode bytes, codecs do
     case_ok Length.decode bytes do
-      {length, rest} -> do_decode rest, codecs, opts, [], length
+      {length, rest} -> do_decode rest, codecs, [], length
     end
   end
 
-  defp do_decode rest, _, _, values, 0 do
+  defp do_decode rest, _, values, 0 do
     ok Enum.reverse(values), rest
   end
 
-  defp do_decode(bytes, [codec | codecs], opts, values, length) when length > 0 do
+  defp do_decode(bytes, [codec | codecs], values, length) when length > 0 do
     case_ok codec.decode bytes do
-      {value, rest} -> do_decode rest, codecs, opts, [value | values], remaining(length, bytes, rest)
+      {value, rest} -> do_decode rest, codecs, [value | values], remaining(length, bytes, rest)
     end
   end
 
-  defp do_decode(_, _, _, _, _) do
+  defp do_decode(_, _, _, _) do
     error :incorrect_length
   end
 
   defp remaining length, bytes, rest do
-    length - byte_size(bytes) + byte_size(rest)
+    consumed = byte_size(bytes) - byte_size(rest)
+    length - consumed
   end
 
   def encode [_|_] = values, [_|_] = codecs do
