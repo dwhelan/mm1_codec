@@ -64,12 +64,8 @@ defmodule MMS.ComposerTest do
       assert encode([1, 0], [ShortLength, ShortLength]) == error :must_be_an_integer_between_1_and_30
     end
 
-    test "no values" do
-      assert encode([], [ShortLength]) == error :must_provide_at_least_one_value_and_codec
-    end
-
-    test "no codecs" do
-      assert encode([2], []) == error :must_provide_at_least_one_value_and_codec
+    test "[] -> <<>>" do
+      assert encode([], []) == ok <<>>
     end
   end
 end

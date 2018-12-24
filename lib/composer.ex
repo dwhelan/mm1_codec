@@ -23,10 +23,6 @@ defmodule MMS.Composer do
     end
   end
 
-  defp do_decode(_, _, _, _) do
-    error :incorrect_length
-  end
-
   defp remaining codec, [] do
     [codec]
   end
@@ -39,12 +35,18 @@ defmodule MMS.Composer do
     byte_size(bytes) - byte_size(rest)
   end
 
-  def encode [_|_] = values, [_|_] = codecs do
+  def encode [], _  do
+    ok <<>>
+  end
+
+  def encode values, codecs do
     do_encode Enum.zip(values, codecs), []
   end
 
-  def encode _, _ do
-    error :must_provide_at_least_one_value_and_codec
+  defp do_encode [{value, codec} | list], value_bytes do
+    case_ok codec.encode value do
+      bytes -> do_encode list, [bytes | value_bytes]
+    end
   end
 
   defp do_encode [{value, codec} | list], value_bytes do
