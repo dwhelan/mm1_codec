@@ -1,43 +1,40 @@
 defmodule MMS.Q do
   use Bitwise
 
+  alias MMS.Uint32
+
   import MMS.OkError
   import MMS.DataTypes
 
   def decode bytes do
-    decode bytes, 0, <<>>
+    case_ok Uint32.decode bytes do
+      {value, rest} -> ok map(value), rest
+    end
   end
 
-  defp decode<<0::1, value::7, rest::binary>>, total, bytes do
+  defp map(value) when value <= 100 do
     q = (value - 1) / 100
-    ok q, rest
+    :erlang.float_to_binary q, decimals: 2
   end
 
-  defp decode(_, _, bytes) when byte_size(bytes) > 4 do
-    error :uint32_length_must_be_5_bytes_or_less
+  defp map value do
+    q = (value - 100) / 1000
+    :erlang.float_to_binary q, decimals: 3
   end
 
-  defp decode <<value, rest::binary>>, total, _ do
-    ok add(value, total), rest
-  end
-
-  def encode(value) when is_float(value) do
-    ok <<round(value*100+1)>>
+  def encode(value) when is_binary(value) do
+    value |> unmap |> Uint32.encode
   end
 
   def encode _ do
     error :invalid_q_value
   end
 
-  defp bytes_for 0, bytes do
-    bytes
+  defp unmap(string) when byte_size(string) <= 4 do
+    round(:erlang.binary_to_float(string) * 100 + 1)
   end
 
-  defp bytes_for value, bytes do
-    bytes_for value >>> 7, <<1::1, (value &&& 0x7f)::7>> <> bytes
-  end
-
-  defp add value, total do
-    value + (total <<< 7)
+  defp unmap(string) do
+    round(:erlang.binary_to_float(string) * 1000 + 100)
   end
 end
