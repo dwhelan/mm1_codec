@@ -13,9 +13,13 @@ defmodule MMS.Composer do
     ok Enum.reverse(values), rest
   end
 
+  defp do_decode(<<>>, _, _, _) do
+    error :incorrect_length
+  end
+
   defp do_decode(bytes, [codec | codecs], values, length) when length > 0 do
     case_ok codec.decode bytes do
-      {value, rest} -> do_decode rest, codecs, [value | values], remaining(length, bytes, rest)
+      {value, rest} -> do_decode rest, remaining(codec, codecs), [value | values], length - consumed(bytes, rest)
     end
   end
 
@@ -23,9 +27,16 @@ defmodule MMS.Composer do
     error :incorrect_length
   end
 
-  defp remaining length, bytes, rest do
-    consumed = byte_size(bytes) - byte_size(rest)
-    length - consumed
+  defp remaining codec, [] do
+    [codec]
+  end
+
+  defp remaining codec, codecs do
+    codecs
+  end
+
+  defp consumed bytes, rest do
+    byte_size(bytes) - byte_size(rest)
   end
 
   def encode [_|_] = values, [_|_] = codecs do
