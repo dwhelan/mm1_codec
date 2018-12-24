@@ -30,12 +30,8 @@ defmodule MMS.ComposerTest do
       assert decode(<<2, 3, 255>>, [ShortLength, ShortLength]) == error :must_be_an_integer_between_1_and_30
     end
 
-    test "error when bytes consumed before all codecs" do
-      assert decode(<<1, 2>>, [ShortLength, ShortLength]) == error :incorrect_length
-    end
-
-    test "partial results when number of bytes consumed == length" do
-      assert decode(<<1, 2>>, [ShortLength, ShortLength], allow_partial: true) == ok [2], <<>>
+    test "ok when bytes consumed before all codecs" do
+      assert decode(<<1, 2>>, [ShortLength, ShortLength]) == ok [2], <<>>
     end
   end
 

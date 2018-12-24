@@ -10,11 +10,7 @@ defmodule MMS.Composer do
   end
 
   defp do_decode rest, [_ | _], opts, values, 0 do
-    if opts[:allow_partial] do
-      return values, rest
-    else
-      error :incorrect_length
-    end
+    return values, rest
   end
 
   defp do_decode rest, _, _, values, 0 do
