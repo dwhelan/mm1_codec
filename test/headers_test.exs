@@ -53,6 +53,7 @@ defmodule MMS.HeadersTest do
       ],
 
       decode_errors: [
+        {<<0x80>>, {:invalid_header, 0x80}}
       ],
 
       encode_errors: [

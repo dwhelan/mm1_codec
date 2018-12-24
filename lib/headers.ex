@@ -49,13 +49,17 @@ defmodule MMS.Headers do
   @codec_bytes Map.keys   @decode_map
   @codecs      Map.values @decode_map
 
-  defp decode(<<byte, bytes:: binary>>, headers) when byte in @codec_bytes do
+  defp decode(<<byte, bytes:: binary>>, codecs) when byte in @codec_bytes do
     codec = @decode_map[byte]
 
     case codec.decode bytes do
-      {:ok,    {value, rest}} -> decode rest, [{codec, value} | headers]
+      {:ok,    {value, rest}} -> decode rest, [{codec, value} | codecs]
       {:error,        reason} -> error codec, reason
     end
+  end
+
+  defp decode(<<byte, _:: binary>>, _) when byte not in @codec_bytes do
+    error {:invalid_header, byte}
   end
 
   defp decode rest, values do
