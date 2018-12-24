@@ -1,3 +1,7 @@
+defmodule MMS.CodecMapper do
+  
+end
+
 defmodule MMS.Headers do
   # Based on OMA-WAP-MMS-ENC-V1_1-20040715-A: Table 12. Field Name Assignments
   @decode_map %{
@@ -42,38 +46,38 @@ defmodule MMS.Headers do
     decode bytes, []
   end
 
-  @header_bytes Map.keys   @decode_map
-  @headers      Map.values @decode_map
+  @codec_bytes Map.keys   @decode_map
+  @codecs      Map.values @decode_map
 
-  defp decode(<<byte, bytes:: binary>>, headers) when byte in @header_bytes do
-    header = @decode_map[byte]
+  defp decode(<<byte, bytes:: binary>>, headers) when byte in @codec_bytes do
+    codec = @decode_map[byte]
 
-    case header.decode bytes do
-      {:ok,    {value, rest}} -> decode rest, [{header, value} | headers]
-      {:error,        reason} -> error header, reason
+    case codec.decode bytes do
+      {:ok,    {value, rest}} -> decode rest, [{codec, value} | headers]
+      {:error,        reason} -> error codec, reason
     end
   end
 
-  defp decode rest, headers do
-    ok Enum.reverse(headers), rest
+  defp decode rest, values do
+    ok Enum.reverse(values), rest
   end
 
-  def encode headers do
-    encode headers, []
+  def encode values do
+    encode values, []
   end
 
-  defp encode [{header, value} | headers], results do
-    case encode_one header, value do
-      {:ok,     bytes} -> encode headers, [{header, bytes} | results]
-      {:error, reason} -> error header, reason
+  defp encode [{codec, value} | values], results do
+    case encode_one codec, value do
+      {:ok,     bytes} -> encode values, [{codec, bytes} | results]
+      {:error, reason} -> error codec, reason
     end
   end
 
   defp encode [], results do
-    ok results |> Enum.reverse |> Enum.map(&prepend_header_byte/1) |> Enum.join
+    ok results |> Enum.reverse |> Enum.map(&prepend_codec_byte/1) |> Enum.join
   end
 
-  defp encode_one(header, value) when header in @headers do
+  defp encode_one(header, value) when header in @codecs do
     header.encode value
   end
 
@@ -83,7 +87,7 @@ defmodule MMS.Headers do
 
   @encode_map MMS.Mapper.reverse @decode_map
 
-  defp prepend_header_byte {header, bytes} do
-    <<@encode_map[header]>> <> bytes
+  defp prepend_codec_byte {codec, bytes} do
+    <<@encode_map[codec]>> <> bytes
   end
 end

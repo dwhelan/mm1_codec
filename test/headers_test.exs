@@ -14,10 +14,10 @@ defmodule MMS.HeadersTest do
   use MMS.TestExamples,
       codec: Headers,
       examples: [
-        {<<0x84, 128             >>, header(MMS.ContentType,           "*/*"       )},
         {<<0x81, "@",   0        >>, header(MMS.Bcc,                   "@"         )},
         {<<0x82, "@",   0        >>, header(MMS.Cc,                    "@"         )},
         {<<0x83, "x",   0        >>, header(MMS.ContentLocation,       "x"         )},
+        {<<0x84, 128             >>, header(MMS.ContentType,           "*/*"       )},
         {<<0x85,   1,   0        >>, header(MMS.Date,                  0           )},
         {<<0x86, 128             >>, header(MMS.DeliveryReport,        true        )},
         {<<0x87,   3, 128,   1, 0>>, header(MMS.DeliveryTime,          time_zero   )},
@@ -50,6 +50,9 @@ defmodule MMS.HeadersTest do
 
         # Multiple headers
         {<<0x81, "@", 0, 0x82, "@", 0>>, [{MMS.Bcc, "@"}, {MMS.Cc, "@"}]},
+      ],
+
+      decode_errors: [
       ],
 
       encode_errors: [
