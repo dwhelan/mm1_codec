@@ -20,6 +20,10 @@ defmodule MMS.QTest do
         {<<129,  0>>, "0.028"},
         {<<129,  1>>, "0.029"},
         {<<136, 75>>, "0.999"},
+
+        # values that are decodeable but invalid
+        {<<136,  76>>,  "1.000"},
+        {<<255, 127>>, "16.283"},
       ]
 end
 
