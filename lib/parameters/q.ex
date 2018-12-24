@@ -9,7 +9,8 @@ defmodule MMS.Q do
   end
 
   defp decode<<0::1, value::7, rest::binary>>, total, bytes do
-    ok "0.0", rest
+    q = (value - 1) / 100
+    ok q, rest
   end
 
   defp decode(_, _, bytes) when byte_size(bytes) > 4 do
@@ -20,8 +21,8 @@ defmodule MMS.Q do
     ok add(value, total), rest
   end
 
-  def encode(value) when is_binary(value) do
-    ok <<1>>
+  def encode(value) when is_float(value) do
+    ok <<round(value*100+1)>>
   end
 
   def encode _ do
