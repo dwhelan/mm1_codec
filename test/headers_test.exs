@@ -52,11 +52,11 @@ defmodule MMS.HeadersTest do
         {<<0x81, "@", 0, 0x82, "@", 0>>, [{MMS.Bcc, "@"}, {MMS.Cc, "@"}]},
       ],
 
-      decode_errors: [
-        {<<0x80>>, {:invalid_header, 0x80}}
-      ],
-
       encode_errors: [
-        { [{MMS.NotAHeader, "x"}], {MMS.NotAHeader,  :unknown_header}},
+        { [{MMS.NotAHeader, "x"}], {MMS.NotAHeader,  :invalid_header}},
       ]
+
+  test "decode should terminate when an unmapped byte is found" do
+    assert Headers.decode(<<0x80>>) == {:ok, {[], <<0x80>>}}
+  end
 end

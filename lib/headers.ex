@@ -1,65 +1,3 @@
-defmodule MMS.CodecMapper do
-  defmacro __using__ opts \\ [] do
-    quote bind_quoted: [opts: opts] do
-      import MMS.OkError
-
-      @decode_map  opts[:map]
-      @codec_bytes Map.keys   @decode_map
-      @codecs      Map.values @decode_map
-
-      def decode bytes do
-        decode bytes, []
-      end
-
-      defp decode(<<byte, bytes:: binary>>, codecs) when byte in @codec_bytes do
-        codec = @decode_map[byte]
-
-        case codec.decode bytes do
-          {:ok,    {value, rest}} -> decode rest, [{codec, value} | codecs]
-          {:error,        reason} -> error codec, reason
-        end
-      end
-
-      defp decode(<<byte, _:: binary>>, _) when byte not in @codec_bytes do
-        error {:invalid_header, byte}
-      end
-
-      defp decode rest, values do
-        ok Enum.reverse(values), rest
-      end
-
-      def encode values do
-        encode values, []
-      end
-
-      defp encode [{codec, value} | values], results do
-        case encode_one codec, value do
-          {:ok,     bytes} -> encode values, [{codec, bytes} | results]
-          {:error, reason} -> error codec, reason
-        end
-      end
-
-      defp encode [], results do
-        ok results |> Enum.reverse |> Enum.map(&prepend_codec_byte/1) |> Enum.join
-      end
-
-      defp encode_one(header, value) when header in @codecs do
-        header.encode value
-      end
-
-      defp encode_one _, _ do
-        error :unknown_header
-      end
-
-      @encode_map MMS.Mapper.reverse @decode_map
-
-      defp prepend_codec_byte {codec, bytes} do
-        <<@encode_map[codec]>> <> bytes
-      end
-    end
-  end
-end
-
 defmodule MMS.Headers do
   # Based on OMA-WAP-MMS-ENC-V1_1-20040715-A: Table 12. Field Name Assignments
   use MMS.CodecMapper,
@@ -97,5 +35,6 @@ defmodule MMS.Headers do
         0x9f => MMS.ReplyChargingSize,
         0xa0 => MMS.PreviouslySentBy,
         0xa1 => MMS.PreviouslySentDate,
-  }
+      },
+      error: :invalid_header
 end
