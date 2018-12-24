@@ -1,12 +1,13 @@
 defmodule MMS.Charset do
   @moduledoc """
-  Specification: WAP-230-WSP-20010705-a, 7.2.9 Encoded-string-value
+  Specification: WAP-230-WSP-20010705-a, 7.2.9 Encoded-string-value, 8.4.2.8 Accept charset Field
 
   The Char-set values are registered by IANA as MIBEnum values.
   """
   use MMS.Mapper,
       codec: MMS.Integer,
       map: %{
+           0 => :any,
            1 => :other,
            2 => :unknown,
            3 => :csASCII,
