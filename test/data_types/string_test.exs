@@ -9,6 +9,7 @@ defmodule MMS.StringTest do
       ],
 
       decode_errors: [
+        {<<1>>,        :invalid_string    },
         {<<"string">>, :missing_terminator},
       ]
 end
