@@ -11,12 +11,16 @@ defmodule MMS.Short do
   import MMS.OkError
   import MMS.DataTypes
 
-  def decode(<<1::1, value::7, rest::binary>>) do
-    ok value, rest
+  def decode <<1::1, _::bitstring>> = bytes do
+    do_decode bytes
   end
 
   def decode _ do
     error :invalid_short_integer
+  end
+
+  def do_decode <<1::1, value::7, rest::binary>> do
+    ok value, rest
   end
 
   def encode(value) when is_short(value) do
