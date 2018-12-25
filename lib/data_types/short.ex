@@ -24,10 +24,14 @@ defmodule MMS.Short do
   end
 
   def encode(value) when is_short(value) do
-    ok <<value+128>>
+    do_encode value
   end
 
   def encode _ do
     error :invalid_short_integer
+  end
+
+  def do_encode(value) when is_short(value) do
+    ok <<value+128>>
   end
 end
