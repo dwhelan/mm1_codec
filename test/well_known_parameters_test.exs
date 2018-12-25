@@ -14,15 +14,15 @@ defmodule MMS.WellKnownParametersTest do
   use MMS.TestExamples,
       codec: WellKnownParameters,
       examples: [
-        {<<128, 1>>, parameter(MMS.Q, "0.00")},
-#        {<<0x82, "@",   0        >>, parameter(MMS.Cc,                    "@"         )},
+        {<<128, 1>>,   parameter(MMS.Q,       "0.00")},
+        {<<129, 128>>, parameter(MMS.Charset, :any  )},
 
         # Multiple headers
-#        {<<0x81, "@", 0, 0x82, "@", 0>>, [{MMS.Bcc, "@"}, {MMS.Cc, "@"}]},
+        {<<128, 1, 128, 1>>, [{MMS.Q, "0.00"}, {MMS.Q, "0.00"}]},
       ],
 
       encode_errors: [
-#        { [{MMS.NotAHeader, "x"}], {MMS.NotAHeader,  :invalid_header}},
+        { [{MMS.NotAHeader, "x"}], {MMS.NotAHeader,  :invalid_well_known_parameter}},
       ]
 
   test "decode should terminate when an unmapped byte is found" do
