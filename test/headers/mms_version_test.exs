@@ -1,8 +1,8 @@
-defmodule MMS.VersionTest do
+defmodule MMS.MMSVersionTest do
   use ExUnit.Case
 
   use MMS.TestExamples,
-      codec: MMS.Version,
+      codec: MMS.MMSVersion,
       examples: [
         #     ___ major - 3 bits
         #        ____ minor - 4 bits - all ones means major only

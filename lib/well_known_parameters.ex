@@ -1,7 +1,7 @@
 defmodule MMS.WellKnownParameters do
   # Based on WAP-230-WSP-20010705-a: Table 38. Well-Known Parameter Assignments
   #
-  # The values below are expressed as short-integers so the map starts at 128
+  # The byte keys below are expressed as integers so they start at 128 (short-integer 0)
 
   use MMS.CodecMapper,
       map: %{
