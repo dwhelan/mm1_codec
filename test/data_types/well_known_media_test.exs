@@ -98,7 +98,7 @@ defmodule MMS.WellKnownMediaTest do
       ],
 
       decode_errors: [
-        {<<0x00>>, :invalid_short_integer},
-        {<<0x7f>>, :invalid_short_integer},
+        {<<0x00>>, :invalid_short},
+        {<<0x7f>>, :invalid_short},
       ]
 end

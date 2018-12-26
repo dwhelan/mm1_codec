@@ -16,7 +16,7 @@ defmodule MMS.Short do
   end
 
   def decode _ do
-    error :invalid_short_integer
+    error :invalid_short
   end
 
   def do_decode <<1::1, value::7, rest::binary>> do
@@ -28,7 +28,7 @@ defmodule MMS.Short do
   end
 
   def encode _ do
-    error :invalid_short_integer
+    error :invalid_short
   end
 
   def do_encode(value) when is_short(value) do

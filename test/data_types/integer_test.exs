@@ -9,13 +9,13 @@ defmodule MMS.IntegerTest do
       ],
 
       decode_errors: [
-#        {<<127>>, :invalid_short_integer},
+#        {<<127>>, :invalid_short},
       ],
 
       encode_errors: [
-#        {-1,  :invalid_short_integer},
-#        {128, :invalid_short_integer},
-#        {"x", :invalid_short_integer},
+#        {-1,  :invalid_short},
+#        {128, :invalid_short},
+#        {"x", :invalid_short},
       ]
 end
 
