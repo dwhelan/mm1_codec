@@ -9,8 +9,6 @@ defmodule MMS.WellKnownParametersTest do
   import MMS.WellKnownParametersTestHelper
   alias MMS.WellKnownParameters
 
-  time_zero = DateTime.from_unix!(0)
-
   use MMS.TestExamples,
       codec: WellKnownParameters,
       examples: [
