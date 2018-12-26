@@ -9,7 +9,7 @@ defmodule MMS.CodecMapper2 do
       import MMS.OkError
 
       @decode_map opts[:map] || indexed(opts[:values])
-      @codec_bytes Map.keys @decode_map
+      @codec_bytes @decode_map |> Map.keys   |> Enum.reject(& @decode_map[&1] == {:unassigned, :error})
       @names       @decode_map |> Map.values |> Enum.map(& elem(&1, 0))
 
       @error       opts[:error]
@@ -70,6 +70,7 @@ defmodule MMS.WellKnownParameters do
         charset:     MMS.Charset,
         level:       MMS.Version,
         type:        MMS.Integer,
+        unassigned:  :error,
         name:        String,
         file_name:   String,
         differences: String, # Note: defined in spec as Field-name, we shall simplify to String
