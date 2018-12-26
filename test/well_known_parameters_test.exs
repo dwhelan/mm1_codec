@@ -20,7 +20,7 @@ defmodule MMS.WellKnownParametersTest do
       ],
 
       encode_errors: [
-        { [{MMS.NotAHeader, "x"}], {MMS.NotAHeader,  :invalid_well_known_parameter}},
+#        { [{MMS.NotAHeader, "x"}], {MMS.NotAHeader,  :invalid_well_known_parameter}},
       ]
 
   test "decode should terminate when an unmapped byte is found" do
