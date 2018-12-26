@@ -64,11 +64,12 @@ defmodule MMS.WellKnownParameters do
 
   use MMS.CodecMapper2,
       values: [
-        q:       MMS.Q,
-        charset: MMS.Charset,
-        level:   MMS.Version,
-        type:    MMS.Integer,
-        name:    MMS.String,
+        q:         MMS.Q,
+        charset:   MMS.Charset,
+        level:     MMS.Version,
+        type:      MMS.Integer,
+        name:      MMS.String,
+        file_name: MMS.String,
       ],
       error: :invalid_well_known_parameter
 end
