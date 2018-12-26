@@ -10,7 +10,7 @@ defmodule MMS.CodecMapper2 do
 
       @decode_map opts[:map] || indexed(opts[:values])
       @codec_bytes Map.keys @decode_map
-      @modules       @decode_map |> Map.values |> Enum.map(& elem(&1, 0))
+      @names       @decode_map |> Map.values |> Enum.map(& elem(&1, 0))
 
       @error       opts[:error]
 
@@ -37,12 +37,12 @@ defmodule MMS.CodecMapper2 do
 
       @encode_map @decode_map |> Enum.reduce(%{}, fn {byte, {module, codec}}, map -> Map.put(map, module, {byte, codec}) end)
 
-      defp encode([{module, value} | values], results) when module in @modules do
-        {byte, codec} = @encode_map[module]
+      defp encode([{name, value} | values], results) when name in @names do
+        {byte, codec} = @encode_map[name]
 
         case codec.encode value do
           {:ok,     bytes} -> encode values, [<<byte>> <> bytes | results]
-          {:error, reason} -> error module, reason
+          {:error, reason} -> error name, reason
         end
       end
 
@@ -50,8 +50,8 @@ defmodule MMS.CodecMapper2 do
         ok results |> Enum.reverse |> Enum.join
       end
 
-      defp encode [{module, value} | _], _  do
-        error {module, @error}
+      defp encode [{name, value} | _], _  do
+        error {name, @error}
       end
     end
   end
