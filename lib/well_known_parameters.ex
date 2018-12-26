@@ -67,6 +67,7 @@ defmodule MMS.WellKnownParameters do
         q:       MMS.Q,
         charset: MMS.Charset,
         level:   MMS.Version,
+        type:    MMS.Integer,
       ],
       error: :invalid_well_known_parameter
 end
