@@ -12,11 +12,11 @@ defmodule MMS.WellKnownParametersTest do
   use MMS.TestExamples,
       codec: WellKnownParameters,
       examples: [
-        {<<128, 1>>,   parameter(MMS.Q,       "0.00")},
-        {<<129, 128>>, parameter(MMS.Charset, :any  )},
+        {<<128, 1>>,   parameter(:q,       "0.00")},
+        {<<129, 128>>, parameter(:charset, :any  )},
 
         # Multiple headers
-        {<<128, 1, 128, 1>>, [{MMS.Q, "0.00"}, {MMS.Q, "0.00"}]},
+        {<<128, 1, 128, 1>>, [{:q, "0.00"}, {:q, "0.00"}]},
       ],
 
       encode_errors: [

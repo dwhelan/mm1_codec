@@ -5,7 +5,7 @@ defmodule MMS.CodecMapper2 do
 
       @decode_map  opts[:map]
       @codec_bytes Map.keys @decode_map
-      @modules       @decode_map |> Map.values |> Enum.map(& elem(&1, 1))
+      @modules       @decode_map |> Map.values |> Enum.map(& elem(&1, 0))
 
       @error       opts[:error]
 
@@ -46,6 +46,7 @@ defmodule MMS.CodecMapper2 do
       end
 
       defp encode _, _ do
+        IO.inspect @modules
         error @error
       end
     end
@@ -59,8 +60,8 @@ defmodule MMS.WellKnownParameters do
 
   use MMS.CodecMapper2,
       map: %{
-         128 => {MMS.Q, MMS.Q},
-         129 => {MMS.Charset, MMS.Charset},
+         128 => {:q, MMS.Q},
+         129 => {:charset, MMS.Charset},
       },
       error: :invalid_well_known_parameter
 end
