@@ -50,9 +50,8 @@ defmodule MMS.CodecMapper2 do
         ok results |> Enum.reverse |> Enum.join
       end
 
-      defp encode _, _ do
-        IO.inspect @modules
-        error @error
+      defp encode [{module, value} | _], _  do
+        error {module, @error}
       end
     end
   end

@@ -13,10 +13,10 @@ defmodule MMS.WellKnownParametersTest do
       ],
 
       encode_errors: [
-#        { [{MMS.NotAHeader, "x"}], {MMS.NotAHeader,  :invalid_well_known_parameter}},
+        {[x: ""], {:x, :invalid_well_known_parameter}},
       ]
 
   test "decode should terminate when an unmapped byte is found" do
-#    assert Headers.decode(<<0x80>>) == {:ok, {[], <<0x80>>}}
+    assert WellKnownParameters.decode(<<128, 1, "rest">>) == {:ok, {[q: "0.00"], "rest"}}
   end
 end
