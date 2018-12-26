@@ -1,36 +1,42 @@
 defmodule MMS.OneOf do
-  import MMS.OkError
+  defmacro __using__ opts \\ [] do
+    quote bind_quoted: [opts: opts] do
+      import MMS.OkError
 
-  def decode _, [] do
-    error :invalid_version
-  end
+      @codecs opts[:codecs] || []
+      @reason "invalid_#{__MODULE__ |> to_string |> String.split(".") |> List.last |> Macro.underscore}" |> String.to_atom
 
-  def decode bytes, [codec | codecs] do
-    case_error codec.decode bytes do
-      _ -> decode bytes, codecs
-    end
-  end
+      def decode bytes do
+        decode bytes, @codecs
+      end
 
-  def encode _, [] do
-    error :invalid_version
-  end
+      defp decode _, [] do
+        error @reason
+      end
 
-  def encode value, [codec | codecs] do
-    case_error codec.encode value do
-      _ -> encode value, codecs
+      defp decode bytes, [codec | codecs] do
+        case_error codec.decode bytes do
+          _ -> decode bytes, codecs
+        end
+      end
+
+      def encode value do
+        encode value, @codecs
+      end
+
+      defp encode _, [] do
+        error @reason
+      end
+
+      defp encode value, [codec | codecs] do
+        case_error codec.encode value do
+          _ -> encode value, codecs
+        end
+      end
     end
   end
 end
 
 defmodule MMS.Version do
-  import MMS.OkError
-  import MMS.DataTypes
-
-  def decode bytes do
-    MMS.OneOf.decode bytes, [MMS.IntegerVersion, MMS.String]
-  end
-
-  def encode value do
-    MMS.OneOf.encode value, [MMS.IntegerVersion, MMS.String]
-  end
+  use MMS.OneOf, codecs: [MMS.IntegerVersion, MMS.String]
 end
