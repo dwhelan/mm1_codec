@@ -5,8 +5,9 @@ defmodule MMS.WellKnownParametersTest do
   use MMS.TestExamples,
       codec: WellKnownParameters,
       examples: [
-        {<<128, 1>>,   q:       "0.00"},
-        {<<129, 128>>, charset: :any  },
+        {<<128, 1>>,          q:       "0.00"},
+        {<<129, 128>>,        charset: :any  },
+        {<<130, 0b10000000>>, level:   {0,  0} },
 
         # Multiple headers
         {<<128, 1, 128, 2>>, q: "0.00", q: "0.01"},
