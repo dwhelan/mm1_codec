@@ -62,14 +62,17 @@ defmodule MMS.WellKnownParameters do
   #
   # The byte keys below are expressed as integers so they start at 128 (short-integer 0)
 
+  alias MMS.String
+
   use MMS.CodecMapper2,
       values: [
-        q:         MMS.Q,
-        charset:   MMS.Charset,
-        level:     MMS.Version,
-        type:      MMS.Integer,
-        name:      MMS.String,
-        file_name: MMS.String,
+        q:           MMS.Q,
+        charset:     MMS.Charset,
+        level:       MMS.Version,
+        type:        MMS.Integer,
+        name:        String,
+        file_name:   String,
+        differences: String, # Note: defined in spec as Field-name, we shall simplify to String
       ],
       error: :invalid_well_known_parameter
 end
