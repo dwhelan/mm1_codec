@@ -73,6 +73,7 @@ defmodule MMS.WellKnownParameters do
         name:        String,
         file_name:   String,
         differences: String, # Note: defined in spec as Field-name, we shall simplify to String
+        padding:     MMS.Short,
       ],
       error: :invalid_well_known_parameter
 end
