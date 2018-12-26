@@ -1,22 +1,15 @@
-defmodule MMS.WellKnownParametersTestHelper do
-  def parameter name, value do
-    [{name, value}]
-  end
-end
-
 defmodule MMS.WellKnownParametersTest do
   use ExUnit.Case
-  import MMS.WellKnownParametersTestHelper
   alias MMS.WellKnownParameters
 
   use MMS.TestExamples,
       codec: WellKnownParameters,
       examples: [
-        {<<128, 1>>,   parameter(:q,       "0.00")},
-        {<<129, 128>>, parameter(:charset, :any  )},
+        {<<128, 1>>,   q:       "0.00"},
+        {<<129, 128>>, charset: :any  },
 
         # Multiple headers
-        {<<128, 1, 128, 1>>, [{:q, "0.00"}, {:q, "0.00"}]},
+        {<<128, 1, 128, 2>>, q: "0.00", q: "0.01"},
       ],
 
       encode_errors: [
