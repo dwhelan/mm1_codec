@@ -9,6 +9,6 @@ defmodule MMS.ContentTypeTest do
       ],
 
       decode_errors: [
-        {<<"x">>, :missing_terminator}, # constrained media error
+        {<<"x">>, :invalid_media},
       ]
 end
