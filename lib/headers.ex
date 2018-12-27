@@ -19,7 +19,7 @@ defmodule MMS.Headers do
         message_id:            Text,
         message_type:          MessageType,
         version:               IntegerVersion,
-#       xMessageSize: MessageSize,
+        message_size:          Long,
 #       xPriority: Priority,
 #       xReportAllowed: ReportAllowed,
 #       xResponseStatus: ResponseStatus,
