@@ -95,6 +95,7 @@ defmodule MMS.WellKnownParameters do
         start_info:            TextValue,
         comment:               TextValue,
         domain:                TextValue,
+        path:                  TextValue,
       ],
       error: :invalid_well_known_parameter
 end
