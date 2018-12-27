@@ -21,7 +21,7 @@ defmodule MMS.Headers do
         version:               IntegerVersion,
         message_size:          Long,
         priority:              Priority,
-#       xReportAllowed: ReportAllowed,
+        report_allowed:        Boolean,
 #       xResponseStatus: ResponseStatus,
 #       xResponseText: ResponseText,
 #       xSenderVisibility: SenderVisibility,
