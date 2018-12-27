@@ -7,7 +7,7 @@ defmodule MMS.Text do
   end
 
   def decode _ do
-    error :invalid_string
+    error :invalid_text
   end
 
   defp decode_parts [string | [rest]] do
@@ -27,6 +27,6 @@ defmodule MMS.Text do
   end
 
   def encode _ do
-    error :invalid_string
+    error :invalid_text
   end
 end

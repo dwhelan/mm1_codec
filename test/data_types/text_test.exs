@@ -9,12 +9,12 @@ defmodule MMS.TextTest do
       ],
 
       decode_errors: [
-        {<<1>>,        :invalid_string    },
+        {<<1>>,        :invalid_text      },
         {<<"string">>, :missing_terminator},
       ],
 
       encode_errors: [
-        {<<1, 0>>, :invalid_string},
-        {:not_a_string, :invalid_string},
+        {<<1, 0>>,      :invalid_text},
+        {:not_a_string, :invalid_text},
       ]
 end
