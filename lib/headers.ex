@@ -32,7 +32,7 @@ defmodule MMS.Headers do
         to:                    EncodedString,
         transaction_id:        Text,
         retrieve_status:       RetrieveStatus,
-#        RetrieveText: RetrieveText,
+        retrieve_text:         EncodedString,
 #        ReadStatus: ReadStatus,
 #        ReplyCharging: ReplyCharging,
 #        ReplyChargingDeadline: ReplyChargingDeadline,
