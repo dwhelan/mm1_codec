@@ -2,6 +2,8 @@ defmodule MMS.WellKnownParametersTest do
   use ExUnit.Case
   alias MMS.WellKnownParameters
 
+  time_zero = DateTime.from_unix!(0)
+
   use MMS.TestExamples,
       codec: WellKnownParameters,
       examples: [
@@ -23,6 +25,7 @@ defmodule MMS.WellKnownParametersTest do
         {<<144, 0>>,          secure:                :no_value},
         {<<145, 128>>,        sec:                   0        },
         {<<146, "x", 0>>,     mac:                   "x"      },
+        {<<147, 1, 0>>,       creation_date:         time_zero},
 
         # Multiple parameters
         {<<128, 1, 128, 2>>, q: "0.00", q: "0.01"},

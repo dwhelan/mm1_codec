@@ -85,6 +85,7 @@ defmodule MMS.WellKnownParameters do
         secure:                NoValue,
         sec:                   Short,
         mac:                   TextValue,
+        creation_date:         MMS.DateTime,
       ],
       error: :invalid_well_known_parameter
 end
