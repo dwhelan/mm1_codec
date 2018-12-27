@@ -66,17 +66,18 @@ defmodule MMS.WellKnownParameters do
 
   use MMS.CodecMapper2,
       values: [
-        q:               MMS.Q,
-        charset:         MMS.Charset,
-        level:           MMS.Version,
-        type:            MMS.Integer,
-        unassigned:      :error,
-        name:            TextString,
-        file_name:       TextString,
-        differences:     TextString, # Note: defined in spec as Field-name, we shall simplify to TextString
-        padding:         MMS.Short,
-        type_multipart:  MMS.Media,
-        start_multipart: TextString,
+        q:                     MMS.Q,
+        charset:               MMS.Charset,
+        level:                 MMS.Version,
+        type:                  MMS.Integer,
+        unassigned:            :error,
+        name:                  TextString,
+        file_name:             TextString,
+        differences:           TextString, # Note: defined in spec as Field-name, we shall simplify to TextString
+        padding:               MMS.Short,
+        type_multipart:        MMS.Media,
+        start_deprecated:      TextString,
+        start_info_deprecated: TextString,
       ],
       error: :invalid_well_known_parameter
 end
