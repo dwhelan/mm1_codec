@@ -87,6 +87,7 @@ defmodule MMS.WellKnownParameters do
         mac:                   TextValue,
         creation_date:         DateTime,
         modification_date:     DateTime,
+        read_date:             DateTime,
       ],
       error: :invalid_well_known_parameter
 end
