@@ -1,7 +1,7 @@
 defmodule MMS.Headers do
   # Based on OMA-WAP-MMS-ENC-V1_1-20040715-A: Table 12. Field Name Assignments
   alias MMS.{Address, Bcc, Boolean, Cc, ContentType, EncodedString, From, IntegerVersion, Long, MessageClass, MessageType}
-  alias MMS.{Priority, ResponseStatus, Seconds, Text}
+  alias MMS.{Priority, ResponseStatus, SenderVisibility, Seconds, Text}
 
   use MMS.CodecMapper2,
       values: [
@@ -24,7 +24,7 @@ defmodule MMS.Headers do
         report_allowed:        Boolean,
         response_status:       ResponseStatus,
         response_text:         EncodedString,
-#        SenderVisibility: SenderVisibility,
+        sender_visibility:     SenderVisibility,
 #        ReadReport: ReadReport,
 #        Status: Status,
 #        Subject: Subject,
