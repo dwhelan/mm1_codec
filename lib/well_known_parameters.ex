@@ -62,7 +62,7 @@ defmodule MMS.WellKnownParameters do
   #
   # The byte keys below are expressed as integers so they start at 128 (short-integer 0)
 
-  alias MMS.{Charset, Integer, Q, Media, NoValue, Short, TextString, Version}
+  alias MMS.{Charset, Integer, Q, Media, NoValue, Short, TextString, TextValue, Version}
 
   use MMS.CodecMapper2,
       values: [
@@ -84,6 +84,7 @@ defmodule MMS.WellKnownParameters do
         path_deprecated:       TextString,
         secure:                NoValue,
         sec:                   Short,
+        mac:                   TextValue,
       ],
       error: :invalid_well_known_parameter
 end
