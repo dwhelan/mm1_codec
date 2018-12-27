@@ -88,6 +88,7 @@ defmodule MMS.WellKnownParameters do
         creation_date:         DateTime,
         modification_date:     DateTime,
         read_date:             DateTime,
+        size:                  Integer,
       ],
       error: :invalid_well_known_parameter
 end
