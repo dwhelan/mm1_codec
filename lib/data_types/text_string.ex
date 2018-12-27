@@ -5,13 +5,13 @@ defmodule MMS.TextString do
   @quote 127
 
   def decode(<<@quote, byte, _::binary>> = bytes) when byte >= 128 do
-    case_ok MMS.String.decode bytes do
+    case_ok MMS.Text.decode bytes do
       {string, rest} -> ok String.slice(string, 1..-1), rest
     end
   end
 
   def decode(<<byte, _::binary>> = bytes) when is_char(byte) do
-    MMS.String.decode bytes
+    MMS.Text.decode bytes
   end
 
   def decode _ do

@@ -1,3 +1,3 @@
 defmodule MMS.MessageId do
-  use MMS.Delegate, codec: MMS.String
+  use MMS.Delegate, codec: MMS.Text
 end

@@ -1,4 +1,4 @@
-defmodule MMS.String do
+defmodule MMS.Text do
   import MMS.OkError
   import MMS.DataTypes
 
