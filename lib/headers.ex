@@ -12,6 +12,7 @@ defmodule MMS.Headers do
         date:                  Long,
         delivery_report:       Boolean,
         delivery_time:         Seconds,
+        expiry:                Seconds,
 #       xExpiry: Expiry,
 #       xFrom: From,
 #       xMessageClass: MessageClass,

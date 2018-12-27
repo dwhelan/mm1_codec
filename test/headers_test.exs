@@ -21,7 +21,7 @@ defmodule MMS.HeadersTest do
         {<<0x85,   1,   0        >>, date:                   0           },
         {<<0x86, 128             >>, delivery_report:        true        },
         {<<0x87,   3, 128,   1, 0>>, delivery_time:          time_zero   },
-#        {<<0x88,   3, 128,   1, 0>>, Expiry:                time_zero   },
+        {<<0x88,   3, 128,   1, 0>>, expiry:                 time_zero   },
 #        {<<0x89,   3, 128, "@", 0>>, From:                  "@"         },
 #        {<<0x8a, 128             >>, MessageClass:          :personal   },
 #        {<<0x8b, "@",   0        >>, MessageId:             "@"         },
