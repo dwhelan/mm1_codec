@@ -1,8 +1,6 @@
 defmodule MMS.NoValue do
   import MMS.OkError
 
-  alias MMS.Uint32
-
   def decode <<0, rest::binary>> do
     ok :no_value, rest
   end
@@ -11,7 +9,7 @@ defmodule MMS.NoValue do
     error :invalid_no_value
   end
 
-  def encode(:no_value) do
+  def encode :no_value do
     ok <<0>>
   end
 

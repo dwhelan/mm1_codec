@@ -6,8 +6,8 @@ defmodule MMS.QuotedStringTest do
   use MMS.TestExamples,
       codec: MMS.QuotedString,
       examples: [
-        {<<@quote_char, 0>>,                   ""            },
-        {<<@quote_char, "x", 0>>, "x"},
+        {<<@quote_char, 0>>,      {""}  },
+        {<<@quote_char, "x", 0>>, {"x"} },
       ],
 
       decode_errors: [
@@ -16,6 +16,6 @@ defmodule MMS.QuotedStringTest do
       ],
 
       encode_errors: [
-        {:not_a_string, :invalid_quoted_string},
+        {:not_a_quoted_string, :invalid_quoted_string},
       ]
 end
