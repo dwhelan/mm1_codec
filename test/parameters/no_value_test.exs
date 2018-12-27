@@ -4,8 +4,15 @@ defmodule MMS.NoValueTest do
   use MMS.TestExamples,
       codec: MMS.NoValue,
       examples: [
-        # single byte: 2 decimal places
-        {<<0>>,   :no_value},
+        {<<0>>, :no_value},
+      ],
+
+      decode_errors: [
+        {<<1>>, :invalid_no_value}
+      ],
+
+      encode_errors: [
+        {:not_no_value, :invalid_no_value}
       ]
 end
 

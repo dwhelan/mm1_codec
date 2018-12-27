@@ -22,6 +22,7 @@ defmodule MMS.WellKnownParametersTest do
         {<<143, "x", 0>>,     path_deprecated:       "x"      },
         {<<144, 0>>,          secure:                :no_value},
         {<<145, 128>>,        sec:                   0        },
+#        {<<146, 128>>,        mac:                   0        },
 
         # Multiple parameters
         {<<128, 1, 128, 2>>, q: "0.00", q: "0.01"},
