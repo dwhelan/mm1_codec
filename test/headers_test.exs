@@ -18,7 +18,7 @@ defmodule MMS.HeadersTest do
         {<<0x82, "@",   0        >>, cc:                    "@"         },
         {<<0x83, "x",   0        >>, content_location:      "x"         },
         {<<0x84, 128             >>, content_type:          "*/*"       },
-#        {<<0x85,   1,   0        >>, Date:                  0           },
+        {<<0x85,   1,   0        >>, date:                  0           },
 #        {<<0x86, 128             >>, DeliveryReport:        true        },
 #        {<<0x87,   3, 128,   1, 0>>, DeliveryTime:          time_zero   },
 #        {<<0x88,   3, 128,   1, 0>>, Expiry:                time_zero   },
