@@ -16,7 +16,7 @@ defmodule MMS.HeadersTest do
       examples: [
         {<<0x81, "@",   0        >>, bcc:                   "@"         },
         {<<0x82, "@",   0        >>, cc:                    "@"         },
-#        {<<0x83, "x",   0        >>, ContentLocation:       "x"         },
+        {<<0x83, "x",   0        >>, content_location:      "x"         },
 #        {<<0x84, 128             >>, ContentType:           "*/*"       },
 #        {<<0x85,   1,   0        >>, Date:                  0           },
 #        {<<0x86, 128             >>, DeliveryReport:        true        },
