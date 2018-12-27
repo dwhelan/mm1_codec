@@ -1,6 +1,6 @@
 defmodule MMS.Headers do
   # Based on OMA-WAP-MMS-ENC-V1_1-20040715-A: Table 12. Field Name Assignments
-  alias MMS.{Address, Bcc, Boolean, Cc, ContentType, From, IntegerVersion, Long, MessageClass, MessageType}
+  alias MMS.{Address, Bcc, Boolean, Cc, ContentType, EncodedString, From, IntegerVersion, Long, MessageClass, MessageType}
   alias MMS.{Priority, ResponseStatus, Seconds, Text}
 
   use MMS.CodecMapper2,
@@ -23,22 +23,22 @@ defmodule MMS.Headers do
         priority:              Priority,
         report_allowed:        Boolean,
         response_status:       ResponseStatus,
-#       xResponseText: ResponseText,
-#       xSenderVisibility: SenderVisibility,
-#       xReadReport: ReadReport,
-#       xStatus: Status,
-#       xSubject: Subject,
-#       xTo: To,
-#       xTransactionId: TransactionId,
-#       xRetrieveStatus: RetrieveStatus,
-#       xRetrieveText: RetrieveText,
-#       xReadStatus: ReadStatus,
-#       xReplyCharging: ReplyCharging,
-#       xReplyChargingDeadline: ReplyChargingDeadline,
-#       xReplyChargingId: ReplyChargingId,
-#       xReplyChargingSize: ReplyChargingSize,
-#       xPreviouslySentBy: PreviouslySentBy,
-#       xPreviouslySentDate: PreviouslySentDate,
+        response_text:         EncodedString,
+#        SenderVisibility: SenderVisibility,
+#        ReadReport: ReadReport,
+#        Status: Status,
+#        Subject: Subject,
+#        To: To,
+#        TransactionId: TransactionId,
+#        RetrieveStatus: RetrieveStatus,
+#        RetrieveText: RetrieveText,
+#        ReadStatus: ReadStatus,
+#        ReplyCharging: ReplyCharging,
+#        ReplyChargingDeadline: ReplyChargingDeadline,
+#        ReplyChargingId: ReplyChargingId,
+#        ReplyChargingSize: ReplyChargingSize,
+#        PreviouslySentBy: PreviouslySentBy,
+#        PreviouslySentDate: PreviouslySentDate,
       ],
       error: :invalid_header
 end
