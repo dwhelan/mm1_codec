@@ -71,7 +71,7 @@ defmodule MMS.WellKnownParameters do
         level:                 Version,
         type:                  Integer,
         unassigned:            :error,
-        name:                  TextString,
+        name_deprecated:       TextString,
         file_name:             TextString,
         differences:           TextString, # Note: defined in spec as Field-name, we shall simplify to TextString
         padding:               Short,
@@ -89,6 +89,7 @@ defmodule MMS.WellKnownParameters do
         modification_date:     DateTime,
         read_date:             DateTime,
         size:                  Integer,
+        name:                  TextValue,
       ],
       error: :invalid_well_known_parameter
 end

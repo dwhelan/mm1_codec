@@ -11,7 +11,7 @@ defmodule MMS.WellKnownParametersTest do
         {<<129, 128>>,        charset:               :any     },
         {<<130, 0b10000000>>, level:                 {0,  0}  },
         {<<131, 128>>,        type:                  0        },
-        {<<133, "x", 0>>,     name:                  "x"      },
+        {<<133, "x", 0>>,     name_deprecated:       "x"      },
         {<<134, "x", 0>>,     file_name:             "x"      },
         {<<135, "x", 0>>,     differences:           "x"      },
         {<<136, 128>>,        padding:               0        },
@@ -29,6 +29,7 @@ defmodule MMS.WellKnownParametersTest do
         {<<148, 1, 0>>,       modification_date:     time_zero},
         {<<149, 1, 0>>,       read_date:             time_zero},
         {<<150, 128>>,        size:                  0        },
+        {<<151, "x", 0>>,     name:                  "x"      },
 
         # Multiple parameters
         {<<128, 1, 128, 2>>, q: "0.00", q: "0.01"},
