@@ -14,6 +14,7 @@ defmodule MMS.TextTest do
       ],
 
       encode_errors: [
+        {<<1, 0>>, :invalid_string},
         {:not_a_string, :invalid_string},
       ]
 end

@@ -10,7 +10,7 @@ defmodule MMS.TextString do
     end
   end
 
-  def decode(<<byte, _::binary>> = bytes) when is_char(byte) do
+  def decode(<<byte, _::binary>> = bytes) when is_char(byte) and byte != @quote do
     MMS.Text.decode bytes
   end
 

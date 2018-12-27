@@ -18,7 +18,11 @@ defmodule MMS.Text do
     error :missing_terminator
   end
 
-  def encode(string) when is_binary(string) do
+  def encode "" do
+    ok <<0>>
+  end
+
+  def encode(<<byte, _::binary>> = string) when is_char(byte) do
     ok string <> <<0>>
   end
 

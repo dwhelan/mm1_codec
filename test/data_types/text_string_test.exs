@@ -13,6 +13,7 @@ defmodule MMS.TextStringTest do
 
       decode_errors: [
         {<<1>>,        :invalid_text_string    },
+        {<<@quote, 127, "x", 0>>, :invalid_text_string},
         {<<"string">>, :missing_terminator},
       ],
 
