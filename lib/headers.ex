@@ -29,7 +29,7 @@ defmodule MMS.Headers do
         status:                Status,
         subject:               EncodedString,
         to:                    EncodedString,
-#        TransactionId: TransactionId,
+        transaction_id:        Text,
 #        RetrieveStatus: RetrieveStatus,
 #        RetrieveText: RetrieveText,
 #        ReadStatus: ReadStatus,
