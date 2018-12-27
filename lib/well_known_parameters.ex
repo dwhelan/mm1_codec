@@ -72,7 +72,7 @@ defmodule MMS.WellKnownParameters do
         type:                  Integer,
         unassigned:            :error,
         name_deprecated:       TextString,
-        file_name:             TextString,
+        file_name_deprecated:  TextString,
         differences:           TextString, # Note: defined in spec as Field-name, we shall simplify to TextString
         padding:               Short,
         type_multipart:        Media,  # Equivalent to Constrained-encoding
@@ -90,6 +90,7 @@ defmodule MMS.WellKnownParameters do
         read_date:             DateTime,
         size:                  Integer,
         name:                  TextValue,
+        file_name:             TextValue,
       ],
       error: :invalid_well_known_parameter
 end
