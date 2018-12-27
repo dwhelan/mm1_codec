@@ -91,6 +91,7 @@ defmodule MMS.WellKnownParameters do
         size:                  Integer,
         name:                  TextValue,
         file_name:             TextValue,
+        start:                 TextValue,
       ],
       error: :invalid_well_known_parameter
 end
