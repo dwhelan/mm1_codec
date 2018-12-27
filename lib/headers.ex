@@ -37,7 +37,7 @@ defmodule MMS.Headers do
         reply_charging:          ReplyCharging,
         reply_charging_deadline: Seconds,
         reply_charging_id:       Text,
-#        ReplyChargingSize: ReplyChargingSize,
+        reply_charging_size:     Long,
 #        PreviouslySentBy: PreviouslySentBy,
 #        PreviouslySentDate: PreviouslySentDate,
       ],
