@@ -1,12 +1,5 @@
-defmodule MMS.HeadersTestHelper do
-  def header name, value do
-    [{name, value}]
-  end
-end
-
 defmodule MMS.HeadersTest do
   use ExUnit.Case
-  import MMS.HeadersTestHelper
   alias MMS.Headers
 
   time_zero = DateTime.from_unix!(0)
@@ -36,7 +29,7 @@ defmodule MMS.HeadersTest do
         {<<0x94, 128             >>, read_report:           true        },
         {<<0x95, 128             >>, status:               :expired    },
         {<<0x96, "x",   0        >>, subject:              "x"         },
-#        {<<0x97, "x",   0        >>, To:                   "x"         },
+        {<<0x97, "x",   0        >>, to:                   "x"         },
 #        {<<0x98, "x",   0        >>, TransactionId:        "x"         },
 #        {<<0x99, 128             >>, RetrieveStatus:       :ok         },
 #        {<<0x9a, "x",   0        >>, RetrieveText:         "x"         },

@@ -28,7 +28,7 @@ defmodule MMS.Headers do
         read_report:           Boolean,
         status:                Status,
         subject:               EncodedString,
-#        To: To,
+        to:                    EncodedString,
 #        TransactionId: TransactionId,
 #        RetrieveStatus: RetrieveStatus,
 #        RetrieveText: RetrieveText,
