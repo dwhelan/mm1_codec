@@ -23,7 +23,7 @@ defmodule MMS.HeadersTest do
         {<<0x87,   3, 128,   1, 0>>, delivery_time:         time_zero   },
         {<<0x88,   3, 128,   1, 0>>, expiry:                time_zero   },
         {<<0x89,   3, 128, "@", 0>>, from:                  "@"         },
-#        {<<0x8a, 128             >>, MessageClass:          :personal   },
+        {<<0x8a, 128             >>, message_class:         :personal   },
 #        {<<0x8b, "@",   0        >>, MessageId:             "@"         },
 #        {<<0x8c, 128             >>, MessageType:           :m_send_conf},
 #        {<<0x8e,   1,   0        >>, MessageSize:           0           },
