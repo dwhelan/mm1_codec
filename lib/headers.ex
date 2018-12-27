@@ -36,7 +36,7 @@ defmodule MMS.Headers do
         read_status:             ReadStatus,
         reply_charging:          ReplyCharging,
         reply_charging_deadline: Seconds,
-#        ReplyChargingId: ReplyChargingId,
+        reply_charging_id:       Text,
 #        ReplyChargingSize: ReplyChargingSize,
 #        PreviouslySentBy: PreviouslySentBy,
 #        PreviouslySentDate: PreviouslySentDate,
