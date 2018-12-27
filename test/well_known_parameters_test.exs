@@ -26,6 +26,7 @@ defmodule MMS.WellKnownParametersTest do
         {<<145, 128>>,        sec:                   0        },
         {<<146, "x", 0>>,     mac:                   "x"      },
         {<<147, 1, 0>>,       creation_date:         time_zero},
+        {<<148, 1, 0>>,       modification_date:     time_zero},
 
         # Multiple parameters
         {<<128, 1, 128, 2>>, q: "0.00", q: "0.01"},

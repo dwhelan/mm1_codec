@@ -62,7 +62,7 @@ defmodule MMS.WellKnownParameters do
   #
   # The byte keys below are expressed as integers so they start at 128 (short-integer 0)
 
-  alias MMS.{Charset, Integer, Q, Media, NoValue, Short, TextString, TextValue, Version}
+  alias MMS.{Charset, DateTime, Integer, Q, Media, NoValue, Short, TextString, TextValue, Version}
 
   use MMS.CodecMapper2,
       values: [
@@ -85,7 +85,8 @@ defmodule MMS.WellKnownParameters do
         secure:                NoValue,
         sec:                   Short,
         mac:                   TextValue,
-        creation_date:         MMS.DateTime,
+        creation_date:         DateTime,
+        modification_date:     DateTime,
       ],
       error: :invalid_well_known_parameter
 end
