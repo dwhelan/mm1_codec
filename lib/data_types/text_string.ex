@@ -3,6 +3,7 @@ defmodule MMS.TextString do
   import MMS.DataTypes
 
   alias MMS.Text
+
   @quote 127
 
   def decode(<<@quote, byte, _::binary>> = bytes) when byte >= 128 do
