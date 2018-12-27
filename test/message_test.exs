@@ -4,6 +4,6 @@ defmodule MMS.MessageTest do
   use MMS.TestExamples,
       codec: MMS.Message,
       examples: [
-        {<<0x81, "@", 0, 0x81, "@", 0>>, {MMS.Headers, [{MMS.Bcc, "@"}, {MMS.Bcc, "@"}]}},
+        {<<129, "@", 0, 129, "@", 0>>, {MMS.Headers, [bcc: "@", bcc: "@"]}},
       ]
 end
