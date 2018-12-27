@@ -25,7 +25,7 @@ defmodule MMS.Headers do
         response_status:       ResponseStatus,
         response_text:         EncodedString,
         sender_visibility:     SenderVisibility,
-#        ReadReport: ReadReport,
+        read_report:           Boolean,
 #        Status: Status,
 #        Subject: Subject,
 #        To: To,

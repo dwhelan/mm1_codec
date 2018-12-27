@@ -33,7 +33,7 @@ defmodule MMS.HeadersTest do
         {<<0x91, 128             >>, response_status:       :ok         },
         {<<0x92, "x",   0        >>, response_text:          "x"         },
         {<<0x93, 128             >>, sender_visibility:      :hide       },
-#        {<<0x94, 128             >>, ReadReport:           true        },
+        {<<0x94, 128             >>, read_report:           true        },
 #        {<<0x95, 128             >>, Status:               :expired    },
 #        {<<0x96, "x",   0        >>, Subject:              "x"         },
 #        {<<0x97, "x",   0        >>, To:                   "x"         },
