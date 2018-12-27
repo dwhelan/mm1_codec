@@ -19,6 +19,7 @@ defmodule MMS.WellKnownParametersTest do
         {<<140, "x", 0>>,     comment_deprecated:    "x"    },
         {<<141, "x", 0>>,     domain_deprecated:     "x"    },
         {<<142, 128>>,        max_age:               0      },
+        {<<143, "x", 0>>,     path_deprecated:      "x"    },
 
         # Multiple parameters
         {<<128, 1, 128, 2>>, q: "0.00", q: "0.01"},

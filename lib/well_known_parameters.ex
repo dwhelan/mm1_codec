@@ -81,6 +81,7 @@ defmodule MMS.WellKnownParameters do
         comment_deprecated:    TextString,
         domain_deprecated:     TextString,
         max_age:               Integer,    # Equivalent to Delta-seconds-value
+        path_deprecated:       TextString,
       ],
       error: :invalid_well_known_parameter
 end
