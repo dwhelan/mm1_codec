@@ -34,7 +34,7 @@ defmodule MMS.HeadersTest do
         {<<0x99, 128             >>, retrieve_status:       :ok         },
         {<<0x9a, "x",   0        >>, retrieve_text:         "x"         },
         {<<0x9b, 128             >>, read_status:           :read       },
-#        {<<0x9c, 128             >>, ReplyCharging:        :requested  },
+        {<<0x9c, 128             >>, reply_charging:        :requested  },
 #        {<<0x9d,   3, 128,   1, 0>>, ReplyChargingDeadline: time_zero   )},
 #        {<<0x9e, "x",   0        >>, ReplyChargingId:      "x"         },
 #        {<<0x9f,   1,   0        >>, ReplyChargingSize:    0           },

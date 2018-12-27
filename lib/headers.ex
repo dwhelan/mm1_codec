@@ -2,7 +2,7 @@ defmodule MMS.Headers do
   # Based on OMA-WAP-MMS-ENC-V1_1-20040715-A: Table 12. Field Name Assignments
   alias MMS.{Address, Boolean, EncodedString, IntegerVersion, Long, Seconds, Text}
 
-  alias MMS.{ContentType, From, MessageClass, MessageType, Priority, ReadStatus, ResponseStatus, RetrieveStatus, SenderVisibility, Status}
+  alias MMS.{ContentType, From, MessageClass, MessageType, Priority, ReadStatus, ReplyCharging, ResponseStatus, RetrieveStatus, SenderVisibility, Status}
 
   use MMS.CodecMapper2,
       values: [
@@ -34,7 +34,7 @@ defmodule MMS.Headers do
         retrieve_status:       RetrieveStatus,
         retrieve_text:         EncodedString,
         read_status:           ReadStatus,
-#        ReplyCharging: ReplyCharging,
+        reply_charging:        ReplyCharging,
 #        ReplyChargingDeadline: ReplyChargingDeadline,
 #        ReplyChargingId: ReplyChargingId,
 #        ReplyChargingSize: ReplyChargingSize,
