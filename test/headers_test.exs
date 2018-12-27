@@ -24,7 +24,7 @@ defmodule MMS.HeadersTest do
         {<<0x88,   3, 128,   1, 0>>, expiry:                time_zero   },
         {<<0x89,   3, 128, "@", 0>>, from:                  "@"         },
         {<<0x8a, 128             >>, message_class:         :personal   },
-#        {<<0x8b, "@",   0        >>, MessageId:             "@"         },
+        {<<0x8b, "@",   0        >>, message_id:             "@"         },
 #        {<<0x8c, 128             >>, MessageType:           :m_send_conf},
 #        {<<0x8e,   1,   0        >>, MessageSize:           0           },
 #        {<<0x8f, 128             >>, Priority:              :low        },

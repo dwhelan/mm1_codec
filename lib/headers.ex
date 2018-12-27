@@ -15,7 +15,7 @@ defmodule MMS.Headers do
         expiry:                Seconds,
         from:                  From,
         message_class:         MessageClass,
-#       xMessageId: MessageId,
+        message_id:            Text,
 #       xMessageType: MessageType,
 #       xMMSVersion: MMSVersion,
 #       xMessageSize: MessageSize,
