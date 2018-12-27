@@ -33,6 +33,7 @@ defmodule MMS.WellKnownParametersTest do
         {<<152, "x", 0>>,     file_name:             "x"      },
         {<<153, "x", 0>>,     start:                 "x"      },
         {<<154, "x", 0>>,     start_info:            "x"      },
+        {<<155, "x", 0>>,     comment:               "x"      },
 
         # Multiple parameters
         {<<128, 1, 128, 2>>, q: "0.00", q: "0.01"},

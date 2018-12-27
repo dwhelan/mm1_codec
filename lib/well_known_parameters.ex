@@ -93,6 +93,7 @@ defmodule MMS.WellKnownParameters do
         file_name:             TextValue,
         start:                 TextValue,
         start_info:            TextValue,
+        comment:               TextValue,
       ],
       error: :invalid_well_known_parameter
 end
