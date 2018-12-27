@@ -62,27 +62,28 @@ defmodule MMS.WellKnownParameters do
   #
   # The byte keys below are expressed as integers so they start at 128 (short-integer 0)
 
-  alias MMS.{Integer, TextString}
+  alias MMS.{Charset, Integer, Q, Media, NoValue, Short, TextString, Version}
 
   use MMS.CodecMapper2,
       values: [
-        q:                     MMS.Q,
-        charset:               MMS.Charset,
-        level:                 MMS.Version,
+        q:                     Q,
+        charset:               Charset,
+        level:                 Version,
         type:                  Integer,
         unassigned:            :error,
         name:                  TextString,
         file_name:             TextString,
         differences:           TextString, # Note: defined in spec as Field-name, we shall simplify to TextString
-        padding:               MMS.Short,
-        type_multipart:        MMS.Media,  # Equivalent to Constrained-encoding
+        padding:               Short,
+        type_multipart:        Media,  # Equivalent to Constrained-encoding
         start_deprecated:      TextString,
         start_info_deprecated: TextString,
         comment_deprecated:    TextString,
         domain_deprecated:     TextString,
         max_age:               Integer,    # Equivalent to Delta-seconds-value
         path_deprecated:       TextString,
-        secure:                MMS.NoValue,
+        secure:                NoValue,
+        sec:                   Short,
       ],
       error: :invalid_well_known_parameter
 end
