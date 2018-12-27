@@ -79,6 +79,7 @@ defmodule MMS.WellKnownParameters do
         start_deprecated:      TextString,
         start_info_deprecated: TextString,
         comment_deprecated:    TextString,
+        domain:                TextString,
       ],
       error: :invalid_well_known_parameter
 end
