@@ -30,7 +30,7 @@ defmodule MMS.HeadersTest do
         {<<0x8e,   1,   0        >>, message_size:          0           },
         {<<0x8f, 128             >>, priority:              :low        },
         {<<0x90, 128             >>, report_allowed:        true        },
-#        {<<0x91, 128             >>, ResponseStatus:        :ok         },
+        {<<0x91, 128             >>, response_status:       :ok         },
 #        {<<0x92, "x",   0        >>, ResponseText:          "x"         },
 #        {<<0x93, 128             >>, SenderVisibility:      :hide       },
 #        {<<0x94, 128             >>, ReadReport:            true        },
