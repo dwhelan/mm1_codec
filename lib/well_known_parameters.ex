@@ -78,7 +78,7 @@ defmodule MMS.WellKnownParameters do
         type_multipart:        MMS.Media,
         start_deprecated:      TextString,
         start_info_deprecated: TextString,
-        comment:               TextString,
+        comment_deprecated:    TextString,
       ],
       error: :invalid_well_known_parameter
 end

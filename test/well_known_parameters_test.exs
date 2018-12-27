@@ -16,7 +16,7 @@ defmodule MMS.WellKnownParametersTest do
         {<<137, 128>>,        type_multipart:        "*/*"  },
         {<<138, "x", 0>>,     start_deprecated:      "x"    },
         {<<139, "x", 0>>,     start_info_deprecated: "x"    },
-        {<<140, "x", 0>>,     comment:               "x"    },
+        {<<140, "x", 0>>,     comment_deprecated:    "x"    },
 
         # Multiple parameters
         {<<128, 1, 128, 2>>, q: "0.00", q: "0.01"},
