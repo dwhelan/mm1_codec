@@ -1,7 +1,7 @@
 defmodule MMS.Headers do
   # Based on OMA-WAP-MMS-ENC-V1_1-20040715-A: Table 12. Field Name Assignments
   alias MMS.{Address, Bcc, Boolean, Cc, ContentType, From, IntegerVersion, Long, MessageClass, MessageType}
-  alias MMS.{Seconds, Text}
+  alias MMS.{Priority, Seconds, Text}
 
   use MMS.CodecMapper2,
       values: [
@@ -20,7 +20,7 @@ defmodule MMS.Headers do
         message_type:          MessageType,
         version:               IntegerVersion,
         message_size:          Long,
-#       xPriority: Priority,
+        priority:              Priority,
 #       xReportAllowed: ReportAllowed,
 #       xResponseStatus: ResponseStatus,
 #       xResponseText: ResponseText,
