@@ -1,6 +1,6 @@
 defmodule MMS.Headers do
   # Based on OMA-WAP-MMS-ENC-V1_1-20040715-A: Table 12. Field Name Assignments
-  alias MMS.{Address, Bcc, Boolean, Cc, ContentType, Long, Text}
+  alias MMS.{Address, Bcc, Boolean, Cc, ContentType, Long, Seconds, Text}
 
   use MMS.CodecMapper2,
       values: [
@@ -11,7 +11,7 @@ defmodule MMS.Headers do
         content_type:          ContentType,
         date:                  Long,
         delivery_report:       Boolean,
-#       xDeliveryTime: DeliveryTime,
+        delivery_time:         Seconds,
 #       xExpiry: Expiry,
 #       xFrom: From,
 #       xMessageClass: MessageClass,
