@@ -27,7 +27,7 @@ defmodule MMS.Headers do
         sender_visibility:     SenderVisibility,
         read_report:           Boolean,
         status:                Status,
-#        Subject: Subject,
+        subject:               EncodedString,
 #        To: To,
 #        TransactionId: TransactionId,
 #        RetrieveStatus: RetrieveStatus,
