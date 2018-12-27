@@ -39,7 +39,7 @@ defmodule MMS.HeadersTest do
         {<<0x9e, "x",   0        >>, reply_charging_id:       "x"         },
         {<<0x9f,   1,   0        >>, reply_charging_size:     0           },
         {<<0xa0,   3, 129, "@", 0>>, previously_sent_by:      [1, "@"]    },
-#        {<<0xa1,   3, 129,  1,  0>>, PreviouslySentDate:   [1, 0]      },
+        {<<0xa1,   3, 129,  1,  0>>, previously_sent_date:    [1, 0]      },
 
         # Multiple headers
 #        {<<0x81, "@", 0, 0x82, "@", 0>>, [{MMS.Bcc, "@"}, {MMS.Cc, "@"}]},
