@@ -3,3 +3,8 @@ ExUnit.start exclude: [:skip], include: [
 #     :focus], exclude: [:test
   ]
 
+defmodule MMS.Test do
+  def s(short),  do: short + 128
+  def l(length), do: length
+end
+
