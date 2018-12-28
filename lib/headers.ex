@@ -4,7 +4,7 @@ defmodule MMS.Headers do
 
   alias MMS.{ContentType, From, MessageClass, MessageType, PreviouslySentBy, PreviouslySentDate, Priority, ReadStatus, ReplyCharging, ResponseStatus, RetrieveStatus, SenderVisibility, Status}
 
-  use MMS.CodecMapper2,
+  use MMS.CodecMapper,
       values: [
         unassigned:              nil,
         bcc:                     Address,

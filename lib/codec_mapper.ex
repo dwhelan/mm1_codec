@@ -1,11 +1,17 @@
 defmodule MMS.CodecMapper do
+  def indexed(values) when is_list(values) do
+    values |> Enum.with_index(128) |> Enum.reduce(%{}, fn {v, i}, map -> Map.put(map, i, v) end)
+  end
+
   defmacro __using__ opts \\ [] do
     quote bind_quoted: [opts: opts] do
+      import MMS.CodecMapper
       import MMS.OkError
 
-      @decode_map  opts[:map]
-      @codec_bytes Map.keys   @decode_map
-      @codecs      Map.values @decode_map
+      @decode_map opts[:map] || indexed(opts[:values])
+      @codec_bytes @decode_map |> Map.keys   |> Enum.reject(& elem(@decode_map[&1], 0) == :unassigned)
+      @names       @decode_map |> Map.values |> Enum.map(& elem(&1, 0))
+
       @error       opts[:error]
 
       def decode bytes do
@@ -13,10 +19,10 @@ defmodule MMS.CodecMapper do
       end
 
       defp decode(<<byte, bytes:: binary>>, codecs) when byte in @codec_bytes do
-        codec = @decode_map[byte]
+        {module, codec} = @decode_map[byte]
 
         case codec.decode bytes do
-          {:ok,    {value, rest}} -> decode rest, [{codec, value} | codecs]
+          {:ok,    {value, rest}} -> decode rest, [{module, value} | codecs]
           {:error,        reason} -> error codec, reason
         end
       end
@@ -29,30 +35,25 @@ defmodule MMS.CodecMapper do
         encode values, []
       end
 
-      defp encode [{codec, value} | values], results do
-        case encode_one codec, value do
-          {:ok,     bytes} -> encode values, [{codec, bytes} | results]
-          {:error, reason} -> error codec, reason
+      @encode_map @decode_map |> Enum.reduce(%{}, fn {byte, {module, codec}}, map -> Map.put(map, module, {byte, codec}) end)
+
+      defp encode([{name, value} | values], results) when name in @names do
+        {byte, codec} = @encode_map[name]
+
+        case codec.encode value do
+          {:ok,     bytes} -> encode values, [<<byte>> <> bytes | results]
+          {:error, reason} -> error name, reason
         end
       end
 
       defp encode [], results do
-        ok results |> Enum.reverse |> Enum.map(&prepend_codec_byte/1) |> Enum.join
+        ok results |> Enum.reverse |> Enum.join
       end
 
-      defp encode_one(header, value) when header in @codecs do
-        header.encode value
-      end
-
-      defp encode_one _, _ do
-        error @error
-      end
-
-      @encode_map MMS.Mapper.reverse @decode_map
-
-      defp prepend_codec_byte {codec, bytes} do
-        <<@encode_map[codec]>> <> bytes
+      defp encode [{name, value} | _], _  do
+        error {name, @error}
       end
     end
   end
 end
+
