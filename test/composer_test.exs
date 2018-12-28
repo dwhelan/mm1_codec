@@ -7,19 +7,19 @@ defmodule MMS.ComposerTest do
 
   describe "decode" do
     test "single codec" do
-      assert decode(<<1, 2, "rest">>, [ShortLength]) == ok [2], <<"rest">>
+      assert decode(<<1, 2, "rest">>, [ShortLength]) == ok {2}, <<"rest">>
     end
 
     test "multiple codecs" do
-      assert decode(<<2, 3, 4, "rest">>, [ShortLength, ShortLength]) == ok [3, 4], <<"rest">>
+      assert decode(<<2, 3, 4, "rest">>, [ShortLength, ShortLength]) == ok {4, 3}, <<"rest">>
     end
 
     test "ok when bytes consumed before all codecs" do
-      assert decode(<<1, 2>>, [ShortLength, ShortLength]) == ok [2], <<>>
+      assert decode(<<1, 2>>, [ShortLength, ShortLength]) == ok {2}, <<>>
     end
 
     test "use last codec until length consumed" do
-      assert decode(<<3, 1, 32, 33>>, [ShortLength, Byte]) == ok [1, 32, 33], <<>>
+      assert decode(<<3, 1, 32, 33>>, [ShortLength, Byte]) == ok {33, 32, 1}, <<>>
     end
 
     test "invalid length" do

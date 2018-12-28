@@ -1,10 +1,8 @@
 defmodule MMS.FromTest do
   use ExUnit.Case
 
-  alias MMS.From
-
   use MMS.TestExamples,
-      codec: From,
+      codec: MMS.From,
       examples: [
         {<<5, 128, "x@y", 0>>, "x@y"                }, # email address
         {<<1, 129          >>, :insert_address_token}, # insert address token

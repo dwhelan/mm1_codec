@@ -10,6 +10,14 @@ defmodule MMS.DateTime do
   end
 
   def encode %DateTime{} = date_time do
-    date_time |> DateTime.to_unix |> Long.encode
+    date_time |> DateTime.to_unix |> encode
+  end
+
+  def encode(seconds) when seconds >= 0  do
+    Long.encode seconds
+  end
+
+  def encode _  do
+    error :invalid_date_time
   end
 end

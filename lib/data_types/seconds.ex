@@ -9,7 +9,7 @@ defmodule MMS.Seconds do
 
   def decode bytes do
     case_ok Composer.decode bytes, @codecs do
-      {[absolute, seconds], rest} -> evaluate absolute, seconds, rest
+      {{seconds, absolute}, rest} -> evaluate absolute, seconds, rest
     end
   end
 

@@ -10,9 +10,9 @@ defmodule MMS.Address do
     end
   end
 
-  defp map [charset, string], rest do
+  defp map {string, charset}, rest do
     case_ok map string do
-      address -> ok [charset, address], rest
+      address -> ok {address, charset}, rest
     end
   end
 
@@ -23,7 +23,7 @@ defmodule MMS.Address do
   end
 
   defp map string do
-    [value | type] = string |> String.split("/TYPE=", parts: 2)
+    [value | type] = String.split string, "/TYPE=", parts: 2
 
     case type do
       ["IPv4"] -> IPv4.map value
@@ -34,8 +34,8 @@ defmodule MMS.Address do
     end
   end
 
-  def encode [charset, address] do
-    [charset, unmap(address)] |> EncodedString.encode
+  def encode {address, charset} do
+    EncodedString.encode {unmap(address), charset}
   end
 
   def encode address do

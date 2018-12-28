@@ -6,8 +6,8 @@ defmodule MMS.PreviouslySentByTest do
   use MMS.TestExamples,
       codec: PreviouslySentBy,
       examples: [
-        {<<3, 129, "@", 0        >>, [  1, "@"]}, # short count
-        {<<5,   2,   1, 0, "@", 0>>, [256, "@"]}, # long count
+        {<<3, 129, "@", 0        >>, {"@",   1} }, # short count
+        {<<5,   2,   1, 0, "@", 0>>, {"@", 256} }, # long count
       ],
 
       decode_errors: [
@@ -17,6 +17,6 @@ defmodule MMS.PreviouslySentByTest do
       ],
 
       encode_errors: [
-        {[-1, "@"], :invalid_integer},
+        { {"@", -1}, :invalid_integer},
       ]
 end

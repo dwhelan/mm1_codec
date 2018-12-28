@@ -11,7 +11,7 @@ defmodule MMS.AddressTest do
         {<<"0.0.0.0/TYPE=unknown", 0>>, "0.0.0.0/TYPE=unknown"},
         {<<"0.0.0.0/TYPE=IPv4",    0>>, {0, 0, 0, 0}},
         {<<":1/TYPE=IPv6",         0>>, {0, 0, 0, 0, 0, 0, 0, 1}},
-        {<< 3, 0xea, "@",          0>>, [:csUTF8, "@"]},# Encoded
+        {<< 3, 0xea, "@",          0>>, {"@", :csUTF8}},# Encoded
       ],
 
       decode_errors: [

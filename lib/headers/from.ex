@@ -8,8 +8,8 @@ defmodule MMS.From do
 
   def decode bytes do
     case_ok Composer.decode bytes, [Byte, Address] do
-      {[@address_present_token, address], rest} -> ok address, rest
-      {[@insert_address_token          ], rest} -> ok :insert_address_token, rest
+      {{address, @address_present_token}, rest} -> ok address, rest
+      {{@insert_address_token          }, rest} -> ok :insert_address_token, rest
       _                                         -> error :invalid_address_token
     end
   end

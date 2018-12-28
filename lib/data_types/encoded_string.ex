@@ -15,7 +15,7 @@ defmodule MMS.EncodedString do
     Text.encode string
   end
 
-  def encode [charset, string] do
+  def encode {string, charset} do
     Composer.encode [charset, string], [Charset, Text]
   end
 end

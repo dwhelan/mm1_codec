@@ -3,14 +3,16 @@ defmodule MMS.PreviouslySentDateTest do
 
   alias MMS.PreviouslySentDate
 
+  time_zero = DateTime.from_unix! 0
+
   use MMS.TestExamples,
       codec: PreviouslySentDate,
       examples: [
         #  _                  <- length
         #     _________       <- forwarded count
         #                ____ <- date
-        {<<3, 129,       1, 0>>, [  1, DateTime.from_unix!(0)]}, # short count
-        {<<5,   2, 1, 0, 1, 0>>, [256, DateTime.from_unix!(0)]}, # long count
+        {<<3, 129,       1, 0>>, {time_zero,   1} }, # short count
+        {<<5,   2, 1, 0, 1, 0>>, {time_zero, 256} }, # long count
       ],
 
       decode_errors: [
@@ -20,6 +22,7 @@ defmodule MMS.PreviouslySentDateTest do
       ],
 
       encode_errors: [
-        {[-1, "@"], :invalid_integer},
+        {{DateTime.from_unix!(-1), 1}, :invalid_date_time},
+        {{time_zero, -1},              :invalid_integer},
       ]
 end

@@ -10,7 +10,7 @@ defmodule MMS.Composer do
   end
 
   defp do_decode rest, _, values, 0 do
-    ok Enum.reverse(values), rest
+    ok List.to_tuple(values), rest
   end
 
   defp do_decode(<<>>, _, _, _) do
@@ -73,8 +73,8 @@ defmodule MMS.Composer do
         Composer.decode bytes, @codecs
       end
 
-      def encode values do
-        Composer.encode values, @codecs
+      def encode(values) when is_tuple(values) do
+        Composer.encode values |> Tuple.to_list |> Enum.reverse, @codecs
       end
     end
   end
