@@ -2,7 +2,7 @@ defmodule MMS.HeadersTest do
   use ExUnit.Case
   alias MMS.Headers
 
-  time_zero = DateTime.from_unix!(0)
+  time_zero = DateTime.from_unix! 0
 
   use MMS.TestExamples,
       codec: Headers,

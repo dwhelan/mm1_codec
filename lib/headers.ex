@@ -6,7 +6,7 @@ defmodule MMS.Headers do
 
   use MMS.CodecMapper2,
       values: [
-        unassigned:              :error,
+        unassigned:              nil,
         bcc:                     Address,
         cc:                      Address,
         content_location:        Text,

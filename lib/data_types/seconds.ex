@@ -5,22 +5,23 @@ defmodule MMS.Seconds do
 
   @absolute 128
   @relative 129
+  @codecs   [Byte, Long]
 
   def decode bytes do
-    case_ok Composer.decode bytes, [Byte, Long] do
-      results -> evaluate results
+    case_ok Composer.decode bytes, @codecs do
+      {[absolute, seconds], rest} -> evaluate absolute, seconds, rest
     end
   end
 
-  defp evaluate {[@absolute, seconds], rest} do
+  defp evaluate @absolute, seconds, rest do
     ok DateTime.from_unix!(seconds), rest
   end
 
-  defp evaluate {[@relative, seconds], rest} do
+  defp evaluate @relative, seconds, rest do
     ok seconds, rest
   end
 
-  defp evaluate _ do
+  defp evaluate _, _, _ do
     error :invalid_absolute_relative_token
   end
 
@@ -33,6 +34,6 @@ defmodule MMS.Seconds do
   end
 
   defp encode absolute, value do
-    [absolute, value] |> Composer.encode([Byte, Long])
+    Composer.encode [absolute, value], @codecs
   end
 end

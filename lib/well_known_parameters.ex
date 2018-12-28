@@ -9,7 +9,7 @@ defmodule MMS.CodecMapper2 do
       import MMS.OkError
 
       @decode_map opts[:map] || indexed(opts[:values])
-      @codec_bytes @decode_map |> Map.keys   |> Enum.reject(& @decode_map[&1] == {:unassigned, :error})
+      @codec_bytes @decode_map |> Map.keys   |> Enum.reject(& elem(@decode_map[&1], 0) == :unassigned)
       @names       @decode_map |> Map.values |> Enum.map(& elem(&1, 0))
 
       @error       opts[:error]
@@ -72,7 +72,7 @@ defmodule MMS.WellKnownParameters do
         charset:               Charset,
         level:                 Version,
         type:                  Integer,
-        unassigned:            :error,
+        unassigned:            nil,
         name_deprecated:       TextString,
         file_name_deprecated:  TextString,
         differences:           FieldName,
