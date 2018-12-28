@@ -1,7 +1,8 @@
 defmodule MMS.HeadersTest do
   use ExUnit.Case
-  alias MMS.Headers
   import MMS.Test
+
+  alias MMS.Headers
 
   date_time_zero = DateTime.from_unix! 0
 
@@ -20,7 +21,7 @@ defmodule MMS.HeadersTest do
         { << s(10), s(0)                >>, message_class:           :personal           },
         { << s(11), "@\0"               >>, message_id:              "@"                 },
         { << s(12), s(0)                >>, message_type:            :m_send_conf        },
-        { << s(13), s(0)                >>, version:                 {0, 0}              },
+        { << s(13), 0b10000000          >>, version:                 {0, 0}              },
         { << s(14), l(1), 0             >>, message_size:            0                   },
         { << s(15), s(0)                >>, priority:                :low                },
         { << s(16), s(0)                >>, report_allowed:          true                },
@@ -51,6 +52,6 @@ defmodule MMS.HeadersTest do
       ]
 
   test "decode should terminate when an unmapped header byte is found" do
-    assert Headers.decode(<<0>>) == {:ok, {[], <<0>>}}
+    assert Headers.decode(<<"rest">>) == {:ok, {[], <<"rest">>}}
   end
 end

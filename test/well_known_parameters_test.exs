@@ -1,5 +1,7 @@
 defmodule MMS.WellKnownParametersTest do
   use ExUnit.Case
+  import MMS.Test
+
   alias MMS.WellKnownParameters
 
   time_zero = DateTime.from_unix!(0)
@@ -7,45 +9,45 @@ defmodule MMS.WellKnownParametersTest do
   use MMS.TestExamples,
       codec: WellKnownParameters,
       examples: [
-        {<<128, 1>>,          q:                     "0.00"   },
-        {<<129, 128>>,        charset:               :any     },
-        {<<130, 0b10000000>>, level:                 {0,  0}  },
-        {<<131, 128>>,        type:                  0        },
-        {<<133, "x", 0>>,     name_deprecated:       "x"      },
-        {<<134, "x", 0>>,     file_name_deprecated:  "x"      },
-        {<<135, "x", 0>>,     differences:           "x"      },
-        {<<136, 128>>,        padding:               0        },
-        {<<137, 128>>,        type_multipart:        "*/*"    },
-        {<<138, "x", 0>>,     start_deprecated:      "x"      },
-        {<<139, "x", 0>>,     start_info_deprecated: "x"      },
-        {<<140, "x", 0>>,     comment_deprecated:    "x"      },
-        {<<141, "x", 0>>,     domain_deprecated:     "x"      },
-        {<<142, 128>>,        max_age:               0        },
-        {<<143, "x", 0>>,     path_deprecated:       "x"      },
-        {<<144, 0>>,          secure:                :no_value},
-        {<<145, 128>>,        sec:                   0        },
-        {<<146, "x", 0>>,     mac:                   "x"      },
-        {<<147, 1, 0>>,       creation_date:         time_zero},
-        {<<148, 1, 0>>,       modification_date:     time_zero},
-        {<<149, 1, 0>>,       read_date:             time_zero},
-        {<<150, 128>>,        size:                  0        },
-        {<<151, "x", 0>>,     name:                  "x"      },
-        {<<152, "x", 0>>,     file_name:             "x"      },
-        {<<153, "x", 0>>,     start:                 "x"      },
-        {<<154, "x", 0>>,     start_info:            "x"      },
-        {<<155, "x", 0>>,     comment:               "x"      },
-        {<<156, "x", 0>>,     domain:                "x"      },
-        {<<157, "x", 0>>,     path:                  "x"      },
+        { << s(0),  1          >>, q:                     "0.00"    },
+        { << s(1),  s(0)       >>, charset:               :any      },
+        { << s(2),  0b10000000 >>, level:                 {0,  0}   },
+        { << s(3),  s(0)       >>, type:                  0         },
+        { << s(5),  "x\0"      >>, name_deprecated:       "x"       },
+        { << s(6),  "x\0"      >>, file_name_deprecated:  "x"       },
+        { << s(7),  "x\0"      >>, differences:           "x"       },
+        { << s(8),  s(0)       >>, padding:               0         },
+        { << s(9),  s(0)       >>, type_multipart:        "*/*"     },
+        { << s(10), "x\0"      >>, start_deprecated:      "x"       },
+        { << s(11), "x\0"      >>, start_info_deprecated: "x"       },
+        { << s(12), "x\0"      >>, comment_deprecated:    "x"       },
+        { << s(13), "x\0"      >>, domain_deprecated:     "x"       },
+        { << s(14), s(0)       >>, max_age:               0         },
+        { << s(15), "x\0"      >>, path_deprecated:       "x"       },
+        { << s(16), 0          >>, secure:                :no_value },
+        { << s(17), s(0)       >>, sec:                   0         },
+        { << s(18), "x\0"      >>, mac:                   "x"       },
+        { << s(19), l(1), 0    >>, creation_date:         time_zero },
+        { << s(20), l(1), 0    >>, modification_date:     time_zero },
+        { << s(21), l(1), 0    >>, read_date:             time_zero },
+        { << s(22), s(0)       >>, size:                  0         },
+        { << s(23), "x\0"      >>, name:                  "x"       },
+        { << s(24), "x\0"      >>, file_name:             "x"       },
+        { << s(25), "x\0"      >>, start:                 "x"       },
+        { << s(26), "x\0"      >>, start_info:            "x"       },
+        { << s(27), "x\0"      >>, comment:               "x"       },
+        { << s(28), "x\0"      >>, domain:                "x"       },
+        { << s(29), "x\0"      >>, path:                  "x"       },
 
         # Multiple parameters
-        {<<128, 1, 128, 2>>, q: "0.00", q: "0.01"},
+        {<<s(0), 1, s(1), s(0)>>, q: "0.00", charset: :any},
       ],
 
       encode_errors: [
         {[x: ""], {:x, :invalid_well_known_parameter}},
       ]
 
-  test "decode should terminate when an unmapped byte is found" do
-    assert WellKnownParameters.decode(<<128, 1, "rest">>) == {:ok, {[q: "0.00"], "rest"}}
+  test "decode should terminate when an unmapped parameter byte is found" do
+    assert WellKnownParameters.decode(<<"rest">>) == {:ok, {[], "rest"}}
   end
 end
