@@ -16,6 +16,9 @@ defmodule MMS.OkError do
     {:error, reason}
   end
 
+  def error_reason module do
+    "invalid_#{module |> to_string |> String.split(".") |> List.last |> Macro.underscore}" |> String.to_atom
+  end
 #  defmacro _decode do: ok, else: error do
 #
 #    quote bind_quoted: [ok: ok, error: error] do
