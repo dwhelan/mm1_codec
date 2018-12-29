@@ -1,15 +1,16 @@
 defmodule MMS.Address.Unknown do
+  use MMS.Mapper.Base, error: :invalid_unknown_address
   import MMS.OkError
 
   def map(value) when is_binary(value) do
     case String.split value, "/TYPE=", parts: 2 do
       [string, type] -> ok {string, type}
-      _              -> error :invalid_unknown_address
+      _              -> error()
     end
   end
 
   def map _ do
-    error :invalid_unknown_address
+    error()
   end
 
   def unmap({value, type}) when is_binary(value) and is_binary(type) do
@@ -17,6 +18,6 @@ defmodule MMS.Address.Unknown do
   end
 
   def unmap _ do
-    error :invalid_unknown_address
+    error()
   end
 end
