@@ -26,11 +26,11 @@ defmodule MMS.Address do
     [value | type] = String.split string, "/TYPE=", parts: 2
 
     case type do
-      ["IPv4"] -> IPv4.map value
-      ["IPv6"] -> IPv6.map value
-      ["PLMN"] -> PhoneNumber.map value
-      []       -> Email.map value
-      _        -> Unknown.map value, hd(type)
+      ["IPv4"]  -> IPv4.map value
+      ["IPv6"]  -> IPv6.map value
+      ["PLMN"]  -> PhoneNumber.map value
+      [unknown] -> Unknown.map string
+      []        -> Email.map value
     end
   end
 
@@ -47,7 +47,7 @@ defmodule MMS.Address do
   end
 
   defp unmap address do
-    unmap address, [IPv4, IPv6, PhoneNumber, Email, Unknown]
+    unmap address, [IPv4, IPv6, PhoneNumber, Unknown, Email]
   end
 
   defp unmap address, [type | types] do
