@@ -1,11 +1,8 @@
 defmodule MMS.Address.UnknownTest do
   use ExUnit.Case
-  import MMS.Test
-
-  alias MMS.Address.Unknown
 
   use MMS.MapExamples,
-      mapper: Unknown,
+      mapper: MMS.Address.Unknown,
       examples: [
         { "value/TYPE=type", {"value", "type"} },
       ],
