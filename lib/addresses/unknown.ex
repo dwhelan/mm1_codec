@@ -1,12 +1,12 @@
 defmodule MMS.Address.Unknown do
   import MMS.OkError
 
-  def map string do
-     ok string
+  def map value, type do
+     ok {value, type}
   end
 
-  def unmap value do
-    ok value
+  def unmap {value, type} do
+    ok value <> "/TYPE=#{type}"
   end
 
   def is_unknown? value do

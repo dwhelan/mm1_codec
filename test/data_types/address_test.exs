@@ -9,7 +9,7 @@ defmodule MMS.AddressTest do
       examples: [
         { << "email@address\0"        >>, "email@address"          },
         { << "1234567890/TYPE=PLMN\0" >>, "1234567890"             },
-        { << "0.0.0.0/TYPE=unknown\0" >>, "0.0.0.0/TYPE=unknown"   },
+        { << "value/TYPE=unknown\0"   >>, {"value", "unknown"}     },
         { << "0.0.0.0/TYPE=IPv4\0"    >>, {0, 0, 0, 0}             },
         { << ":1/TYPE=IPv6\0"         >>, {0, 0, 0, 0, 0, 0, 0, 1} },
         { << l(3), s(106), "@\0"      >>, {"@", :csUTF8}           }, # Encoded with charset
