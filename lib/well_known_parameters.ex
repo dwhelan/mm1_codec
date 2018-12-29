@@ -13,7 +13,7 @@ defmodule MMS.WellKnownParameters do
         charset:               Charset,
         level:                 Version,
         type:                  Integer,
-        unassigned:            nil,
+        _unassigned:           nil,
         name_deprecated:       TextString,
         file_name_deprecated:  TextString,
         differences:           FieldName,

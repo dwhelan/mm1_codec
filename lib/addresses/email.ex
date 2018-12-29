@@ -12,7 +12,11 @@ defmodule MMS.Address.Email do
     value
   end
 
-  def is_email? string do
+  def is_email?(string) when is_binary(string) do
     String.contains? string, "@"
+  end
+
+  def is_email? _ do
+    false
   end
 end

@@ -39,18 +39,20 @@ defmodule MMS.Address do
   end
 
   def encode address do
-    address |> unmap |> EncodedString.encode
+    EncodedString.encode unmap(address)
+  end
+
+  def encode _ do
+    error :invalid_address
   end
 
   defp unmap address do
     type = cond do
-      IPv4.is_ipv4? address                -> IPv4
-      IPv6.is_ipv6? address                -> IPv6
-      Email.is_email? address              -> Email
-      Unknown.is_unknown? address          -> Unknown
-      PhoneNumber.is_phone_number? address -> PhoneNumber
+      IPv4.is_ipv4? address                -> IPv4.unmap address
+      IPv6.is_ipv6? address                -> IPv6.unmap address
+      Email.is_email? address              -> Email.unmap address
+      Unknown.is_unknown? address          -> Unknown.unmap address
+      PhoneNumber.is_phone_number? address -> PhoneNumber.unmap address
     end
-
-    type.unmap address
   end
 end
