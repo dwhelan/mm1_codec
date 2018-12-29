@@ -35,24 +35,28 @@ defmodule MMS.Address do
   end
 
   def encode {address, charset} do
-    EncodedString.encode {unmap(address), charset}
+    case_ok unmap address do
+      string -> EncodedString.encode {string, charset}
+    end
   end
 
   def encode address do
-    EncodedString.encode unmap(address)
-  end
-
-  def encode _ do
-    error :invalid_address
+    case_ok unmap address do
+      string -> EncodedString.encode string
+    end
   end
 
   defp unmap address do
-    type = cond do
-      IPv4.is_ipv4? address                -> IPv4.unmap address
-      IPv6.is_ipv6? address                -> IPv6.unmap address
-      Email.is_email? address              -> Email.unmap address
-      Unknown.is_unknown? address          -> Unknown.unmap address
-      PhoneNumber.is_phone_number? address -> PhoneNumber.unmap address
+    unmap address, [IPv4, IPv6, PhoneNumber, Email, Unknown]
+  end
+
+  defp unmap _, [] do
+    error :invalid_address
+  end
+
+  defp unmap address, [type | types] do
+    case_error type.unmap address do
+      _ -> unmap address, types
     end
   end
 end

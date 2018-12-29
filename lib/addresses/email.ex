@@ -8,8 +8,8 @@ defmodule MMS.Address.Email do
     end
   end
 
-  def unmap value do
-    value
+  def unmap email do
+    map email
   end
 
   def is_email?(string) when is_binary(string) do

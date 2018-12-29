@@ -6,7 +6,7 @@ defmodule MMS.Address.Unknown do
   end
 
   def unmap value do
-    value
+    ok value
   end
 
   def is_unknown? value do

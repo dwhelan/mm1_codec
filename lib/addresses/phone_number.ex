@@ -1,6 +1,7 @@
 defmodule MMS.Address.PhoneNumber do
   import MMS.OkError
   import MMS.Address.Email
+  import MMS.Address.Unknown
 
   def map string do
     case is_phone_number? string do
@@ -10,10 +11,13 @@ defmodule MMS.Address.PhoneNumber do
   end
 
   def unmap value do
-    value <> "/TYPE=PLMN"
+    case is_phone_number? value do
+      true  -> ok value <> "/TYPE=PLMN"
+      false -> error :invalid_phone_number
+    end
   end
 
   def is_phone_number? value do
-    is_binary(value) && !is_email?(value)
+    is_binary(value) && !is_email?(value) && !is_unknown?(value)
   end
 end
