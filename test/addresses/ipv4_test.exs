@@ -8,13 +8,13 @@ defmodule MMS.Address.IPv4Test do
       ],
 
       map_errors: [
-#        { "value/TYPE",         :invalid_unknown_address },
-#        { :not_unknown_address, :invalid_unknown_address },
+        { "x.0.0.0/TYPE=IPv4", :invalid_ipv4_address },
+        { :not_string,  :invalid_ipv4_address },
       ],
 
       unmap_errors: [
-#        { ≤:not_unknown_address,           :invalid_unknown_address },
-#        { {:not_a_string, "type"       }, :invalid_unknown_address },
-#        { {"value",       :not_a_string}, :invalid_unknown_address },
+#        { ≤:not_unknown_address,           :invalid_ipv4_address },
+#        { {:not_a_string, "type"       }, :invalid_ipv4_address },
+#        { {"value",       :not_a_string}, :invalid_ipv4_address },
       ]
 end
