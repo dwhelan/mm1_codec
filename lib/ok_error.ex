@@ -25,8 +25,26 @@ defmodule MMS.OkError do
     String.replace string, ~r/(_[a-z)])_/, "\\1"
   end
 
-  def input ~> fun do
+  defmacro input ~> fun do
+    quote do
+      case unquote(input) do
+        {:error, reason} -> error reason
+        {:ok, value}     -> value |> unquote(fun)
+        value            -> value |> unquote(fun)
+      end
 
+    end
+  end
+
+
+  defmacro input ~>> fun do
+    quote do
+      case unquote(input) do
+        {:error, reason} -> reason |> unquote(fun)
+        {:ok, value}     -> ok value
+        value            -> ok value
+      end
+    end
   end
 
   defmacro case_ok value, do: block do
