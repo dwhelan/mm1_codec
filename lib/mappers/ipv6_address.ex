@@ -1,6 +1,5 @@
 defmodule MMS.Mapper.IPv6Address do
-  use MMS.Address.Base, type: "IPv6", error: :invalid_ipv6_address
-  import MMS.OkError
+  use MMS.Address.Base, type: "IPv6"
 
   def map_address string do
     string |> String.replace(":", "::") |> to_charlist |> :inet.parse_ipv6strict_address

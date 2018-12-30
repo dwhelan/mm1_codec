@@ -1,9 +1,9 @@
 defmodule MMS.Mapper.Base do
-  import MMS.OkError
-
   defmacro __using__ opts \\ [] do
-    quote bind_quoted: [opts: opts] do
-      @reason opts[:error] || error_reason __MODULE__
+    quote do
+      import MMS.OkError
+
+      @reason error_reason __MODULE__
 
       def error do
         error @reason
@@ -13,11 +13,9 @@ defmodule MMS.Mapper.Base do
 end
 
 defmodule MMS.Address.Base do
-  import MMS.OkError
-
   defmacro __using__ opts \\ [] do
-    quote bind_quoted: [type: opts[:type], error: opts[:error]] do
-      use MMS.Mapper.Base, error: error
+    quote bind_quoted: [type: opts[:type]] do
+      use MMS.Mapper.Base
 
       def map(string) when is_binary(string) do
         case String.split string, "/TYPE=#{unquote(type)}" do
@@ -46,6 +44,7 @@ defmodule MMS.Address.Base do
           {:ok, {value, type}} -> ok value <> "/TYPE=#{type}"
           {:ok, value}         -> ok value <> "/TYPE=#{unquote(type)}"
           {:error, _}          -> error()
+          value                -> ok value <> "/TYPE=#{unquote(type)}"
         end
       end
     end
@@ -53,8 +52,7 @@ defmodule MMS.Address.Base do
 end
 
 defmodule MMS.Mapper.IPv4Address do
-  use MMS.Address.Base, type: "IPv4", error: :invalid_ipv4_address
-  import MMS.OkError
+  use MMS.Address.Base, type: "IPv4"
 
   def map_address string do
     string |> to_charlist |> :inet.parse_ipv4strict_address
@@ -62,7 +60,7 @@ defmodule MMS.Mapper.IPv4Address do
 
   def unmap_address(ipv4) when is_tuple(ipv4) and tuple_size(ipv4) == 4 do
     case_ok :inet.ntoa ipv4 do
-      charlist -> ok to_string charlist
+      charlist -> to_string charlist
     end
   end
 

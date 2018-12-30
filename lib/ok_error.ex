@@ -17,7 +17,7 @@ defmodule MMS.OkError do
   end
 
   def error_reason module do
-    "invalid_#{module |> to_string |> String.split(".") |> List.last |> Macro.underscore}" |> String.to_atom
+    "invalid_#{module |> to_string |> String.split(".") |> List.last |> Macro.underscore}" |> String.replace(~r/(_[a-z)])_/, "\\1") |> String.to_atom
   end
 
   defmacro case_ok value, do: block do
