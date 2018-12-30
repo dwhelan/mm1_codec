@@ -11,27 +11,29 @@ defmodule MMS.Address do
   end
 
   defp map {string, charset}, rest do
-    case_ok map string do
+    case_ok map1 string do
       address -> ok {address, charset}, rest
     end
   end
 
   defp map string, rest do
-    case_ok map string do
+    case_ok map1 string do
       address -> ok address, rest
     end
   end
 
-  defp map string do
-    [value | type] = String.split string, "/TYPE=", parts: 2
+  defp map1 address do
+    map1 address, [IPv4, IPv6, PhoneNumber, Unknown, Email]
+  end
 
-    case type do
-      ["IPv4"]  -> IPv4.map string
-      ["IPv6"]  -> IPv6.map string
-      ["PLMN"]  -> PhoneNumber.map string
-      [_]       -> Unknown.map string
-      []        -> Email.map string
+  defp map1 address, [type | types] do
+    case_error type.map address do
+      _ -> map1 address, types
     end
+  end
+
+  defp map1 _, [] do
+    error :invalid_address
   end
 
   def encode({address, charset}) when is_atom(charset) do

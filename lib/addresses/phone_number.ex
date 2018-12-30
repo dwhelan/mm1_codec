@@ -3,14 +3,14 @@ defmodule MMS.Address.PhoneNumber do
   import MMS.OkError
 
   def map_address string do
-    check_phone_number string
+    return_if_phone_number string
   end
 
   def unmap_address value do
-    check_phone_number value
+    return_if_phone_number value
   end
 
-  defp check_phone_number value do
+  defp return_if_phone_number value do
     if is_binary(value) && Regex.match?(~r/^\+?[\d\-\.]+$/, value) do
       ok value
     else

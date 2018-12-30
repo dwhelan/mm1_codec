@@ -16,12 +16,12 @@ defmodule MMS.AddressTest do
       ],
 
       decode_errors: [
-        { << "x\0"                 >>, :invalid_email        },
-        { << "@/TYPE=PLMN\0"       >>, :invalid_phone_number },
-        { << "x.0.0.0/TYPE=IPv4\0" >>, :invalid_ipv4_address },
-        { << "::x/TYPE=IPv6\0"     >>, :invalid_ipv6_address },
-        { << "@"                   >>, :missing_terminator   },
-        { << l(3), s(106), "@"     >>, :missing_terminator   },
+        { << "x\0"                 >>, :invalid_address    },
+        { << "@/TYPE=PLMN\0"       >>, :invalid_address    },
+        { << "x.0.0.0/TYPE=IPv4\0" >>, :invalid_address    },
+        { << "::x/TYPE=IPv6\0"     >>, :invalid_address    },
+        { << "@"                   >>, :missing_terminator },
+        { << l(3), s(106), "@"     >>, :missing_terminator },
       ],
 
       encode_errors: [

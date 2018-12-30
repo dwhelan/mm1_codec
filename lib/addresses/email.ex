@@ -3,14 +3,14 @@ defmodule MMS.Address.Email do
   import MMS.OkError
 
   def map string do
-    check_email string
+    return_if_email string
   end
 
   def unmap value do
-    check_email value
+    return_if_email value
   end
 
-  defp check_email value do
+  defp return_if_email value do
     if is_binary(value) && String.contains?(value, "@") && !String.contains?(value, "/TYPE=") do
       ok value
     else
