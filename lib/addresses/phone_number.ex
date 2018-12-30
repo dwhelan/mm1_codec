@@ -11,7 +11,7 @@ defmodule MMS.Address.PhoneNumber do
   end
 
   defp check_phone_number value do
-    if is_binary(value) && !String.contains?(value, "@") do
+    if is_binary(value) && Regex.match?(~r/^\+?[\d\-\.]+$/, value) do
       ok value
     else
       error()

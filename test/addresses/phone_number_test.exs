@@ -5,17 +5,25 @@ defmodule MMS.Address.PhoneNumberTest do
       mapper: MMS.Address.PhoneNumber,
 
       examples: [
-        { "1234567890/TYPE=PLMN", "1234567890" },
+        { "0/TYPE=PLMN",  "0"  },
+        { "+0/TYPE=PLMN", "+0" },
+        { "-/TYPE=PLMN",  "-"  },
+        { "./TYPE=PLMN",  "."  },
+
+        { "0123456789/TYPE=PLMN",  "0123456789" },
       ],
 
       map_errors: [
-        "@/TYPE=PLMN",
+        "a/TYPE=PLMN",
+        "0+/TYPE=PLMN",
         "1234567890/TYPE=xxxx",
         :not_phone_number,
       ],
 
       unmap_errors: [
+        "a/TYPE=PLMN",
+        "0+/TYPE=PLMN",
+        "1234567890/TYPE=xxxx",
         :not_phone_number,
-        "@",
       ]
 end
