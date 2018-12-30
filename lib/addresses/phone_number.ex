@@ -1,22 +1,20 @@
 defmodule MMS.Address.PhoneNumber do
+  use MMS.Address.Base, type: "PLMN"
   import MMS.OkError
-  import MMS.Address.Email
 
-  def map string do
-    case is_phone_number? string do
-      true  -> ok string
-      false -> error :invalid_phone_number
-    end
+  def map_address string do
+    check_phone_number string
   end
 
-  def unmap value do
-    case is_phone_number? value do
-      true  -> ok value <> "/TYPE=PLMN"
-      false -> error :invalid_phone_number
-    end
+  def unmap_address value do
+    check_phone_number value
   end
 
-  def is_phone_number? value do
-    is_binary(value) && !is_email?(value)
+  defp check_phone_number value do
+    if is_binary(value) && !String.contains?(value, "@") do
+      ok value
+    else
+      error()
+    end
   end
 end

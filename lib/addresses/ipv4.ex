@@ -57,13 +57,12 @@ defmodule MMS.Address.IPv4 do
   import MMS.OkError
 
   def map_address string do
-    string |> to_charlist |> :inet.parse_ipv4_address
+    string |> to_charlist |> :inet.parse_ipv4strict_address
   end
 
   def unmap_address(ipv4) when is_tuple(ipv4) and tuple_size(ipv4) == 4 do
-    case :inet.ntoa ipv4 do
-      {:error, _} -> error()
-      charlist    -> ok to_string charlist
+    case_ok :inet.ntoa ipv4 do
+      charlist -> ok to_string charlist
     end
   end
 
