@@ -6,8 +6,10 @@ defmodule MMS.MapExamples do
   defmacro __using__(opts) do
     quote bind_quoted: [opts: opts] do
       import MMS.TestExamples
+      import MMS.OkError
 
-      @mapper        opts[:mapper]        || __MODULE__
+      @mapper        opts[:mapper]       || __MODULE__
+      @reason        opts[:error]        || error_reason @mapper
       examples     = opts[:examples]     || []
       map_errors   = opts[:map_errors]   || []
       unmap_errors = opts[:unmap_errors] || []
