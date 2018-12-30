@@ -1,4 +1,4 @@
-defmodule MMS.Address.IPv6 do
+defmodule MMS.IPv6Address do
   use MMS.Address.Base, type: "IPv6", error: :invalid_ipv6_address
   import MMS.OkError
 

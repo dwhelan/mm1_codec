@@ -1,4 +1,4 @@
-defmodule MMS.Address.PhoneNumber do
+defmodule MMS.PhoneNumber do
   use MMS.Address.Base, type: "PLMN"
   import MMS.OkError
 

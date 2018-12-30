@@ -1,8 +1,8 @@
-defmodule MMS.Address.PhoneNumberTest do
+defmodule MMS.PhoneNumberTest do
   use ExUnit.Case
 
   use MMS.MapExamples,
-      mapper: MMS.Address.PhoneNumber,
+      mapper: MMS.PhoneNumber,
 
       examples: [
         { "0/TYPE=PLMN",  "0"  },
