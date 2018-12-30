@@ -3,6 +3,7 @@ defmodule MMS.Address do
 
   alias MMS.EncodedString
   alias MMS.Address.{IPv4, IPv6, PhoneNumber, Email, Unknown}
+  alias MMS.{EmailAddress}
 
   def decode bytes do
     case_ok EncodedString.decode bytes do
@@ -23,7 +24,7 @@ defmodule MMS.Address do
   end
 
   defp map1 address do
-    map1 address, [IPv4, IPv6, PhoneNumber, Unknown, Email]
+    map1 address, [IPv4, IPv6, PhoneNumber, Unknown, EmailAddress]
   end
 
   defp map1 address, [type | types] do
@@ -49,7 +50,7 @@ defmodule MMS.Address do
   end
 
   defp unmap address do
-    unmap address, [IPv4, IPv6, PhoneNumber, Unknown, Email]
+    unmap address, [IPv4, IPv6, PhoneNumber, Unknown, EmailAddress]
   end
 
   defp unmap address, [type | types] do

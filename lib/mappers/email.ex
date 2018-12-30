@@ -1,4 +1,4 @@
-defmodule MMS.Address.Email do
+defmodule MMS.EmailAddress do
   use MMS.Mapper.Base
   import MMS.OkError
 
