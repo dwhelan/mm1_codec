@@ -27,9 +27,9 @@ defmodule MMS.Address do
 
     case type do
       ["IPv4"]  -> IPv4.map string
-      ["IPv6"]  -> IPv6.map value
+      ["IPv6"]  -> IPv6.map string
       ["PLMN"]  -> PhoneNumber.map value
-      [unknown] -> Unknown.map string
+      [_]       -> Unknown.map string
       []        -> Email.map value
     end
   end

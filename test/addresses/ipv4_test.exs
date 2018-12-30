@@ -11,12 +11,12 @@ defmodule MMS.Address.IPv4Test do
       map_errors: [
         { "x.0.0.0/TYPE=IPv4", :invalid_ipv4_address },
         { "0.0.0.0/TYPE=xxxx", :invalid_ipv4_address },
-        { :not_string,         :invalid_ipv4_address },
+        { :not_ipv6_address,   :invalid_ipv4_address },
       ],
 
       unmap_errors: [
-        { :not_unknown_address,           :invalid_ipv4_address },
-        { {:not_a_string, "type"       }, :invalid_ipv4_address },
-        { {"value",       :not_a_string}, :invalid_ipv4_address },
+        { :not_ipv4_address,        :invalid_ipv4_address },
+        { {0, 0, 0, 'x'},           :invalid_ipv4_address },
+        { {0, 0, 0, 0, 0, 0, 0, 0}, :invalid_ipv4_address },
       ]
 end
