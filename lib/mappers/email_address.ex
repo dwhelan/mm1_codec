@@ -1,18 +1,18 @@
-defmodule MMS.EmailAddress do
+defmodule MMS.Mapper.EmailAddress do
   use MMS.Mapper.Base
   import MMS.OkError
 
-  def map string do
-    return_if_email string
+  def map email do
+    ok_if email
   end
 
-  def unmap value do
-    return_if_email value
+  def unmap email do
+    ok_if email
   end
 
-  defp return_if_email value do
-    if is_binary(value) && String.contains?(value, "@") && !String.contains?(value, "/TYPE=") do
-      ok value
+  defp ok_if email do
+    if is_binary(email) && String.contains?(email, "@") && !String.contains?(email, "/TYPE=") do
+      ok email
     else
       error()
     end

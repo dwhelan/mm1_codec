@@ -1,18 +1,18 @@
-defmodule MMS.PhoneNumber do
+defmodule MMS.Mapper.PhoneNumber do
   use MMS.Address.Base, type: "PLMN"
   import MMS.OkError
 
-  def map_address string do
-    return_if_phone_number string
+  def map_address phone_number do
+    ok_if phone_number
   end
 
-  def unmap_address value do
-    return_if_phone_number value
+  def unmap_address phone_number do
+    ok_if phone_number
   end
 
-  defp return_if_phone_number value do
-    if is_binary(value) && Regex.match?(~r/^\+?[\d\-\.]+$/, value) do
-      ok value
+  defp ok_if phone_number do
+    if is_binary(phone_number) && String.match?(phone_number, ~r/^\+?[\d\-\.]+$/) do
+      ok phone_number
     else
       error()
     end

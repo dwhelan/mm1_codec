@@ -1,8 +1,8 @@
-defmodule MMS.EmailAddressTest do
+defmodule MMS.Mapper.EmailAddressTest do
   use ExUnit.Case
 
   use MMS.MapExamples,
-      mapper: MMS.EmailAddress,
+      mapper: MMS.Mapper.EmailAddress,
 
       examples: [
         { "@", "@" },

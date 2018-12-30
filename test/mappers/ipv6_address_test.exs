@@ -1,8 +1,8 @@
-defmodule MMS.IPv6AddressTest do
+defmodule MMS.Mapper.IPv6AddressTest do
   use ExUnit.Case
 
   use MMS.MapExamples,
-      mapper: MMS.IPv6Address,
+      mapper: MMS.Mapper.IPv6Address,
       error: :invalid_ipv6_address,
       examples: [
         { ":/TYPE=IPv6", {0, 0, 0, 0, 0, 0, 0, 0} },

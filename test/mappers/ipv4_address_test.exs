@@ -1,8 +1,8 @@
-defmodule MMS.IPv4AddressTest do
+defmodule MMS.Mapper.IPv4AddressTest do
   use ExUnit.Case
 
   use MMS.MapExamples,
-      mapper: MMS.IPv4Address,
+      mapper: MMS.Mapper.IPv4Address,
       error: :invalid_ipv4_address,
 
       examples: [

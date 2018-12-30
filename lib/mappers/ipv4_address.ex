@@ -16,12 +16,12 @@ defmodule MMS.Address.Base do
   import MMS.OkError
 
   defmacro __using__ opts \\ [] do
-    quote bind_quoted: [type: opts[:type] || "", error: opts[:error]] do
+    quote bind_quoted: [type: opts[:type], error: opts[:error]] do
       use MMS.Mapper.Base, error: error
 
       def map(string) when is_binary(string) do
         case String.split string, "/TYPE=#{unquote(type)}" do
-          [address, ""]   -> do_map address
+          [address, ""  ] -> do_map address
           [address, type] -> do_map {address, type}
           _               -> error()
         end
@@ -43,16 +43,16 @@ defmodule MMS.Address.Base do
 
       defp do_unmap address do
         case apply __MODULE__, :unmap_address, [address] do
-          {:ok, {value, x}} -> ok value <> "/TYPE=#{x}"
-          {:ok, value}      -> ok value <> "/TYPE=#{unquote(type)}"
-          {:error, _}       -> error()
+          {:ok, {value, type}} -> ok value <> "/TYPE=#{type}"
+          {:ok, value}         -> ok value <> "/TYPE=#{unquote(type)}"
+          {:error, _}          -> error()
         end
       end
     end
   end
 end
 
-defmodule MMS.IPv4Address do
+defmodule MMS.Mapper.IPv4Address do
   use MMS.Address.Base, type: "IPv4", error: :invalid_ipv4_address
   import MMS.OkError
 
