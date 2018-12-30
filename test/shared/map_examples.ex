@@ -27,20 +27,18 @@ defmodule MMS.MapExamples do
         end
       end)
 
-      Enum.each(map_errors, fn {input, reason} ->
-        @input  input
-        @reason reason
+      Enum.each(map_errors, fn string ->
+        @string  string
 
-        test "map #{text input} => {:error, #{text reason}}" do
-          assert @mapper.map(@input) === {:error, @reason}
+        test "map #{text string} => {:error, #{text @reason}}" do
+          assert @mapper.map(@string) === {:error, @reason}
         end
       end)
 
-      Enum.each(unmap_errors, fn {value, reason} ->
+      Enum.each(unmap_errors, fn value ->
         @value  value
-        @reason reason
 
-        test "unmap #{text value} => {:error, #{text reason}}" do
+        test "unmap #{text value} => {:error, #{text @reason}}" do
           assert @mapper.unmap(@value) === {:error, @reason}
         end
       end)
