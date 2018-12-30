@@ -52,7 +52,7 @@ defmodule MMS.Address.Base do
   end
 end
 
-defmodule MMS.Address.IPv4 do
+defmodule MMS.IPv4Address do
   use MMS.Address.Base, type: "IPv4", error: :invalid_ipv4_address
   import MMS.OkError
 
