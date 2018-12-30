@@ -1,31 +1,16 @@
 defmodule MMS.Address.Unknown do
-  use MMS.Mapper.Base, error: :invalid_unknown_address
+  use MMS.Address.Base, type: "", error: :invalid_unknown_address
   import MMS.OkError
 
-#  def map_address {string, type} do
-#    {string, type}
-#  end
-#
-#  def unmap_address {string, type} do
-#    :inet.ntoa ipv4
-#  end
-
-  def map(value) when is_binary(value) do
-    case String.split value, "/TYPE=", parts: 2 do
-      [string, type] -> ok {string, type}
-      _              -> error()
-    end
+  def map_address {string, type} do
+    ok {string, type}
   end
 
-  def map _ do
-    error()
+  def unmap_address({string, type}) when is_binary(string) and is_binary(type) do
+    ok {string, type}
   end
 
-  def unmap({value, type}) when is_binary(value) and is_binary(type) do
-    ok value <> "/TYPE=#{type}"
-  end
-
-  def unmap _ do
+  def unmap_address _ do
     error()
   end
 end

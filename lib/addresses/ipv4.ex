@@ -43,8 +43,9 @@ defmodule MMS.Address.Base do
 
       defp do_unmap address do
         case apply __MODULE__, :unmap_address, [address] do
-          {:error, _} -> error()
-          value -> ok to_string(value) <> "/TYPE=#{unquote(type)}"
+          {:ok, {value, x}} -> ok value <> "/TYPE=#{x}"
+          {:ok, value}      -> ok value <> "/TYPE=#{unquote(type)}"
+          {:error, _}       -> error()
         end
       end
     end
@@ -53,13 +54,17 @@ end
 
 defmodule MMS.Address.IPv4 do
   use MMS.Address.Base, type: "IPv4", error: :invalid_ipv4_address
+  import MMS.OkError
 
   def map_address string do
     string |> to_charlist |> :inet.parse_ipv4_address
   end
 
   def unmap_address(ipv4) when is_tuple(ipv4) and tuple_size(ipv4) == 4 do
-    :inet.ntoa ipv4
+    case :inet.ntoa ipv4 do
+      {:error, _} -> error()
+      charlist    -> ok to_string charlist
+    end
   end
 
   def unmap_address _ do
