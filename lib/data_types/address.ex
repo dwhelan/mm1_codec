@@ -30,7 +30,7 @@ defmodule MMS.Address do
       ["IPv6"]  -> IPv6.map string
       ["PLMN"]  -> PhoneNumber.map string
       [_]       -> Unknown.map string
-      []        -> Email.map value
+      []        -> Email.map string
     end
   end
 
