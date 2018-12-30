@@ -1,4 +1,4 @@
-defmodule MMS.Address.Unknown do
+defmodule MMS.UnknownAddress do
   use MMS.Address.Base, type: "", error: :invalid_unknown_address
   import MMS.OkError
 

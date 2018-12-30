@@ -1,8 +1,8 @@
-defmodule MMS.Address.UnknownTest do
+defmodule MMS.UnknownAddressTest do
   use ExUnit.Case
 
   use MMS.MapExamples,
-      mapper: MMS.Address.Unknown,
+      mapper: MMS.UnknownAddress,
       error: :invalid_unknown_address,
       examples: [
         { "value/TYPE=type", {"value", "type"} },
