@@ -22,26 +22,24 @@ defmodule MMS.OkError do
 
   def error_reason module do
     name = module |> to_string |> String.split(".") |> List.last |> Macro.underscore
-    "invalid_#{name}" |> combine_single_letters |> String.to_atom
+    "invalid_#{name}" |> preserve_acronyms |> String.to_atom
   end
 
-  defp combine_single_letters string do
+  defp preserve_acronyms string do
     String.replace string, ~r/(_[a-z)])_/, "\\1"
   end
 
-  def wrap value do
-    case value do
-      {:ok, value}     -> {:ok, value}
-      {:error, reason} -> {:error, reason}
-      value            -> {:ok, value}
-    end
-  end
+  def wrap(tuple) when is_tuple(tuple), do: tuple
+  def wrap(value),                      do: {:ok, value}
+
+  def wrap_as_error(tuple) when is_tuple(tuple), do: tuple
+  def wrap_as_error(value),                      do: {:error, value}
 
   defmacro input ~> fun do
     quote do
       case wrap unquote(input) do
-        {:error, reason} -> error reason
-        {:ok,    value } -> value |> unquote(fun) |> wrap
+        {:ok, value } -> value |> unquote(fun) |> wrap
+        error         -> error
       end
 
     end
@@ -50,8 +48,8 @@ defmodule MMS.OkError do
   defmacro input ~>> fun do
     quote do
       case wrap unquote(input) do
-        {:error, reason} -> reason |> unquote(fun) |> error
-        {:ok,    value } -> {:ok, value}
+        {:error, reason} -> reason |> unquote(fun) |> wrap_as_error
+        ok               -> ok
       end
     end
   end
