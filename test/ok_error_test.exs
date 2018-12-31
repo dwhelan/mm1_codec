@@ -2,33 +2,44 @@ defmodule MMS.OkErrorTest do
   use ExUnit.Case
 
   import MMS.OkError
-  import String
 
-  describe "~> should pipe values and short circuit errors" do
-    test "value ~> f => {:ok, f(value)}" do
-      assert "x" ~> upcase == {:ok, "X"}
-    end
+  def upcase string do
+    {:ok, String.upcase string}
+  end
 
-    test "{:ok, value} ~>f => {:ok, f(value)}" do
+  describe "~> should" do
+    test "pipe ok values" do
       assert {:ok, "x"} ~> upcase == {:ok, "X"}
     end
 
-    test "{:error, reason} ~f => {:error, reason}" do
+    test "short circuit errors" do
       assert {:error, :reason} ~> upcase == {:error, :reason}
+    end
+
+    test "wrap inputs" do
+      assert "x" ~> upcase == {:ok, "X"}
+    end
+
+    test "wrap outputs" do
+      assert {:ok, "x"} ~> String.upcase == {:ok, "X"}
     end
   end
 
-  describe "~>>" do
-    test "value ~>> f => {:ok, value}" do
-      assert "x" ~>> upcase == {:ok, "x"}
+  describe "~>> should" do
+    test "pipe errors" do
+      assert {:error, "reason"} ~>> String.upcase == {:error, "REASON"}
     end
 
-    test "{:ok, value} ~>> f => {:ok, value}" do
+    test "short circuit ok values" do
       assert {:ok, "x"} ~>> upcase == {:ok, "x"}
     end
 
-    test "{:error, reason} ~>> f => {:error f(reason)}" do
-      assert {:error, "reason"} ~>> upcase == {:error, "REASON"}
+    test "wrap inputs" do
+      assert "x" ~>> upcase == {:ok, "x"}
+    end
+
+    test "wrap outputs" do
+      assert "x" ~>> String.upcase == {:ok, "x"}
     end
   end
 end
