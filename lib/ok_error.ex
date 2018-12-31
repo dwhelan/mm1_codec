@@ -41,7 +41,7 @@ defmodule MMS.OkError do
     quote do
       case wrap2 unquote(input) do
         {:error, reason} -> error reason
-        {:ok, value}     -> value |> unquote(fun) |> wrap2
+        {:ok,    value } -> value |> unquote(fun) |> wrap2
       end
 
     end
@@ -51,7 +51,7 @@ defmodule MMS.OkError do
     quote do
       case wrap2 unquote(input) do
         {:error, reason} -> reason |> unquote(fun) |> error
-        {:ok, value}     -> {:ok, value}
+        {:ok,    value } -> {:ok, value}
       end
     end
   end

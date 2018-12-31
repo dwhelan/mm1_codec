@@ -23,7 +23,7 @@ defmodule MMS.Address.Base do
       use MMS.Mapper.Base
 
       def map(string) when is_binary(string) do
-        string |> split ~> do_map ~>> module_error
+        string |> split ~> _map_address
       end
 
       defp split string do
@@ -38,21 +38,22 @@ defmodule MMS.Address.Base do
         error()
       end
 
-      defp do_map arg do
+      defp _map_address arg do
         apply(__MODULE__, :map_address, [arg]) ~>> module_error
       end
 
       def unmap address  do
-        do_unmap address
-      end
-
-      defp do_unmap address do
         case apply __MODULE__, :unmap_address, [address] do
           {:ok, {value, type}} -> ok value <> "/TYPE=#{type}"
           {:ok, value}         -> ok value <> "/TYPE=#{unquote(type)}"
           {:error, _}          -> error()
+          :error               -> error()
           value                -> ok value <> "/TYPE=#{unquote(type)}"
         end
+      end
+
+      defp do_unmap address do
+        apply __MODULE__, :unmap_address, [address]
       end
     end
   end
@@ -66,12 +67,10 @@ defmodule MMS.Mapper.IPv4Address do
   end
 
   def unmap_address(ipv4) when is_tuple(ipv4) and tuple_size(ipv4) == 4 do
-    case_ok :inet.ntoa ipv4 do
-      charlist -> to_string charlist
-    end
+    ipv4 |> :inet.ntoa ~> to_string
   end
 
   def unmap_address _ do
-    error()
+   :error
   end
 end

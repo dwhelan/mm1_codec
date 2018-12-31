@@ -1,5 +1,5 @@
 defmodule MMS.Mapper.EmailAddress do
-  use MMS.Mapper.Base
+  use MMS.Mapper.Base, type: ""
   import MMS.OkError
 
   def map email do
