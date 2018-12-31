@@ -12,6 +12,10 @@ defmodule MMS.OkError do
     {:error, {codec, reason}}
   end
 
+  def error {:error, reason} do
+    {:error, reason}
+  end
+
   def error reason do
     {:error, reason}
   end
@@ -25,24 +29,31 @@ defmodule MMS.OkError do
     String.replace string, ~r/(_[a-z)])_/, "\\1"
   end
 
+  def wrap2 value do
+    case value do
+      {:ok, value}     -> {:ok, value}
+      {:error, reason} -> {:error, reason}
+      value            -> {:ok, value}
+    end
+  end
+
   defmacro input ~> fun do
     quote do
       case unquote(input) do
         {:error, reason} -> error reason
-        {:ok, value}     -> value |> unquote(fun)
-        value            -> value |> unquote(fun)
+        {:ok, value}     -> value |> unquote(fun) |> wrap2
+        value            -> value |> unquote(fun) |> wrap2
       end
 
     end
   end
 
-
   defmacro input ~>> fun do
     quote do
       case unquote(input) do
-        {:error, reason} -> reason |> unquote(fun)
-        {:ok, value}     -> ok value
-        value            -> ok value
+        {:error, reason} -> reason |> unquote(fun) |> error
+        {:ok, value}     -> {:ok, value}
+        value            -> {:ok, value}
       end
     end
   end

@@ -26,10 +26,6 @@ defmodule MMS.Address.Base do
         string |> split ~> do_map ~>> module_error
       end
 
-      def map _ do
-        error()
-      end
-
       defp split string do
         case String.split string, "/TYPE=#{unquote(type)}" do
           [address, ""  ] -> ok address
@@ -38,8 +34,12 @@ defmodule MMS.Address.Base do
         end
       end
 
+      def map _ do
+        error()
+      end
+
       defp do_map arg do
-        apply __MODULE__, :map_address, [arg]
+        apply(__MODULE__, :map_address, [arg]) ~>> module_error
       end
 
       def unmap address  do
