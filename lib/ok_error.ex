@@ -29,7 +29,7 @@ defmodule MMS.OkError do
     String.replace string, ~r/(_[a-z)])_/, "\\1"
   end
 
-  def wrap2 value do
+  def wrap value do
     case value do
       {:ok, value}     -> {:ok, value}
       {:error, reason} -> {:error, reason}
@@ -39,9 +39,9 @@ defmodule MMS.OkError do
 
   defmacro input ~> fun do
     quote do
-      case wrap2 unquote(input) do
+      case wrap unquote(input) do
         {:error, reason} -> error reason
-        {:ok,    value } -> value |> unquote(fun) |> wrap2
+        {:ok,    value } -> value |> unquote(fun) |> wrap
       end
 
     end
@@ -49,7 +49,7 @@ defmodule MMS.OkError do
 
   defmacro input ~>> fun do
     quote do
-      case wrap2 unquote(input) do
+      case wrap unquote(input) do
         {:error, reason} -> reason |> unquote(fun) |> error
         {:ok,    value } -> {:ok, value}
       end
