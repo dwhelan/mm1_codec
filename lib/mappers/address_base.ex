@@ -6,10 +6,6 @@ defmodule MMS.Mapper.Base do
 
       @reason error_reason __MODULE__
 
-      def error do
-        error @reason
-      end
-
       def module_error _reason do
         error @reason
       end

@@ -49,4 +49,10 @@ defmodule MMS.OkErrorTest do
       assert {:error, "reason"} ~>> upcase == {:ok, "REASON"}
     end
   end
+
+  describe "error/0" do
+    test "reason should be underscore version of caller module" do
+      assert error() == {:error, :invalid_ok_error_test}
+    end
+  end
 end

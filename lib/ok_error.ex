@@ -75,4 +75,8 @@ defmodule MMS.OkError do
       end
     end
   end
+
+  defmacro error do
+    {:error, __CALLER__.context_modules |> List.last |> error_reason}
+  end
 end
