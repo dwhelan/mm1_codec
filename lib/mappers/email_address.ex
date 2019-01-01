@@ -1,8 +1,8 @@
 defmodule MMS.Mapper.EmailAddress do
   import MMS.OkError
 
-  def map email do
-    ok_if email
+  def map string do
+    ok_if string
   end
 
   def unmap email do

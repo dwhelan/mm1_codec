@@ -4,7 +4,7 @@ defmodule MMS.Address.Base do
       import MMS.OkError
 
       def map(string) when is_binary(string) do
-        string |> split ~> _map_address
+        string |> split ~> do_map
       end
 
       defp split string do
@@ -19,12 +19,12 @@ defmodule MMS.Address.Base do
         error()
       end
 
-      defp _map_address arg do
+      defp do_map arg do
         apply(__MODULE__, :map_address, [arg]) ~>> module_error
       end
 
       def unmap address  do
-        case apply __MODULE__, :unmap_address, [address] do
+        case do_unmap address do
           {:ok, {value, type}} -> ok value <> "/TYPE=#{type}"
           {:ok, value}         -> ok value <> "/TYPE=#{unquote(type)}"
           {:error, _}          -> error()

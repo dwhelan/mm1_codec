@@ -6,9 +6,7 @@ defmodule MMS.Mapper.IPv6Address do
   end
 
   def unmap_address(ipv6) when is_tuple(ipv6) and tuple_size(ipv6) == 8 do
-    case_ok :inet.ntoa ipv6 do
-      charlist -> ok charlist |> to_string |> String.replace("::", ":")
-    end
+    ipv6 |> :inet.ntoa ~> to_string ~> String.replace("::", ":")
   end
 
   def unmap_address _ do
