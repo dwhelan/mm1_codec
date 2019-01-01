@@ -4,14 +4,13 @@ defmodule MMS.OneOf do
       import MMS.OkError
 
       @codecs opts[:codecs] || []
-      @reason "invalid_#{__MODULE__ |> to_string |> String.split(".") |> List.last |> Macro.underscore}" |> String.to_atom
 
       def decode bytes do
         decode bytes, @codecs
       end
 
       defp decode _, [] do
-        error @reason
+        error()
       end
 
       defp decode bytes, [codec | codecs] do
@@ -21,17 +20,15 @@ defmodule MMS.OneOf do
       end
 
       def encode value do
-        encode value, @codecs
+        encode :none, value, @codecs
       end
 
-      defp encode _, [] do
-        error @reason
+      defp encode _, _, [] do
+        error()
       end
 
-      defp encode value, [codec | codecs] do
-        case_error codec.encode value do
-          _ -> encode value, codecs
-        end
+      defp encode _, value, [codec | codecs] do
+        value |> codec.encode ~>> encode(value, codecs)
       end
     end
   end
