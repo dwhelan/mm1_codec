@@ -1,22 +1,7 @@
-defmodule MMS.Mapper.Base do
-  defmacro __using__ _opts do
-    quote do
-      import MMS.OkError
-      import MMS.Mapper.Base
-
-      @reason error_reason __MODULE__
-
-      def module_error _reason do
-        error @reason
-      end
-    end
-  end
-end
-
 defmodule MMS.Address.Base do
   defmacro __using__ opts \\ [] do
     quote bind_quoted: [type: opts[:type]] do
-      use MMS.Mapper.Base
+      import MMS.OkError
 
       def map(string) when is_binary(string) do
         string |> split ~> _map_address
@@ -50,6 +35,10 @@ defmodule MMS.Address.Base do
 
       defp do_unmap address do
         apply __MODULE__, :unmap_address, [address]
+      end
+
+      defp module_error _reason do
+        error()
       end
     end
   end

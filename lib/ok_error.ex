@@ -20,6 +20,10 @@ defmodule MMS.OkError do
     {:error, reason}
   end
 
+  defmacro error do
+    {:error, __CALLER__.context_modules |> List.last |> error_reason}
+  end
+
   def error_reason module do
     name = module |> to_string |> String.split(".") |> List.last |> Macro.underscore
     "invalid_#{name}" |> preserve_acronyms |> String.to_atom
@@ -74,9 +78,5 @@ defmodule MMS.OkError do
         ok                -> ok
       end
     end
-  end
-
-  defmacro error do
-    {:error, __CALLER__.context_modules |> List.last |> error_reason}
   end
 end
