@@ -4,16 +4,18 @@ defmodule MMS.Composer do
   alias MMS.Length
 
   def decode bytes, codecs do
-    case_ok Length.decode bytes do
-      {length, rest} -> do_decode rest, codecs, [], length
-    end
+    bytes |> Length.decode ~> do_decode(codecs)
+  end
+
+  defp do_decode {length, rest}, codecs do
+    do_decode rest, codecs, [], length
   end
 
   defp do_decode rest, _, values, 0 do
     ok List.to_tuple(values), rest
   end
 
-  defp do_decode(<<>>, _, _, _) do
+  defp do_decode <<>>, _, _, _ do
     error :incorrect_length
   end
 
@@ -27,7 +29,7 @@ defmodule MMS.Composer do
     [codec]
   end
 
-  defp remaining codec, codecs do
+  defp remaining _codec, codecs do
     codecs
   end
 
@@ -41,12 +43,6 @@ defmodule MMS.Composer do
 
   def encode values, codecs do
     do_encode Enum.zip(values, codecs), []
-  end
-
-  defp do_encode [{value, codec} | list], value_bytes do
-    case_ok codec.encode value do
-      bytes -> do_encode list, [bytes | value_bytes]
-    end
   end
 
   defp do_encode [{value, codec} | list], value_bytes do
