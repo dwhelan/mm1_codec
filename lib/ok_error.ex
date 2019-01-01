@@ -29,8 +29,10 @@ defmodule MMS.OkError do
     String.replace string, ~r/(_[a-z)])_/, "\\1"
   end
 
-  def wrap(tuple) when is_tuple(tuple), do: tuple
-  def wrap(value),                      do: {:ok, value}
+  def wrap(value) when is_tuple(value),        do: value
+  def wrap(value),                             do: ok value
+#  def wrap(value, tuple) when is_tuple(value), do: value
+#  def wrap(value, tuple),                      do: {:ok, :erlang.setelement(1, tuple, value)}
 
   def wrap_as_error(tuple) when is_tuple(tuple), do: tuple
   def wrap_as_error(value),                      do: {:error, value}
@@ -38,6 +40,7 @@ defmodule MMS.OkError do
   defmacro input ~> fun do
     quote do
       case wrap unquote(input) do
+#        {:ok, tuple } when is_tuple(tuple) -> elem(tuple, 0) |> unquote(fun) |> wrap(tuple)
         {:ok, value } -> value |> unquote(fun) |> wrap
         error         -> error
       end

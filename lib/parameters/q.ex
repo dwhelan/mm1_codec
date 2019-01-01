@@ -4,23 +4,25 @@ defmodule MMS.Q do
   alias MMS.Uint32
 
   def decode bytes do
-    case_ok Uint32.decode bytes do
-      {value, rest} -> ok map(value), rest
-    end
+    bytes |> Uint32.decode ~> map
   end
 
-  defp map(value) when value <= 100 do
+  defp map {value, rest} do
+    ok q_string(value), rest
+  end
+
+  defp q_string(value) when value <= 100 do
     q = (value - 1) / 100
     :erlang.float_to_binary q, decimals: 2
   end
 
-  defp map value do
+  defp q_string value do
     q = (value - 100) / 1000
     :erlang.float_to_binary q, decimals: 3
   end
 
   def encode(value) when is_binary(value) do
-    value |> unmap |> Uint32.encode
+    value |> unmap |> round |> Uint32.encode
   end
 
   def encode _ do
@@ -28,10 +30,10 @@ defmodule MMS.Q do
   end
 
   defp unmap(string) when byte_size(string) <= 4 do
-    round :erlang.binary_to_float(string) * 100 + 1
+    :erlang.binary_to_float(string) * 100 + 1
   end
 
   defp unmap(string) do
-    round :erlang.binary_to_float(string) * 1000 + 100
+    :erlang.binary_to_float(string) * 1000 + 100
   end
 end
