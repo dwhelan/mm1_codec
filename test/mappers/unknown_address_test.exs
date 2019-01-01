@@ -10,6 +10,9 @@ defmodule MMS.Mapper.UnknownAddressTest do
 
       map_errors: [
         "value/TYPE",
+        "value/TYPE=PLMN",
+        "value/TYPE=IPv4",
+        "value/TYPE=IPv6",
         "value/TYPE=type/TYPE=type",
         :not_unknown_address,
       ],
@@ -18,5 +21,8 @@ defmodule MMS.Mapper.UnknownAddressTest do
         :not_unknown_address,
         {:not_a_string, "type"},
         {"value", :not_a_string},
+        {"value", "PLMN"},
+        {"value", "IPv4"},
+        {"value", "IPv6"},
       ]
 end
