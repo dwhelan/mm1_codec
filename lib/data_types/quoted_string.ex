@@ -1,6 +1,5 @@
 defmodule MMS.QuotedString do
   import MMS.OkError
-  import MMS.DataTypes
 
   alias MMS.Text
 
@@ -17,12 +16,14 @@ defmodule MMS.QuotedString do
   end
 
   def encode({string}) when is_binary(string) do
-    case_ok Text.encode string do
-      bytes -> ok <<@quote_char>> <> bytes
-    end
+    string |> Text.encode ~> quote_string
   end
 
   def encode _ do
     error :invalid_quoted_string
+  end
+
+  defp quote_string bytes do
+    <<@quote_char>> <> bytes
   end
 end
