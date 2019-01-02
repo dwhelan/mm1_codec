@@ -6,25 +6,24 @@ defmodule MMS.LengthTest do
 
   use MMS.TestExamples,
       codec: MMS.Length,
+
       examples: [
-        {<< 1>>,  1},
-        {<<30>>, 30},
+        { <<1>>,  1  },
+        { <<30>>, 30 },
 
-        {<<length_quote, 31>>, 31},
-        {<<length_quote, 32>>, 32},
-
-        {<<length_quote, 143, 255, 255, 255, 127>>, max_uint32()},
+        { <<length_quote, 31>>,                   31           },
+        { <<length_quote>> <> max_uint32_bytes(), max_uint32() },
       ],
 
       decode_errors: [
-        {<<32>>, :invalid_length},
-        {<<length_quote, 128, 255, 255, 255, 255, 127>>, :invalid_uint32},
+        { <<32>>,                                         :invalid_length },
+        { <<length_quote, 128, 255, 255, 255, 255, 127>>, :invalid_length },
       ],
 
       encode_errors: [
-        {-1,               :invalid_length},
-        {max_uint32() + 1, :invalid_length},
-        {:not_an_integer,  :invalid_length},
+        { -1,               :invalid_length },
+        { max_uint32() + 1, :invalid_length },
+        { :not_a_length,    :invalid_length },
       ]
 end
 

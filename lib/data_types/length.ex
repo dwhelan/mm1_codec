@@ -9,12 +9,8 @@ defmodule MMS.Length do
     ShortLength.decode bytes
   end
 
-  def decode <<@length_quote, rest::binary>> do
-    Uint32.decode rest
-  end
-
-  def decode _ do
-    error :invalid_length
+  def decode <<@length_quote, bytes::binary>> do
+    bytes |> Uint32.decode ~>> module_error
   end
 
   def encode(value) when is_short_length(value) do
