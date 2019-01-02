@@ -1,11 +1,12 @@
 defmodule MMS.IntegerTest do
   use ExUnit.Case
+  import MMS.Test
 
   use MMS.TestExamples,
       codec: MMS.Integer,
       examples: [
-        {<<2,   1,   0>>,   256},
-#        {<<255>>, 127},
+        {<< l(2),   1,   0>>,   256},
+        {<<255>>, 127},
       ],
 
       decode_errors: [
