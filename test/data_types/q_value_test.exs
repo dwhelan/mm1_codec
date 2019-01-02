@@ -31,9 +31,7 @@ defmodule MMS.QValueTest do
 
       encode_errors: [
         { :not_a_q_value, :invalid_qvalue },
-        { "1.00",         :invalid_qvalue },
-        { "1.000",        :invalid_qvalue },
-#        { "0.9995",        :invalid_qvalue },
+        { "0.9995",       :invalid_qvalue },
         { "abc",          :invalid_qvalue },
       ]
 end

@@ -27,7 +27,7 @@ defmodule MMS.QValue do
 
   defp parse string do
     case Float.parse string do
-      {value, ""} -> ok {string, value}
+      {value, ""} -> ok {string, Float.round(value, 3)}
       _           -> error()
     end
   end
