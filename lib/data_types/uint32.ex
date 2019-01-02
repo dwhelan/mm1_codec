@@ -1,42 +1,43 @@
 defmodule MMS.Uint32 do
+  use MMS.Codec
   use Bitwise
+  import Kernel, except: [+: 2]
 
-  import MMS.OkError
-  import MMS.DataTypes
-
-  def decode bytes do
-    decode bytes, 0, <<>>
+  def decode(bytes) when is_binary(bytes) do
+    do_decode bytes, 0, <<>>
   end
 
-  defp decode<<1::1, value::7, rest::binary>>, total, bytes do
-    decode rest, add(value, total), bytes <> <<1::1, value::7>>
+  defp do_decode<<1::1, value::7, rest::binary>>, total, bytes do
+    do_decode rest, value + total, bytes <> <<1::1, value::7>>
   end
 
-  defp decode(_, _, bytes) when byte_size(bytes) > 4 do
-    error :uint32_length_must_be_5_bytes_or_less
+  defp do_decode(_, _, bytes) when byte_size(bytes) > 4 do
+    error()
   end
 
-  defp decode <<value, rest::binary>>, total, _ do
-    ok add(value, total), rest
+  defp do_decode <<value, rest::binary>>, total, _ do
+    ok value + total, rest
   end
 
   def encode(value) when is_uint32(value) do
-    ok bytes_for(value >>> 7, <<value &&& 0x7f>>)
+    ok do_encode value >>> 7, <<byte(value)>>
   end
 
-  def encode _ do
-    error :must_be_a_uint32
-  end
-
-  defp bytes_for 0, bytes do
+  defp do_encode 0, bytes do
     bytes
   end
 
-  defp bytes_for value, bytes do
-    bytes_for value >>> 7, <<1::1, (value &&& 0x7f)::7>> <> bytes
+  defp do_encode value, bytes do
+    do_encode value >>> 7, <<1::1, byte(value)::7>> <> bytes
   end
 
-  defp add value, total do
-    value + (total <<< 7)
+  def byte value do
+    value &&& 0x7f
   end
+
+  def value + total do
+    Kernel.+ value , total <<< 7
+  end
+
+  defaults()
 end

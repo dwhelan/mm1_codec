@@ -1,8 +1,8 @@
-defmodule MMS.QTest do
+defmodule MMS.QValueTest do
   use ExUnit.Case
 
   use MMS.TestExamples,
-      codec: MMS.Q,
+      codec: MMS.QValue,
       examples: [
         # single byte: 2 decimal places
         {<<1>>,   "0.00"},

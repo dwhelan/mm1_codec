@@ -1,5 +1,5 @@
-defmodule MMS.Q do
-  import MMS.OkError
+defmodule MMS.QValue do
+  use MMS.Codec
 
   alias MMS.Uint32
 
@@ -25,10 +25,6 @@ defmodule MMS.Q do
     value |> unmap |> round |> Uint32.encode
   end
 
-  def encode _ do
-    error :invalid_q_value
-  end
-
   defp unmap(string) when byte_size(string) <= 4 do
     :erlang.binary_to_float(string) * 100 + 1
   end
@@ -36,4 +32,6 @@ defmodule MMS.Q do
   defp unmap(string) do
     :erlang.binary_to_float(string) * 1000 + 100
   end
+
+  defaults()
 end

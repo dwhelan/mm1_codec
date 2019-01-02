@@ -1,7 +1,7 @@
 defmodule MMS.WellKnownParameters do
   # Based on WAP-230-WSP-20010705-a: Table 38. Well-Known Parameter Assignments
 
-  alias MMS.{Charset, DateTime, Integer, Q, Media, NoValue, Short, TextString, TextValue, Version}
+  alias MMS.{Charset, DateTime, Integer, Media, NoValue, QValue, Short, TextString, TextValue, Version}
 
   alias Media,      as: ConstrainedEncoding
   alias Integer,    as: DeltaSecondsValue
@@ -9,7 +9,7 @@ defmodule MMS.WellKnownParameters do
 
   use MMS.CodecMapper,
       values: [
-        q:                     Q,
+        q:                     QValue,
         charset:               Charset,
         level:                 Version,
         type:                  Integer,
