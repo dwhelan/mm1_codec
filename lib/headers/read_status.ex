@@ -1,9 +1,7 @@
 defmodule MMS.ReadStatus do
-  use MMS.Mapper,
-      codec: MMS.Byte,
+  use MMS.Lookup,
       values: [
         :read,
         :deleted,
-      ],
-      offset: 128
+      ]
 end

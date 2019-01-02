@@ -1,10 +1,8 @@
 defmodule MMS.Priority do
-  use MMS.Mapper,
-      codec: MMS.Byte,
+  use MMS.Lookup,
       values: [
         :low,
         :normal,
         :high,
-      ],
-      offset: 128
+      ]
 end
