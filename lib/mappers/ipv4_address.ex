@@ -10,6 +10,6 @@ defmodule MMS.Mapper.IPv4Address do
   end
 
   def unmap_address _ do
-   :error
+    error()
   end
 end

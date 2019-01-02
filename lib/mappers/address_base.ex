@@ -28,7 +28,7 @@ defmodule MMS.Address.Base do
           {:ok, {value, type}} -> ok value <> "/TYPE=#{type}"
           {:ok, value}         -> ok value <> "/TYPE=#{unquote(type)}"
           {:error, _}          -> error()
-          :error               -> error()
+#          :error               -> error()
           value                -> ok value <> "/TYPE=#{unquote(type)}"
         end
       end

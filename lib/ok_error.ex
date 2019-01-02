@@ -21,7 +21,7 @@ defmodule MMS.OkError do
   end
 
   defmacro error do
-    {:error, __CALLER__.context_modules |> List.last |> error_reason}
+    {:error, __CALLER__.context_modules |> hd |> error_reason}
   end
 
   defmacro either(input, fun) do

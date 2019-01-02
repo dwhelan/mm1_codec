@@ -15,10 +15,14 @@ defmodule MMS.IntegerVersion do
   end
 
   def encode(major) when is_integer(major, 0, 7) do
-    ok <<1::1, major::3, 15::4>>
+    do_encode major, 15
   end
 
   def encode({major, minor}) when is_integer(major, 0, 7) and is_integer(minor, 0, 14) do
+    do_encode major, minor
+  end
+
+  def do_encode major, minor do
     ok <<1::1, major::3, minor::4>>
   end
 
