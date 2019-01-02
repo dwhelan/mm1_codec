@@ -1,5 +1,6 @@
 defmodule MMS.QValueTest do
   use ExUnit.Case
+  import MMS.DataTypes
 
   use MMS.TestExamples,
       codec: MMS.QValue,
@@ -20,10 +21,20 @@ defmodule MMS.QValueTest do
         {<<129,  0>>, "0.028"},
         {<<129,  1>>, "0.029"},
         {<<136, 75>>, "0.999"},
+      ],
 
-        # values that are decodeable but invalid
-        {<<136,  76>>,  "1.000"},
-        {<<255, 127>>, "16.283"},
+      decode_errors: [
+        { <<128>>,            :invalid_qvalue }, # Uint32 error
+        { <<136, 76>>,        :invalid_qvalue }, # 1.000
+        { max_uint32_bytes(), :invalid_qvalue }, #
+      ],
+
+      encode_errors: [
+        { :not_a_q_value, :invalid_qvalue },
+        { "1.00",         :invalid_qvalue },
+        { "1.000",        :invalid_qvalue },
+#        { "0.9995",        :invalid_qvalue },
+        { "abc",          :invalid_qvalue },
       ]
 end
 
