@@ -8,17 +8,19 @@ defmodule MMS.QValue do
   end
 
   defp map({value, rest}) when value <= 100 do
-    q = (value - 1) / 100
-    ok :erlang.float_to_binary(q, decimals: 2), rest
+    ok q_string((value - 1) / 100, 2), rest
   end
 
   defp map({value, rest}) when value <= 1099 do
-    q = (value - 100) / 1000
-    ok :erlang.float_to_binary(q, decimals: 3), rest
+    ok q_string((value - 100) / 1000, 3), rest
   end
 
   defp map _ do
     error()
+  end
+
+  defp q_string value, decimals do
+    :erlang.float_to_binary(value, decimals: decimals)
   end
 
   def encode(value) when is_binary(value) do
