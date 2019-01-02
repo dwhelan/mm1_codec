@@ -1,5 +1,5 @@
 defmodule MMS.DateTime do
-  import MMS.OkError
+  use MMS.Codec
 
   alias MMS.Long
 
@@ -17,7 +17,5 @@ defmodule MMS.DateTime do
     Long.encode seconds
   end
 
-  def encode _  do
-    error :invalid_date_time
-  end
+  defaults()
 end
