@@ -3,20 +3,23 @@ defmodule MMS.Uint32 do
   use Bitwise
 
   def decode(bytes) when is_binary(bytes) do
-    do_decode bytes, 0, 0
+    do_decode bytes, 0
   end
 
-  defp do_decode<<1::1, value::7, rest::binary>>, total, size do
-    do_decode rest, add(value, total), size+1
+  defp do_decode<<1::1, value::7, rest::binary>>, total do
+    do_decode rest, value |> add(total)
   end
 
-  defp do_decode(_, _, size) when size > 4 do
-    IO.inspect size2: size
+  defp do_decode <<value, rest::binary>>, total do
+    ok_if_uint32 value |> add(total), rest
+  end
+
+  defp ok_if_uint32(value, _) when is_uint32(value) == false do
     error()
   end
 
-  defp do_decode <<value, rest::binary>>, total, _size do
-    ok add(value, total), rest
+  defp ok_if_uint32 value, rest do
+    ok value, rest
   end
 
   def encode(value) when is_uint32(value) do
