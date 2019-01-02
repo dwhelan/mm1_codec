@@ -4,23 +4,23 @@ defmodule MMS.QValue do
   alias MMS.Uint32
 
   def decode(bytes) when is_binary(bytes) do
-    bytes |> Uint32.decode ~> map ~>> module_error
+    bytes |> Uint32.decode |> map_value(q_string)
   end
 
-  defp map({value, rest}) when value <= 100 do
-    ok q_string((value - 1) / 100, 2), rest
+  defp q_string(value) when value <= 100 do
+    format (value - 1) / 100, 2
   end
 
-  defp map({value, rest}) when value <= 1099 do
-    ok q_string((value - 100) / 1000, 3), rest
+  defp q_string(value) when value <= 1099 do
+    format (value - 100) / 1000, 3
   end
 
-  defp map _ do
+  defp q_string _ do
     error()
   end
 
-  defp q_string value, decimals do
-    :erlang.float_to_binary(value, decimals: decimals)
+  defp format float, decimals do
+    ok :erlang.float_to_binary(float, decimals: decimals)
   end
 
   def encode(value) when is_binary(value) do

@@ -1,4 +1,13 @@
 defmodule MMS.Codec do
+  defmacro map_value input, fun do
+    quote do
+      case wrap unquote(input) do
+        {:ok, {value, rest}} -> value |> unquote(fun) ~> ok(rest) ~>> module_error()
+        error                -> module_error()
+      end
+    end
+  end
+
   defmacro defaults do
     import MMS.OkError
 
@@ -17,6 +26,7 @@ defmodule MMS.Codec do
     quote bind_quoted: [opts: opts] do
       import MMS.OkError
       import MMS.DataTypes
+      import MMS.Codec
 
       def decode(value) when is_binary(value) == false do
         error()

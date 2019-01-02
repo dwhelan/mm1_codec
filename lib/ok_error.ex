@@ -39,26 +39,19 @@ defmodule MMS.OkError do
     {:error, __CALLER__.context_modules |> hd |> error_reason}
   end
 
-  defmacro module_error _reason do
+  defmacro module_error _reason \\ nil do
     {:error, __CALLER__.context_modules |> hd |> error_reason}
   end
 
   def wrap(value) when is_tuple(value),        do: value
   def wrap(value),                             do: ok value
-#  def wrap(value, tuple) when is_tuple(value), do: value
-#  def wrap(value, tuple),                      do: {:ok, :erlang.setelement(1, tuple, value)}
 
   def wrap_as_error(tuple) when is_tuple(tuple), do: tuple
   def wrap_as_error(value),                      do: {:error, value}
 
-  def decode_map {:ok, {value, rest}}, fun do
-
-  end
-
   defmacro input ~> fun do
     quote do
       case wrap unquote(input) do
-#        {:ok, tuple } when is_tuple(tuple) -> elem(tuple, 0) |> unquote(fun) |> wrap(tuple)
         {:ok, value } -> value |> unquote(fun) |> wrap
         error         -> error
       end
