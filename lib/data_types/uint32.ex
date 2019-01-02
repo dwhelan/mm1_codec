@@ -3,23 +3,27 @@ defmodule MMS.Uint32 do
   use Bitwise
 
   def decode(bytes) when is_binary(bytes) do
-    do_decode bytes, 0
+    do_decode bytes, []
   end
 
-  defp do_decode<<1::1, value::7, rest::binary>>, total do
-    do_decode rest, value |> add(total)
+  defp do_decode<<1::1, value::7, rest::binary>>, values do
+    do_decode rest, [value | values]
   end
 
-  defp do_decode <<value, rest::binary>>, total do
-    ok_if_uint32 value |> add(total), rest
+  defp do_decode <<value, rest::binary>>, values do
+    ok_if_uint32 value |> total(values), rest
   end
 
-  defp ok_if_uint32(value, _) when is_uint32(value) == false do
-    error()
+  defp total value, values do
+    [value | values] |> Enum.reverse |> Enum.reduce(& &1 + (&2 <<< 7))
   end
 
-  defp ok_if_uint32 value, rest do
+  defp ok_if_uint32(value, rest) when is_uint32(value) do
     ok value, rest
+  end
+
+  defp ok_if_uint32 _, _ do
+    error()
   end
 
   def encode(value) when is_uint32(value) do
@@ -38,11 +42,7 @@ defmodule MMS.Uint32 do
     <<continue::1, (value &&& 0x7f)::7>>
   end
 
-  defp add value, total do
-    value + (total <<< 7)
-  end
-
-  def shift7 value do
+  defp shift7 value do
     value >>> 7
   end
 
