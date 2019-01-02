@@ -51,6 +51,10 @@ defmodule MMS.OkError do
   def wrap_as_error(tuple) when is_tuple(tuple), do: tuple
   def wrap_as_error(value),                      do: {:error, value}
 
+  def decode_map {:ok, {value, rest}}, fun do
+
+  end
+
   defmacro input ~> fun do
     quote do
       case wrap unquote(input) do

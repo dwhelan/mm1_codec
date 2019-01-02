@@ -26,6 +26,10 @@ defmodule MMS.Codec do
         error()
       end
 
+      def decode nil do
+        error()
+      end
+
       import MMS.Codec
     end
   end

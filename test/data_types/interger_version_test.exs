@@ -14,15 +14,15 @@ defmodule MMS.IntegerVersionTest do
       ],
 
       encode_errors: [
-        { :x,       :invalid_version },
-        { -1,       :invalid_version },
-        {  8,       :invalid_version },
-        { {:x,  0}, :invalid_version },
-        { {-1,  0}, :invalid_version },
-        { { 8,  0}, :invalid_version },
-        { { 0, :x}, :invalid_version },
-        { { 0, -1}, :invalid_version },
-        { { 0, 15}, :invalid_version },
+        { :x,       :invalid_integer_version },
+        { -1,       :invalid_integer_version },
+        {  8,       :invalid_integer_version },
+        { {:x,  0}, :invalid_integer_version },
+        { {-1,  0}, :invalid_integer_version },
+        { { 8,  0}, :invalid_integer_version },
+        { { 0, :x}, :invalid_integer_version },
+        { { 0, -1}, :invalid_integer_version },
+        { { 0, 15}, :invalid_integer_version },
       ]
 end
 

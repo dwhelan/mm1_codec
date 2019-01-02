@@ -2,8 +2,8 @@ defmodule MMS.Uint32 do
   use MMS.Codec
   use Bitwise
 
-  def decode<<128, rest::binary>> do
-    error
+  def decode<<128, _::binary>> do
+    error()
   end
 
   def decode(bytes) when is_binary(bytes) do

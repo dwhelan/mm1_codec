@@ -1,6 +1,5 @@
 defmodule MMS.IntegerVersion do
-  import MMS.OkError
-  import MMS.DataTypes
+  use MMS.Codec
 
   def decode <<1::1, major::3, 15::4, rest::binary>> do
     ok major, rest
@@ -8,10 +7,6 @@ defmodule MMS.IntegerVersion do
 
   def decode <<1::1, major::3, minor::4, rest::binary>> do
     ok {major, minor}, rest
-  end
-
-  def decode _ do
-    error :invalid_version
   end
 
   def encode(major) when is_integer(major, 0, 7) do
@@ -26,7 +21,5 @@ defmodule MMS.IntegerVersion do
     ok <<1::1, major::3, minor::4>>
   end
 
-  def encode _ do
-    error :invalid_version
-  end
+  defaults()
 end
