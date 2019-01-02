@@ -9,6 +9,5 @@ defmodule MMS.Byte do
     ok <<value>>
   end
 
-
   defaults()
 end

@@ -1,6 +1,6 @@
 defmodule MMS.Status do
   use MMS.Mapper,
-      codec: MMS.Short,
+      codec: MMS.Byte,
       values: [
         :expired,
         :retrieved,
@@ -9,5 +9,6 @@ defmodule MMS.Status do
         :unrecognized,
         :indeterminate,
         :forwarded,
-      ]
+      ],
+      offset: 128
 end
