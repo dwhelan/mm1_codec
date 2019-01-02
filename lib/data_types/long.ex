@@ -10,29 +10,17 @@ defmodule MMS.Long do
     encoded first (big-endian representation).
     The minimum number of octets must be used to encode the value.
   """
+  use MMS.Codec
 
-  import MMS.OkError
-  import MMS.DataTypes
-
-  def decode(<<length, _::binary>>) when is_short_length(length) == false do
-    error :invalid_long_length
-  end
-
-  def decode(<<length, rest::binary>>) when byte_size(rest) < length do
-    error :insufficient_bytes
-  end
-
-  def decode <<length, bytes::binary>> do
+  def decode(<<length, bytes::binary>>) when is_short_length(length) and length <= byte_size(bytes) do
     {value_bytes, rest} = String.split_at bytes, length
     ok :binary.decode_unsigned(value_bytes), rest
   end
 
   def encode(value) when is_long(value) do
-    bytes = :binary.encode_unsigned(value)
+    bytes = :binary.encode_unsigned value
     ok <<byte_size(bytes)>> <> bytes
   end
 
-  def encode _ do
-    error :invalid_long
-  end
+  defaults()
 end

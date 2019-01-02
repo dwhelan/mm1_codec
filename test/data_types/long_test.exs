@@ -13,9 +13,9 @@ defmodule MMS.LongTest do
     ],
 
     decode_errors: [
-      {<< 0>>, :invalid_long_length},
-      {<<31>>, :invalid_long_length},
-      {<< 1>>, :insufficient_bytes },
+      {<< 0>>, :invalid_long},
+      {<<31>>, :invalid_long},
+      {<< 1>>, :invalid_long },
     ],
 
     encode_errors: [
