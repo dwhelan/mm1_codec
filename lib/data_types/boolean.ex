@@ -1,9 +1,7 @@
 defmodule MMS.Boolean do
-  use MMS.Mapper,
-      codec: MMS.Byte,
+  use MMS.Lookup,
       values: [
         true,
         false,
-      ],
-      offset: 128
+      ]
 end
