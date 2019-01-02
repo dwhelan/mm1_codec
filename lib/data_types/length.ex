@@ -1,29 +1,39 @@
-defmodule MMS.Length do
+defmodule MMS.Length.Short do
   use MMS.Codec
 
-  alias MMS.{ShortLength, Uint32}
-
-  @length_quote 31
-
-  def decode(<<value, _::binary>> = bytes) when is_short_length(value) do
-    ShortLength.decode bytes
-  end
-
-  def decode <<@length_quote, bytes::binary>> do
-    bytes |> Uint32.decode ~>> module_error
+  def decode(<<value, rest::binary>>) when is_short_length(value) do
+    ok value, rest
   end
 
   def encode(value) when is_short_length(value) do
-    ShortLength.encode value
-  end
-
-  def encode(value) when is_uint32(value) do
-    value |> Uint32.encode |> prefix_with_length_quote
-  end
-
-  defp prefix_with_length_quote {:ok, bytes} do
-    ok <<@length_quote>> <> bytes
+    ok <<value>>
   end
 
   defaults()
+end
+
+defmodule MMS.Length.Uint32 do
+  use MMS.Codec
+
+  alias MMS.Uint32
+
+  @length_quote 31
+
+  def decode <<@length_quote, bytes::binary>> do
+    bytes |> Uint32.decode
+  end
+
+  def encode(value) when is_uint32(value) do
+    value |> Uint32.encode ~> prefix(@length_quote)
+  end
+
+  defp prefix bytes, prefix do
+    <<prefix>> <> bytes
+  end
+
+  defaults()
+end
+
+defmodule MMS.Length do
+  use MMS.OneOf, codecs: [MMS.Length.Short, MMS.Length.Uint32]
 end

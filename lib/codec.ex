@@ -16,8 +16,17 @@ defmodule MMS.Codec do
   defmacro __using__ opts \\ [] do
     quote bind_quoted: [opts: opts] do
       import MMS.OkError
-      import MMS.Codec
       import MMS.DataTypes
+
+      def decode(value) when is_binary(value) == false do
+        error()
+      end
+
+      def decode <<>> do
+        error()
+      end
+
+      import MMS.Codec
     end
   end
 end

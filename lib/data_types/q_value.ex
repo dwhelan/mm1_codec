@@ -3,7 +3,7 @@ defmodule MMS.QValue do
 
   alias MMS.Uint32
 
-  def decode bytes do
+  def decode(bytes) when is_binary(bytes) do
     bytes |> Uint32.decode ~> map
   end
 

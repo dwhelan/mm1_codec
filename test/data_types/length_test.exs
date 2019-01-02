@@ -17,6 +17,7 @@ defmodule MMS.LengthTest do
 
       decode_errors: [
         { <<32>>,                                         :invalid_length },
+        { <<length_quote>>,                               :invalid_length },
         { <<length_quote, 128, 255, 255, 255, 255, 127>>, :invalid_length },
       ],
 
