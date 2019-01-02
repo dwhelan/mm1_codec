@@ -1,5 +1,5 @@
 defmodule MMS.Codec do
-  defmacro default do
+  defmacro defaults do
     import MMS.OkError
 
     quote do

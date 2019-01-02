@@ -1,6 +1,5 @@
 defmodule MMS.Byte do
-  import MMS.OkError
-  import MMS.DataTypes
+  use MMS.Codec
 
   def decode <<byte, rest::binary>> do
     ok byte, rest
@@ -10,7 +9,6 @@ defmodule MMS.Byte do
     ok <<value>>
   end
 
-  def encode _ do
-    error :invalid_byte
-  end
+
+  defaults()
 end

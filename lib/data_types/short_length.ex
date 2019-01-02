@@ -9,5 +9,5 @@ defmodule MMS.ShortLength do
     ok <<value>>
   end
 
-  default()
+  defaults()
 end
