@@ -1,26 +1,26 @@
 defmodule MMS.Uint32 do
   use MMS.Codec
   use Bitwise
-  import Kernel, except: [+: 2]
 
   def decode(bytes) when is_binary(bytes) do
-    do_decode bytes, 0, <<>>
+    do_decode bytes, 0, 0
   end
 
-  defp do_decode<<1::1, value::7, rest::binary>>, total, bytes do
-    do_decode rest, value + total, bytes <> <<1::1, value::7>>
+  defp do_decode<<1::1, value::7, rest::binary>>, total, size do
+    do_decode rest, add(value, total), size+1
   end
 
-  defp do_decode(_, _, bytes) when byte_size(bytes) > 4 do
+  defp do_decode(_, _, size) when size > 4 do
+    IO.inspect size2: size
     error()
   end
 
-  defp do_decode <<value, rest::binary>>, total, _ do
-    ok value + total, rest
+  defp do_decode <<value, rest::binary>>, total, _size do
+    ok add(value, total), rest
   end
 
   def encode(value) when is_uint32(value) do
-    ok do_encode value >>> 7, <<byte(value)>>
+    ok do_encode value |> shift7, value |> encode_lsb7(0)
   end
 
   defp do_encode 0, bytes do
@@ -28,15 +28,19 @@ defmodule MMS.Uint32 do
   end
 
   defp do_encode value, bytes do
-    do_encode value >>> 7, <<1::1, byte(value)::7>> <> bytes
+    do_encode value |> shift7, (value |> encode_lsb7(1)) <> bytes
   end
 
-  def byte value do
-    value &&& 0x7f
+  defp encode_lsb7 value, continue do
+    <<continue::1, (value &&& 0x7f)::7>>
   end
 
-  def value + total do
-    Kernel.+ value , total <<< 7
+  defp add value, total do
+    value + (total <<< 7)
+  end
+
+  def shift7 value do
+    value >>> 7
   end
 
   defaults()
