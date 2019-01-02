@@ -1,16 +1,21 @@
 defmodule MMS.BooleanTest do
   use ExUnit.Case
+  import MMS.Test
 
   use MMS.TestExamples,
       codec: MMS.Boolean,
       examples: [
-        { <<128>>,  true },
-        { <<129>>, false },
+        { << s(0) >>, true  },
+        { << s(1) >>, false },
       ],
 
       decode_errors: [
-        { <<127>>, :invalid_boolean },
-        { <<130>>, :invalid_boolean },
+        { 0,    :invalid_boolean },
+        { s(2), :invalid_boolean },
+      ],
+
+      encode_errors: [
+        { :not_boolean, :invalid_boolean },
       ]
 end
 
