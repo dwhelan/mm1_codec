@@ -1,22 +1,25 @@
 defmodule MMS.IntegerTest do
   use ExUnit.Case
   import MMS.Test
+  import MMS.DataTypes
 
   use MMS.TestExamples,
       codec: MMS.Integer,
       examples: [
-        {<< l(2),   1,   0>>,   256},
-        {<<255>>, 127},
+        { << s(0) >>,           0      },
+        { << s(127) >>,         127    },
+        { << l(1), 128 >>,      128    },
+        { << l(2), 255, 255 >>, 65_535 },
       ],
 
       decode_errors: [
-#        {<<127>>, :invalid_short},
+        { <<0>>,  :invalid_integer },
       ],
 
       encode_errors: [
-#        {-1,  :invalid_short},
-#        {128, :invalid_short},
-#        {"x", :invalid_short},
+        { -1,              :invalid_integer },
+        { max_long()+1,    :invalid_integer },
+        { :not_an_integer, :invalid_integer },
       ]
 end
 
