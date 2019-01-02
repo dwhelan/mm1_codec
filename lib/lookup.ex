@@ -14,9 +14,17 @@ defmodule MMS.Lookup do
     end
   end
 
-  def encode value, codec, map do
-    Map.get(map, value, value) |> codec.encode
+  def encode value, codec, unmap do
+    value |> unmap(unmap) ~> codec.encode
   end
+
+  defp unmap value, unmap do
+    case Map.get(unmap, value) do
+      nil -> error()
+      value -> ok value
+    end
+  end
+
 
   def indexed(values) when is_list(values) do
     values |> Enum.with_index(0) |> Enum.reduce(%{}, fn {v, i}, map -> Map.put(map, i, v) end)
@@ -36,7 +44,7 @@ defmodule MMS.Lookup do
       end
 
       def encode value do
-        encode value, @codec, @encode_map
+        value |> encode(@codec, @encode_map) ~>> module_error
       end
     end
   end

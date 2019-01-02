@@ -5,14 +5,19 @@ defmodule MMS.CharsetTest do
   use MMS.TestExamples,
       codec: MMS.Charset,
       examples: [
-        { <<128>>,            :any       },
-        { <<129>>,            :other     },
-        { <<l(2), 1000::16>>, :csUnicode },
+        { << s(0) >>,           :any       },
+        { << s(119) >>,         :csKZ1048  },
+        { << l(2), 1000::16 >>, :csUnicode },
       ],
 
       decode_errors: [
-        { <<127>>,            :invalid_charset },
-        { <<l(2), 9999::16>>, :invalid_charset },
+        { << s(120) >>,         :invalid_charset },
+        { << l(2), 9999::16 >>, :invalid_charset },
+      ],
+
+      encode_errors: [
+        { 120,  :invalid_charset },
+        { 9999, :invalid_charset },
       ]
 end
 
