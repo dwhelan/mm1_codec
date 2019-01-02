@@ -16,8 +16,9 @@ defmodule MMS.CharsetTest do
       ],
 
       encode_errors: [
-        { 120,  :invalid_charset },
-        { 9999, :invalid_charset },
+        { :not_a_charset, :invalid_charset },
+        { 120,            :invalid_charset },
+        { 9999,           :invalid_charset },
       ]
 end
 
