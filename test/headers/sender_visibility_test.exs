@@ -3,10 +3,15 @@ defmodule MMS.SenderVisibilityTest do
 
   use MMS.TestExamples,
       codec: MMS.SenderVisibility,
+
       examples: [
-        {<<128>>, :hide},
-        {<<129>>, :show},
-        {<<130>>,   130},
+        { <<128>>, :hide },
+        { <<129>>, :show },
+      ],
+
+      decode_errors: [
+        { <<127>>, :invalid_sender_visibility },
+        { <<130>>, :invalid_sender_visibility },
       ]
 end
 

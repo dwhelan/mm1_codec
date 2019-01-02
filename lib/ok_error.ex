@@ -20,10 +20,6 @@ defmodule MMS.OkError do
     {:error, reason}
   end
 
-  defmacro error do
-    {:error, __CALLER__.context_modules |> hd |> error_reason}
-  end
-
   defmacro either(input, fun) do
     quote do
       unquote(input) ~> unquote(fun)
@@ -37,6 +33,14 @@ defmodule MMS.OkError do
 
   defp preserve_acronyms string do
     String.replace string, ~r/(_[a-z)])_/, "\\1"
+  end
+
+  defmacro error do
+    {:error, __CALLER__.context_modules |> hd |> error_reason}
+  end
+
+  defmacro module_error _reason do
+    {:error, __CALLER__.context_modules |> hd |> error_reason}
   end
 
   def wrap(value) when is_tuple(value),        do: value

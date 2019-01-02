@@ -4,9 +4,13 @@ defmodule MMS.BooleanTest do
   use MMS.TestExamples,
       codec: MMS.Boolean,
       examples: [
-        {<<128>>,  true},
-        {<<129>>, false},
-        {<<130>>,   130},
+        { <<128>>,  true },
+        { <<129>>, false },
+      ],
+
+      decode_errors: [
+        { <<127>>, :invalid_boolean },
+        { <<130>>, :invalid_boolean },
       ]
 end
 

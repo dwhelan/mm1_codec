@@ -36,10 +36,6 @@ defmodule MMS.Address.Base do
       defp do_unmap address do
         apply __MODULE__, :unmap_address, [address]
       end
-
-      defp module_error _reason do
-        error()
-      end
     end
   end
 end

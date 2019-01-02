@@ -18,7 +18,6 @@ defmodule MMS.Codec do
       import MMS.OkError
       import MMS.Codec
       import MMS.DataTypes
-
     end
   end
 end

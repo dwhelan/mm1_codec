@@ -1,11 +1,13 @@
 defmodule MMS.MessageClass do
-  alias MMS.{Lookup, Byte, Text}
+  import MMS.OkError
+
+  alias MMS.{Lookup, Short, Text}
 
   @decode_map Lookup.indexed [:personal, :advertisement, :informational, :auto]
   @encode_map MMS.Mapper.reverse @decode_map
 
   def decode(<<value, _::binary>> = bytes) when value >= 128 do
-    Lookup.decode bytes, Byte, @decode_map
+    bytes |> Lookup.decode(Short, @decode_map) ~>> module_error
   end
 
   def decode bytes do
@@ -17,6 +19,6 @@ defmodule MMS.MessageClass do
   end
 
   def encode value do
-    Lookup.encode value, Byte, @encode_map
+    Lookup.encode value, Short, @encode_map
   end
 end
