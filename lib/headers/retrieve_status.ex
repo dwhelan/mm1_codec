@@ -1,5 +1,5 @@
 defmodule MMS.RetrieveStatus do
-  use MMS.Mapper,
+  use MMS.Lookup,
       codec: MMS.Byte,
       map: %{
         128 => :ok,
