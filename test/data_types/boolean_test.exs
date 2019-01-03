@@ -1,9 +1,9 @@
 defmodule MMS.BooleanTest do
-  use ExUnit.Case
-  import MMS.Test
+  use MMS.Test
 
   use MMS.TestExamples,
       codec: MMS.Boolean,
+
       examples: [
         { << s(0) >>, true  },
         { << s(1) >>, false },

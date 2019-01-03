@@ -1,9 +1,8 @@
 defmodule MMS.ComposerTest do
-  use ExUnit.Case
+  use MMS.Test
+
   alias MMS.{Composer, Byte, Short}
 
-  import MMS.OkError
-  import MMS.Test
   import Composer
 
   describe "decode" do

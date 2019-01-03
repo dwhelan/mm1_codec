@@ -1,11 +1,9 @@
 defmodule MMS.AddressTest do
-  use ExUnit.Case
-  import MMS.Test
-
-  alias MMS.Address
+  use MMS.Test
 
   use MMS.TestExamples,
-      codec: Address,
+      codec: MMS.Address,
+
       examples: [
         { << "email@address\0"        >>, "email@address"          },
         { << "1234567890/TYPE=PLMN\0" >>, "1234567890"             },

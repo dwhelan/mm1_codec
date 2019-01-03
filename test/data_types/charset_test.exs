@@ -1,9 +1,9 @@
 defmodule MMS.CharsetTest do
-  use ExUnit.Case
-  import MMS.Test
+  use MMS.Test
 
   use MMS.TestExamples,
       codec: MMS.Charset,
+
       examples: [
         { << s(0) >>,           :any       },
         { << s(119) >>,         :csKZ1048  },

@@ -1,6 +1,5 @@
 defmodule MMS.WellKnownParametersTest do
-  use ExUnit.Case
-  import MMS.Test
+  use MMS.Test
 
   alias MMS.WellKnownParameters
 

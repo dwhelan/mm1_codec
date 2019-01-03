@@ -1,6 +1,5 @@
 defmodule MMS.HeadersTest do
-  use ExUnit.Case
-  import MMS.Test
+  use MMS.Test
 
   alias MMS.Headers
 

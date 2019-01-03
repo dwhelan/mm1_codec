@@ -1,10 +1,9 @@
 defmodule MMS.IntegerTest do
-  use ExUnit.Case
-  import MMS.Test
-  import MMS.DataTypes
+  use MMS.Test
 
   use MMS.TestExamples,
       codec: MMS.Integer,
+
       examples: [
         { << s(0) >>,           0      },
         { << s(127) >>,         127    },

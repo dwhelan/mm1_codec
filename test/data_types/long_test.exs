@@ -1,10 +1,9 @@
 defmodule MMS.LongTest do
-  use ExUnit.Case
-  import MMS.Test
-  import MMS.DataTypes
+  use MMS.Test
 
   use MMS.TestExamples,
       codec: MMS.Long,
+
       examples: [
         { << l(1), 0 >>,        0      },
         { << l(1), 255 >>,      255    },

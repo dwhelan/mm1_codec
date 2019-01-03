@@ -12,6 +12,8 @@ defmodule MMS.Test do
       use ExUnit.Case
 
       import MMS.Test
+      import MMS.OkError
+      import MMS.DataTypes
     end
   end
 end

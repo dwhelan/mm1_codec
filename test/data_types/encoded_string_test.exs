@@ -1,6 +1,5 @@
 defmodule MMS.EncodedStringTest do
-  use ExUnit.Case
-  import MMS.Test
+  use MMS.Test
 
   string30     = String.duplicate "x", 30
   length_quote = 31
