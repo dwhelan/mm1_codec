@@ -1,5 +1,11 @@
 defmodule MMS.DataTypes do
 
+  defp is_integer? value, min, max do
+    quote do
+      is_integer(unquote value) and unquote(value) >= unquote(min) and unquote(value) <= unquote(max)
+    end
+  end
+
   defmacro is_short_length value do
     is_integer? value, 1, 30
   end
@@ -10,6 +16,10 @@ defmodule MMS.DataTypes do
 
   defmacro is_short_byte byte do
     is_integer? byte, 128, 255
+  end
+
+  def short(value) when is_short(value) do
+    value + 128
   end
 
   defmacro is_byte value do
@@ -52,12 +62,6 @@ defmodule MMS.DataTypes do
   defmacro is_char value do
     quote do
       unquote(value) == 0 or (unquote(value) >= 32 and unquote(value) <= 127)
-    end
-  end
-  
-  defp is_integer? value, min, max do
-    quote do
-      is_integer(unquote value) and unquote(value) >= unquote(min) and unquote(value) <= unquote(max)
     end
   end
 end
