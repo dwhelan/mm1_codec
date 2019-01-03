@@ -25,7 +25,7 @@ defmodule MMS.QValue do
 
   defp parse string do
     case Float.parse string do
-      {value, ""} -> ok {string, Float.round(value, 3)}
+      {value, ""} -> ok { byte_size(string) - 2, Float.round(value, 3)}
       _           -> error()
     end
   end
@@ -34,7 +34,7 @@ defmodule MMS.QValue do
     error()
   end
 
-  defp unmap({string, value}) when byte_size(string) <= 4 do
+  defp unmap({decimals, value}) when decimals <= 2 do
     round value * 100 + 1
   end
 
