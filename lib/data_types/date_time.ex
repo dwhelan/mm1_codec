@@ -4,17 +4,11 @@ defmodule MMS.DateTime do
   alias MMS.Long
 
   def decode(bytes) when is_binary(bytes) do
-    case_ok Long.decode bytes do
-      {seconds, rest} -> ok DateTime.from_unix!(seconds), rest
-    end
+    bytes |> Long.decode <~> DateTime.from_unix!
   end
 
   def encode %DateTime{} = date_time do
-    date_time |> DateTime.to_unix |> encode
-  end
-
-  def encode(seconds) when seconds >= 0  do
-    Long.encode seconds
+    date_time |> DateTime.to_unix <~> Long.encode
   end
 
   defaults()
