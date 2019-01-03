@@ -20,7 +20,7 @@ defmodule MMS.QValue do
   end
 
   defp format float, decimals do
-    ok :erlang.float_to_binary(float, decimals: decimals)
+    :erlang.float_to_binary(float, decimals: decimals)
   end
 
   def encode(value) when is_binary(value) do

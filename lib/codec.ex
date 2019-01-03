@@ -1,8 +1,12 @@
 defmodule MMS.Codec do
+  def prefix(bytes, prefix) when is_integer(prefix) do
+    <<prefix>> <> bytes
+  end
+
   defmacro map_value input, fun do
     quote do
       case wrap unquote(input) do
-        {:ok, {value, rest}} -> value |> unquote(fun) ~> ok(rest) ~>> module_error()
+      {:ok, {value, rest}} -> value |> unquote(fun) ~> ok(rest) ~>> module_error()
         error                -> module_error()
       end
     end

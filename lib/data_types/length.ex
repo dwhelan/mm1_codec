@@ -27,10 +27,6 @@ defmodule MMS.Length.Uint32 do
     value |> Uint32.encode ~> prefix(@length_quote)
   end
 
-  defp prefix bytes, prefix do
-    <<prefix>> <> bytes
-  end
-
   defaults()
 end
 

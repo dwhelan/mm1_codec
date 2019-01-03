@@ -6,7 +6,7 @@ defmodule MMS.OkErrorTest do
   def upcase(string),  do: {:ok,    String.upcase string}
   def upcase!(reason), do: {:error, String.upcase reason}
 
-  describe "wrap\1 should" do
+  describe "wrap/1 should" do
     test "preserve ok tuples" do
       assert wrap({:ok, "x"}) == {:ok, "x"}
     end
