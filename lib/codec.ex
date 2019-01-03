@@ -7,10 +7,23 @@ defmodule MMS.Codec do
     string <> suffix
   end
 
+  def remove_trailing string, count do
+    String.slice string, 0..-(count+1)
+  end
+
   defmacro map_value input, fun do
+    do_map_value input, fun
+  end
+
+  defmacro input <~> fun do
+    do_map_value input, fun
+  end
+
+  defp do_map_value input, fun do
     quote do
       case wrap unquote(input) do
-      {:ok, {value, rest}} -> value |> unquote(fun) ~> ok(rest) ~>> module_error()
+        {:ok, {value, rest}} -> value |> unquote(fun) ~> ok(rest) ~>> module_error()
+        {:ok, value}         -> value |> unquote(fun) ~> ok       ~>> module_error()
         error                -> module_error()
       end
     end

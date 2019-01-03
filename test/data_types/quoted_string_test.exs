@@ -10,13 +10,13 @@ defmodule MMS.QuotedStringTest do
       ],
 
       decode_errors: [
-        { <<1>>,          :invalid_quoted_string },
-        { <<"\"string">>, :missing_terminator    },
+        { <<1>>,          :invalid_quoted_string }, # does not start with text byte
+        { <<"\"string">>, :invalid_quoted_string }, # missing terminator
       ],
 
       encode_errors: [
         { :not_a_quoted_string, :invalid_quoted_string },
-        { "\"x",                :invalid_quoted_string },
-        { "x\"",                :invalid_quoted_string },
+        { ~S("x),               :invalid_quoted_string },
+        { ~S(x"),               :invalid_quoted_string },
       ]
 end
