@@ -1,29 +1,25 @@
 defmodule MMS.QuotedString do
-  import MMS.OkError
+  use MMS.Codec
 
   alias MMS.Text
 
   @quote_char 34
 
   def decode <<@quote_char, bytes::binary>> do
-    case_ok Text.decode bytes do
-      {value, rest} -> ok {value}, rest
-    end
+    bytes |> Text.decode ~> map_value(tokenize)
   end
 
-  def decode _ do
-    error :invalid_quoted_string
+  def tokenize value do
+    {value}
   end
 
   def encode({string}) when is_binary(string) do
     string |> Text.encode ~> quote_string
   end
 
-  def encode _ do
-    error :invalid_quoted_string
-  end
-
   defp quote_string bytes do
     <<@quote_char>> <> bytes
   end
+
+  defaults()
 end
