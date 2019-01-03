@@ -1,20 +1,21 @@
 defmodule MMS.FromTest do
-  use ExUnit.Case
+  use MMS.Test
 
   use MMS.TestExamples,
       codec: MMS.From,
       examples: [
-        {<<5, 128, "x@y", 0>>, "x@y"                }, # email address
-        {<<1, 129          >>, :insert_address_token}, # insert address token
+        { << l(3), s(0), "@\0" >>, "@"                   }, # email address
+        { << l(1), s(1)        >>, :insert_address_token }, # insert address token
       ],
 
       decode_errors: [
-        {<<0               >>, :invalid_length       }, # length error
-        {<<5,   0, "x@y", 0>>, :invalid_address_token}, # address token error
-        {<<4, 128, "x@y"   >>, :invalid_encoded_string   }, # string error
-        {<<6, 128, "x@y", 0>>, :incorrect_length     }, # composer error
+        { << l(0)              >>, :invalid_from }, # length error
+        { << l(3), 0,    "@\0" >>, :invalid_from }, # address token error
+        { << l(2), s(0), "@"   >>, :invalid_from }, # string missing terminator
+        { << l(4), s(1), "@\0" >>, :invalid_from }, # composer error due to invalid length
       ],
 
       encode_errors: [
+        { :not_a_from, :invalid_from },
       ]
 end

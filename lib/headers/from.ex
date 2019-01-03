@@ -1,24 +1,24 @@
 defmodule MMS.From do
-  import MMS.OkError
+  use MMS.Codec
 
-  alias MMS.{Composer, Byte, Address}
+  alias MMS.{Composer, Short, Address}
 
-  @address_present_token 128
-  @insert_address_token  129
+  @address_present_token 0
+  @insert_address_token  1
 
   def decode bytes do
-    case_ok Composer.decode bytes, [Byte, Address] do
-      {{address, @address_present_token}, rest} -> ok address, rest
-      {{@insert_address_token          }, rest} -> ok :insert_address_token, rest
-      _                                         -> error :invalid_address_token
-    end
+    bytes |> Composer.decode([Short, Address]) <~> address
   end
 
+  defp address({address, @address_present_token}), do: address
+  defp address({@insert_address_token}),           do: :insert_address_token
+  defp address(_),                                 do: error()
+
   def encode :insert_address_token do
-    ok <<1, @insert_address_token>>
+    ok <<1, short @insert_address_token>>
   end
 
   def encode string do
-    Composer.encode [@address_present_token, string], [Byte, Address]
+    [@address_present_token, string] |> Composer.encode([Short, Address]) ~>> module_error
   end
 end
