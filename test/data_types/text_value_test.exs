@@ -6,7 +6,7 @@ defmodule MMS.TextValueTest do
       examples: [
         {<<0>>,                   :no_value },
         {<<"x", 0>>,              "x"       },
-        {<<?", "x", 0>>, {"x"}     },
+        {<<?", "x", 0>>, ~S("x")     },
       ],
 
       decode_errors: [

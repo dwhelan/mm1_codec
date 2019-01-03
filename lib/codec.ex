@@ -3,6 +3,10 @@ defmodule MMS.Codec do
     <<prefix>> <> bytes
   end
 
+  def suffix(bytes, suffix) when is_integer(suffix) do
+    bytes <> <<suffix>>
+  end
+
   defmacro map_value input, fun do
     quote do
       case wrap unquote(input) do
