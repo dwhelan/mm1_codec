@@ -1,10 +1,10 @@
 defmodule MMS.Codec do
-  def prefix(bytes, prefix) when is_integer(prefix) do
-    <<prefix>> <> bytes
+  def prefix(string, prefix) when is_integer(prefix) do
+    <<prefix>> <> string
   end
 
-  def suffix(bytes, suffix) when is_integer(suffix) do
-    bytes <> <<suffix>>
+  def append string, suffix do
+    string <> suffix
   end
 
   defmacro map_value input, fun do

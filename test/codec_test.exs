@@ -7,7 +7,7 @@ defmodule MMS.CodecTest do
     assert prefix("ello world", ?h) == "hello world"
   end
 
-  test "suffix/2 should place byte at end of string" do
-    assert suffix("hello worl", ?d) == "hello world"
+  test "append/2 should append" do
+    assert append("hello worl", "d") == "hello world"
   end
 end
