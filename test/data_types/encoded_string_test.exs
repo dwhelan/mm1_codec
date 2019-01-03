@@ -21,11 +21,11 @@ defmodule MMS.EncodedStringTest do
       ],
 
       decode_errors: [
-        { <<"x">>,               :missing_terminator },
-        { <<l(2), s(106), "x">>, :missing_terminator },
+        { <<"x">>,               :invalid_encoded_string },
+        { <<l(2), s(106), "x">>, :invalid_encoded_string },
 
-        { << l(2), s(106), "x\0">>,                              :incorrect_length }, #  short length
-        { << length_quote, l(33), s(106)>> <> string30 <> <<0>>, :incorrect_length }, # uint32 length
+        { << l(2), s(106), "x\0">>,                              :invalid_encoded_string }, #  short length
+        { << length_quote, l(33), s(106)>> <> string30 <> <<0>>, :invalid_encoded_string }, # uint32 length
       ]
 end
 

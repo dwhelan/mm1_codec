@@ -11,7 +11,7 @@ defmodule MMS.FromTest do
       decode_errors: [
         {<<0               >>, :invalid_length       }, # length error
         {<<5,   0, "x@y", 0>>, :invalid_address_token}, # address token error
-        {<<4, 128, "x@y"   >>, :missing_terminator   }, # string error
+        {<<4, 128, "x@y"   >>, :invalid_encoded_string   }, # string error
         {<<6, 128, "x@y", 0>>, :incorrect_length     }, # composer error
       ],
 

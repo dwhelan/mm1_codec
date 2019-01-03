@@ -20,8 +20,8 @@ defmodule MMS.AddressTest do
         { << "@/TYPE=PLMN\0"       >>, :invalid_address    },
         { << "x.0.0.0/TYPE=IPv4\0" >>, :invalid_address    },
         { << "::x/TYPE=IPv6\0"     >>, :invalid_address    },
-        { << "@"                   >>, :missing_terminator },
-        { << l(3), s(106), "@"     >>, :missing_terminator },
+        { << "@"                   >>, :invalid_encoded_string },
+        { << l(3), s(106), "@"     >>, :invalid_encoded_string },
       ],
 
       encode_errors: [
