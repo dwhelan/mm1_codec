@@ -14,12 +14,14 @@ defmodule MMS.Uint32Test do
         { <<129, 128, 128, 0>>, 2_097_152 },
         { <<255, 255, 255, 127>>, 268_435_455 },
         { <<129, 128, 128, 128, 0>>, 268_435_456 },
-        { <<143, 255, 255, 255, 127>>, max_uint32() },
+
+        { max_uint32_bytes(), max_uint32() },
       ],
 
       decode_errors: [
-        { <<128>>,                          :invalid_uint32 },
-        { <<129, 255, 255, 255, 255, 127>>, :invalid_uint32 },
+        { <<128>>,                        :invalid_uint32 }, # first byte can never be 128
+        { <<144, 128, 128, 128, 0>>,      :invalid_uint32 }, # max_uint32 + 1
+        { <<129, 128, 128, 128, 128, 0>>, :invalid_uint32 }, # more than 5 bytes
       ],
 
       encode_errors: [
