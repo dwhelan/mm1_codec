@@ -3,10 +3,11 @@ defmodule MMS.TextValueTest do
 
   use MMS.TestExamples,
       codec: MMS.TextValue,
+
       examples: [
-        {<<0>>,                   :no_value },
-        {<<"x", 0>>,              "x"       },
-        {<<?", "x", 0>>, ~S("x")     },
+        { <<0>>,   :no_value },
+        { "x\0",   "x"       },
+        { "\"x\0", ~S("x")   },
       ],
 
       decode_errors: [
