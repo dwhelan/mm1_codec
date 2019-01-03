@@ -1,6 +1,5 @@
 defmodule MMS.LengthTest do
-  use ExUnit.Case
-  import MMS.DataTypes
+  use MMS.Test
 
   length_quote = 31
 

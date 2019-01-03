@@ -6,6 +6,7 @@ defmodule MMS.EncodedStringTest do
 
   use MMS.TestExamples,
       codec: MMS.EncodedString,
+
       examples: [
         # Not encoded
         { <<0>>,     ""  },

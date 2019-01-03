@@ -5,6 +5,7 @@ defmodule MMS.TestExamples do
 
   defmacro __using__(opts) do
     quote bind_quoted: [opts: opts] do
+      use MMS.Test
       import MMS.TestExamples
 
       @codec          opts[:codec]         || __MODULE__

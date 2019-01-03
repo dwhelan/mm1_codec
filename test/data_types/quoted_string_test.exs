@@ -1,5 +1,5 @@
 defmodule MMS.QuotedStringTest do
-  use ExUnit.Case
+  use MMS.Test
 
   use MMS.TestExamples,
       codec: MMS.QuotedString,

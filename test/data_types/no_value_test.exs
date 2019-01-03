@@ -1,8 +1,9 @@
 defmodule MMS.NoValueTest do
-  use ExUnit.Case
+  use MMS.Test
 
   use MMS.TestExamples,
       codec: MMS.NoValue,
+
       examples: [
         {<<0>>, :no_value},
       ],

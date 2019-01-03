@@ -1,6 +1,5 @@
 defmodule MMS.SecondsTest do
-  use ExUnit.Case
-  import MMS.DataTypes
+  use MMS.Test
 
   alias MMS.Seconds
 
@@ -8,6 +7,7 @@ defmodule MMS.SecondsTest do
 
   use MMS.TestExamples,
       codec: Seconds,
+
       examples: [
         {<<3, 128, 1, 0>>, DateTime.from_unix!(0)}, # short length, absolute
         {<<3, 129, 1, 0>>, 0                     }, # short length, relative

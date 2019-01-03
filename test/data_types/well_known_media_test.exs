@@ -1,8 +1,9 @@
 defmodule MMS.WellKnownMediaTest do
-  use ExUnit.Case
+  use MMS.Test
 
   use MMS.TestExamples,
       codec: MMS.WellKnownMedia,
+
       examples: [
         {<<0x80>>, "*/*"},
         {<<0x81>>, "text/*"},

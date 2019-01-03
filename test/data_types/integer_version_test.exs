@@ -1,8 +1,9 @@
 defmodule MMS.IntegerVersionTest do
-  use ExUnit.Case
+  use MMS.Test
 
   use MMS.TestExamples,
       codec: MMS.IntegerVersion,
+
       examples: [
         #      ___ major - 3 bits
         #         ____ minor - 4 bits - all ones means major only

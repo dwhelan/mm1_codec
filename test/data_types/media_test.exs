@@ -1,8 +1,9 @@
 defmodule MMS.MediaTest do
-  use ExUnit.Case
+  use MMS.Test
 
   use MMS.TestExamples,
       codec: MMS.Media,
+
       examples: [
         # Well known media
         {<<0x80>>, "*/*"},

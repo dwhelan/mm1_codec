@@ -1,9 +1,9 @@
 defmodule MMS.QValueTest do
-  use ExUnit.Case
-  import MMS.DataTypes
+  use MMS.Test
 
   use MMS.TestExamples,
       codec: MMS.QValue,
+
       examples: [
         # single byte: 2 decimal places
         {<<1>>,   "0.00"},
