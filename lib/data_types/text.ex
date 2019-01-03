@@ -1,7 +1,7 @@
 defmodule MMS.Text do
   use MMS.Codec
 
-  def decode(<<byte, _::binary>> = bytes) when is_char (byte) do
+  def decode(<<byte, _::binary>> = bytes) when is_char(byte) do
     bytes |> String.split(<<0>>, parts: 2) |> decode_parts
   end
 
