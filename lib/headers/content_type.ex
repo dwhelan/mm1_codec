@@ -9,7 +9,7 @@ defmodule MMS.ContentType do
   end
 
   def decode bytes do
-    Media.decode bytes
+    bytes |> Media.decode
   end
 
   def encode {media, _parameters} do
@@ -17,6 +17,6 @@ defmodule MMS.ContentType do
   end
 
   def encode value do
-    Media.encode value
+    value |> Media.encode
   end
 end

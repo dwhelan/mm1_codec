@@ -1,11 +1,12 @@
 defmodule MMS.ContentTypeTest do
   use ExUnit.Case
+  import MMS.Test
 
   use MMS.TestExamples,
       codec: MMS.ContentType,
       examples: [
-        { <<0x80>>,    "*/*"       }, # constrained media
-        { <<1, 0x80>>, {"*/*", []} }, # content general form
+        { << s(0) >>,       "*/*"       }, # constrained media
+        { << l(1), s(0) >>, {"*/*", []} }, # content general form
       ],
 
       decode_errors: [
