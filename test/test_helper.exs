@@ -6,5 +6,13 @@ ExUnit.start exclude: [:skip], include: [
 defmodule MMS.Test do
   def s(short),  do: short + 128
   def l(length), do: length
+
+  defmacro __using__ opts \\ [] do
+    quote bind_quoted: [opts: opts] do
+      use ExUnit.Case
+
+      import MMS.Test
+    end
+  end
 end
 
