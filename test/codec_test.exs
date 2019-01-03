@@ -3,11 +3,11 @@ defmodule MMS.CodecTest do
 
   import MMS.Codec
 
-  test "prefix/2 should place byte at front of string" do
-    assert prefix("ello world", ?h) == "hello world"
+  test "prepend/2" do
+    assert prepend("ello world", "h") == "hello world"
   end
 
-  test "append/2 should append" do
+  test "append/2" do
     assert append("hello worl", "d") == "hello world"
   end
 end

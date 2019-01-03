@@ -24,7 +24,7 @@ defmodule MMS.Length.Uint32 do
   end
 
   def encode(value) when is_uint32(value) do
-    value |> Uint32.encode ~> prefix(@length_quote)
+    value |> Uint32.encode ~> prepend(<<@length_quote>>)
   end
 
   defaults()

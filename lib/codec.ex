@@ -1,6 +1,6 @@
 defmodule MMS.Codec do
-  def prefix(string, prefix) when is_integer(prefix) do
-    <<prefix>> <> string
+  def prepend string, prefix do
+    prefix <> string
   end
 
   def append string, suffix do
