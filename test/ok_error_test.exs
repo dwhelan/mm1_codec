@@ -6,6 +6,42 @@ defmodule MMS.OkErrorTest do
   def upcase(string),  do: {:ok,    String.upcase string}
   def upcase!(reason), do: {:error, String.upcase reason}
 
+  describe "wrap\1 should" do
+    test "preserve ok tuples" do
+      assert wrap({:ok, "x"}) == {:ok, "x"}
+    end
+
+    test "preserve error tuples" do
+      assert wrap({:error, "reason"}) == {:error, "reason"}
+    end
+
+    test "wrap plain values in ok tuple" do
+      assert wrap("x") == {:ok, "x"}
+    end
+
+    test "wrap tuple values in ok tuple" do
+      assert wrap({:tuple, "x"}) == {:ok, {:tuple, "x"}}
+    end
+  end
+
+  describe "wrap_as_error\1 should" do
+    test "preserve ok tuples" do
+      assert wrap_as_error({:ok, "x"}) == {:ok, "x"}
+    end
+
+    test "preserve error tuples" do
+      assert wrap_as_error({:error, "reason"}) == {:error, "reason"}
+    end
+
+    test "wrap plain values in error tuple" do
+      assert wrap_as_error("x") == {:error, "x"}
+    end
+
+    test "wrap tuple values in error tuple" do
+      assert wrap_as_error({:tuple, "x"}) == {:error, {:tuple, "x"}}
+    end
+  end
+
   describe "~> should" do
     test "pipe ok values" do
       assert {:ok, "x"} ~> upcase == {:ok, "X"}

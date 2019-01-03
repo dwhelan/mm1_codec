@@ -43,11 +43,13 @@ defmodule MMS.OkError do
     {:error, __CALLER__.context_modules |> hd |> error_reason}
   end
 
-  def wrap(value) when is_tuple(value),        do: value
-  def wrap(value),                             do: ok value
+  def wrap(tuple = {:ok,    _}), do: tuple
+  def wrap(tuple = {:error, _}), do: tuple
+  def wrap(value),               do: ok value
 
-  def wrap_as_error(tuple) when is_tuple(tuple), do: tuple
-  def wrap_as_error(value),                      do: {:error, value}
+  def wrap_as_error(tuple = {:ok,    _}), do: tuple
+  def wrap_as_error(tuple = {:error, _}), do: tuple
+  def wrap_as_error(value),               do: error value
 
   defmacro input ~> fun do
     quote do
