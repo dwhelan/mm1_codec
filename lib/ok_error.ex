@@ -69,6 +69,7 @@ defmodule MMS.OkError do
     quote do
       case unquote value do
         {:error, _} = error -> error
+        nil                 -> error nil
         {:ok, value}        -> case value, do: unquote(block)
         value               -> case value, do: unquote(block)
       end
@@ -78,8 +79,19 @@ defmodule MMS.OkError do
   defmacro case_error value, do: block do
     quote do
       case unquote value do
-        {:error , reason} -> case reason, do: unquote(block)
-        ok                -> ok
+        {:error, reason} -> case reason, do: unquote(block)
+        nil              -> case nil,    do: unquote(block)
+        ok               -> ok
+      end
+    end
+  end
+
+  defmacro if_error value, do: block do
+    quote do
+      case unquote value do
+        {:error, reason} -> unquote(block)
+        nil              -> unquote(block)
+        ok               -> ok
       end
     end
   end
