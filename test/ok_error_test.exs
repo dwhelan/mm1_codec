@@ -100,6 +100,24 @@ defmodule MMS.OkErrorTest do
     end
   end
 
+  describe "is_error should be" do
+    test "false for ok tuple" do
+      assert is_error({:ok, "x"}) == false
+    end
+
+    test "false for plain value" do
+      assert is_error("x") == false
+    end
+
+    test "true for error tuple" do
+      assert is_error({:error, "x"}) == true
+    end
+
+    test "true for nil" do
+      assert is_error(nil) == true
+    end
+  end
+
   describe "if_error should" do
     test "execute do clause for error tuple" do
       assert if_error({:error, "x"}, do: "X") == "X"

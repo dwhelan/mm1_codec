@@ -96,6 +96,16 @@ defmodule MMS.OkError do
     end
   end
 
+  defmacro is_error value do
+    quote do
+      case unquote value do
+        {:error, _} -> true
+        nil         -> true
+        _           -> false
+      end
+    end
+  end
+
   defmacro if_ok value, clauses do
     build_if_ok value, clauses
   end
@@ -126,11 +136,7 @@ defmodule MMS.OkError do
 
   defp build_if_error value, do: do_clause, else: else_clause do
     quote do
-      case unquote value do
-        {:error, _} -> unquote(do_clause)
-        nil         -> unquote(do_clause)
-        ok          -> unquote(else_clause)
-      end
+      if (is_error unquote(value)), do: unquote(do_clause), else: unquote(else_clause)
     end
   end
 
