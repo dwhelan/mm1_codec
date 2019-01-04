@@ -15,19 +15,19 @@ defmodule MMS.CodecMapper do
       @error       opts[:error]
 
       def decode bytes do
-        decode bytes, []
+        do_decode bytes, []
       end
 
-      defp decode(<<byte, bytes:: binary>>, codecs) when byte in @codec_bytes do
+      defp do_decode(<<byte, bytes:: binary>>, codecs) when byte in @codec_bytes do
         {module, codec} = @decode_map[byte]
 
         case codec.decode bytes do
-          {:ok,    {value, rest}} -> decode rest, [{module, value} | codecs]
+          {:ok,    {value, rest}} -> do_decode rest, [{module, value} | codecs]
           {:error,        reason} -> error codec, reason
         end
       end
 
-      defp decode rest, values do
+      defp do_decode rest, values do
         ok Enum.reverse(values), rest
       end
 
