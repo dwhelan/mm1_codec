@@ -32,25 +32,25 @@ defmodule MMS.CodecMapper do
       end
 
       def encode values do
-        encode values, []
+        do_encode values, []
       end
 
       @encode_map @decode_map |> Enum.reduce(%{}, fn {byte, {module, codec}}, map -> Map.put(map, module, {byte, codec}) end)
 
-      defp encode([{name, value} | values], results) when name in @names do
+      defp do_encode([{name, value} | values], results) when name in @names do
         {byte, codec} = @encode_map[name]
 
         case codec.encode value do
-          {:ok,     bytes} -> encode values, [<<byte>> <> bytes | results]
+          {:ok,     bytes} -> do_encode values, [<<byte>> <> bytes | results]
           {:error, reason} -> error name, reason
         end
       end
 
-      defp encode [], results do
+      defp do_encode [], results do
         ok results |> Enum.reverse |> Enum.join
       end
 
-      defp encode [{name, value} | _], _  do
+      defp do_encode [{name, value} | _], _  do
         error {name, @error}
       end
     end
