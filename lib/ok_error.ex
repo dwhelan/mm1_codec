@@ -86,13 +86,51 @@ defmodule MMS.OkError do
     end
   end
 
-  defmacro if_error value, do: block do
+  defmacro if_ok value, clauses do
+    build_if_ok value, clauses
+  end
+
+  defp build_if_ok value, do: do_clause do
+    build_if_ok value, do: do_clause, else: nil
+  end
+
+  defp build_if_ok value, do: do_clause, else: else_clause do
     quote do
       case unquote value do
-        {:error, reason} -> unquote(block)
-        nil              -> unquote(block)
-        ok               -> ok
+        {:error, _} -> unquote(else_clause)
+        nil         -> unquote(else_clause)
+        ok          -> unquote(do_clause)
       end
     end
+  end
+
+  defp build_if_ok _condition, _arguments do
+    raise ArgumentError,
+          "invalid or duplicate keys for if_ok, " <>
+          "only \"do\" and an optional \"else\" are permitted"
+  end
+
+  defmacro if_error value, clauses do
+    build_if_error value, clauses
+  end
+
+  defp build_if_error value, do: do_clause do
+    build_if_error value, do: do_clause, else: nil
+  end
+
+  defp build_if_error value, do: do_clause, else: else_clause do
+    quote do
+      case unquote value do
+        {:error, _} -> unquote(do_clause)
+        nil         -> unquote(do_clause)
+        ok          -> unquote(else_clause)
+      end
+    end
+  end
+
+  defp build_if_error _condition, _arguments do
+    raise ArgumentError,
+          "invalid or duplicate keys for if_error, " <>
+          "only \"do\" and an optional \"else\" are permitted"
   end
 end

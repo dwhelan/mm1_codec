@@ -50,6 +50,70 @@ defmodule MMS.OkErrorTest do
     end
   end
 
+  describe "if_ok should" do
+    test "execute do clause for plain value" do
+      assert if_ok("x", do: "X") == "X"
+    end
+
+    test "execute do clause for ok tuple" do
+      assert if_ok({:ok, "x"}, do: "X") == "X"
+    end
+
+    test "not execute do clause for error tuple" do
+      assert if_ok({:error, "x"}, do: "X") == nil
+    end
+
+    test "execute else clause for error tuple" do
+      assert if_ok({:error, "x"}, do: "X", else: "Y") == "Y"
+    end
+
+    test "not execute clause for nil" do
+      assert if_ok(nil, do: "X") == nil
+    end
+
+    test "execute else clause for nil" do
+      assert if_ok(nil, do: "X", else: "Y") == "Y"
+    end
+
+    test "raise if option other than do or else" do
+      assert_raise ArgumentError, fn ->
+        Code.eval_string "import MMS.OkError; if_ok true, foo: 7"
+      end
+    end
+  end
+
+  describe "if_error should" do
+    test "execute do clause for error tuple" do
+      assert if_error({:error, "x"}, do: "X") == "X"
+    end
+
+    test "execute do clause for nil" do
+      assert if_error(nil, do: "X") == "X"
+    end
+
+    test "not execute do clause for ok tuple" do
+      assert if_error({:ok, "x"}, do: "X") == nil
+    end
+
+    test "execute else clause for ok tuple" do
+      assert if_error({:ok, "x"}, do: "X", else: "Y") == "Y"
+    end
+
+    test "not execute do clause for plain value" do
+      assert if_error("x", do: "X") == nil
+    end
+
+    test "execute else clause for plain value" do
+      assert if_error("x", do: "X", else: "Y") == "Y"
+    end
+
+    test "raise if option other than do or else" do
+      assert_raise ArgumentError, fn ->
+        Code.eval_string "import MMS.OkError; if_error true, foo: 7"
+      end
+    end
+  end
+
   describe "~> should" do
     test "pipe ok values" do
       assert {:ok, "x"} ~> upcase == {:ok, "X"}

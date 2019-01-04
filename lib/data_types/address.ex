@@ -15,9 +15,7 @@ defmodule MMS.Address do
   end
 
   defp map string do
-    @addresses
-    |> Enum.reduce(nil, fn address, result -> if_error result, do: address.map string end)
-    ~>> error()
+    @addresses |> Enum.reduce(nil, fn address, acc -> if_ok acc, do: acc, else: address.map(string) end) ~>> error()
   end
 
   def encode({address, charset}) when is_atom(charset) do
