@@ -14,16 +14,8 @@ defmodule MMS.Address do
     end
   end
 
-  defp map {string, charset}, rest do
-    case_ok map1 string do
-      address -> ok {address, charset}, rest
-    end
-  end
-
-  defp map string, rest do
-    case_ok map1 string do
-      address -> ok address, rest
-    end
+  defp map address, rest do
+    address |> EncodedString.map(&map1/1) ~> ok(rest)
   end
 
   defp map1 address do

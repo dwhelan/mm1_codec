@@ -29,11 +29,11 @@ defmodule MMS.EncodedStringTest do
       ]
 
   test "map(string)" do
-    assert MMS.EncodedString.map("x", &String.upcase/1) == "X"
+    assert MMS.EncodedString.map("x", &String.upcase/1) == ok "X"
   end
 
   test "map({string, charset})" do
-    assert MMS.EncodedString.map({"x", :utf8}, &String.upcase/1) == {"X", :utf8}
+    assert MMS.EncodedString.map({"x", :utf8}, &String.upcase/1) == ok {"X", :utf8}
   end
 end
 
