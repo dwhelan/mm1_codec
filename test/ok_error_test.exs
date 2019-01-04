@@ -22,6 +22,10 @@ defmodule MMS.OkErrorTest do
     test "wrap tuple values in ok tuple" do
       assert wrap({:tuple, "x"}) == {:ok, {:tuple, "x"}}
     end
+
+    test "wrap nil as an error" do
+      assert wrap(nil) == {:error, nil}
+    end
   end
 
   describe "wrap_as_error\1 should" do
@@ -39,6 +43,10 @@ defmodule MMS.OkErrorTest do
 
     test "wrap tuple values in error tuple" do
       assert wrap_as_error({:tuple, "x"}) == {:error, {:tuple, "x"}}
+    end
+
+    test "wrap nil as an error" do
+      assert wrap_as_error(nil) == {:error, nil}
     end
   end
 

@@ -45,6 +45,7 @@ defmodule MMS.OkError do
 
   def wrap(tuple = {:ok,    _}), do: tuple
   def wrap(tuple = {:error, _}), do: tuple
+  def wrap(nil)  ,               do: error nil
   def wrap(value),               do: ok value
 
   def wrap_as_error(tuple = {:ok,    _}), do: tuple
