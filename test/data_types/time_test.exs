@@ -7,7 +7,7 @@ defmodule MMS.SecondsTest do
   rel = s(1)
 
   use MMS.TestExamples,
-      codec: MMS.Seconds,
+      codec: MMS.Time,
 
       examples: [
         { << l(3), abs, l(1), 0 >>, DateTime.from_unix!(0) }, # short length, absolute
@@ -19,13 +19,13 @@ defmodule MMS.SecondsTest do
       ],
 
       decode_errors: [
-        { << l(32) >>,               :invalid_seconds }, # length error
-        { << l(3), 0,    l(1), 0 >>, :invalid_seconds }, # absolute/relative token error
-        { << l(3), abs, l(0)    >>, :invalid_seconds }, # value error
+        { << l(32) >>,               :invalid_time }, # length error
+        { << l(3), 0,    l(1), 0 >>, :invalid_time }, # absolute/relative token error
+        { << l(3), abs, l(0)    >>,  :invalid_time }, # value error
       ],
 
       encode_errors: [
-        { -1,             :invalid_seconds },
-        { max_long() + 1, :invalid_seconds },
+        { -1,             :invalid_time },
+        { max_long() + 1, :invalid_time },
       ]
 end

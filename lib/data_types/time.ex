@@ -1,4 +1,4 @@
-defmodule MMS.Seconds do
+defmodule MMS.Time do
   use MMS.Codec
 
   import MMS.Composer
