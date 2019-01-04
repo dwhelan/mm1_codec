@@ -1,4 +1,4 @@
-defmodule MMS.SecondsTest do
+defmodule MMS.TimeTest do
   use MMS.Test
 
   length_quote = 31
@@ -19,9 +19,9 @@ defmodule MMS.SecondsTest do
       ],
 
       decode_errors: [
-        { << l(32) >>,               :invalid_time }, # length error
-        { << l(3), 0,    l(1), 0 >>, :invalid_time }, # absolute/relative token error
-        { << l(3), abs, l(0)    >>,  :invalid_time }, # value error
+        { << l(32) >>,              :invalid_time }, # length error
+        { << l(3), 0,   l(1), 0 >>, :invalid_time }, # absolute/relative token error
+        { << l(3), abs, l(0)    >>, :invalid_time }, # value error
       ],
 
       encode_errors: [
