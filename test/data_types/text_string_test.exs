@@ -7,18 +7,18 @@ defmodule MMS.TextStringTest do
       codec: MMS.TextString,
 
       examples: [
-        {<<0>>,                   ""            },
-        {<<"x", 0>>,              "x"           },
-        {<<@quote, 128, "x", 0>>, <<128>> <> "x"},
+        { "\0",          ""                      },
+        { "x\0",         "x"                     },
+        { <<@quote, 128, "x\0">>, <<128>> <> "x" },
       ],
 
       decode_errors: [
-        {<<1>>,        :invalid_text_string    },
-        {<<@quote, 127, "x", 0>>, :invalid_text_string},
-        {<<"string">>, :invalid_text_string},
+        { "\1",                   :invalid_text_string },
+        { <<@quote, 127, "x\0">>, :invalid_text_string },
+        { "string",               :invalid_text_string },
       ],
 
       encode_errors: [
-        {:not_a_string, :invalid_text_string},
+        { :not_a_string, :invalid_text_string },
       ]
 end

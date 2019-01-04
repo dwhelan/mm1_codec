@@ -1,12 +1,12 @@
-defmodule MMS.WellKnownParametersTest do
+defmodule MMS.KnownParameterTest do
   use MMS.Test
 
-  alias MMS.WellKnownParameters
+  alias MMS.KnownParameter
 
   time_zero = DateTime.from_unix!(0)
 
   use MMS.TestExamples,
-      codec: WellKnownParameters,
+      codec: KnownParameter,
       examples: [
         { << s(0),  1          >>, q:                     "0.00"    },
         { << s(1),  s(0)       >>, charset:               :any      },
@@ -43,10 +43,10 @@ defmodule MMS.WellKnownParametersTest do
       ],
 
       encode_errors: [
-        {[x: ""], {:x, :invalid_well_known_parameter}},
+        {[x: ""], {:x, :invalid_known_parameter}},
       ]
 
   test "decode should terminate when an unmapped parameter byte is found" do
-    assert WellKnownParameters.decode(<<"rest">>) == {:ok, {[], "rest"}}
+    assert KnownParameter.decode(<<"rest">>) == {:ok, {[], "rest"}}
   end
 end

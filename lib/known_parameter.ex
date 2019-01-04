@@ -1,4 +1,4 @@
-defmodule MMS.WellKnownParameters do
+defmodule MMS.KnownParameter do
   # Based on WAP-230-WSP-20010705-a: Table 38. Well-Known Parameter Assignments
 
   alias MMS.{Charset, DateTime, Integer, Media, NoValue, QValue, Short, TextString, TextValue, Version}
@@ -40,5 +40,5 @@ defmodule MMS.WellKnownParameters do
         domain:                TextValue,
         path:                  TextValue,
       ],
-      error: :invalid_well_known_parameter
+      error: :invalid_known_parameter
 end
