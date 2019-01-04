@@ -50,7 +50,7 @@ defmodule MMS.Mapper.Test do
   import Mapper
 
   @decode_map %{0 => false, 1 => true}
-  @encode_map Mapper.reverse @decode_map
+  @encode_map Mapper.invert @decode_map
 
   def decode bytes do
     bytes |> decode(Short, @decode_map)
@@ -75,8 +75,8 @@ defmodule MMS.Mapper.Test do
         {-1, :invalid_short},
       ]
 
-  test "reverse" do
-    assert reverse(%{a: 0, b: 1}) == %{0 => :a, 1 => :b}
+  test "invert" do
+    assert invert(%{a: 0, b: 1}) == %{0 => :a, 1 => :b}
   end
 
   test "indexed" do

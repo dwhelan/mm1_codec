@@ -11,7 +11,7 @@ defmodule MMS.Mapper do
     Map.get(map, value, value) |> codec.encode
   end
 
-  def reverse(map) when is_map(map) do
+  def invert(map) when is_map(map) do
     map |> Enum.reduce(%{}, fn {k, v}, reverse_map -> Map.put(reverse_map, v, k) end)
   end
 
@@ -25,7 +25,7 @@ defmodule MMS.Mapper do
 
       @codec      opts[:codec]
       @decode_map opts[:map] || indexed(opts[:values], opts[:offset] || 0)
-      @encode_map reverse @decode_map
+      @encode_map invert @decode_map
 
       def decode bytes do
         decode bytes, @codec, @decode_map
