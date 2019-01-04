@@ -1,28 +1,23 @@
-defmodule MMS.Lookup do
+defmodule MMS.Map do
   import MMS.OkError
 
-  def decode bytes, codec, map do
-    case_ok codec.decode bytes do
-      {value, rest} -> map {value, rest}, map
-    end
-  end
-
-  defp map {value, rest}, map do
+  def get value, map do
     case Map.get(map, value) do
       nil   -> error()
-      value -> ok value, rest
+      value -> value
     end
+  end
+end
+
+defmodule MMS.Lookup do
+  use MMS.Codec
+
+  def decode bytes, codec, map do
+    bytes |> codec.decode <~> MMS.Map.get(map)
   end
 
   def encode value, codec, unmap do
-    value |> unmap(unmap) ~> codec.encode
-  end
-
-  defp unmap value, unmap do
-    case Map.get(unmap, value) do
-      nil -> error()
-      value -> ok value
-    end
+    value |> MMS.Map.get(unmap) ~> codec.encode
   end
 
   def indexed(values) when is_list(values) do
