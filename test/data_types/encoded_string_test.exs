@@ -27,5 +27,13 @@ defmodule MMS.EncodedStringTest do
         { << l(2), s(106), "x\0">>,                              :invalid_encoded_string }, #  short length
         { << length_quote, l(33), s(106)>> <> string30 <> <<0>>, :invalid_encoded_string }, # uint32 length
       ]
+
+  test "map(string)" do
+    assert MMS.EncodedString.map("x", &String.upcase/1) == "X"
+  end
+
+  test "map({string, charset})" do
+    assert MMS.EncodedString.map({"x", :utf8}, &String.upcase/1) == {"X", :utf8}
+  end
 end
 

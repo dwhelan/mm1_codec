@@ -4,4 +4,12 @@ end
 
 defmodule MMS.EncodedString do
   use MMS.OneOf, codecs: [MMS.Text, MMS.EncodedString.WithCharset]
+
+  def map(string, fun) when is_binary(string) and is_function(fun) do
+    fun.(string)
+  end
+
+  def map({string, charset}, fun) when is_binary(string) and is_function(fun) do
+    {fun.(string), charset}
+  end
 end

@@ -1,3 +1,7 @@
+#defmodule MMS.Address do
+#  use MMS.OneOf, codecs: [MMS.Mapper.IPv4Address, MMS.Mapper.IPv6Address, MMS.Mapper.PhoneNumber, MMS.Mapper.EmailAddress, MMS.Mapper.UnknownAddress]
+#end
+
 defmodule MMS.Address do
   import MMS.OkError
 
