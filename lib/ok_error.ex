@@ -33,12 +33,6 @@ defmodule MMS.OkError do
     "invalid_#{name}" |> preserve_acronyms |> String.to_atom
   end
 
-  defmacro either(input, fun) do
-    quote do
-      unquote(input) ~> unquote(fun)
-    end
-  end
-
   defp preserve_acronyms string do
     string |> String.replace(~r/(_[a-z)])_/, "\\1")
   end

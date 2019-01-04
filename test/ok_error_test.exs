@@ -94,16 +94,6 @@ defmodule MMS.OkErrorTest do
     end
   end
 
-  describe "either should" do
-    test "return single function ok" do
-      assert either("x", upcase) == {:ok, "X"}
-    end
-
-    test "return single function error" do
-      assert either("x", upcase!) == {:error, "X"}
-    end
-  end
-
   describe "error/0" do
     test "reason should be underscore version of caller module" do
       assert error() == {:error, :invalid_ok_error_test}
