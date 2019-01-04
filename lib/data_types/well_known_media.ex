@@ -1,7 +1,6 @@
 # http://www.openmobilealliance.org/wp/OMNA/wsp/wsp_content_type_codes.html
 defmodule MMS.WellKnownMedia do
-  use MMS.Mapper,
-      codec: MMS.Short,
+  use MMS.Lookup,
       values: [
         "*/*",
         "text/*",

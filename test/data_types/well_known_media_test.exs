@@ -94,12 +94,10 @@ defmodule MMS.WellKnownMediaTest do
         {<<0xD6>>, "application/vnd.omads-email+wbxml"},
         {<<0xD7>>, "text/x-vBookmark"},
         {<<0xD8>>, "application/vnd.syncml.dm.notification"},
-
-        {<<0xff>>, 0x7f}
       ],
 
       decode_errors: [
-        {<<0x00>>, :invalid_short},
-        {<<0x7f>>, :invalid_short},
+        {<<0x00>>, :invalid_well_known_media},
+        {<<0x7f>>, :invalid_well_known_media},
       ]
 end

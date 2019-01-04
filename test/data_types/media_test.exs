@@ -7,7 +7,6 @@ defmodule MMS.MediaTest do
       examples: [
         # Well known media
         { << s(0) >>, "*/*" },
-        { <<0xff>>, 0x7f  },
 
         # Extension media
         { << 0 >>,               <<>>          },
