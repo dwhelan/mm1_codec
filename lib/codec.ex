@@ -8,11 +8,11 @@ defmodule MMS.Codec do
 
   defmacro input <~> fun do
     quote do
-      case wrap unquote(input) do
-        {:ok, {value, rest}} -> value |> unquote(fun) ~> ok(rest) ~>> module_error() # for decode
-        {:ok, value}         -> value |> unquote(fun) ~>> module_error()             # for encode
-        error                -> module_error()
-      end
+      case unquote(input) |> wrap do
+        {:ok, {value, rest}} -> value |> unquote(fun) ~> ok(rest) # for decode
+        {:ok, value}         -> value |> unquote(fun)             # for encode
+        error                -> error
+      end ~>> module_error()
     end
   end
 
