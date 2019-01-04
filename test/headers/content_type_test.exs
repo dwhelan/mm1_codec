@@ -5,11 +5,12 @@ defmodule MMS.ContentTypeTest do
       codec: MMS.ContentType,
 
       examples: [
-        { << s(0) >>,       "*/*"       }, # constrained media
-        { << l(1), s(0) >>, {"*/*", []} }, # content general form
+        { << s(0) >>,       "*/*"   }, # constrained media
+        { << l(1), s(0) >>, {"*/*"} }, # content general form
       ],
 
       decode_errors: [
-        {<<"x">>, :invalid_media},
+        { :not_content_type, :invalid_content_type },
+        { "x",               :invalid_content_type },
       ]
 end

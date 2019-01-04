@@ -61,17 +61,20 @@ defmodule MMS.Composer do
 
   defmacro __using__ opts \\ [] do
     quote bind_quoted: [opts: opts ]do
-      alias MMS.Composer
+      use MMS.Codec
+      import MMS.Composer
 
       @codecs opts[:codecs]
 
       def decode bytes do
-        Composer.decode bytes, @codecs
+        decode bytes, @codecs
       end
 
       def encode(values) when is_tuple(values) do
-        Composer.encode values |> Tuple.to_list |> Enum.reverse, @codecs
+        encode values |> Tuple.to_list |> Enum.reverse, @codecs
       end
+
+      defaults()
     end
   end
 end
