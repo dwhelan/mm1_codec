@@ -3,32 +3,26 @@
 #end
 
 defmodule MMS.Address do
-  import MMS.OkError
+  use MMS.Codec
 
   alias MMS.EncodedString
   alias MMS.Mapper.{IPv4Address, IPv6Address, PhoneNumber, EmailAddress, UnknownAddress}
 
   def decode bytes do
-    case_ok EncodedString.decode bytes do
-      {value, rest} -> map value, rest
-    end
+    bytes |> EncodedString.decode <~> EncodedString.map(&map_address/1)
   end
 
-  defp map address, rest do
-    address |> EncodedString.map(&map1/1) ~> ok(rest)
+  defp map_address address do
+    map_address address, [IPv4Address, IPv6Address, PhoneNumber, EmailAddress, UnknownAddress]
   end
 
-  defp map1 address do
-    map1 address, [IPv4Address, IPv6Address, PhoneNumber, EmailAddress, UnknownAddress]
-  end
-
-  defp map1 address, [type | types] do
+  defp map_address address, [type | types] do
     case_error type.map address do
-      _ -> map1 address, types
+      _ -> map_address address, types
     end
   end
 
-  defp map1 _, [] do
+  defp map_address _, [] do
     error :invalid_address
   end
 
