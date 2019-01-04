@@ -1,67 +1,35 @@
 defmodule MMS.Codec do
-  def prepend string, prefix do
-    prefix <> string
-  end
+  import MMS.OkError
 
-  def append string, suffix do
-    string <> suffix
-  end
+  def prepend(string, prefix), do: prefix <> string
+  def append( string, suffix), do: string <> suffix
 
-  def remove_trailing string, count do
-    String.slice string, 0..-(count+1)
-  end
-
-  defmacro map_value input, fun do
-    do_map_value input, fun
-  end
+  def remove_trailing(string, count), do: string |> String.slice(0..-count-1)
 
   defmacro input <~> fun do
-    do_map_value input, fun
-  end
-
-  defp do_map_value input, fun do
     quote do
       case wrap unquote(input) do
-        {:ok, {value, rest}} -> value |> unquote(fun) ~> ok(rest) ~>> module_error()
-        {:ok, value}         -> value |> unquote(fun) ~> ok       ~>> module_error()
+        {:ok, {value, rest}} -> value |> unquote(fun) ~> ok(rest) ~>> module_error() # for decode
+        {:ok, value}         -> value |> unquote(fun) ~>> module_error()             # for encode
         error                -> module_error()
       end
     end
   end
 
   defmacro defaults do
-    import MMS.OkError
-
     quote do
-      def decode _ do
-        error()
-      end
-
-      def encode _ do
-        error()
-      end
+      def decode(_), do: error()
+      def encode(_), do: error()
     end
   end
 
-  defmacro __using__ opts \\ [] do
-    quote bind_quoted: [opts: opts] do
-      import MMS.OkError
-      import MMS.DataTypes
-      import MMS.Codec
+  defmacro __using__(_) do
+    quote do
+      import MMS.{OkError, DataTypes, Codec}
 
-      def decode(value) when is_binary(value) == false do
-        error()
-      end
-
-      def decode <<>> do
-        error()
-      end
-
-      def decode nil do
-        error()
-      end
-
-      import MMS.Codec
+      def decode(nil),  do: error()
+      def decode(<<>>), do: error()
+      def decode(value) when not is_binary(value), do: error()
     end
   end
 end
