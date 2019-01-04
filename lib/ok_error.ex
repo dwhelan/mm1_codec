@@ -69,7 +69,7 @@ defmodule MMS.OkError do
     quote do
       case unquote value do
         {:error, _} = error -> error
-        nil                 -> error nil
+        nil                 -> nil
         {:ok, value}        -> case value, do: unquote(block)
         value               -> case value, do: unquote(block)
       end
