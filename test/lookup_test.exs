@@ -1,12 +1,12 @@
 defmodule MMS.LookupWithMapTest do
-  use ExUnit.Case
+  use MMS.Test
 
-  use MMS.Lookup, codec: MMS.Short, map: %{0 => false, 1 => true}
+  use MMS.Lookup, map: %{0 => false, 1 => true}
 
   use MMS.TestExamples,
       examples: [
-        { <<128>>, false },
-        { <<129>>, true  },
+        { << s(0) >>, false },
+        { << s(1) >>, true  },
       ],
 
       decode_errors: [
@@ -40,15 +40,15 @@ defmodule MMS.LookupWithValuesTest do
       ]
 end
 
-defmodule MMS.Lookup.Test do
+defmodule OkError.Map.Test do
   use ExUnit.Case
-  import MMS.Lookup
+  import OkError.Map
 
   test "invert" do
     assert invert(%{a: 0, b: 1}) == %{0 => :a, 1 => :b}
   end
 
-  test "indexed" do
-    assert indexed([:a, :b]) == %{0 => :a, 1 => :b}
+  test "from_list" do
+    assert from_list([:a, :b]) == %{0 => :a, 1 => :b}
   end
 end

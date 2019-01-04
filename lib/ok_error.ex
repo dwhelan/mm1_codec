@@ -8,16 +8,29 @@ defmodule MMS.OkError do
     {:ok, value}
   end
 
-  def error codec, reason do
-    {:error, {codec, reason}}
-  end
-
-  def error {:error, reason} do
-    {:error, reason}
+  def error module, reason do
+    {:error, {module, reason}}
   end
 
   def error reason do
     {:error, reason}
+  end
+
+  defmacro error do
+    __CALLER__ |> caller_error
+  end
+
+  defmacro module_error _reason \\ nil do
+    __CALLER__ |> caller_error
+  end
+
+  defp caller_error caller do
+    caller.context_modules |> hd |> error_reason |> error
+  end
+
+  def error_reason module do
+    name = module |> to_string |> String.split(".") |> List.last |> Macro.underscore
+    "invalid_#{name}" |> preserve_acronyms |> String.to_atom
   end
 
   defmacro either(input, fun) do
@@ -26,21 +39,8 @@ defmodule MMS.OkError do
     end
   end
 
-  def error_reason module do
-    name = module |> to_string |> String.split(".") |> List.last |> Macro.underscore
-    "invalid_#{name}" |> preserve_acronyms |> String.to_atom
-  end
-
   defp preserve_acronyms string do
-    String.replace string, ~r/(_[a-z)])_/, "\\1"
-  end
-
-  defmacro error do
-    {:error, __CALLER__.context_modules |> hd |> error_reason}
-  end
-
-  defmacro module_error _reason \\ nil do
-    {:error, __CALLER__.context_modules |> hd |> error_reason}
+    string |> String.replace(~r/(_[a-z)])_/, "\\1")
   end
 
   def wrap(tuple = {:ok,    _}), do: tuple
