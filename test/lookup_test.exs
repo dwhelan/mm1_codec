@@ -44,10 +44,10 @@ defmodule MMS.Lookup.Test do
   use ExUnit.Case
   import MMS.Lookup
 
-#  test "reverse" do
-#    assert reverse(%{a: 0, b: 1}) == %{0 => :a, 1 => :b}
-#  end
-#
+  test "reverse" do
+    assert reverse(%{a: 0, b: 1}) == %{0 => :a, 1 => :b}
+  end
+
   test "indexed" do
     assert indexed([:a, :b]) == %{0 => :a, 1 => :b}
   end

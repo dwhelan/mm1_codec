@@ -4,7 +4,7 @@ defmodule MMS.MessageClass do
   alias MMS.{Lookup, Short, Text}
 
   @decode_map Lookup.indexed [:personal, :advertisement, :informational, :auto]
-  @encode_map MMS.Mapper.reverse @decode_map
+  @encode_map Lookup.reverse @decode_map
 
   def decode(<<value, _::binary>> = bytes) when value >= 128 do
     bytes |> Lookup.decode(Short, @decode_map) ~>> module_error
