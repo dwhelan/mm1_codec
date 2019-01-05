@@ -10,24 +10,24 @@ defmodule MMS.LookupWithMapTest do
       ],
 
       decode_errors: [
-        { <<127>>, :invalid_lookup_with_map_test },
-        { <<130>>, :invalid_lookup_with_map_test },
+        { << s(-1) >>, :invalid_lookup_with_map_test },
+        { << s(2)  >>, :invalid_lookup_with_map_test },
       ],
 
       encode_errors: [
-        { -1, :invalid_lookup_with_map_test },
+        { :_, :invalid_lookup_with_map_test },
       ]
 end
 
 defmodule MMS.LookupWithValuesTest do
-  use ExUnit.Case
+  use MMS.Test
 
   use MMS.Lookup, codec: MMS.Short, values: [false, true]
 
   use MMS.TestExamples,
       examples: [
-        { <<128>>, false },
-        { <<129>>, true  },
+        { << s(0) >>, false },
+        { << s(1) >>, true  },
       ],
 
       decode_errors: [
@@ -38,17 +38,4 @@ defmodule MMS.LookupWithValuesTest do
       encode_errors: [
         {-1, :invalid_lookup_with_values_test},
       ]
-end
-
-defmodule OkError.Map.Test do
-  use ExUnit.Case
-  import OkError.Map
-
-  test "invert" do
-    assert invert(%{a: 0, b: 1}) == %{0 => :a, 1 => :b}
-  end
-
-  test "from_list" do
-    assert from_list([:a, :b]) == %{0 => :a, 1 => :b}
-  end
 end
