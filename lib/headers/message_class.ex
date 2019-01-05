@@ -3,7 +3,7 @@ defmodule MMS.MessageClass do
 end
 
 defmodule MMS.KnownMessageClass do
-  use MMS.Codec,
+  use MMS.Lookup,
     values: [
       :personal,
       :advertisement,

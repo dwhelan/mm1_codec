@@ -1,5 +1,5 @@
 defmodule MMS.Priority do
-  use MMS.Codec,
+  use MMS.Lookup,
       values: [
         :low,
         :normal,

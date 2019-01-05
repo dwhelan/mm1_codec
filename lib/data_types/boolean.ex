@@ -1,5 +1,5 @@
 defmodule MMS.Boolean do
-  use MMS.Codec,
+  use MMS.Lookup,
       values: [
         true,
         false,

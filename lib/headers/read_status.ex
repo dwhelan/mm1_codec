@@ -1,5 +1,5 @@
 defmodule MMS.ReadStatus do
-  use MMS.Codec,
+  use MMS.Lookup,
       values: [
         :read,
         :deleted,

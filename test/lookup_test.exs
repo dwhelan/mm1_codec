@@ -22,7 +22,7 @@ end
 defmodule MMS.LookupWithValuesTest do
   use MMS.Test
 
-  use MMS.Lookup, codec: MMS.Short, values: [false, true]
+  use MMS.Lookup, values: [false, true]
 
   use MMS.TestExamples,
       examples: [
