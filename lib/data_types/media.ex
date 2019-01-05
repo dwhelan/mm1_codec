@@ -1,3 +1,3 @@
 defmodule MMS.Media do
-  use MMS.Codec, either: [MMS.KnownMedia, MMS.Text]
+  use MMS.Either, codecs: [MMS.KnownMedia, MMS.Text]
 end

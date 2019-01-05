@@ -23,17 +23,7 @@ defmodule MMS.Codec do
     end
   end
 
-  defmacro __using__(opts \\ []) do
-    build_codec opts
-  end
-
-  defp build_codec either: codecs do
-    quote do
-      use MMS.Either, codecs: unquote(codecs)
-    end
-  end
-
-  defp build_codec [] do
+  defmacro __using__([]) do
     quote do
       import OkError
       import MMS.{DataTypes, Codec}
@@ -44,10 +34,7 @@ defmodule MMS.Codec do
     end
   end
 
-  defp build_codec args do
-    IO.inspect args
-    raise ArgumentError,
-          "invalid or duplicate keys for 'use MMS.Codec' " <>
-          "only \"either\", \"map\", \"values\", \"codec\" are permitted"
+  defmacro __using__(_opts) do
+    raise ArgumentError, "'use MMS.Codec' does not accept any options"
   end
 end

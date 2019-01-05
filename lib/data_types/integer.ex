@@ -1,3 +1,3 @@
 defmodule MMS.Integer do
-  use MMS.Codec, either: [MMS.Short, MMS.Long]
+  use MMS.Either, codecs: [MMS.Short, MMS.Long]
 end
