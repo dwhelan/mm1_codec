@@ -5,15 +5,15 @@ end
 defmodule MMS.EncodedString do
   use MMS.OneOf, codecs: [MMS.Text, MMS.EncodedString.WithCharset]
 
-  def map(string, fun) when is_binary(string) and is_function(fun) do
-    fun.(string) ~> ok
+  def map({first, second}, fun) do
+    first |> map(fun) ~> tuple(second)
   end
 
-  def map({string, charset}, fun) when is_binary(string) and is_function(fun) do
-    string |> map(fun) ~> tuple(charset)
+  def map(value, fun) do
+    fun.(value) ~> ok
   end
 
-  defp tuple string, charset do
-    {string, charset}
+  defp tuple first, second do
+    {first, second}
   end
 end
