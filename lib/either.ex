@@ -6,11 +6,11 @@ defmodule MMS.Either do
       @codecs opts[:codecs] || []
 
       def decode bytes do
-        while_error @codecs, & &1.decode(bytes) ~>> module_error()
+        first_ok @codecs, & &1.decode(bytes) ~>> module_error()
       end
 
       def encode value do
-        while_error @codecs, & &1.encode(value) ~>> module_error()
+        first_ok @codecs, & &1.encode(value) ~>> module_error()
       end
     end
   end

@@ -95,6 +95,7 @@ defmodule OkError do
     end
   end
 
+  # if_ok seems like a good idea but is not being used ... delete ???
   defmacro is_ok value do
     quote do
       case unquote value do
@@ -131,6 +132,7 @@ defmodule OkError do
           "only \"do\" and an optional \"else\" are permitted"
   end
 
+  # if_error seems like a good idea but is not being used ... delete ???
   defmacro if_error value, clauses do
     build_if_error value, clauses
   end
@@ -151,10 +153,9 @@ defmodule OkError do
           "only \"do\" and an optional \"else\" are permitted"
   end
 
-  def while_error(values, fun) do
-    Enum.reduce_while(values, nil, fn value, _ ->
-      acc = fun.(value)
-      if_ok acc do
+  def first_ok(args, fun) do
+    Enum.reduce_while(args, nil, fn arg, _ ->
+      if_ok acc = fun.(arg) do
         {:halt, acc}
       else
         {:cont, acc}

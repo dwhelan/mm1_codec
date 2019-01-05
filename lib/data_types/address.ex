@@ -11,7 +11,7 @@ defmodule MMS.Address do
   end
 
   defp map string do
-    while_error @types, & &1.map(string)
+    first_ok @types, & &1.map(string)
   end
 
   def encode value do
@@ -23,6 +23,6 @@ defmodule MMS.Address do
   end
 
   defp unmap address do
-    while_error @types, & &1.unmap(address)
+    first_ok @types, & &1.unmap(address)
   end
 end
