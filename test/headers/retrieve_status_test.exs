@@ -1,21 +1,22 @@
 defmodule MMS.RetrieveStatusTest do
-  use ExUnit.Case
+  import MMS.Test
 
   use MMS.TestExamples,
       codec: MMS.RetrieveStatus,
+
       examples: [
-        { <<128>>, :ok                          },
-        { <<192>>, :transient_failure           },
-        { <<193>>, :transient_message_not_found },
-        { <<194>>, :transient_network_problem   },
-        { <<224>>, :permanent_failure           },
-        { <<225>>, :permanent_service_denied    },
-        { <<226>>, :permanent_message_not_found },
-        { <<227>>, :content_unsupported         },
+        { << s( 0) >>, :ok                          },
+        { << s(64) >>, :transient_failure           },
+        { << s(65) >>, :transient_message_not_found },
+        { << s(66) >>, :transient_network_problem   },
+        { << s(96) >>, :permanent_failure           },
+        { << s(97) >>, :permanent_service_denied    },
+        { << s(98) >>, :permanent_message_not_found },
+        { << s(99) >>, :content_unsupported         },
       ],
 
       decode_errors: [
-        { <<127>>, :invalid_retrieve_status },
-        { <<129>>, :invalid_retrieve_status },
+        { << s(-1) >>,  :invalid_retrieve_status },
+        { << s(100) >>, :invalid_retrieve_status },
       ]
 end
