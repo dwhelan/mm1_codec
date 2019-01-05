@@ -5,8 +5,8 @@ defmodule MMS.EitherTest do
 
   use MMS.TestExamples,
     examples: [
-      { << s(0) >>, 0 },
-      { "text\0", "text" },
+      { << s(0) >>, 0      }, # short
+      { "text\0",   "text" }, # text
     ],
 
     decode_errors: [
@@ -14,20 +14,18 @@ defmodule MMS.EitherTest do
     ],
 
     encode_errors: [
-      { :not_either, :invalid_either_test },
-      { 128,         :invalid_either_test },
+      :neither,
     ]
 
   test "raise if no types provided" do
-    assert_code_error "use MMS.Either"
+    assert_code_raise "use MMS.Either"
   end
 
   test "raise if empty types provided" do
-    assert_code_error "use MMS.Either, []"
+    assert_code_raise "use MMS.Either, []"
   end
 
   test "raise if keyword list provided" do
-    assert_code_error "use MMS.Either, keyword: value"
+    assert_code_raise "use MMS.Either, keyword: value"
   end
-
 end

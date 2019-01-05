@@ -1,5 +1,17 @@
 defmodule MMS.TestExamples do
+  def text(value) when is_binary(value) do
+    if String.ends_with?(value, "\0") do
+      String.slice(value, 0..-2) <> ~S(\0)
+    else
+      value
+    end |> do_text
+  end
+
   def text value do
+    value |> do_text
+  end
+
+  defp do_text value do
     value |> Kernel.inspect |> String.slice(0..40)
   end
 
@@ -8,15 +20,9 @@ defmodule MMS.TestExamples do
       use MMS.Test
       import MMS.TestExamples
 
-      @codec          opts[:codec]         || __MODULE__
-      examples      = opts[:examples]      || []
-      decode_errors = opts[:decode_errors] || []
-      encode_errors = opts[:encode_errors] || []
+      @codec opts[:codec] || __MODULE__
 
-      Enum.each(examples, fn {bytes, value} ->
-        @bytes  bytes
-        @value value
-
+      Enum.each(opts[:examples] || [], fn {bytes, value} -> @bytes bytes; @value value
         test "decode #{text bytes} == {:ok, {#{text value}, <<>>}}" do
           assert @codec.decode(@bytes) == {:ok, {@value, <<>>}}
         end
@@ -26,29 +32,33 @@ defmodule MMS.TestExamples do
         end
       end)
 
-      Enum.each(decode_errors, fn case ->
-        case case do
-          {bytes, reason} ->
+      Enum.each(opts[:decode_errors] || [], fn test_case ->
+        case test_case do
+          {bytes, reason} -> @bytes bytes; @reason reason
             test "decode #{text bytes} => {:error, #{text reason}}" do
-              assert @codec.decode(unquote bytes) == {:error, unquote reason}
+              assert @codec.decode(@bytes) == {:error, @reason}
             end
 
-          bytes ->
+          bytes -> @bytes bytes
             test "decode #{text bytes} => {:error, _}" do
-              assert {:error, _} = @codec.decode(unquote bytes)
+              assert {:error, _} = @codec.decode(@bytes)
             end
         end
       end)
 
-      Enum.each(encode_errors, fn {value, reason} ->
-        @value  value
-        @reason reason
+      Enum.each(opts[:encode_errors] || [], fn test_case ->
+          case test_case do
+          {value, reason} -> @value value; @reason reason
+            test "encode #{text value} => {:error, #{text reason}}" do
+              assert @codec.encode(@value) == {:error, @reason}
+            end
 
-        test "encode #{text value} => {:error, #{text reason}}" do
-          assert @codec.encode(@value) == {:error, @reason}
-        end
+          value -> @value value
+            test "encode #{text value} => {:error, _}" do
+              assert {:error, _} = @codec.encode(@value)
+            end
+          end
       end)
-
     end
   end
 end
