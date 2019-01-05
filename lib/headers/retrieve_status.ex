@@ -1,5 +1,5 @@
 defmodule MMS.RetrieveStatus do
-  use MMS.Lookup,
+  use MMS.Codec,
       map: %{
          0 => :ok,
         64 => :transient_failure,

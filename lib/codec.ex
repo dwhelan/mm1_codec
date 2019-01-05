@@ -39,6 +39,20 @@ defmodule MMS.Codec do
     end
   end
 
+  defp build_codec map: map do
+    quote do
+      use MMS.Lookup, map: unquote(map)
+    end
+  end
+
+  defp build_codec codec: codec, map: map do
+    build_lookup_codec codec, map
+  end
+
+  defp build_codec map: map, codec: codec do
+    build_lookup_codec codec, map
+  end
+
   defp build_codec [] do
     quote do
       import OkError
@@ -50,9 +64,17 @@ defmodule MMS.Codec do
     end
   end
 
-  defp build_codec _ do
+  defp build_codec args do
+    IO.inspect args
     raise ArgumentError,
           "invalid or duplicate keys for 'use MMS.Codec' " <>
-          "only \"either\" is permitted"
+          "only \"either\", \"map\", \"values\", \"codec\" are permitted"
   end
+
+  defp build_lookup_codec codec, map do
+    quote do
+      use MMS.Lookup, map: unquote(map), codec: unquote(codec)
+    end
+  end
+
 end
