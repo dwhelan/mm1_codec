@@ -17,22 +17,26 @@ defmodule MMS.TestExamples do
         @bytes  bytes
         @value value
 
-        test "decode #{text @bytes} === {:ok, {#{text value}, <<>>}}" do
-          assert @codec.decode(@bytes) === {:ok, {@value, <<>>}}
+        test "decode #{text bytes} == {:ok, {#{text value}, <<>>}}" do
+          assert @codec.decode(@bytes) == {:ok, {@value, <<>>}}
         end
 
-        test "encode #{text value} === {:ok, #{text @bytes}" do
-          assert @codec.encode(@value) === {:ok, @bytes}
+        test "encode #{text value} == {:ok, #{text bytes}" do
+          assert @codec.encode(@value) == {:ok, @bytes}
         end
       end)
 
       Enum.each(decode_errors, fn case ->
-        {bytes, reason} = case
-        @bytes  bytes
-        @reason reason
+        case case do
+          {bytes, reason} ->
+            test "decode #{text bytes} => {:error, #{text reason}}" do
+              assert @codec.decode(unquote bytes) == {:error, unquote reason}
+            end
 
-        test "decode #{text @bytes} => {:error, #{text reason}}" do
-          assert @codec.decode(@bytes) === {:error, @reason}
+          bytes ->
+            test "decode #{text bytes} => {:error, _}" do
+              assert {:error, _} = @codec.decode(unquote bytes)
+            end
         end
       end)
 
@@ -41,9 +45,10 @@ defmodule MMS.TestExamples do
         @reason reason
 
         test "encode #{text value} => {:error, #{text reason}}" do
-          assert @codec.encode(@value) === {:error, @reason}
+          assert @codec.encode(@value) == {:error, @reason}
         end
       end)
+
     end
   end
 end

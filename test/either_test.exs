@@ -10,7 +10,7 @@ defmodule MMS.EitherTest do
     ],
 
     decode_errors: [
-      { <<>>, :invalid_either_test},
+      <<>>,
     ],
 
     encode_errors: [
