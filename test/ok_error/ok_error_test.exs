@@ -204,6 +204,16 @@ defmodule OkErrorTest do
     end
   end
 
+  describe "cons" do
+    test "accepts plain values" do
+      assert "x" |> cons("foo") == "foo"
+    end
+
+    test "accepts function" do
+      assert "x" |> cons(String.upcase "y") == "Y"
+    end
+  end
+
   describe "~> should" do
     test "pipe ok values" do
       assert {:ok, "x"} ~> upcase == {:ok, "X"}
