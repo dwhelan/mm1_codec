@@ -4,6 +4,9 @@ end
 
 defmodule MMS.OkError do
 
+  def tuple(value, tuple) when is_tuple(tuple), do: Tuple.insert_at(tuple, 0, value)
+  def tuple(value, other),                      do: {value, other}
+
   def ok value, rest do
     {:ok, {value, rest}}
   end
