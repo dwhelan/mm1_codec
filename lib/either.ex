@@ -6,29 +6,27 @@ defmodule MMS.Either do
       @codecs opts[:codecs] || []
 
       def decode bytes do
-        decode bytes, @codecs
+        decode :_, bytes, @codecs
       end
 
-      defp decode _, [] do
+      defp decode _, _, [] do
         error()
       end
 
-      defp decode bytes, [codec | codecs] do
-        case_error codec.decode bytes do
-          _ -> decode bytes, codecs
-        end
+      defp decode _, bytes, [codec | codecs] do
+        bytes |> codec.decode ~>> decode(bytes, codecs)
       end
 
       def encode value do
-        encode :none, value, @codecs
+        do_encode :_, value, @codecs
       end
 
-      defp encode _, _, [] do
+      defp do_encode _, _, [] do
         error()
       end
 
-      defp encode _, value, [codec | codecs] do
-        value |> codec.encode ~>> encode(value, codecs)
+      defp do_encode _, value, [codec | codecs] do
+        value |> codec.encode ~>> do_encode(value, codecs)
       end
     end
   end
