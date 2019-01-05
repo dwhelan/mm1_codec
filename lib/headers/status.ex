@@ -1,5 +1,5 @@
 defmodule MMS.Status do
-  use MMS.Lookup,
+  use MMS.Codec,
       values: [
         :expired,
         :retrieved,

@@ -1,5 +1,5 @@
 defmodule MMS.MessageType do
-  use MMS.Lookup,
+  use MMS.Codec,
       values: [
         :m_send_conf,
         :m_notification_ind,

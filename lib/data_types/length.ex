@@ -1,5 +1,5 @@
 defmodule MMS.Length do
-  use MMS.Either, codecs: [MMS.ShortLength, MMS.Uint32Length]
+  use MMS.Codec, either: [MMS.ShortLength, MMS.Uint32Length]
 end
 
 defmodule MMS.ShortLength do

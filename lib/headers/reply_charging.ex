@@ -1,5 +1,5 @@
 defmodule MMS.ReplyCharging do
-  use MMS.Lookup,
+  use MMS.Codec,
       values: [
         :requested,
         :requested_text_only,

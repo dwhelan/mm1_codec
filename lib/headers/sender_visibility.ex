@@ -1,5 +1,5 @@
 defmodule MMS.SenderVisibility do
-  use MMS.Lookup,
+  use MMS.Codec,
       values: [
         :hide,
         :show,

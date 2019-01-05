@@ -1,6 +1,6 @@
 # http://www.openmobilealliance.org/wp/OMNA/wsp/wsp_content_type_codes.html
 defmodule MMS.KnownMedia do
-  use MMS.Lookup,
+  use MMS.Codec,
       values: [
         "*/*",
         "text/*",

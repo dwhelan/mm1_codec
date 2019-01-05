@@ -33,6 +33,12 @@ defmodule MMS.Codec do
     end
   end
 
+  defp build_codec values: values do
+    quote do
+      use MMS.Lookup, values: unquote(values)
+    end
+  end
+
   defp build_codec [] do
     quote do
       import OkError
