@@ -1,4 +1,17 @@
+defmodule MMS.AbsoluteTime do
+  use MMS.Prefix, prefix: 128, codec: MMS.DateTime
+end
+
+defmodule MMS.RelativeTime do
+  use MMS.Prefix, prefix: 129, codec: MMS.Long
+end
+
+defmodule MMS.EitherTime do
+  use MMS.Either, [MMS.AbsoluteTime, MMS.RelativeTime]
+end
+
 defmodule MMS.Time do
+#  use MMS.Composer, codecs: [MMS.EitherTime]
   use MMS.Codec
 
   import MMS.Composer
