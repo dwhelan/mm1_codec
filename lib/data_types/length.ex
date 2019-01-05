@@ -16,32 +16,8 @@ defmodule MMS.ShortLength do
   defaults()
 end
 
-defmodule MMS.Prefix do
-  use MMS.Codec
-
-  defmacro __using__(opts \\ []) do
-    build_codec opts
-  end
-
-  defp build_codec prefix: prefix, codec: codec do
-    quote do
-      use MMS.Codec
-
-      def decode <<unquote(prefix), bytes::binary>> do
-        bytes |> unquote(codec).decode
-      end
-
-      def decode _ do
-        error()
-      end
-
-      def encode(value) do
-        value |> unquote(codec).encode ~> prepend(<<unquote(prefix)>>)
-      end
-    end
-  end
-end
-
 defmodule MMS.Uint32Length do
-  use MMS.Prefix, prefix: 31, codec: MMS.Uint32
+  @length_quote 31
+
+  use MMS.Prefix, prefix: @length_quote, codec: MMS.Uint32
 end
