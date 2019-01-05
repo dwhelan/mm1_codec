@@ -74,7 +74,6 @@ defmodule MMS.Composer do
         encode values |> Tuple.to_list |> Enum.reverse, @codecs
       end
 
-      defaults()
     end
   end
 end

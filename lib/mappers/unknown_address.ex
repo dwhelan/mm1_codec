@@ -9,7 +9,7 @@ defmodule MMS.Mapper.UnknownAddress do
     ok_if_unknown_address {string, type}
   end
 
-  def unmap_address x do
+  def unmap_address _ do
     error()
   end
 

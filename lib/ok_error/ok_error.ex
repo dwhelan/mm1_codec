@@ -1,7 +1,3 @@
-defmodule OkError.Tuple do
-  def insert_at(value, tuple, index \\ 0), do: Tuple.insert_at(tuple, index, value)
-end
-
 defmodule OkError do
 
   def tuple(value, tuple) when is_tuple(tuple), do: Tuple.insert_at(tuple, 0, value)
@@ -154,7 +150,7 @@ defmodule OkError do
   end
 
   def while_error(values, fun) do
-    Enum.reduce_while(values, nil, fn value, acc ->
+    Enum.reduce_while(values, nil, fn value, _ ->
       acc = fun.(value)
       if_ok acc do
         {:halt, acc}
