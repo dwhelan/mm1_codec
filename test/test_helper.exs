@@ -12,7 +12,7 @@ defmodule MMS.Test do
       use ExUnit.Case
 
       import MMS.Test
-      import MMS.OkError
+      import OkError
       import MMS.DataTypes
     end
   end

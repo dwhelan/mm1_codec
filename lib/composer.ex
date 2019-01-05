@@ -1,5 +1,5 @@
 defmodule MMS.Composer do
-  import MMS.OkError
+  import OkError
 
   alias MMS.Length
 

@@ -1,7 +1,7 @@
 defmodule MMS.Address do
   use MMS.Codec
 
-  import MMS.OkError
+  import OkError
   alias MMS.EncodedString
   alias MMS.Mapper.{IPv4Address, IPv6Address, PhoneNumber, EmailAddress, UnknownAddress}
 

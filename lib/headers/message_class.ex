@@ -1,5 +1,5 @@
 defmodule MMS.MessageClass do
-  import MMS.OkError
+  import OkError
 
   alias MMS.{Lookup, Short, Text}
 

@@ -1,5 +1,5 @@
 defmodule OkError.OneOf do
-  import MMS.OkError
+  import OkError
 
   # called via OneOf.call value, [modules], :decode
 
@@ -23,7 +23,7 @@ end
 defmodule MMS.OneOf do
   defmacro __using__ opts \\ [] do
     quote bind_quoted: [opts: opts] do
-      import MMS.OkError
+      import OkError
 
       @codecs opts[:codecs] || []
 

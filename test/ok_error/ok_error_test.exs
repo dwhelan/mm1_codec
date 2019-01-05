@@ -1,7 +1,7 @@
-defmodule MMS.OkErrorTest do
+defmodule OkErrorTest do
   use ExUnit.Case
 
-  import MMS.OkError
+  import OkError
 
   def upcase(string),  do: {:ok,    String.upcase string}
   def upcase!(reason), do: {:error, String.upcase reason}
@@ -77,7 +77,7 @@ defmodule MMS.OkErrorTest do
 
     test "raise if option other than do or else" do
       assert_raise ArgumentError, fn ->
-        Code.eval_string "import MMS.OkError; if_ok true, foo: 7"
+        Code.eval_string "import OkError; if_ok true, foo: 7"
       end
     end
   end
@@ -145,7 +145,7 @@ defmodule MMS.OkErrorTest do
 
     test "raise if option other than do or else" do
       assert_raise ArgumentError, fn ->
-        Code.eval_string "import MMS.OkError; if_error true, foo: 7"
+        Code.eval_string "import OkError; if_error true, foo: 7"
       end
     end
   end

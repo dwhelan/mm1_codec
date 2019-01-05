@@ -1,5 +1,5 @@
 defmodule MMS.Message do
-  import MMS.OkError
+  import OkError
 
   alias MMS.Headers
 

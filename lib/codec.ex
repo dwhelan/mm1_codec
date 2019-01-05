@@ -1,5 +1,5 @@
 defmodule MMS.Codec do
-  import MMS.OkError
+  import OkError
 
   def prepend(string, prefix), do: prefix <> string
   def append( string, suffix), do: string <> suffix
@@ -25,7 +25,8 @@ defmodule MMS.Codec do
 
   defmacro __using__(_) do
     quote do
-      import MMS.{OkError, DataTypes, Codec}
+      import OkError
+      import MMS.{DataTypes, Codec}
 
       def decode(nil),  do: error()
       def decode(<<>>), do: error()
