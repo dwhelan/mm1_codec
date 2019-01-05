@@ -1,38 +1,41 @@
 defmodule MMS.ResponseStatusTest do
+  import MMS.Test
+
   use MMS.TestExamples,
       codec: MMS.ResponseStatus,
 
       examples: [
-        { <<128>>, :ok                                            },
-        { <<129>>, :unspecified                                   },
-        { <<130>>, :service_denied                                },
-        { <<131>>, :message_format_corrupt                        },
-        { <<132>>, :sending_address_unresolved                    },
-        { <<133>>, :message_not_found                             },
-        { <<134>>, :network_problem                               },
-        { <<135>>, :content_not_accepted                          },
-        { <<136>>, :unsupported_message                           },
-        { <<192>>, :transient_failure                             },
-        { <<193>>, :transient_sending_address_unresolved          },
-        { <<194>>, :transient_message_not_found                   },
-        { <<195>>, :transient_network_problem                     },
-        { <<224>>, :permanent_failure                             },
-        { <<225>>, :permanent_service_denied                      },
-        { <<226>>, :permanent_message_format_corrupt              },
-        { <<227>>, :permanent_sending_address_unresolved          },
-        { <<228>>, :permanent_message_not_found                   },
-        { <<229>>, :permanent_content_not_accepted                },
-        { <<230>>, :permanent_reply_charging_limitations_not_met  },
-        { <<231>>, :permanent_reply_charging_request_not_accepted },
-        { <<232>>, :permanent_reply_charging_forwarding_denied    },
-        { <<233>>, :permanent_reply_charging_not_supported        },
+        { << s(  0) >>, :ok                                            },
+        { << s(  1) >>, :unspecified                                   },
+        { << s(  2) >>, :service_denied                                },
+        { << s(  3) >>, :message_format_corrupt                        },
+        { << s(  4) >>, :sending_address_unresolved                    },
+        { << s(  5) >>, :message_not_found                             },
+        { << s(  6) >>, :network_problem                               },
+        { << s(  7) >>, :content_not_accepted                          },
+        { << s(  8) >>, :unsupported_message                           },
+        { << s( 64) >>, :transient_failure                             },
+        { << s( 65) >>, :transient_sending_address_unresolved          },
+        { << s( 66) >>, :transient_message_not_found                   },
+        { << s( 67) >>, :transient_network_problem                     },
+        { << s( 96) >>, :permanent_failure                             },
+        { << s( 97) >>, :permanent_service_denied                      },
+        { << s( 98) >>, :permanent_message_format_corrupt              },
+        { << s( 99) >>, :permanent_sending_address_unresolved          },
+        { << s(100) >>, :permanent_message_not_found                   },
+        { << s(101) >>, :permanent_content_not_accepted                },
+        { << s(102) >>, :permanent_reply_charging_limitations_not_met  },
+        { << s(103) >>, :permanent_reply_charging_request_not_accepted },
+        { << s(104) >>, :permanent_reply_charging_forwarding_denied    },
+        { << s(105) >>, :permanent_reply_charging_not_supported        },
       ],
 
       decode_errors: [
-        { <<234>>, :invalid_response_status}
+        { << s(-1) >>,  :invalid_response_status},
+        { << s(106) >>, :invalid_response_status},
       ],
 
       encode_errors: [
-        { :not_a_response_status, :invalid_response_status}
+        { :not_a_response_status, :invalid_response_status},
       ]
 end
