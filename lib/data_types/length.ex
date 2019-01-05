@@ -1,4 +1,8 @@
-defmodule MMS.Length.Short do
+defmodule MMS.Length do
+  use MMS.OneOf, codecs: [MMS.ShortLength, MMS.Uint32Length]
+end
+
+defmodule MMS.ShortLength do
   use MMS.Codec
 
   def decode(<<value, rest::binary>>) when is_short_length(value) do
@@ -12,7 +16,7 @@ defmodule MMS.Length.Short do
   defaults()
 end
 
-defmodule MMS.Length.Uint32 do
+defmodule MMS.Uint32Length do
   use MMS.Codec
 
   alias MMS.Uint32
@@ -28,8 +32,4 @@ defmodule MMS.Length.Uint32 do
   end
 
   defaults()
-end
-
-defmodule MMS.Length do
-  use MMS.OneOf, codecs: [MMS.Length.Short, MMS.Length.Uint32]
 end

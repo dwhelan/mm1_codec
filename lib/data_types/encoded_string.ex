@@ -1,9 +1,5 @@
-defmodule MMS.EncodedString.WithCharset do
-  use MMS.Composer, codecs: [MMS.Charset, MMS.Text]
-end
-
 defmodule MMS.EncodedString do
-  use MMS.OneOf, codecs: [MMS.Text, MMS.EncodedString.WithCharset]
+  use MMS.OneOf, codecs: [MMS.Text, MMS.TextWithCharset]
 
   def map({string, charset}, fun) do
     string |> map(fun) ~> tuple(charset)
@@ -13,3 +9,8 @@ defmodule MMS.EncodedString do
     fun.(string) ~> ok
   end
 end
+
+defmodule MMS.TextWithCharset do
+  use MMS.Composer, codecs: [MMS.Charset, MMS.Text]
+end
+

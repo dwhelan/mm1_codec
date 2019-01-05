@@ -1,8 +1,8 @@
-defmodule MMS.WellKnownMediaTest do
+defmodule MMS.KnownMediaTest do
   use MMS.Test
 
   use MMS.TestExamples,
-      codec: MMS.WellKnownMedia,
+      codec: MMS.KnownMedia,
 
       examples: [
         {<<0x80>>, "*/*"},
@@ -97,7 +97,7 @@ defmodule MMS.WellKnownMediaTest do
       ],
 
       decode_errors: [
-        {<<0x00>>, :invalid_well_known_media},
-        {<<0x7f>>, :invalid_well_known_media},
+        {<<0x00>>, :invalid_known_media},
+        {<<0x7f>>, :invalid_known_media},
       ]
 end

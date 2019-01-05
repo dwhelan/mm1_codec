@@ -1,5 +1,5 @@
 # http://www.openmobilealliance.org/wp/OMNA/wsp/wsp_content_type_codes.html
-defmodule MMS.WellKnownMedia do
+defmodule MMS.KnownMedia do
   use MMS.Lookup,
       values: [
         "*/*",

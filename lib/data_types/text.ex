@@ -13,16 +13,16 @@ defmodule MMS.Text do
     error()
   end
 
-  def encode "" do
-    ok <<0>>
-  end
-
   def encode(<<byte, _::binary>> = string) when is_char(byte) do
-    if String.contains?(string, "\0") do
+    if string |> String.contains?("\0") do
       error()
     else
       ok string <> <<0>>
     end
+  end
+
+  def encode "" do
+    ok <<0>>
   end
 
   defaults()
