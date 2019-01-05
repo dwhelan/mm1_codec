@@ -5,6 +5,7 @@
 defmodule MMS.Address do
   use MMS.Codec
 
+  alias MMS.OkError
   alias MMS.EncodedString
   alias MMS.Mapper.{IPv4Address, IPv6Address, PhoneNumber, EmailAddress, UnknownAddress}
 
@@ -15,19 +16,18 @@ defmodule MMS.Address do
   end
 
   defp map string do
-    @addresses |> Enum.reduce(nil, fn address, acc -> if_ok acc, do: acc, else: address.map(string) end) ~>> error()
+    @addresses |> OkError.while_error(& &1.map(string))
   end
 
   def encode({address, charset}) when is_atom(charset) do
+#    address |> unmap ~> EncodedString.encode(charset)
     case_ok unmap address do
       string -> EncodedString.encode {string, charset}
     end
   end
 
   def encode address do
-    case_ok unmap address do
-      string -> EncodedString.encode string
-    end
+    address |> unmap ~> EncodedString.encode
   end
 
   defp unmap address do

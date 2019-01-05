@@ -145,4 +145,15 @@ defmodule MMS.OkError do
           "invalid or duplicate keys for if_error, " <>
           "only \"do\" and an optional \"else\" are permitted"
   end
+
+  def while_error(values, fun) do
+    Enum.reduce_while(values, nil, fn value, acc ->
+      acc = fun.(value)
+      if_ok acc do
+        {:halt, acc}
+      else
+        {:cont, acc}
+      end
+    end)
+  end
 end

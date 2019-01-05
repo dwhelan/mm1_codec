@@ -194,6 +194,16 @@ defmodule MMS.OkErrorTest do
     end
   end
 
+  describe "while_error should" do
+    test "should return first ok value" do
+      assert while_error([nil, "x", "y"], & &1) == "x"
+    end
+
+    test "should return last error if no ok values" do
+      assert while_error([nil, {:error, "x"}, {:error, "y"}], & &1) == {:error, "y"}
+    end
+  end
+
   describe "~> should" do
     test "pipe ok values" do
       assert {:ok, "x"} ~> upcase == {:ok, "X"}
