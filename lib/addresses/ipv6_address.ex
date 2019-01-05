@@ -1,4 +1,4 @@
-defmodule MMS.Mapper.IPv6Address do
+defmodule MMS.IPv6Address do
   use MMS.Address.Base, type: "IPv6"
 
   def map_address string do

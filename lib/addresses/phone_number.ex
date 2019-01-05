@@ -1,4 +1,4 @@
-defmodule MMS.Mapper.PhoneNumber do
+defmodule MMS.PhoneNumber do
   use MMS.Address.Base, type: "PLMN"
 
   def map_address phone_number do

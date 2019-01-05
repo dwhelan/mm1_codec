@@ -1,4 +1,4 @@
-defmodule MMS.Mapper.EmailAddress do
+defmodule MMS.EmailAddress do
   import OkError
 
   def map string do

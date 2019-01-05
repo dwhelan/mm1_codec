@@ -1,4 +1,4 @@
-defmodule MMS.Mapper.UnknownAddress do
+defmodule MMS.UnknownAddress do
   use MMS.Address.Base
 
   def map_address {string, type} do
