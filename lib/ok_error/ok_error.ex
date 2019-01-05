@@ -101,11 +101,7 @@ defmodule OkError do
 
   defmacro is_error value do
     quote do
-      case unquote value do
-        {:error, _} -> true
-        nil         -> true
-        _           -> false
-      end
+      ! is_ok(unquote value)
     end
   end
 
