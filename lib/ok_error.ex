@@ -1,3 +1,7 @@
+defmodule MMS.OkError.Tuple do
+  def insert_at(value, tuple, index \\ 0), do: Tuple.insert_at(tuple, index, value)
+end
+
 defmodule MMS.OkError do
 
   def ok value, rest do

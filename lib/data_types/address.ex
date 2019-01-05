@@ -20,13 +20,15 @@ defmodule MMS.Address do
   end
 
   def encode({address, charset}) when is_atom(charset) do
-    case_ok unmap address do
-      string -> EncodedString.encode {string, charset}
-    end
+    address |> unmap ~> OkError.Tuple.insert_at({charset}) |> do_encode
   end
 
   def encode address do
-    address |> unmap ~> EncodedString.encode ~>> module_error()
+    address |> unmap |> do_encode
+  end
+
+  defp do_encode address do
+    address ~> EncodedString.encode ~>> module_error()
   end
 
   defp unmap address do

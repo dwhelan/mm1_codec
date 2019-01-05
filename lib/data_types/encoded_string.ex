@@ -5,15 +5,11 @@ end
 defmodule MMS.EncodedString do
   use MMS.OneOf, codecs: [MMS.Text, MMS.EncodedString.WithCharset]
 
-  def map({first, second}, fun) do
-    first |> map(fun) ~> tuple(second)
+  def map({string, charset}, fun) do
+    string |> map(fun) ~> MMS.OkError.Tuple.insert_at({charset})
   end
 
   def map(value, fun) do
     fun.(value) ~> ok
-  end
-
-  defp tuple first, second do
-    {first, second}
   end
 end
