@@ -1,4 +1,8 @@
-defmodule MMS.ContentType.General do
+defmodule MMS.ContentType do
+  use MMS.OneOf, codecs: [MMS.ContentTypeGeneral, MMS.Media]
+end
+
+defmodule MMS.ContentTypeGeneral do
   use MMS.Composer, codecs: [MMS.Media]
 
   def encode _ do
@@ -6,6 +10,3 @@ defmodule MMS.ContentType.General do
   end
 end
 
-defmodule MMS.ContentType do
-  use MMS.OneOf, codecs: [MMS.ContentType.General, MMS.Media]
-end
