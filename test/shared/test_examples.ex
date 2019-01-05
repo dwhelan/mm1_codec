@@ -26,7 +26,8 @@ defmodule MMS.TestExamples do
         end
       end)
 
-      Enum.each(decode_errors, fn {bytes, reason} ->
+      Enum.each(decode_errors, fn case ->
+        {bytes, reason} = case
         @bytes  bytes
         @reason reason
 

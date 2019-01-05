@@ -1,5 +1,5 @@
 defmodule MMS.ContentType do
-  use MMS.Either, codecs: [MMS.ContentTypeGeneral, MMS.Media]
+  use MMS.Either, [MMS.ContentTypeGeneral, MMS.Media]
 end
 
 defmodule MMS.ContentTypeGeneral do
