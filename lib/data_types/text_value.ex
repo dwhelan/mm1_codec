@@ -1,3 +1,3 @@
 defmodule MMS.TextValue do
-  use MMS.OneOf, codecs: [MMS.NoValue, MMS.QuotedString, MMS.Text]
+  use MMS.Either, codecs: [MMS.NoValue, MMS.QuotedString, MMS.Text]
 end

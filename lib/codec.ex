@@ -29,7 +29,7 @@ defmodule MMS.Codec do
 
   defp build_codec either: codecs do
     quote do
-      use MMS.OneOf, codecs: unquote(codecs)
+      use MMS.Either, codecs: unquote(codecs)
     end
   end
 
