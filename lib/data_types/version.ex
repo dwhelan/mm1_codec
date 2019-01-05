@@ -25,5 +25,8 @@ defmodule MMS.VersionInteger do
 end
 
 defmodule MMS.Version do
-  use MMS.OneOf, codecs: [MMS.VersionInteger, MMS.Text]
+  import MMS.Codec
+
+  defcodec either: [MMS.VersionInteger, MMS.Text]
+#  use MMS.OneOf, codecs: [MMS.VersionInteger, MMS.Text]
 end

@@ -16,6 +16,14 @@ defmodule MMS.Codec do
     end
   end
 
+  defmacro defcodec opts \\ [] do
+    quote bind_quoted: [opts: opts] do
+      cond do
+        opts[:either] -> use MMS.OneOf, codecs: opts[:either]
+        true -> IO.inspect  "nuthing"
+      end
+    end
+  end
   defmacro defaults do
     quote do
       def decode(_), do: error()
