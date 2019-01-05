@@ -1,21 +1,25 @@
 defmodule MMS.StatusTest do
-  use ExUnit.Case
+  import MMS.Test
 
   use MMS.TestExamples,
       codec: MMS.Status,
 
       examples: [
-        { <<128>>, :expired       },
-        { <<129>>, :retrieved     },
-        { <<130>>, :rejected      },
-        { <<131>>, :deferred      },
-        { <<132>>, :unrecognized  },
-        { <<133>>, :indeterminate },
-        { <<134>>, :forwarded     },
+        { << s(0) >>, :expired       },
+        { << s(1) >>, :retrieved     },
+        { << s(2) >>, :rejected      },
+        { << s(3) >>, :deferred      },
+        { << s(4) >>, :unrecognized  },
+        { << s(5) >>, :indeterminate },
+        { << s(6) >>, :forwarded     },
       ],
 
       decode_errors: [
-        { <<127>>, :invalid_status },
-        { <<135>>, :invalid_status },
+        { << s(-1) >>, :invalid_status },
+        { << s(7)  >>, :invalid_status },
+      ],
+
+      encode_errors: [
+        { :x, :invalid_status},
       ]
 end
