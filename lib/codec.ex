@@ -16,14 +16,6 @@ defmodule MMS.Codec do
     end
   end
 
-  defmacro defcodec opts \\ [] do
-    quote bind_quoted: [opts: opts] do
-      cond do
-        opts[:either] -> use MMS.OneOf, codecs: opts[:either]
-        true -> IO.inspect  "nuthing"
-      end
-    end
-  end
   defmacro defaults do
     quote do
       def decode(_), do: error()
@@ -31,7 +23,17 @@ defmodule MMS.Codec do
     end
   end
 
-  defmacro __using__(_) do
+  defmacro __using__(opts \\ []) do
+    build_codec opts
+  end
+
+  defp build_codec either: codecs do
+    quote do
+      use MMS.OneOf, codecs: unquote(codecs)
+    end
+  end
+
+  defp build_codec [] do
     quote do
       import OkError
       import MMS.{DataTypes, Codec}
@@ -40,5 +42,11 @@ defmodule MMS.Codec do
       def decode(<<>>), do: error()
       def decode(value) when not is_binary(value), do: error()
     end
+  end
+
+  defp build_codec _ do
+    raise ArgumentError,
+          "invalid or duplicate keys for 'use MMS.Codec' " <>
+          "only \"either\" is permitted"
   end
 end
