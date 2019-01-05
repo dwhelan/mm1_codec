@@ -16,20 +16,32 @@ defmodule MMS.ShortLength do
   defaults()
 end
 
-defmodule MMS.Uint32Length do
+defmodule MMS.Prefix do
   use MMS.Codec
 
-  alias MMS.Uint32
-
-  @length_quote 31
-
-  def decode <<@length_quote, bytes::binary>> do
-    bytes |> Uint32.decode
+  defmacro __using__(opts \\ []) do
+    build_codec opts
   end
 
-  def encode(value) when is_uint32(value) do
-    value |> Uint32.encode ~> prepend(<<@length_quote>>)
-  end
+  defp build_codec prefix: prefix, codec: codec do
+    quote do
+      use MMS.Codec
 
-  defaults()
+      def decode <<unquote(prefix), bytes::binary>> do
+        bytes |> unquote(codec).decode
+      end
+
+      def decode _ do
+        error()
+      end
+
+      def encode(value) do
+        value |> unquote(codec).encode ~> prepend(<<unquote(prefix)>>)
+      end
+    end
+  end
+end
+
+defmodule MMS.Uint32Length do
+  use MMS.Prefix, prefix: 31, codec: MMS.Uint32
 end
