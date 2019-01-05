@@ -1,5 +1,5 @@
 defmodule MMS.ResponseStatus do
-  use MMS.Codec,
+  use MMS.Lookup,
       map: %{
           0 => :ok,
           1 => :unspecified,
