@@ -6,6 +6,10 @@ defmodule MMS.Codec do
 
   def remove_trailing(string, count), do: string |> String.slice(0..-count-1)
 
+  def codec_error x do
+    wrap x
+  end
+
   defmacro input <~> fun do
     quote do
       case unquote(input) |> wrap do
@@ -13,6 +17,16 @@ defmodule MMS.Codec do
         {:ok, value}         -> value |> unquote(fun)             # for encode
         error                -> error
       end ~>> module_error()
+    end
+  end
+
+  defmacro input <|> fun do
+    quote do
+      case unquote(input) |> wrap do
+        {:ok, {value, rest}} -> value |> unquote(fun) ~> ok(rest) # for decode
+        {:ok, value}         -> value |> unquote(fun)             # for encode
+        error                -> error
+      end
     end
   end
 

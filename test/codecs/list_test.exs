@@ -1,7 +1,7 @@
 defmodule MMS.ListTest do
   use MMS.Test
 
-  alias MMS.{Byte}
+  alias MMS.{Byte, Short}
   import MMS.List
 
   describe "decode" do
@@ -11,6 +11,19 @@ defmodule MMS.ListTest do
 
     test "multiple codecs" do
       assert decode(<<0, 1, 2>>, [Byte, Byte, Byte]) == ok [0, 1, 2], <<>>
+    end
+
+    test "ok when bytes consumed before all codecs" do
+      assert decode(<<0, 1, 2>>, [Byte]) == ok [0], <<1, 2>>
+    end
+
+    @tag :skip
+    test "error with first value" do
+      assert decode(<<0>>, [Short]) == error {:invalid_list, :invalid_short}
+    end
+
+    test "error with first value2" do
+      assert {:error, _} = decode(<<0>>, [Short])
     end
   end
 

@@ -19,24 +19,38 @@ defmodule MMS.CodecTest do
   def upcase!(reason), do: {:error, String.upcase reason}
 
   describe "<~> should" do
-    test "pipe ok decoded tuples" do
-      assert {:ok,{ "x", "rest"}} <~> String.upcase == ok "X", "rest"
+    test "pipe oks" do
+      assert ok("x") <~> String.upcase == ok("X")
     end
 
-    test "pipe ok values" do
-      assert {:ok, "x"} <~> String.upcase == ok "X"
+    test "pipe decode oks" do
+      assert ok("x", "rest") <~> String.upcase == ok("X", "rest")
     end
 
-    test "wrap inputs as values" do
-      assert "x" <~> String.upcase == {:ok, "X"}
+    test "wrap inputs" do
+      assert "x" <~> String.upcase == ok("X")
     end
 
     test "ensure module errors" do
-      assert {:error, "reason"} <~> String.upcase == {:error, :invalid_codec_test}
+      assert error("reason") <~> String.upcase == error(:invalid_codec_test)
     end
 
-    test "return module errorsif function returns an error" do
-      assert {:ok, "x"} <~> upcase! == {:error, :invalid_codec_test}
+    test "return module errors if function returns an error" do
+      assert ok("x") <~> upcase! == error(:invalid_codec_test)
+    end
+  end
+
+  describe "codec_error should" do
+    test "short circuit plain values" do
+      assert "x" |> codec_error == ok("x")
+    end
+
+    test "short circuit oks" do
+      assert ok("x") |> codec_error == ok("x")
+    end
+
+    test "short circuit decode oks" do
+      assert ok("x", "rest") |> codec_error == ok("x", "rest")
     end
   end
 end
