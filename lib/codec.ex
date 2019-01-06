@@ -6,8 +6,13 @@ defmodule MMS.Codec do
 
   def remove_trailing(string, count), do: string |> String.slice(0..-count-1)
 
-  def codec_error x do
-    wrap x
+  defmacro codec_error input do
+    quote do
+      case unquote(input) |> wrap do
+        {:error, reason} -> error(:foo, [reason])
+        ok               -> ok
+      end
+    end
   end
 
   defmacro input <~> fun do

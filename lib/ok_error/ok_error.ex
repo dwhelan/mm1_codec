@@ -25,6 +25,14 @@ defmodule OkError do
     {:error, reason}
   end
 
+  defmacro caller do
+    __CALLER__.context_modules |> hd
+  end
+
+  defmacro caller(caller) do
+    caller.context_modules |> hd
+  end
+
   defmacro error do
     __CALLER__ |> caller_error
   end

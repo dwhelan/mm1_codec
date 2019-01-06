@@ -41,6 +41,11 @@ defmodule MMS.CodecTest do
   end
 
   describe "codec_error should" do
+    @tag :skip
+    test "add module atom to error" do
+      assert error("x") |> codec_error == error({:invalid_codec_test, ["x"]})
+    end
+
     test "short circuit plain values" do
       assert "x" |> codec_error == ok("x")
     end
