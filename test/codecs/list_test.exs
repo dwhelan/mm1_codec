@@ -13,12 +13,22 @@ defmodule MMS.ListTest do
       assert decode(<<0, 1, 2>>, [Byte, Byte, Byte]) == ok [0, 1, 2], <<>>
     end
   end
+
+  describe "encode" do
+    test "single codec" do
+      assert encode([0], [Byte]) == ok <<0>>
+    end
+
+    test "multiple codec" do
+      assert encode([0, 1, 2], [Byte, Byte, Byte]) == ok <<0, 1, 2>>
+    end
+  end
 end
 
 defmodule MMS.ListUseTest do
   use MMS.Test
 
-  use MMS.List, codecs: [MMS.Short, MMS.Text]
+  use MMS.List, [MMS.Short, MMS.Text]
 
   use MMS.TestExamples,
 
@@ -28,10 +38,6 @@ defmodule MMS.ListUseTest do
 
   test "raise if no types provided" do
     assert_code_raise "use MMS.List"
-  end
-
-  test "raise if empty types provided" do
-    assert_code_raise "use MMS.List, []"
   end
 
   test "raise if keyword list provided" do

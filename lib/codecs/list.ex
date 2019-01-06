@@ -1,3 +1,8 @@
+defmodule OkError.List do
+  def insert(value, list), do: [value | list]
+
+end
+
 defmodule MMS.List do
   use MMS.Codec
 
@@ -6,37 +11,49 @@ defmodule MMS.List do
   end
 
   defp do_decode codec, {:ok, {values, bytes}} do
-    bytes |> codec.decode <~> insert(values)
+    bytes |> codec.decode <~> OkError.List.insert(values)
   end
 
-  defp insert value, list do
-    [value | list]
+  def encode values, codecs do
+    values |> Enum.zip(codecs) |> Enum.reduce(ok(<<>>), &do_encode/2)
   end
 
-  defmacro __using__ opts \\ [] do
-    check_types opts[:codecs]
+  defp do_encode {value, codec}, {:ok, bytes} do
+    value |> codec.encode ~> prepend(bytes)
+  end
+
+
+  defmacro __using__ codecs \\ [] do
+    build_codec codecs
+  end
+
+  defp build_codec(codecs) when is_list(codecs) do
+    check codecs
 
     quote do
-      import OkError
+      import MMS.List
 
       def decode bytes do
-        ok [0, "x"], <<>>
+        decode bytes, unquote(codecs)
       end
 
-      def encode value do
-        ok << 128, "x\0" >>
+      def encode values do
+        encode values, unquote(codecs)
       end
     end
   end
 
-  defp check_types codecs do
+  defp check [] do
+  end
+
+  defp check codecs do
     if Keyword.keyword?(codecs) do
       raise ArgumentError, """
       "use MMS.List" expects to be passed a list of codecs. For example:
 
 
         defmodule MyCodec do
-          use MMS.List, codecs: [MMS.Byte. MMS.Short]
+          use MMS.List, [MMS.Byte. MMS.Short]
         end
       """
     end
