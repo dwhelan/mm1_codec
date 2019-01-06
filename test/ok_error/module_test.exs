@@ -3,11 +3,21 @@ defmodule OkError.ModuleTest do
 
   import OkError.Module
 
-  test "atom() should return module atom of caller" do
+  test "atom() macro should return module atom of caller" do
     assert atom() == :module_test
   end
 
-  test "atom() should return module atom of caller" do
-    assert atom() == :module_test
+  describe "atom(module) should" do
+    test "return lower case atom" do
+      assert atom(Kernel) == :kernel
+    end
+
+    test "only consider module part after last '.'" do
+      assert atom(A.B.C) == :c
+    end
+
+    test "preserve acronyms" do
+      assert atom(GDP) == :gdp
+    end
   end
 end
