@@ -8,8 +8,9 @@ defmodule MMS.Codec do
 
   defmacro codec_error input do
     quote do
+      require OkError.Module
       case unquote(input) |> wrap do
-        {:error, reason} -> error(:foo, [reason])
+        {:error, reason} -> error(OkError.Module.atom, [reason])
         ok               -> ok
       end
     end
