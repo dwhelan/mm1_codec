@@ -1,9 +1,20 @@
 defmodule MMS.ListTest do
   use MMS.Test
 
+  alias MMS.{Byte}
   import MMS.List
 
+  describe "decode" do
+    test "single codec" do
+      assert decode(<<0>>, [Byte]) == ok [0], <<>>
+    end
+
+    test "multiple codecs" do
+      assert decode(<<0, 1, 2>>, [Byte, Byte, Byte]) == ok [0, 1, 2], <<>>
+    end
+  end
 end
+
 defmodule MMS.ListUseTest do
   use MMS.Test
 

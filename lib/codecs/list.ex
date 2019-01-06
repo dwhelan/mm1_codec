@@ -1,4 +1,18 @@
 defmodule MMS.List do
+  use MMS.Codec
+
+  def decode bytes, codecs do
+    codecs |> Enum.reduce(ok([], bytes), &do_decode/2) <~> Enum.reverse
+  end
+
+  defp do_decode codec, {:ok, {values, bytes}} do
+    bytes |> codec.decode <~> insert(values)
+  end
+
+  defp insert value, list do
+    [value | list]
+  end
+
   defmacro __using__ opts \\ [] do
     check_types opts[:codecs]
 
