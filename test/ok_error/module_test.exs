@@ -5,19 +5,20 @@ defmodule OkError.ModuleTest do
 
   describe "atom(module) macro should" do
     test "return lower case atom" do
-      assert atom(ABC) == :abc
+      assert atom(A) == :a
     end
 
-    test "only consider module part after last '.'" do
+    test "only consider part after last '.'" do
       assert atom(A.B.C) == :c
     end
 
-    test "convert to underscore formar" do
+    test "convert to underscore formay" do
       assert atom(OkError) == :ok_error
     end
 
-    test "merge initial single letter with next part" do
-      assert atom(IPv4) == :ipv4
+    test "keep consecutive upper case letters together" do
+      assert atom(ABc) == :abc
+#      assert atom(ABCd) == :abcd
     end
 
     test "merge other single letters with next part" do
