@@ -1,12 +1,16 @@
 defmodule MMS.Codec do
   import OkError
+  import OkError.Module
 
-  defmacro codec_error input do
+  defmacro codec_error input \\ nil do
     quote do
       require OkError.Module
+
       case unquote(input) |> wrap do
-        {:error, reason} -> error(OkError.Module.name(), [reason])
-        ok               -> ok
+        {:error, nil}               -> error(error_name(), [])
+        {:error, {reason, history}} -> error(error_name(), [reason | history])
+        {:error, reason}            -> error(error_name(), [reason])
+        ok                          -> ok
       end
     end
   end

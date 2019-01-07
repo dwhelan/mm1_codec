@@ -28,9 +28,20 @@ defmodule MMS.CodecTest do
   end
 
   describe "codec_error should" do
-    @tag :skip
-    test "add module atom to error" do
-      assert error("x") |> codec_error == error({:invalid_codec_test, ["x"]})
+    test "handle no args" do
+      assert codec_error() == error :invalid_codec_test, []
+    end
+
+    test "handle nil" do
+      assert nil |> codec_error() == error :invalid_codec_test, []
+    end
+
+    test "add module error name to error" do
+      assert error("x") |> codec_error == error :invalid_codec_test, ["x"]
+    end
+
+    test "maintain an error history" do
+      assert error({"x", ["history"]}) |> codec_error == error :invalid_codec_test, ["x", "history"]
     end
 
     test "short circuit plain values" do
