@@ -118,38 +118,6 @@ defmodule OkErrorTest do
     end
   end
 
-  describe "if_error should" do
-    test "execute do clause for error tuple" do
-      assert if_error({:error, "x"}, do: "X") == "X"
-    end
-
-    test "execute do clause for nil" do
-      assert if_error(nil, do: "X") == "X"
-    end
-
-    test "not execute do clause for ok tuple" do
-      assert if_error({:ok, "x"}, do: "X") == nil
-    end
-
-    test "execute else clause for ok tuple" do
-      assert if_error({:ok, "x"}, do: "X", else: "Y") == "Y"
-    end
-
-    test "not execute do clause for plain value" do
-      assert if_error("x", do: "X") == nil
-    end
-
-    test "execute else clause for plain value" do
-      assert if_error("x", do: "X", else: "Y") == "Y"
-    end
-
-    test "raise if option other than do or else" do
-      assert_raise ArgumentError, fn ->
-        Code.eval_string "import OkError; if_error true, foo: 7"
-      end
-    end
-  end
-
   describe "case_ok should" do
     test "execute case with input value if input is an ok tuple" do
       result = case_ok {:ok, "x"} do "x" -> "X" end

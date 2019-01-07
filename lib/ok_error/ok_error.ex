@@ -118,32 +118,11 @@ defmodule OkError do
     end
   end
 
-  # if_error seems like a good idea but is not being used ... delete ???
-  defmacro if_error value, clauses do
-    build_if_error value, clauses
-  end
-
-  defp build_if_error value, do: do_clause do
-    build_if_error value, do: do_clause, else: nil
-  end
-
-  defp build_if_error value, do: do_clause, else: else_clause do
-    quote do
-      if (is_error unquote(value)), do: unquote(do_clause), else: unquote(else_clause)
-    end
-  end
-
-  defp build_if_error _condition, _arguments do
-    raise ArgumentError,
-          "invalid or duplicate keys for if_error, " <>
-          "only \"do\" and an optional \"else\" are permitted"
-  end
-
   def first_ok(args, fun) do
     Enum.reduce_while(args, nil, fn arg, _ ->
       case result = arg |> fun.() |> wrap do
-        {:ok, value} -> {:halt, result}
-        error        -> {:cont, result}
+        {:ok, _} -> {:halt, result}
+        _        -> {:cont, result}
       end
     end)
   end
