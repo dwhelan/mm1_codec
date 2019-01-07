@@ -49,8 +49,8 @@ defmodule MMS.Codec do
 
   defmacro defaults do
     quote do
-      def decode(_), do: error()
-      def encode(_), do: error()
+      def decode(_), do: module_error()
+      def encode(_), do: module_error()
     end
   end
 
@@ -60,9 +60,9 @@ defmodule MMS.Codec do
       import OkError.{String}
       import MMS.{DataTypes, Codec}
 
-      def decode(nil),  do: error()
-      def decode(<<>>), do: error()
-      def decode(value) when not is_binary(value), do: error()
+      def decode(nil),  do: module_error()
+      def decode(<<>>), do: module_error()
+      def decode(value) when not is_binary(value), do: module_error()
     end
   end
 

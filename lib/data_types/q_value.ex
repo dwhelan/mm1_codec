@@ -16,7 +16,7 @@ defmodule MMS.QValue do
   end
 
   defp q_string _ do
-    error()
+    module_error()
   end
 
   def encode(value) when is_binary(value) do
@@ -26,12 +26,12 @@ defmodule MMS.QValue do
   defp parse string do
     case Float.parse string do
       {value, ""} -> ok { byte_size(string) - 2, Float.round(value, 3)}
-      _           -> error()
+      _           -> module_error()
     end
   end
 
   defp unmap({_, value}) when value >= 1.0 do
-    error()
+    module_error()
   end
 
   defp unmap({decimals, value}) when decimals <= 2 do

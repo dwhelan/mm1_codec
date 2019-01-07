@@ -28,7 +28,7 @@ defmodule MMS.Time do
 
   defp to_time({seconds, @absolute}), do: seconds |> DateTime.from_unix!
   defp to_time({seconds, @relative}), do: seconds
-  defp to_time(_),                    do: error()
+  defp to_time(_),                    do: module_error()
 
   defp do_encode(seconds, absolute),  do: [absolute, seconds] |> encode(@codecs) ~>> module_error
 end

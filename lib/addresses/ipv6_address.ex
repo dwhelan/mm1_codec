@@ -10,6 +10,6 @@ defmodule MMS.IPv6Address do
   end
 
   def unmap_address _ do
-    error()
+    module_error()
   end
 end

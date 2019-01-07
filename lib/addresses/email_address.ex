@@ -13,7 +13,7 @@ defmodule MMS.EmailAddress do
     if is_binary(email) && String.contains?(email, "@") && !String.contains?(email, "/TYPE=") do
       ok email
     else
-      error()
+      module_error()
     end
   end
 end

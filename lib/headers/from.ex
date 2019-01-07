@@ -12,7 +12,7 @@ defmodule MMS.From do
 
   defp address({address, @address_present_token}), do: address
   defp address({@insert_address_token}),           do: :insert_address_token
-  defp address(_),                                 do: error()
+  defp address(_),                                 do: module_error()
 
   def encode :insert_address_token do
     ok <<1, short @insert_address_token>>

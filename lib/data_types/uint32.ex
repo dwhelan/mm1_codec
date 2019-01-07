@@ -3,7 +3,7 @@ defmodule MMS.Uint32 do
   use Bitwise
 
   def decode<<128, _::binary>> do
-    error()
+    module_error()
   end
 
   def decode(bytes) when is_binary(bytes) do
@@ -23,7 +23,7 @@ defmodule MMS.Uint32 do
   end
 
   defp ensure_uint32 value do
-    if is_uint32(value), do: value, else: error()
+    if is_uint32(value), do: value, else: module_error()
   end
 
   def encode(value) when is_uint32(value) do

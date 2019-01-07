@@ -13,7 +13,7 @@ defmodule MMS.PhoneNumber do
     if is_binary(phone_number) && String.match?(phone_number, ~r/^\+?[\d\-\.]+$/) do
       ok phone_number
     else
-      error()
+      module_error()
     end
   end
 end

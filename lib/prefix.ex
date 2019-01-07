@@ -14,7 +14,7 @@ defmodule MMS.Prefix do
       end
 
       def decode _ do
-        error()
+        module_error()
       end
 
       def encode(value) do

@@ -10,12 +10,12 @@ defmodule MMS.Text do
   end
 
   defp decode_parts [_string | []] do
-    error()
+    module_error()
   end
 
   def encode(<<byte, _::binary>> = string) when is_char(byte) do
     if string |> String.contains?("\0") do
-      error()
+      module_error()
     else
       ok string <> <<0>>
     end

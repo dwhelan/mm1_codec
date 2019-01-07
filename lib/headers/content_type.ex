@@ -6,7 +6,7 @@ defmodule MMS.ContentTypeGeneral do
   use MMS.Composer, codecs: [MMS.Media]
 
   def encode _ do
-    error()
+    module_error()
   end
 end
 

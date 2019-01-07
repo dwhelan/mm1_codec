@@ -30,10 +30,6 @@ defmodule OkError do
     caller.context_modules |> hd
   end
 
-  defmacro error do
-    __CALLER__ |> caller_error
-  end
-
   defmacro module_error _reason \\ nil do
     __CALLER__ |> caller_error
   end

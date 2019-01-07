@@ -10,14 +10,14 @@ defmodule MMS.UnknownAddress do
   end
 
   def unmap_address _ do
-    error()
+    module_error()
   end
 
   defp ok_if_unknown_address {value, type} do
     if is_binary(value) and is_binary(type) and type not in ["PLMN", "IPv4", "IPv6"] do
       ok {value, type}
     else
-      error()
+      module_error()
     end
   end
 end

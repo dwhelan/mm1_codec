@@ -12,7 +12,7 @@ defmodule MMS.QuotedString do
     if string |> String.ends_with?(@quote) do
       string |> String.slice(0..-2) ~> Text.encode
     else
-      error()
+      module_error()
     end
   end
 
