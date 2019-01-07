@@ -101,17 +101,6 @@ defmodule OkError do
     end
   end
 
-  # if_ok seems like a good idea but is not being used ... delete ???
-  defmacro is_ok value do
-    quote do
-      case unquote value do
-        {:error, _} -> false
-        nil         -> false
-        _           -> true
-      end
-    end
-  end
-
   def first_ok(args, fun) do
     Enum.reduce_while(args, nil, fn arg, _ ->
       case result = arg |> fun.() |> wrap do

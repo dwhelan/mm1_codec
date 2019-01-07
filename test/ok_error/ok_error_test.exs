@@ -49,57 +49,7 @@ defmodule OkErrorTest do
       assert wrap_as_error(nil) == {:error, nil}
     end
   end
-
-#  describe "if_ok should" do
-#    test "execute do clause for plain value" do
-#      assert if_ok("x", do: "X") == "X"
-#    end
-#
-#    test "execute do clause for ok tuple" do
-#      assert if_ok({:ok, "x"}, do: "X") == "X"
-#    end
-#
-#    test "not execute do clause for error tuple" do
-#      assert if_ok({:error, "x"}, do: "X") == nil
-#    end
-#
-#    test "execute else clause for error tuple" do
-#      assert if_ok({:error, "x"}, do: "X", else: "Y") == "Y"
-#    end
-#
-#    test "not execute clause for nil" do
-#      assert if_ok(nil, do: "X") == nil
-#    end
-#
-#    test "execute else clause for nil" do
-#      assert if_ok(nil, do: "X", else: "Y") == "Y"
-#    end
-#
-#    test "raise if option other than do or else" do
-#      assert_raise ArgumentError, fn ->
-#        Code.eval_string "import OkError; if_ok true, foo: 7"
-#      end
-#    end
-#  end
-
-  describe "is_ok should be" do
-    test "true for ok tuple" do
-      assert is_ok({:ok, "x"}) == true
-    end
-
-    test "true for plain value" do
-      assert is_ok("x") == true
-    end
-
-    test "false for error tuple" do
-      assert is_ok({:error, "x"}) == false
-    end
-
-    test "false for nil" do
-      assert is_ok(nil) == false
-    end
-  end
-
+  
   describe "case_ok should" do
     test "execute case with input value if input is an ok tuple" do
       result = case_ok {:ok, "x"} do "x" -> "X" end
