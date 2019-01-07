@@ -1,8 +1,6 @@
 defmodule MMS.Codec do
   import OkError
 
-  def remove_trailing(string, count), do: string |> String.slice(0..-count-1)
-
   defmacro codec_error input do
     quote do
       require OkError.Module

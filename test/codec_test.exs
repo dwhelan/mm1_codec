@@ -3,11 +3,6 @@ defmodule MMS.CodecTest do
 
   use MMS.Codec
 
-  test "remove_trailing/2" do
-    assert remove_trailing("hello world!", 1) == "hello world"
-    assert remove_trailing("", 1)             == ""
-  end
-
   def upcase!(reason), do: {:error, String.upcase reason}
 
   describe "<~> should" do
