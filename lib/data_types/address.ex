@@ -19,7 +19,7 @@ defmodule MMS.Address do
   end
 
   defp unmap({address, charset}) when is_atom(charset) do
-    address |> unmap ~> tuple(charset)
+    address |> unmap ~> OkError.Tuple.insert_at({charset}, 0)
   end
 
   defp unmap address do

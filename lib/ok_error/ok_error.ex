@@ -5,10 +5,7 @@ defmodule OkError do
       unquote(block)
     end
   end
-
-  def tuple(value, tuple) when is_tuple(tuple), do: Tuple.insert_at(tuple, 0, value)
-  def tuple(value, other),                      do: {value, other}
-
+  
   def ok value, rest do
     {:ok, {value, rest}}
   end
@@ -76,7 +73,7 @@ defmodule OkError do
 
   defp invoke input, fun do
     case wrap input do
-      {:ok, value } -> value |> fun.() |> wrap
+      {:ok, value } -> apply(fun, [input]) |> wrap
       error         -> error
     end
   end
