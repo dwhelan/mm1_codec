@@ -2,7 +2,7 @@ defmodule MMS.QuotedString do
   use MMS.Codec
   alias MMS.Text
 
-  @quote ~S(")
+  @quote ~s(")
 
   def decode << @quote, _::binary >> = bytes do
     bytes |> Text.decode <~> append(@quote)

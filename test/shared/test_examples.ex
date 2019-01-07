@@ -1,7 +1,7 @@
 defmodule MMS.TestExamples do
   def text(value) when is_binary(value) do
     if String.ends_with?(value, "\0") do
-      String.slice(value, 0..-2) <> ~S(\0)
+      String.slice(value, 0..-2) <> ~s(\0)
     else
       value
     end |> do_text

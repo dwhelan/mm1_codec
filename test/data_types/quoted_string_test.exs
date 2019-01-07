@@ -5,7 +5,7 @@ defmodule MMS.QuotedStringTest do
       codec: MMS.QuotedString,
 
       examples: [
-        { ~s("\0),  ~S("")  },
+        { ~s("\0),  ~s("")  },
         { ~s("x\0), ~s("x") },
       ],
 
