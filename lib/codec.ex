@@ -6,12 +6,7 @@ defmodule MMS.Codec do
     quote do
       require OkError.Module
 
-      case unquote(input) |> wrap do
-        {:error, nil}               -> error(error_name(), [])
-        {:error, {reason, history}} -> error(error_name(), [reason | history])
-        {:error, reason}            -> error(error_name(), [reason])
-        ok                          -> ok
-      end
+      unquote(input) |> maybe_create_codec_error(error_name())
     end
   end
 
@@ -25,22 +20,30 @@ defmodule MMS.Codec do
     end
   end
 
+  defmacro decoded input, fun do
+    pipe_decoded_value input, fun
+  end
+
   defmacro input <|> fun do
+    pipe_decoded_value input, fun
+  end
+
+  defp pipe_decoded_value input, fun do
     quote do
       require OkError.Module
 
-      result = case unquote(input) |> wrap do
-        {:ok, {value, rest}} -> value |> unquote(fun) ~> ok(rest) # for decode
-        {:ok, value}         -> value |> unquote(fun)             # for encode
-        error                -> error
-      end
+      unquote(input)
+      ~> fn {value, rest} -> value |> unquote(fun) ~> ok(rest) end.()
+      |> MMS.Codec.maybe_create_codec_error(error_name())
+    end
+  end
 
-      case result do
-        {:error, nil}               -> error(error_name(), [])
-        {:error, {reason, history}} -> error(error_name(), [reason | history])
-        {:error, reason}            -> error(error_name(), [reason])
-        ok                          -> ok
-      end
+  def maybe_create_codec_error result, error_name do
+    case result |> wrap do
+      {:error, nil}               -> error error_name, []
+      {:error, {reason, history}} -> error error_name, [reason | history]
+      {:error, reason}            -> error error_name, [reason]
+      ok                          -> ok
     end
   end
 

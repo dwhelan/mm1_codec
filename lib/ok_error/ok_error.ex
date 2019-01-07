@@ -65,11 +65,19 @@ defmodule OkError do
 
   defmacro input ~> fun do
     quote do
+#      OkError.invoke unquote(input), unquote(fun) # debugging
       case wrap unquote(input) do
         {:ok, value } -> value |> unquote(fun) |> wrap
         error         -> error
       end
 
+    end
+  end
+
+  defp invoke input, fun do
+    case wrap input do
+      {:ok, value } -> value |> fun.() |> wrap
+      error         -> error
     end
   end
 

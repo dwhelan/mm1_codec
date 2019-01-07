@@ -11,7 +11,7 @@ defmodule MMS.List do
   end
 
   defp do_decode codec, {:ok, {values, bytes}} do
-    bytes |> codec.decode <|> insert(values)
+    bytes |> codec.decode |> decoded(insert(values))
   end
 
   def encode values, codecs do
