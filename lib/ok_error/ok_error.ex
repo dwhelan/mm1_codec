@@ -91,16 +91,6 @@ defmodule OkError do
     end
   end
 
-  defmacro case_error value, do: block do
-    quote do
-      case unquote value do
-        {:error, reason} -> case reason, do: unquote(block)
-        nil              -> case nil,    do: unquote(block)
-        ok               -> ok
-      end
-    end
-  end
-
   def first_ok(args, fun) do
     Enum.reduce_while(args, nil, fn arg, _ ->
       case result = arg |> fun.() |> wrap do
