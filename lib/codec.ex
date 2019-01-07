@@ -27,10 +27,19 @@ defmodule MMS.Codec do
 
   defmacro input <|> fun do
     quote do
-      case unquote(input) |> wrap do
+      require OkError.Module
+
+      result = case unquote(input) |> wrap do
         {:ok, {value, rest}} -> value |> unquote(fun) ~> ok(rest) # for decode
         {:ok, value}         -> value |> unquote(fun)             # for encode
         error                -> error
+      end
+
+      case result do
+        {:error, nil}               -> error(error_name(), [])
+        {:error, {reason, history}} -> error(error_name(), [reason | history])
+        {:error, reason}            -> error(error_name(), [reason])
+        ok                          -> ok
       end
     end
   end

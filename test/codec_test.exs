@@ -36,24 +36,24 @@ defmodule MMS.CodecTest do
       assert nil |> codec_error() == error :invalid_codec_test, []
     end
 
-    test "add module error name to error" do
+    test "use module error name as name" do
       assert error("x") |> codec_error == error :invalid_codec_test, ["x"]
     end
 
-    test "maintain an error history" do
+    test "maintain error history" do
       assert error({"x", ["history"]}) |> codec_error == error :invalid_codec_test, ["x", "history"]
-    end
-
-    test "short circuit plain values" do
-      assert "x" |> codec_error == ok("x")
     end
 
     test "short circuit oks" do
       assert ok("x") |> codec_error == ok("x")
     end
 
-    test "short circuit decode oks" do
+    test "short circuit ok tuples" do
       assert ok("x", "rest") |> codec_error == ok("x", "rest")
+    end
+
+    test "wrap input values as ok" do
+      assert "x" |> codec_error == ok("x")
     end
   end
 end

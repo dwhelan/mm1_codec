@@ -19,7 +19,7 @@ defmodule MMS.ListTest do
 
     @tag :skip
     test "error with first value" do
-      assert decode(<<0>>, [Short]) == error {:invalid_list, :invalid_short}
+      assert decode(<<0>>, [Short]) == error {:invalid_list, [:invalid_short]}
     end
 
     test "error with first value2" do
