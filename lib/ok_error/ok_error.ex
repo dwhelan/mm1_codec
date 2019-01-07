@@ -112,12 +112,6 @@ defmodule OkError do
     end
   end
 
-  defmacro is_error value do
-    quote do
-      ! is_ok(unquote value)
-    end
-  end
-
   def first_ok(args, fun) do
     Enum.reduce_while(args, nil, fn arg, _ ->
       case result = arg |> fun.() |> wrap do
