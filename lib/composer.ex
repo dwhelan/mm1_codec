@@ -20,8 +20,9 @@ defmodule MMS.Composer do
   end
 
   defp do_decode(bytes, [codec | codecs], values, length) when length > 0 do
-    case_ok codec.decode bytes do
-      {value, rest} -> do_decode rest, remaining(codec, codecs), [value | values], length - consumed(bytes, rest)
+    case bytes |> codec.decode do
+      {:ok, {value, rest}} -> do_decode rest, remaining(codec, codecs), [value | values], length - consumed(bytes, rest)
+      error                -> error
     end
   end
 
@@ -46,16 +47,18 @@ defmodule MMS.Composer do
   end
 
   defp do_encode [{value, codec} | list], value_bytes do
-    case_ok codec.encode value do
-      bytes -> do_encode list, [bytes | value_bytes]
+    case value |> codec.encode do
+      {:ok, bytes} -> do_encode list, [bytes | value_bytes]
+      error        -> error
     end
   end
 
   defp do_encode [], value_bytes do
     bytes = value_bytes |> Enum.reverse |> Enum.join
 
-    case_ok bytes |> byte_size |> Length.encode do
-      length_bytes -> ok length_bytes <> bytes
+    case bytes |> byte_size |> Length.encode do
+      {:ok, length_bytes} -> ok length_bytes <> bytes
+      error -> error
     end
   end
 

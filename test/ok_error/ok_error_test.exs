@@ -50,28 +50,6 @@ defmodule OkErrorTest do
     end
   end
 
-  describe "case_ok should" do
-    test "execute case with input value if input is an ok tuple" do
-      result = case_ok {:ok, "x"} do "x" -> "X" end
-      assert result == "X"
-    end
-
-    test "execute case with input if input is a plain value" do
-      result = case_ok "x" do "x" -> "X" end
-      assert result == "X"
-    end
-
-    test "return input if input is an error tuple" do
-      result = case_ok {:error, "x"} do "x" -> "X" end
-      assert result == {:error, "x"}
-    end
-
-    test "return input if input is nil" do
-      result = case_ok nil do "x" -> "X" end
-      assert result == nil
-    end
-  end
-
   describe "first_ok should" do
     test "should return first ok value" do
       assert first_ok([nil, "x", "y"], & &1) == ok "x"
