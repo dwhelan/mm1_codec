@@ -50,37 +50,37 @@ defmodule OkErrorTest do
     end
   end
 
-  describe "if_ok should" do
-    test "execute do clause for plain value" do
-      assert if_ok("x", do: "X") == "X"
-    end
-
-    test "execute do clause for ok tuple" do
-      assert if_ok({:ok, "x"}, do: "X") == "X"
-    end
-
-    test "not execute do clause for error tuple" do
-      assert if_ok({:error, "x"}, do: "X") == nil
-    end
-
-    test "execute else clause for error tuple" do
-      assert if_ok({:error, "x"}, do: "X", else: "Y") == "Y"
-    end
-
-    test "not execute clause for nil" do
-      assert if_ok(nil, do: "X") == nil
-    end
-
-    test "execute else clause for nil" do
-      assert if_ok(nil, do: "X", else: "Y") == "Y"
-    end
-
-    test "raise if option other than do or else" do
-      assert_raise ArgumentError, fn ->
-        Code.eval_string "import OkError; if_ok true, foo: 7"
-      end
-    end
-  end
+#  describe "if_ok should" do
+#    test "execute do clause for plain value" do
+#      assert if_ok("x", do: "X") == "X"
+#    end
+#
+#    test "execute do clause for ok tuple" do
+#      assert if_ok({:ok, "x"}, do: "X") == "X"
+#    end
+#
+#    test "not execute do clause for error tuple" do
+#      assert if_ok({:error, "x"}, do: "X") == nil
+#    end
+#
+#    test "execute else clause for error tuple" do
+#      assert if_ok({:error, "x"}, do: "X", else: "Y") == "Y"
+#    end
+#
+#    test "not execute clause for nil" do
+#      assert if_ok(nil, do: "X") == nil
+#    end
+#
+#    test "execute else clause for nil" do
+#      assert if_ok(nil, do: "X", else: "Y") == "Y"
+#    end
+#
+#    test "raise if option other than do or else" do
+#      assert_raise ArgumentError, fn ->
+#        Code.eval_string "import OkError; if_ok true, foo: 7"
+#      end
+#    end
+#  end
 
   describe "is_ok should be" do
     test "true for ok tuple" do
@@ -196,11 +196,11 @@ defmodule OkErrorTest do
 
   describe "first_ok should" do
     test "should return first ok value" do
-      assert first_ok([nil, "x", "y"], & &1) == "x"
+      assert first_ok([nil, "x", "y"], & &1) == ok "x"
     end
 
     test "should return last error if no ok values" do
-      assert first_ok([nil, {:error, "x"}, {:error, "y"}], & &1) == {:error, "y"}
+      assert first_ok([nil, {:error, "x"}, {:error, "y"}], & &1) == error "y"
     end
   end
 
