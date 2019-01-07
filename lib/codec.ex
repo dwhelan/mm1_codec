@@ -1,16 +1,13 @@
 defmodule MMS.Codec do
   import OkError
 
-  def prepend(string, prefix), do: prefix <> string
-  def append( string, suffix), do: string <> suffix
-
   def remove_trailing(string, count), do: string |> String.slice(0..-count-1)
 
   defmacro codec_error input do
     quote do
       require OkError.Module
       case unquote(input) |> wrap do
-        {:error, reason} -> error(OkError.Module.atom, [reason])
+        {:error, reason} -> error(OkError.Module.name(), [reason])
         ok               -> ok
       end
     end
@@ -46,6 +43,7 @@ defmodule MMS.Codec do
   defmacro __using__([]) do
     quote do
       import OkError
+      import OkError.{String}
       import MMS.{DataTypes, Codec}
 
       def decode(nil),  do: error()

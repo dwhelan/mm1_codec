@@ -21,7 +21,6 @@ defmodule MMS.List do
     value |> codec.encode ~> prepend(bytes)
   end
 
-
   defmacro __using__ codecs \\ [] do
     build_codec codecs
   end

@@ -3,14 +3,6 @@ defmodule MMS.CodecTest do
 
   use MMS.Codec
 
-  test "prepend/2" do
-    assert prepend("ello world", "h") == "hello world"
-  end
-
-  test "append/2" do
-    assert append("hello worl", "d") == "hello world"
-  end
-
   test "remove_trailing/2" do
     assert remove_trailing("hello world!", 1) == "hello world"
     assert remove_trailing("", 1)             == ""
