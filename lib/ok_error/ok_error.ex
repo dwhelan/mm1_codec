@@ -6,16 +6,16 @@ defmodule OkError do
     end
   end
   
-  def ok value, rest do
-    {:ok, {value, rest}}
+  def ok value, other do
+    {:ok, {value, other}}
   end
 
   def ok value do
     {:ok, value}
   end
 
-  def error module, reason do
-    {:error, {module, reason}}
+  def error reason, other do
+    {:error, {reason, other}}
   end
 
   def error reason do
