@@ -57,7 +57,7 @@ defmodule MMS.Codec do
   defmacro __using__([]) do
     quote do
       import OkError
-      import OkError.{String, Operators}
+      import OkError.{String, Module, Operators}
       import MMS.{DataTypes, Codec}
 
       def decode(nil),  do: module_error()

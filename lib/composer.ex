@@ -1,6 +1,5 @@
 defmodule MMS.Composer do
-  import OkError
-  import OkError.Operators
+  use MMS.Codec
 
   alias MMS.Length
 

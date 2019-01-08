@@ -1,6 +1,5 @@
 defmodule MMS.Uint32 do
   use MMS.Codec
-  import OkError.Module
 
   use Bitwise
 

@@ -1,6 +1,5 @@
 defmodule MMS.QuotedString do
   use MMS.Codec
-  import OkError.Module
 
   alias MMS.Text
 

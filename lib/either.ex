@@ -1,5 +1,5 @@
 defmodule MMS.Either do
-  import OkError.{Module, Operators}
+  use MMS.Codec
 
   def decode bytes, codecs do
     bytes |> apply_until_ok(codecs, :decode)
@@ -24,7 +24,6 @@ defmodule MMS.Either do
     quote do
       use MMS.Codec
       import MMS.Either
-      import OkError.{Module, Operators}
 
       def decode bytes do
         bytes ~> decode(unquote(types)) ~>> module_error

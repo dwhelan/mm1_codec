@@ -1,6 +1,5 @@
 defmodule MMS.Text do
   use MMS.Codec
-  import OkError.Module
 
   def decode(<<byte, _::binary>> = bytes) when is_char(byte) do
     bytes |> String.split(<<0>>, parts: 2) |> decode_parts
@@ -11,12 +10,12 @@ defmodule MMS.Text do
   end
 
   defp decode_parts [_string | []] do
-    OkError.Module.module_error()
+    module_error()
   end
 
   def encode(<<byte, _::binary>> = string) when is_char(byte) do
     if string |> String.contains?("\0") do
-      OkError.Module.module_error()
+      module_error()
     else
       ok string <> <<0>>
     end

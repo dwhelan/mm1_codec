@@ -1,6 +1,5 @@
 defmodule MMS.UnknownAddress do
   use MMS.Address.Base
-  import OkError.Module
 
   def map_address {string, type} do
     ok_if_unknown_address {string, type}
