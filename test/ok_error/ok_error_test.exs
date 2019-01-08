@@ -60,47 +60,47 @@ defmodule OkErrorTest do
     end
   end
 
-  describe "~> should" do
+  describe "when_ok/2 should" do
     test "pipe ok values" do
-      assert {:ok, "x"} ~> upcase == {:ok, "X"}
+      assert {:ok, "x"} |> when_ok(upcase) == {:ok, "X"}
     end
 
     test "short circuit errors" do
-      assert {:error, "reason"} ~> upcase == {:error, "reason"}
+      assert {:error, "reason"} |> when_ok(upcase) == {:error, "reason"}
     end
 
     test "wrap inputs as values" do
-      assert "x" ~> upcase == {:ok, "X"}
+      assert "x" |> when_ok(upcase) == {:ok, "X"}
     end
 
     test "wrap outputs as values" do
-      assert {:ok, "x"} ~> String.upcase == {:ok, "X"}
+      assert {:ok, "x"} |> when_ok(String.upcase) == {:ok, "X"}
     end
 
     test "return errors from function" do
-      assert {:ok, "x"} ~> upcase! == {:error, "X"}
+      assert {:ok, "x"} |> when_ok(upcase!) == {:error, "X"}
     end
   end
 
-  describe "~>> should" do
+  describe "when_error/2 should" do
     test "pipe errors" do
-      assert {:error, "reason"} ~>> upcase! == {:error, "REASON"}
+      assert {:error, "x"} |> when_error(upcase!) == {:error, "X"}
     end
 
     test "short circuit ok values" do
-      assert {:ok, "x"} ~>> upcase! == {:ok, "x"}
+      assert {:ok, "x"} |> when_error(upcase!) == {:ok, "x"}
     end
 
     test "wrap inputs as values" do
-      assert "x" ~>> upcase! == {:ok, "x"}
+      assert "x" |> when_error(upcase!) == {:ok, "x"}
     end
 
     test "wrap outputs as errors" do
-      assert {:error, "reason"} ~>> String.upcase == {:error, "REASON"}
+      assert {:error, "x"} |> when_error(String.upcase) == {:error, "X"}
     end
 
     test "return oks from function" do
-      assert {:error, "reason"} ~>> upcase == {:ok, "REASON"}
+      assert {:error, "x"} |> when_error(upcase) == {:ok, "X"}
     end
   end
 

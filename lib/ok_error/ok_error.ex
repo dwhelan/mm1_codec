@@ -24,7 +24,7 @@ defmodule OkError do
 
   def wrap value do
     case value do
-      {:ok, _}    -> value
+      {:ok,    _} -> value
       {:error, _} -> value
       nil         -> error nil
       _           -> ok value
@@ -33,33 +33,24 @@ defmodule OkError do
 
   def wrap_as_error value do
     case value do
-      {:ok, _}    -> value
+      {:ok,    _} -> value
       {:error, _} -> value
       _           -> error value
     end
   end
 
-  defmacro input ~> fun do
+  defmacro when_ok input, fun do
     quote do
-      case wrap unquote(input) do
+      case unquote(input) |> wrap do
         {:ok, value } -> value |> unquote(fun) |> wrap
         error         -> error
       end
     end
   end
 
-  def foo input, fun do
+  defmacro when_error input, fun do
     quote do
-      case wrap unquote(input) do
-        {:ok, value } -> value |> unquote(fun) |> wrap
-        error         -> error
-      end
-    end
-  end
-
-  defmacro input ~>> fun do
-    quote do
-      case wrap unquote(input) do
+      case unquote(input) |> wrap do
         {:error, reason} -> reason |> unquote(fun) |> wrap_as_error
         ok               -> ok
       end
