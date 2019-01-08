@@ -22,27 +22,31 @@ defmodule OkError do
     {:error, reason}
   end
 
+  def wrap value do
+    case value do
+      {:ok, _}    -> value
+      {:error, _} -> value
+      nil         -> error nil
+      _           -> ok value
+    end
+  end
+
+  def wrap_as_error value do
+    case value do
+      {:ok, _}    -> value
+      {:error, _} -> value
+      _           -> error value
+    end
+  end
+  
   defmacro module_error _reason \\ nil do
     __CALLER__.module |> error_reason |> error
   end
 
   def error_reason module do
     name = module |> to_string |> String.split(".") |> List.last |> Macro.underscore
-    "invalid_#{name}" |> preserve_acronyms |> String.to_atom
+    "invalid_#{name}" |> String.replace(~r/(_[a-z)])_/, "\\1") |> String.to_atom
   end
-
-  defp preserve_acronyms string do
-    string |> String.replace(~r/(_[a-z)])_/, "\\1")
-  end
-
-  def wrap(tuple = {:ok,    _}), do: tuple
-  def wrap(tuple = {:error, _}), do: tuple
-  def wrap(nil)  ,               do: error nil
-  def wrap(value),               do: ok value
-
-  def wrap_as_error(tuple = {:ok,    _}), do: tuple
-  def wrap_as_error(tuple = {:error, _}), do: tuple
-  def wrap_as_error(value),               do: error value
 
   defmacro input ~> fun do
     quote do
