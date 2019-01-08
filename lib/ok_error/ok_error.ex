@@ -62,13 +62,4 @@ defmodule OkError do
       end
     end
   end
-
-  def first_ok(args, fun) do
-    Enum.reduce_while(args, nil, fn arg, _ ->
-      case result = arg |> fun.() |> wrap do
-        {:ok, _} -> {:halt, result}
-        _        -> {:cont, result}
-      end
-    end)
-  end
 end

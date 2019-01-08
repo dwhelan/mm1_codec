@@ -50,16 +50,6 @@ defmodule OkErrorTest do
     end
   end
 
-  describe "first_ok should" do
-    test "should return first ok value" do
-      assert first_ok([nil, "x", "y"], & &1) == ok "x"
-    end
-
-    test "should return last error if no ok values" do
-      assert first_ok([nil, {:error, "x"}, {:error, "y"}], & &1) == error "y"
-    end
-  end
-
   describe "cons" do
     test "accepts plain values" do
       assert "x" |> cons("foo") == "foo"

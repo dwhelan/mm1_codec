@@ -1,16 +1,36 @@
 defmodule MMS.Either do
+  import OkError
+
+  def decode bytes, codecs do
+    bytes |> apply_until_ok(codecs, :decode)
+  end
+
+  def encode value, codecs do
+    value |> apply_until_ok(codecs, :encode)
+  end
+
+  def apply_until_ok input, codecs, function_name do
+    Enum.reduce_while(codecs, nil, fn codec, _ ->
+      case result = apply(codec, function_name, [input]) do
+        {:ok, _} -> {:halt, result}
+        _        -> {:cont, result}
+      end
+    end)
+  end
+
   defmacro __using__ types \\ [] do
     check_types types
 
     quote do
-      import OkError
+      use MMS.Codec
+      import MMS.Either
 
       def decode bytes do
-        first_ok unquote(types), & &1.decode(bytes) ~>> module_error()
+        bytes ~> decode(unquote(types)) ~>> module_error
       end
 
       def encode value do
-        first_ok unquote(types), & &1.encode(value) ~>> module_error()
+        value |> encode(unquote(types)) ~>> module_error
       end
     end
   end
