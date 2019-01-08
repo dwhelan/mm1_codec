@@ -50,13 +50,23 @@ defmodule OkErrorTest do
     end
   end
 
-  describe "cons" do
-    test "accepts plain values" do
-      assert "x" |> cons("foo") == "foo"
+  describe "if_ok/2 should" do
+    test "return ok if function return true" do
+      assert ok_if("x", fn _ -> true end) == ok "x"
     end
 
-    test "accepts function" do
-      assert "x" |> cons(String.upcase "y") == "Y"
+    test "return error if function return true" do
+      assert ok_if("x", fn _ -> false end) == error "x"
+    end
+  end
+
+  describe "if_error/2 should" do
+    test "return error if function return true" do
+      assert error_if("x", fn _ -> true end) == error "x"
+    end
+
+    test "return ok if function return true" do
+      assert error_if("x", fn _ -> false end) == ok "x"
     end
   end
 
@@ -104,4 +114,13 @@ defmodule OkErrorTest do
     end
   end
 
+  describe "cons" do
+    test "accepts plain values" do
+      assert "x" |> cons("foo") == "foo"
+    end
+
+    test "accepts functions" do
+      assert "x" |> cons(String.upcase "y") == "Y"
+    end
+  end
 end

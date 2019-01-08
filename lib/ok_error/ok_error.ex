@@ -31,6 +31,20 @@ defmodule OkError do
     end
   end
 
+  def ok_if(value, fun) do
+    case fun.(value) do
+      true -> ok value
+      _    -> error value
+    end
+  end
+
+  def error_if(value, fun) do
+    case fun.(value) do
+      true -> error value
+      _    -> ok value
+    end
+  end
+
   def wrap_as_error value do
     case value do
       {:ok,    _} -> value
