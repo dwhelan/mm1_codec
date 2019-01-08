@@ -24,13 +24,14 @@ defmodule MMS.Either do
     quote do
       use MMS.Codec
       import MMS.Either
+      import OkError.Module
 
       def decode bytes do
-        bytes ~> decode(unquote(types)) ~>> module_error
+        bytes ~> decode(unquote(types)) ~>> OkError.Module.module_error()
       end
 
       def encode value do
-        value |> encode(unquote(types)) ~>> module_error
+        value |> encode(unquote(types)) ~>> OkError.Module.module_error()
       end
     end
   end

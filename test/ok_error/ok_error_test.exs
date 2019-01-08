@@ -104,9 +104,4 @@ defmodule OkErrorTest do
     end
   end
 
-  describe "module_error/0" do
-    test "reason should be underscore version of caller module" do
-      assert module_error() == {:error, :invalid_ok_error_test}
-    end
-  end
 end

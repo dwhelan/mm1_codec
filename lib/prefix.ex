@@ -8,6 +8,7 @@ defmodule MMS.Prefix do
   defp build_codec(prefix: prefix, codec: codec) do
     quote do
       use MMS.Codec
+      import OkError.Module
 
       def decode <<unquote(prefix), bytes::binary>> do
         bytes |> unquote(codec).decode

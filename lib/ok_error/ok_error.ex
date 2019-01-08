@@ -38,15 +38,6 @@ defmodule OkError do
       _           -> error value
     end
   end
-  
-  defmacro module_error _reason \\ nil do
-    __CALLER__.module |> error_reason |> error
-  end
-
-  def error_reason module do
-    name = module |> to_string |> String.split(".") |> List.last |> Macro.underscore
-    "invalid_#{name}" |> String.replace(~r/(_[a-z)])_/, "\\1") |> String.to_atom
-  end
 
   defmacro input ~> fun do
     quote do
@@ -54,7 +45,15 @@ defmodule OkError do
         {:ok, value } -> value |> unquote(fun) |> wrap
         error         -> error
       end
+    end
+  end
 
+  def foo input, fun do
+    quote do
+      case wrap unquote(input) do
+        {:ok, value } -> value |> unquote(fun) |> wrap
+        error         -> error
+      end
     end
   end
 

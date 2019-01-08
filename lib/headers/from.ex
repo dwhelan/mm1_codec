@@ -1,5 +1,6 @@
 defmodule MMS.From do
   use MMS.Codec
+  import OkError.Module
 
   alias MMS.{Composer, Short, Address}
 

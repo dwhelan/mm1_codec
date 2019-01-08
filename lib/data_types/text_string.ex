@@ -1,5 +1,6 @@
 defmodule MMS.TextString do
   use MMS.Codec
+  import OkError.Module
 
   alias MMS.Text
 

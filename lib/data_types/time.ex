@@ -13,6 +13,7 @@ end
 defmodule MMS.Time do
 #  use MMS.Composer, codecs: [MMS.EitherTime]
   use MMS.Codec
+  import OkError.Module
 
   import MMS.Composer
 

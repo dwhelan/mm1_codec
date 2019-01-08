@@ -2,6 +2,7 @@ defmodule MMS.Address.Base do
   defmacro __using__ opts \\ [] do
     quote bind_quoted: [type: opts[:type]] do
       import OkError
+      import OkError.Module
 
       def map(string) when is_binary(string) do
         string |> split ~> do_map

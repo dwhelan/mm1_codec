@@ -12,8 +12,8 @@ defmodule MMS.Lookup do
 
   defmacro __using__(opts) do
     quote bind_quoted: [opts: opts] do
-      import OkError.Map
       import OkError
+      import OkError.{Map, Module}
 
       @codec   opts[:codec] || MMS.Short
       @map     opts[:map]   || from_list opts[:values]
