@@ -32,7 +32,6 @@ defmodule OldOkError do
   end
 
   defmacro ok_if(input, fun) do
-    foo fun
     case fun do
       {:&, _, _} ->
         quote do
@@ -44,7 +43,6 @@ defmodule OldOkError do
         end
 
       _ ->
-        foo fun
         quote do
           value = unquote(input)
           case value |> unquote(fun).() do
@@ -81,7 +79,6 @@ defmodule OldOkError do
         end
 
       _ ->
-        foo fun
         quote do
           case unquote(input) |> wrap do
             {:ok, value } -> value |> unquote(fun) |> wrap
@@ -92,13 +89,6 @@ defmodule OldOkError do
     end
   end
 
-  defp foo fun do
-    IO.inspect fun
-    anonymous = case fun do
-      {:&, _, _} -> true
-      _ -> false
-    end
-  end
   defmacro when_error input, fun do
     quote do
       case unquote(input) |> wrap do
