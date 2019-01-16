@@ -1,4 +1,4 @@
-defmodule OkError do
+defmodule OldOkError do
 
   defmacro cons _value, block do
     quote do
@@ -31,10 +31,27 @@ defmodule OkError do
     end
   end
 
-  def ok_if(value, fun) do
-    case fun.(value) do
-      true -> ok value
-      _    -> error value
+  defmacro ok_if(input, fun) do
+    foo fun
+    case fun do
+      {:&, _, _} ->
+        quote do
+          value = unquote(input)
+          case unquote(fun).(value) do
+            true -> ok value
+            _         -> error value
+          end
+        end
+
+      _ ->
+        foo fun
+        quote do
+          value = unquote(input)
+          case value |> unquote(fun).() do
+            true -> ok value
+            _         -> error value
+          end
+        end
     end
   end
 
@@ -54,14 +71,34 @@ defmodule OkError do
   end
 
   defmacro when_ok input, fun do
-    quote do
-      case unquote(input) |> wrap do
-        {:ok, value } -> value |> unquote(fun) |> wrap
-        error         -> error
-      end
+    case fun do
+      {:&, _, _} ->
+        quote do
+          case unquote(input) |> wrap do
+            {:ok, value } -> unquote(fun).(value) |> wrap
+            error         -> error
+          end
+        end
+
+      _ ->
+        foo fun
+        quote do
+          case unquote(input) |> wrap do
+            {:ok, value } -> value |> unquote(fun) |> wrap
+            error         -> error
+          end
+        end
+
     end
   end
 
+  defp foo fun do
+    IO.inspect fun
+    anonymous = case fun do
+      {:&, _, _} -> true
+      _ -> false
+    end
+  end
   defmacro when_error input, fun do
     quote do
       case unquote(input) |> wrap do

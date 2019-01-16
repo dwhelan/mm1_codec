@@ -1,6 +1,6 @@
 defmodule MMS.Address do
   use MMS.Codec
-  import OkError.Module
+  import OldOkError.Module
 
   alias MMS.EncodedString
   alias MMS.{Either, IPv4Address, IPv6Address, PhoneNumber, EmailAddress, UnknownAddress}
@@ -16,11 +16,11 @@ defmodule MMS.Address do
   end
 
   def encode value do
-    value |> unmap ~> EncodedString.encode ~>> module_error()
+    value|> unmap ~> EncodedString.encode ~>> module_error()
   end
 
   defp unmap({address, charset}) when is_atom(charset) do
-    address |> unmap ~> OkError.Tuple.insert_at({charset}, 0)
+    address |> unmap ~> OldOkError.Tuple.insert_at({charset}, 0)
   end
 
   defp unmap address do

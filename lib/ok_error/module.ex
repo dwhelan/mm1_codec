@@ -1,5 +1,5 @@
-defmodule OkError.Module do
-  require OkError.String
+defmodule OldOkError.Module do
+  require OldOkError.String
 
   defmacro name module \\ __CALLER__.module do
     quote do
@@ -7,7 +7,7 @@ defmodule OkError.Module do
       |> to_string
       |> String.split(".")
       |> List.last
-      |> OkError.String.pascalcase
+      |> OldOkError.String.pascalcase
       |> Macro.underscore
       |> String.to_atom
     end
@@ -15,12 +15,12 @@ defmodule OkError.Module do
 
   defmacro error_name module \\ __CALLER__.module do
     quote do
-      "invalid_#{OkError.Module.name unquote(module)}" |> String.to_atom
+      "invalid_#{OldOkError.Module.name unquote(module)}" |> String.to_atom
     end
   end
 
   defmacro module_error _reason \\ nil do
-    __CALLER__.module |> error_reason |> OkError.error
+    __CALLER__.module |> error_reason |> OldOkError.error
   end
 
 

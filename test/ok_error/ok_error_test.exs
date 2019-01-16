@@ -1,7 +1,7 @@
 defmodule OkErrorTest do
   use ExUnit.Case
 
-  import OkError
+  import OldOkError
 
   def upcase(string),  do: {:ok,    String.upcase string}
   def upcase!(reason), do: {:error, String.upcase reason}
@@ -51,11 +51,11 @@ defmodule OkErrorTest do
   end
 
   describe "if_ok/2 should" do
-    test "return ok if function return true" do
+    test "return ok if anonymous function return true" do
       assert ok_if("x", fn _ -> true end) == ok "x"
     end
 
-    test "return error if function return true" do
+    test "return error if function returns true" do
       assert ok_if("x", fn _ -> false end) == error "x"
     end
   end
@@ -89,6 +89,10 @@ defmodule OkErrorTest do
 
     test "return errors from function" do
       assert {:ok, "x"} |> when_ok(upcase!) == {:error, "X"}
+    end
+
+    test "support captures" do
+      assert {:ok, "x"} |> when_ok(&upcase/1) == {:ok, "X"}
     end
   end
 

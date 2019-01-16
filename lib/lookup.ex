@@ -1,6 +1,6 @@
 defmodule MMS.Lookup do
   use MMS.Codec
-  import OkError.Map
+  import OldOkError.Map
 
   def decode bytes, codec, map do
     bytes |> codec.decode <~> get(map)
@@ -13,7 +13,7 @@ defmodule MMS.Lookup do
   defmacro __using__(opts) do
     quote bind_quoted: [opts: opts] do
       use MMS.Codec
-      import OkError.Map
+      import OldOkError.Map
 
       @codec   opts[:codec] || MMS.Short
       @map     opts[:map]   || from_list opts[:values]

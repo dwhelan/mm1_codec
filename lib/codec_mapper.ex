@@ -6,7 +6,7 @@ defmodule MMS.CodecMapper do
   defmacro __using__ opts \\ [] do
     quote bind_quoted: [opts: opts] do
       import MMS.CodecMapper
-      import OkError
+      import OldOkError
 
       @decode_map opts[:map] || from_list(opts[:values])
       @codec_bytes @decode_map |> Map.keys   |> Enum.reject(& elem(@decode_map[&1], 0) == :_unassigned)

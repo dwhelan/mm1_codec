@@ -1,10 +1,10 @@
-defmodule OkError.List do
+defmodule OldOkError.List do
   def insert(value, list), do: [value | list]
 end
 
 defmodule MMS.List do
   use MMS.Codec
-  import OkError.List
+  import OldOkError.List
 
   def decode bytes, codecs do
     codecs |> Enum.reduce(ok([], bytes), &do_decode/2) <|> Enum.reverse

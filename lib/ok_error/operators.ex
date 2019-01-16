@@ -1,5 +1,5 @@
-defmodule OkError.Operators do
-  import OkError
+defmodule OldOkError.Operators do
+  import OldOkError
 
   defmacro input ~> fun do
     quote do

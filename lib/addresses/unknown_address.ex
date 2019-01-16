@@ -1,24 +1,19 @@
 defmodule MMS.UnknownAddress do
   use MMS.Address.Base
 
-  def map_address {string, type} do
-    ok_if_unknown_address {string, type}
+  def map_address address do
+    address |> ok_if(&is_unknown?/1)
   end
 
-  def unmap_address({string, type}) when is_binary(string) and is_binary(type) do
-    ok_if_unknown_address {string, type}
+  def unmap_address address do
+    address |> ok_if(&is_unknown?/1)
   end
 
-  def unmap_address _ do
-    module_error()
+  defp is_unknown? {value, type} do
+    is_binary(value) and is_binary(type) and type not in ["PLMN", "IPv4", "IPv6"]
   end
 
-  defp ok_if_unknown_address {value, type} do
-    if is_binary(value) and is_binary(type) and type not in ["PLMN", "IPv4", "IPv6"] do
-      ok {value, type}
-    else
-      module_error()
-    end
+  defp is_unknown? _ do
+    false
   end
 end
-

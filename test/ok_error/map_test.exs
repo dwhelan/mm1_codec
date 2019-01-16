@@ -1,7 +1,7 @@
-defmodule OkError.MapTest do
+defmodule OldOkError.MapTest do
   use ExUnit.Case
 
-  import OkError.Map
+  import OldOkError.Map
 
   test "invert" do
     assert invert(%{a: 0, b: 1}) == %{0 => :a, 1 => :b}

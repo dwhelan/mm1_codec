@@ -1,8 +1,8 @@
-defmodule OkError.OperatorsTest do
+defmodule OldOkError.OperatorsTest do
   use ExUnit.Case
 
-  import OkError
-  import OkError.Operators
+  import OldOkError
+  import OldOkError.Operators
 
   test "~> should call when_ok" do
     assert {:ok, "x"} ~> String.upcase == {:ok, "X"}

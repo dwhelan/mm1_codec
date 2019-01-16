@@ -1,4 +1,4 @@
-defmodule OkError.String do
+defmodule OldOkError.String do
 
   def append( string, suffix), do: string <> suffix
   def prepend(string, prefix), do: prefix <> string

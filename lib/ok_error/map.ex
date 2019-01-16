@@ -1,4 +1,4 @@
-defmodule OkError.Map do
+defmodule OldOkError.Map do
   def get(value, map), do: Map.get map, value
 
   def from_list list do

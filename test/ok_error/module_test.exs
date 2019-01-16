@@ -1,7 +1,7 @@
-defmodule OkError.ModuleTest do
+defmodule OldOkError.ModuleTest do
   use ExUnit.Case
 
-  import OkError.Module
+  import OldOkError.Module
 
   describe "name(module) macro should" do
     test "return lower case name" do
