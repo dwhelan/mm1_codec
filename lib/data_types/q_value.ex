@@ -1,6 +1,6 @@
 defmodule MMS.QValue do
   use MMS.Codec
-  import OldOkError.Module
+  import CodecError
 
   alias MMS.Uint32
 

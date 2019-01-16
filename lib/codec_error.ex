@@ -1,4 +1,4 @@
-defmodule OldOkError.Module do
+defmodule CodecError do
   require OldOkError.String
 
   defmacro name module \\ __CALLER__.module do
@@ -15,7 +15,7 @@ defmodule OldOkError.Module do
 
   defmacro error_name module \\ __CALLER__.module do
     quote do
-      "invalid_#{OldOkError.Module.name unquote(module)}" |> String.to_atom
+      "invalid_#{CodecError.name unquote(module)}" |> String.to_atom
     end
   end
 

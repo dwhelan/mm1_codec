@@ -1,10 +1,11 @@
 defmodule MMS.Codec do
   import OldOkError
-  import OldOkError.{Module, Operators}
+  import OldOkError.Operators
+  import CodecError
 
   defmacro codec_error input \\ nil do
     quote do
-      require OldOkError.Module
+      require CodecError
 
       unquote(input) |> maybe_create_codec_error(error_name())
     end
@@ -30,7 +31,7 @@ defmodule MMS.Codec do
 
   defp pipe_decoded_value input, fun do
     quote do
-      require OldOkError.Module
+      require CodecError
 
       unquote(input)
       ~> fn {value, rest} -> value |> unquote(fun) ~> ok(rest) end.()
@@ -57,8 +58,9 @@ defmodule MMS.Codec do
   defmacro __using__([]) do
     quote do
       import OldOkError
-      import OldOkError.{String, Module, Operators}
+      import OldOkError.{String, Operators}
       import MMS.{DataTypes, Codec}
+      import CodecError
 
       def decode(nil),  do: module_error()
       def decode(<<>>), do: module_error()

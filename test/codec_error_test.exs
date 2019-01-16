@@ -1,7 +1,7 @@
-defmodule OldOkError.ModuleTest do
+defmodule CodecErrorTest do
   use ExUnit.Case
 
-  import OldOkError.Module
+  import CodecError
 
   describe "name(module) macro should" do
     test "return lower case name" do
@@ -26,7 +26,7 @@ defmodule OldOkError.ModuleTest do
     end
 
     test "default to caller module" do
-      assert name() == :module_test
+      assert name() == :codec_error_test
     end
   end
 
@@ -36,13 +36,13 @@ defmodule OldOkError.ModuleTest do
     end
 
     test "default to caller module" do
-      assert error_name() == :invalid_module_test
+      assert error_name() == :invalid_codec_error_test
     end
   end
 
   describe "module_error/0" do
     test "reason should be underscore version of caller module" do
-      assert module_error() == {:error, :invalid_module_test}
+      assert module_error() == {:error, :invalid_codec_error_test}
     end
   end
 end

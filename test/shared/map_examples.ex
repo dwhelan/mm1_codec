@@ -9,7 +9,7 @@ defmodule MMS.MapExamples do
       import MMS.MapExamples
 
       @mapper        opts[:mapper]       || __MODULE__
-      @reason        opts[:error]        || OldOkError.Module.error_reason @mapper
+      @reason        opts[:error]        || CodecError.error_reason @mapper
       examples     = opts[:examples]     || []
       map_errors   = opts[:map_errors]   || []
       unmap_errors = opts[:unmap_errors] || []

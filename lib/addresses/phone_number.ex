@@ -1,6 +1,6 @@
 defmodule MMS.PhoneNumber do
   use MMS.Address.Base, type: "PLMN"
-  import OldOkError.Module
+  import CodecError
 
   def map_address phone_number do
     ok_if phone_number

@@ -1,5 +1,26 @@
+defmodule Codec do
+  import OkError
+
+  def ok value, other do
+    ok {value, other}
+  end
+
+  def error reason, other do
+    error {reason, other}
+  end
+
+  defmacro __using__ _ do
+    quote do
+      import OkError
+      import Codec
+      import CodecError
+      import MMS.{DataTypes}
+    end
+  end
+end
+
 defmodule MMS.Byte do
-  use MMS.Codec
+  use Codec
 
   def decode <<byte, rest::binary>> do
     ok byte, rest
@@ -9,5 +30,7 @@ defmodule MMS.Byte do
     ok <<value>>
   end
 
-  defaults()
+  def encode(_)  do
+    module_error()
+  end
 end
