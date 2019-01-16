@@ -27,7 +27,6 @@ defmodule Mm1Codec.MixProject do
     [
       {:mix_test_watch, "~>   0.9", only: :dev, runtime: false},
       {:ok_computer,    "~> 0.1.0"},
-      {:towel,          "~> 0.2.1"},
     ]
   end
 end
