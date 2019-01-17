@@ -1,4 +1,4 @@
-defmodule OldOkError.String do
+defmodule Codec.String do
 
   def append( string, suffix), do: string <> suffix
   def prepend(string, prefix), do: prefix <> string

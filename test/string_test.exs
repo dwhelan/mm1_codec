@@ -1,7 +1,7 @@
-defmodule OldOkError.StringTest do
+defmodule Codec.StringTest do
   use ExUnit.Case
 
-  import OldOkError.String
+  import Codec.String
 
   test "pascalcase/1" do
     assert pascalcase("")      == ""

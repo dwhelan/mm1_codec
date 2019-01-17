@@ -1,5 +1,5 @@
 defmodule CodecError do
-  require OldOkError.String
+  require Codec.String
 
   defmacro name module \\ __CALLER__.module do
     quote do
@@ -7,7 +7,7 @@ defmodule CodecError do
       |> to_string
       |> String.split(".")
       |> List.last
-      |> OldOkError.String.pascalcase
+      |> Codec.String.pascalcase
       |> Macro.underscore
       |> String.to_atom
     end
@@ -20,7 +20,7 @@ defmodule CodecError do
   end
 
   defmacro module_error _reason \\ nil do
-    __CALLER__.module |> error_reason |> OldOkError.error
+    __CALLER__.module |> error_reason |> OkError.error
   end
 
 
@@ -28,5 +28,4 @@ defmodule CodecError do
     name = module |> to_string |> String.split(".") |> List.last |> Macro.underscore
     "invalid_#{name}" |> String.replace(~r/(_[a-z)])_/, "\\1") |> String.to_atom
   end
-
 end
