@@ -7,9 +7,10 @@ defmodule MMS.MapExamples do
     quote bind_quoted: [opts: opts] do
       use MMS.Test
       import MMS.MapExamples
+      require CodecError
 
       @mapper        opts[:mapper]       || __MODULE__
-      @reason        opts[:error]        || CodecError.error_reason @mapper
+      @reason        opts[:error]        || CodecError.error_name @mapper
       examples     = opts[:examples]     || []
       map_errors   = opts[:map_errors]   || []
       unmap_errors = opts[:unmap_errors] || []

@@ -9,6 +9,16 @@ defmodule Codec do
     error {reason, other}
   end
 
+  def name module do
+    module
+    |> to_string
+    |> String.split(".")
+    |> List.last
+    |> Codec.String.pascalcase
+    |> Macro.underscore
+    |> String.to_atom
+  end
+
   defmacro __using__ _ do
     quote do
       import OkError
@@ -31,6 +41,6 @@ defmodule MMS.Byte do
   end
 
   def encode(_)  do
-    module_error()
+    encode_error()
   end
 end

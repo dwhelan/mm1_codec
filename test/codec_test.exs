@@ -5,6 +5,28 @@ defmodule MMS.CodecTest do
 
   def upcase!(reason), do: {:error, String.upcase reason}
 
+  describe "name(module) macro should" do
+    test "return lower case name" do
+      assert Codec.name(A) == :a
+    end
+
+    test "only consider part after last '.'" do
+      assert Codec.name(A.B.C) == :c
+    end
+
+    test "convert to underscore formay" do
+      assert Codec.name(OkError) == :ok_error
+    end
+
+    test "keep consecutive upper case letters together" do
+      assert Codec.name(ABc) == :abc
+    end
+
+    test "merge other single letters with next part" do
+      assert Codec.name(ProtocolIPv4) == :protocol_ipv4
+    end
+  end
+
   describe "<~> should" do
     test "pipe oks" do
       assert ok("x") <~> String.upcase == ok("X")
