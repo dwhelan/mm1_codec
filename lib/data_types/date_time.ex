@@ -3,13 +3,15 @@ defmodule MMS.DateTime do
 
   alias MMS.Long
 
-  def decode(bytes) when is_binary(bytes) do
-    bytes |> Long.decode <~> DateTime.from_unix!
+  def decode bytes do
+    bytes |> Long.decode <~> DateTime.from_unix
   end
 
-  def encode %DateTime{} = date_time do
-    date_time |> DateTime.to_unix <~> Long.encode
+  def encode date_time = %DateTime{} do
+    date_time |> DateTime.to_unix |> Long.encode
   end
 
-  defaults()
+  def encode(_)  do
+    {:error, __MODULE__}
+  end
 end

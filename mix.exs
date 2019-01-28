@@ -26,7 +26,8 @@ defmodule Mm1Codec.MixProject do
   defp deps do
     [
       {:mix_test_watch, "~>   0.9", only: :dev, runtime: false},
-      {:ok_computer,    "~> 0.1.0"},
+      {:ok_computer,   path: "../ok_computer"},
+#      {:ok_computer,    "~> 0.1.0"},
     ]
   end
 end

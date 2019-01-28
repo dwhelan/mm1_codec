@@ -6,15 +6,15 @@ defmodule MMS.ListTest do
 
   describe "decode" do
     test "single codec" do
-      assert decode(<<0>>, [Byte]) == ok [0], <<>>
+      assert decode(<<0>>, [Byte.Decode]) == ok [0], <<>>
     end
 
     test "multiple codecs" do
-      assert decode(<<0, 1, 2>>, [Byte, Byte, Byte]) == ok [0, 1, 2], <<>>
+      assert decode(<<0, 1, 2>>, [Byte.Decode, Byte.Decode, Byte.Decode]) == ok [0, 1, 2], <<>>
     end
 
     test "ok when bytes consumed before all codecs" do
-      assert decode(<<0, 1, 2>>, [Byte]) == ok [0], <<1, 2>>
+      assert decode(<<0, 1, 2>>, [Byte.Decode]) == ok [0], <<1, 2>>
     end
 
     @tag :skip
@@ -29,11 +29,11 @@ defmodule MMS.ListTest do
 
   describe "encode" do
     test "single codec" do
-      assert encode([0], [Byte]) == ok <<0>>
+      assert encode([0], [Byte.Encode]) == ok <<0>>
     end
 
     test "multiple codec" do
-      assert encode([0, 1, 2], [Byte, Byte, Byte]) == ok <<0, 1, 2>>
+      assert encode([0, 1, 2], [Byte.Encode, Byte.Encode, Byte.Encode]) == ok <<0, 1, 2>>
     end
   end
 end

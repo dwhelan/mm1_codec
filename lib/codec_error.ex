@@ -10,8 +10,4 @@ defmodule CodecError do
   defmacro module_error _reason \\ nil do
     __CALLER__.module |> error_name |> error
   end
-
-  defmacro encode_error _reason \\ nil do
-    __CALLER__.module |> error_name |> error
-  end
 end

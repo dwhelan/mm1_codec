@@ -22,7 +22,7 @@ defmodule MMS.PreviouslySentDateTest do
       ],
 
       encode_errors: [
-        {{DateTime.from_unix!(-1), 1}, :invalid_date_time},
-        {{time_zero, -1},              :invalid_integer},
+        {{DateTime.from_unix!(-1), 1}},
+        {{time_zero, -1}            },
       ]
 end
