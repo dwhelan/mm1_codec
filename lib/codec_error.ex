@@ -1,9 +1,19 @@
 defmodule CodecError do
   import OkError
 
+  def name module do
+    module
+    |> to_string
+    |> String.split(".")
+    |> List.last
+    |> Codec.String.pascalcase
+    |> Macro.underscore
+    |> String.to_atom
+  end
+
   defmacro error_name module \\ __CALLER__.module do
     quote do
-      "invalid_#{Codec.name unquote(module)}" |> String.to_atom
+      "invalid_#{CodecError.name unquote(module)}" |> String.to_atom
     end
   end
 

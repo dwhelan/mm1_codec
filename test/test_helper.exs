@@ -23,14 +23,6 @@ defmodule MMS.Test do
   end
 end
 
-ExUnit.start()
-
-defmodule CodecTest do
-  def assert_code_raise error, code do
-    ExUnit.Assertions.assert_raise error, fn -> Code.eval_string(code) end
-  end
-end
-
 defmodule EncodeTest do
   defmacro __using__ _ do
     quote do
