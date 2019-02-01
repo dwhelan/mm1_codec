@@ -3,37 +3,15 @@ defmodule QValue.DecodeTest do
 
   import QValue.Decode
 
-  test "no bytes" do
-    assert decode(<<>>) == error :insufficient_bytes, <<>>
-  end
+  test "0.00",  do: assert decode(uint32 1)    == ok "0.00",  <<>>
+  test "0.99",  do: assert decode(uint32 100)  == ok "0.99",  <<>>
+  test "0.001", do: assert decode(uint32 101)  == ok "0.001", <<>>
+  test "0.999", do: assert decode(uint32 1099) == ok "0.999", <<>>
 
-  test "0" do
-    assert decode(uint32 0) == error :invalid_q_value, 0
-  end
-
-  test "1" do
-    assert decode(uint32 1) == ok "0.00", <<>>
-  end
-
-  test "100" do
-    assert decode(uint32 100) == ok "0.99", <<>>
-  end
-
-  test "101" do
-    assert decode(uint32 101) == ok "0.001", <<>>
-  end
-
-  test "1099" do
-    assert decode(uint32 1099) == ok "0.999", <<>>
-  end
-
-  test "1100" do
-    assert (1100 |> uint32 |> decode) == error :invalid_q_value, 1100
-  end
-
-  test "invalid uint32" do
-    assert decode(invalid_uint32()) == error :invalid_uint32
-  end
+  test "<<>>", do: assert decode(<<>>)        == error :insufficient_bytes, <<>>
+  test "0",    do: assert decode(uint32 0)    == error :invalid_q_value, 0
+  test "1100", do: assert decode(uint32 1100) == error :invalid_q_value, 1100
+  test "invalid uint32", do: decode(invalid_uint32()) == error :invalid_uint32
 end
 
 defmodule QValue.EncodeTest do
@@ -41,25 +19,13 @@ defmodule QValue.EncodeTest do
 
   import QValue.Encode
 
-  test "0.00" do
-    assert encode("0.00") == {:ok, uint32 1}
-  end
+  test "0.00",  do: assert encode("0.00")  == ok uint32(1)
+  test "0.99",  do: assert encode("0.99")  == ok uint32(100)
+  test "0.001", do: assert encode("0.001") == ok uint32(101)
+  test "0.999", do: assert encode("0.999") == ok uint32(1099)
 
-  test "0.99" do
-    assert encode("0.99") == {:ok, uint32 100}
-  end
-
-  test "0.001" do
-    assert encode("0.001") == {:ok, uint32 101}
-  end
-
-  test "0.999" do
-    assert encode("0.999") == {:ok, uint32 1099}
-  end
-
-  test "1100" do
-    assert encode("1.000") == error :invalid_q_value, 1.0
-  end
+  test "1.000", do: assert encode("1.000") == error :invalid_q_value, 1.0
+  test "abcde", do: assert encode("abcde") == error :invalid_q_value, "abcde"
 end
 
 defmodule MMS.QValueTest do
