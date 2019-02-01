@@ -1,3 +1,43 @@
+defmodule QValue do
+  defmodule Decode do
+    use Codec.Decode
+
+    alias MMS.Uint32
+
+    def decode(bytes) when is_binary(bytes) do
+      bytes |> Uint32.decode |> bind(&q_string/1)
+    end
+
+    defp q_string {0, rest} do
+      error :invalid_q_value, 0
+    end
+
+    defp q_string({value, rest}) when value <= 100 do
+      ok :erlang.float_to_binary((value - 1) / 100, decimals: 2), rest
+    end
+
+    defp q_string({value, rest}) when value <= 1099 do
+      ok :erlang.float_to_binary((value - 100) / 1000, decimals: 3), rest
+    end
+
+    defp q_string {value, rest} do
+      error :invalid_q_value, value
+    end
+  end
+
+  defmodule Encode do
+    use Codec.Encode
+
+    def encode(byte) when is_byte(byte) do
+      ok <<byte>>
+    end
+
+    def encode value do
+      error :invalid_byte, value
+    end
+  end
+end
+
 defmodule MMS.QValue do
   use MMS.Codec
   import CodecError
