@@ -3,23 +3,15 @@ defmodule QValue.DecodeTest do
 
   import QValue.Decode
 
-  def uint32 value do
-    value |> MMS.Uint32.encode |> elem(1)
-  end
-
-  def invalid_uint32 do
-    <<128>>
-  end
-
-  test "with no bytes" do
+  test "no bytes" do
     assert decode(<<>>) == error :insufficient_bytes, <<>>
   end
 
-  test("0") do
+  test "0" do
     assert decode(uint32 0) == error :invalid_q_value, 0
   end
 
-  test("1") do
+  test "1" do
     assert decode(uint32 1) == ok "0.00", <<>>
   end
 
@@ -36,11 +28,37 @@ defmodule QValue.DecodeTest do
   end
 
   test "1100" do
-    assert decode(uint32 1100) == error :invalid_q_value, 1100
+    assert (1100 |> uint32 |> decode) == error :invalid_q_value, 1100
   end
 
   test "invalid uint32" do
     assert decode(invalid_uint32()) == error :invalid_uint32
+  end
+end
+
+defmodule QValue.EncodeTest do
+  use EncodeTest
+
+  import QValue.Encode
+
+  test "0.00" do
+    assert encode("0.00") == {:ok, uint32 1}
+  end
+
+  test "0.99" do
+    assert encode("0.99") == {:ok, uint32 100}
+  end
+
+  test "0.001" do
+    assert encode("0.001") == {:ok, uint32 101}
+  end
+
+  test "0.999" do
+    assert encode("0.999") == {:ok, uint32 1099}
+  end
+
+  test "1100" do
+    assert encode("1.000") == error :invalid_q_value, 1.0
   end
 end
 
