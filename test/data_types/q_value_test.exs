@@ -3,14 +3,14 @@ defmodule QValue.DecodeTest do
 
   import QValue.Decode
 
-  test "0.00",  do: assert decode(uint32 1)    == ok "0.00",  <<>>
-  test "0.99",  do: assert decode(uint32 100)  == ok "0.99",  <<>>
-  test "0.001", do: assert decode(uint32 101)  == ok "0.001", <<>>
-  test "0.999", do: assert decode(uint32 1099) == ok "0.999", <<>>
+  test "0.00",  do: assert decode(uint32 1)    == ok "00",  <<>>
+  test "0.99",  do: assert decode(uint32 100)  == ok "99",  <<>>
+  test "0.001", do: assert decode(uint32 101)  == ok "001", <<>>
+  test "0.999", do: assert decode(uint32 1099) == ok "999", <<>>
 
   test "<<>>", do: assert decode(<<>>)        == error :insufficient_bytes, <<>>
-  test "0",    do: assert decode(uint32 0)    == error :invalid_q_value, 0
-  test "1100", do: assert decode(uint32 1100) == error :invalid_q_value, 1100
+  test "0",    do: assert decode(<<0>>)    == error :invalid_q_value, <<0>>, 0
+  test "1100", do: assert decode(uint32 1100) == error :invalid_q_value, uint32(1100), 1100
   test "invalid uint32", do: decode(invalid_uint32()) == error :invalid_uint32
 end
 
@@ -24,7 +24,7 @@ defmodule QValue.EncodeTest do
   test "0.001", do: assert encode("0.001") == ok uint32(101)
   test "0.999", do: assert encode("0.999") == ok uint32(1099)
 
-  test "1.000", do: assert encode("1.000") == error :invalid_q_value, 1.0
+  test "1.000", do: assert encode("1.000") == error :invalid_q_value, "1.000"
   test "abcde", do: assert encode("abcde") == error :invalid_q_value, "abcde"
 end
 
