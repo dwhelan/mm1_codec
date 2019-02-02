@@ -8,10 +8,10 @@ defmodule QValue.DecodeTest do
   test "001", do: assert decode(uint32 101)  == ok "001", <<>>
   test "999", do: assert decode(uint32 1099) == ok "999", <<>>
 
-  test "<<>>",    do: assert decode(<<>>)      == error :insufficient_bytes, <<>>
-  test "<<0>>",   do: assert decode(<<0>>)     == error :invalid_q_value, <<0>>, 0
-  test "<<128>>", do: assert decode(<<128>>)   == error :invalid_uint32
-  test "1100",  do: assert decode(uint32 1100) == error :invalid_q_value, uint32(1100), 1100
+  test "<<>>",    do: assert decode(<<>>)        == error :insufficient_bytes, <<>>
+  test "<<0>>",   do: assert decode(<<0>>)       == error :invalid_q_value, <<0>>, 0
+  test "<<128>>", do: assert decode(<<128>>)     == error :invalid_uint32
+  test "1100",    do: assert decode(uint32 1100) == error :invalid_q_value, uint32(1100), 1100
 end
 
 defmodule QValue.EncodeTest do

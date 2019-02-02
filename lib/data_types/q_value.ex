@@ -35,7 +35,7 @@ defmodule QValue do
       ~>> fn _ -> error :invalid_q_value, string end
     end
 
-    defp to_ok_error(integer, ""), do: ok integer
+    defp to_ok_error({integer, ""}), do: ok integer
     defp to_ok_error(_),           do: error()
 
     defp to_q_value(integer, 2),     do: ok integer + 1
