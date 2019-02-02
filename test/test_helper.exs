@@ -23,13 +23,17 @@ defmodule MMS.Test do
   end
 end
 
-defmodule Codec2Test do
-  def u value do
-    value |> MMS.Uint32.encode |> elem(1)
-  end
+defmodule MMS.Test2 do
+  def s(short),  do: short + 128
+  def l(length), do: length
+  def u(value),  do: value |> MMS.Uint32.encode |> elem(1)
 
   def invalid_uint32 do
     <<128>>
+  end
+
+  def assert_code_raise code do
+    ExUnit.Assertions.assert_raise ArgumentError, fn -> Code.eval_string(code) end
   end
 
   defmacro __using__ _ do
@@ -38,7 +42,7 @@ defmodule Codec2Test do
 
       import OkError
       import Codec2
-      import Codec2Test
+      import MMS.Test2
     end
   end
 end

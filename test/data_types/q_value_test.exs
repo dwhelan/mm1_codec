@@ -1,5 +1,5 @@
 defmodule MMS.QValue.Test do
-  use Codec2Test
+  use MMS.Test2
 
   import MMS.QValue
 
