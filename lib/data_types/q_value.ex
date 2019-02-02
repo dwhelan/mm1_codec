@@ -2,12 +2,8 @@ defmodule QValue do
   defmodule Decode do
     use Codec.Decode
 
-    alias MMS.Uint32
-    import Monad.Operators
-    import OkError.Operators
-
     def decode bytes do
-      bytes |> Uint32.decode ~> fn result -> to_q_string(result, bytes) end
+      bytes |> MMS.Uint32.decode ~> fn result -> to_q_string(result, bytes) end
     end
 
     defp to_q_string({q_value, rest}, _bytes) when q_value > 0 and q_value <= 100 do
@@ -30,16 +26,12 @@ defmodule QValue do
   defmodule Encode do
     use Codec.Encode
 
-    alias MMS.Uint32
-    import Monad.Operators
-    import OkError.Operators
-
     def encode(string) when is_binary(string) do
       string
       |> Integer.parse
       |> to_ok_error
       ~> fn integer -> to_q_value integer, byte_size string end
-      ~> Uint32.encode
+      ~> MMS.Uint32.encode
       ~>> fn _ -> error :invalid_q_value, string end
     end
 
@@ -48,7 +40,7 @@ defmodule QValue do
     end
 
     defp to_ok_error _ do
-      error
+      error()
     end
 
     defp to_q_value integer, 2 do
@@ -60,7 +52,7 @@ defmodule QValue do
     end
 
     defp to_q_value _ , _ do
-      error
+      error()
     end
   end
 end

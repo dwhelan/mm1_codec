@@ -31,16 +31,23 @@ defmodule CodecTest do
   def invalid_uint32 do
     <<128>>
   end
-end
 
-defmodule EncodeTest do
   defmacro __using__ _ do
     quote do
       use ExUnit.Case
 
       import DataTypes
       import OkError
+      import Codec
       import CodecTest
+    end
+  end
+end
+
+defmodule EncodeTest do
+  defmacro __using__ _ do
+    quote do
+      use CodecTest
       import Codec.Encode
     end
   end
@@ -49,11 +56,7 @@ end
 defmodule DecodeTest do
   defmacro __using__ _ do
     quote do
-      use ExUnit.Case
-
-      import DataTypes
-      import OkError
-      import CodecTest
+      use CodecTest
       import Codec.Decode
     end
   end
