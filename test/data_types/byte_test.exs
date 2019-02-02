@@ -1,4 +1,4 @@
-defmodule Byte.DecodeTest do
+defmodule MMS.Byte.DecodeTest do
   use DecodeTest
 
   import MMS.Byte.Decode
@@ -13,7 +13,7 @@ defmodule Byte.DecodeTest do
   end
 end
 
-defmodule Byte.EncodeTest do
+defmodule MMS.Byte.EncodeTest do
   use EncodeTest
 
   import MMS.Byte.Encode

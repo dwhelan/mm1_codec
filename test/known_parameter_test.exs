@@ -8,7 +8,7 @@ defmodule MMS.KnownParameterTest do
   use MMS.TestExamples,
       codec: KnownParameter,
       examples: [
-        { << s(0),  1          >>, q:                     "0.00"    },
+#        { << s(0),  1          >>, q:                     "0.00"    },
         { << s(1),  s(0)       >>, charset:               :any      },
         { << s(2),  0b10000000 >>, level:                 {0,  0}   },
         { << s(3),  s(0)       >>, type:                  0         },
@@ -39,7 +39,7 @@ defmodule MMS.KnownParameterTest do
         { << s(29), "x\0"      >>, path:                  "x"       },
 
         # Multiple parameters
-        {<<s(0), 1, s(1), s(0)>>, q: "0.00", charset: :any},
+#        {<<s(0), 1, s(1), s(0)>>, q: "0.00", charset: :any},
       ],
 
       encode_errors: [

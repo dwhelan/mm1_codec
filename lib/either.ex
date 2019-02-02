@@ -9,7 +9,6 @@ defmodule Either do
 
   defmodule Encode do
     import Codec.Encode
-    import OkError
 
     def encode(byte) do
       ok <<byte>>

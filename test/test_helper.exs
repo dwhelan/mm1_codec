@@ -37,7 +37,6 @@ defmodule CodecTest do
       use ExUnit.Case
 
       import DataTypes
-      import OkError
       import Codec
       import CodecTest
     end
