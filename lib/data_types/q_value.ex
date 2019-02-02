@@ -13,7 +13,7 @@ defmodule QValue do
       ok (value - 1) |> format(2), rest
     end
 
-    defp to_q_string({value, rest}, _bytes) when value > 100 and value <= 1099 do
+    defp to_q_string({value, rest}, _bytes) when value > 100 and value < 1100 do
       ok (value - 100) |> format(3), rest
     end
 
@@ -33,7 +33,7 @@ defmodule QValue do
     import Operators
 
     def encode(string) when is_binary(string) do
-      string |> Float.parse |> to_q_value |> bind(fn q_value -> to_uint32(q_value, string) end) ~> Uint32.encode |> bind_error(fn error -> error :invalid_q_value, string end)
+      string |> Integer.parse |> to_q_value ~> fn q_value -> to_uint32(q_value, string) end ~> Uint32.encode |> bind_error(fn error -> error :invalid_q_value, string end)
     end
 
     defp to_q_value {value, ""} do
@@ -44,16 +44,16 @@ defmodule QValue do
       error :invalid_q_value
     end
 
-    defp to_uint32(q_value, string) when q_value >= 1.0 do
+    defp to_uint32(q_value, string) when q_value > 999 do
       error :invalid_q_value, q_value
     end
 
-    defp to_uint32(q_value, string) when byte_size(string) <= 4 do
-      ok round q_value * 100 + 1
+    defp to_uint32(q_value, string) when byte_size(string) == 2 do
+      ok round q_value + 1
     end
 
     defp to_uint32 q_value, _ do
-      ok round q_value * 1000 + 100
+      ok round q_value + 100
     end
   end
 end
