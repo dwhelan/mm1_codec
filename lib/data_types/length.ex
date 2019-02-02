@@ -3,17 +3,23 @@ defmodule MMS.Length do
 end
 
 defmodule MMS.ShortLength do
-  use MMS.Codec
+  use Codec2
 
   def decode(<<value, rest::binary>>) when is_short_length(value) do
     ok value, rest
+  end
+
+  def decode _ do
+    error code: :invalid_short_length
   end
 
   def encode(value) when is_short_length(value) do
     ok <<value>>
   end
 
-  defaults()
+  def encode _ do
+    error code: :invalid_short_length
+  end
 end
 
 defmodule MMS.Uint32Length do
