@@ -73,24 +73,16 @@ defmodule Codec2 do
     OkError.ok {value, rest}
   end
 
-  def ok bytes do
-    OkError.ok bytes
-  end
-
-  def error code, opts \\ [] do
-    OkError.error [code: code] ++ opts
-  end
-
   defmacro __using__ _ do
     quote do
       import DataTypes
       import Monad.Operators
-      import OkError, only: [bind: 2, return: 1]
+      import OkError
       import OkError.Operators
       import Codec2
 
       def decode <<>> do
-        error :insufficient_bytes, bytes: <<>>
+        error code: :insufficient_bytes, bytes: <<>>
       end
     end
   end

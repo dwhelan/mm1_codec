@@ -56,7 +56,7 @@ defmodule Codec2Test do
     quote do
       use ExUnit.Case
 
-      import DataTypes
+      import OkError
       import Codec2
       import Codec2Test
     end
