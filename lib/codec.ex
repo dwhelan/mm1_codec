@@ -41,25 +41,6 @@ defmodule Codec do
   end
 end
 
-defmodule Codec.Encode do
-  import OkError
-
-  def ok bytes do
-    OkError.ok bytes
-  end
-
-  def error code, value do
-    error code: code, value: value
-  end
-
-  defmacro __using__ _ do
-    quote do
-      use Codec
-      import Codec.Encode
-    end
-  end
-end
-
 defmodule Codec.Decode do
   import OkError
 
@@ -83,6 +64,25 @@ defmodule Codec.Decode do
       def decode <<>> do
         error :insufficient_bytes, <<>>
       end
+    end
+  end
+end
+
+defmodule Codec.Encode do
+  import OkError
+
+  def ok bytes do
+    OkError.ok bytes
+  end
+
+  def error code, value do
+    error code: code, value: value
+  end
+
+  defmacro __using__ _ do
+    quote do
+      use Codec
+      import Codec.Encode
     end
   end
 end

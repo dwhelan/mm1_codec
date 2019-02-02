@@ -43,20 +43,20 @@ defmodule CodecTest do
   end
 end
 
-defmodule EncodeTest do
-  defmacro __using__ _ do
-    quote do
-      use CodecTest
-      import Codec.Encode
-    end
-  end
-end
-
 defmodule DecodeTest do
   defmacro __using__ _ do
     quote do
       use CodecTest
       import Codec.Decode
+    end
+  end
+end
+
+defmodule EncodeTest do
+  defmacro __using__ _ do
+    quote do
+      use CodecTest
+      import Codec.Encode
     end
   end
 end
