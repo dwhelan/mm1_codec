@@ -23,26 +23,6 @@ defmodule MMS.Test do
   end
 end
 
-defmodule CodecTest do
-  def uint32 value do
-    value |> MMS.Uint32.encode |> elem(1)
-  end
-
-  def invalid_uint32 do
-    <<128>>
-  end
-
-  defmacro __using__ _ do
-    quote do
-      use ExUnit.Case
-
-      import DataTypes
-      import Codec
-      import CodecTest
-    end
-  end
-end
-
 defmodule Codec2Test do
   def uint32 value do
     value |> MMS.Uint32.encode |> elem(1)
@@ -57,26 +37,8 @@ defmodule Codec2Test do
       use ExUnit.Case
 
       import OkError
-      import Codec2
+      import Codec
       import Codec2Test
-    end
-  end
-end
-
-defmodule DecodeTest do
-  defmacro __using__ _ do
-    quote do
-      use CodecTest
-      import Codec.Decode
-    end
-  end
-end
-
-defmodule EncodeTest do
-  defmacro __using__ _ do
-    quote do
-      use CodecTest
-      import Codec.Encode
     end
   end
 end

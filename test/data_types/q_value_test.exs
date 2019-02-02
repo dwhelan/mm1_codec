@@ -1,4 +1,4 @@
-defmodule QValue.Test do
+defmodule MMS.QValue.Test do
   use Codec2Test
 
   import MMS.QValue

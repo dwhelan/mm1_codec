@@ -1,5 +1,5 @@
 defmodule MMS.Byte do
-  use Codec2
+  use Codec
 
   def decode <<byte, rest::binary>> do
     ok byte, rest

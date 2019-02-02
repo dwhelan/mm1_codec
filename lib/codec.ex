@@ -28,47 +28,6 @@ defmodule DataTypes do
 end
 
 defmodule Codec do
-  import OkError
-
-  defmacro __using__ _ do
-    quote do
-      import DataTypes
-      import Monad.Operators
-      import OkError, only: [bind: 2, return: 1]
-      import OkError.Operators
-      import Codec
-    end
-  end
-end
-
-defmodule Codec.Decode do
-  import OkError
-
-  def ok value, rest do
-    ok {value, rest}
-  end
-
-  def error code, bytes do
-    error code: code, bytes: bytes
-  end
-
-  def error code, bytes, value do
-    error code: code, bytes: bytes, value: value
-  end
-
-  defmacro __using__ _ do
-    quote do
-      use Codec
-      import Codec.Decode
-
-      def decode <<>> do
-        error :insufficient_bytes, <<>>
-      end
-    end
-  end
-end
-
-defmodule Codec2 do
   def ok value, rest do
     OkError.ok {value, rest}
   end
@@ -79,30 +38,11 @@ defmodule Codec2 do
       import Monad.Operators
       import OkError
       import OkError.Operators
-      import Codec2
+      import Codec
 
       def decode <<>> do
         error code: :insufficient_bytes, bytes: <<>>
       end
-    end
-  end
-end
-
-defmodule Codec.Encode do
-  import OkError
-
-  def ok bytes do
-    OkError.ok bytes
-  end
-
-  def error code, value do
-    error code: code, value: value
-  end
-
-  defmacro __using__ _ do
-    quote do
-      use Codec
-      import Codec.Encode
     end
   end
 end
