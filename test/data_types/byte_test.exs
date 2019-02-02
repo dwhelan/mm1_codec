@@ -1,22 +1,16 @@
-defmodule MMS.Byte.DecodeTest do
-  use DecodeTest
+defmodule MMS.ByteTest do
+  use Codec2Test
 
-  import MMS.Byte.Decode
+  import MMS.Byte
 
   test "decode with no bytes" do
-    assert decode(<<>>) == error :insufficient_bytes, <<>>
+    assert decode(<<>>) == error :insufficient_bytes, bytes: <<>>
   end
 
   test "decode with bytes" do
     assert decode(<<0,   "rest">>) == ok 0,   <<"rest">>
     assert decode(<<255, "rest">>) == ok 255, <<"rest">>
   end
-end
-
-defmodule MMS.Byte.EncodeTest do
-  use EncodeTest
-
-  import MMS.Byte.Encode
 
   test "encode with a byte" do
     assert encode(0)   == ok <<0>>
@@ -24,6 +18,6 @@ defmodule MMS.Byte.EncodeTest do
   end
 
   test "encode with a non-byte" do
-    assert encode(256) == error :invalid_byte, 256
+    assert encode(256) == error :invalid_byte, value: 256
   end
 end

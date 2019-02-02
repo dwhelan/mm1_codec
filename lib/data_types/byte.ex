@@ -1,21 +1,15 @@
 defmodule MMS.Byte do
-  defmodule Decode do
-    use Codec.Decode
+  use Codec2
 
-    def decode <<byte, rest::binary>> do
-      ok byte, rest
-    end
+  def decode <<byte, rest::binary>> do
+    ok byte, rest
   end
 
-  defmodule Encode do
-    use Codec.Encode
+  def encode(byte) when is_byte(byte) do
+    ok <<byte>>
+  end
 
-    def encode(byte) when is_byte(byte) do
-      ok <<byte>>
-    end
-
-    def encode value do
-      error :invalid_byte, value
-    end
+  def encode value do
+    error :invalid_byte, value: value
   end
 end

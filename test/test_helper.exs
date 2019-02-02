@@ -43,6 +43,26 @@ defmodule CodecTest do
   end
 end
 
+defmodule Codec2Test do
+  def uint32 value do
+    value |> MMS.Uint32.encode |> elem(1)
+  end
+
+  def invalid_uint32 do
+    <<128>>
+  end
+
+  defmacro __using__ _ do
+    quote do
+      use ExUnit.Case
+
+      import DataTypes
+      import Codec2
+      import Codec2Test
+    end
+  end
+end
+
 defmodule DecodeTest do
   defmacro __using__ _ do
     quote do
