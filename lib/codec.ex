@@ -33,8 +33,8 @@ defmodule Codec do
   defmacro __using__ _ do
     quote do
       import DataTypes
-      import OkError, only: [bind: 2, return: 1]
       import Monad.Operators
+      import OkError, only: [bind: 2, return: 1]
       import OkError.Operators
       import Codec
     end

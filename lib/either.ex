@@ -1,25 +1,3 @@
-defmodule Either do
-  defmodule Decode do
-    import Codec.Decode
-
-    def decode <<byte, rest::binary>> do
-      ok byte, rest
-    end
-  end
-
-  defmodule Encode do
-    import Codec.Encode
-
-    def encode(byte) do
-      ok <<byte>>
-    end
-
-    def encode value do
-      error :invalid_byte, value
-    end
-  end
-end
-
 defmodule MMS.Either do
   use MMS.Codec
 
