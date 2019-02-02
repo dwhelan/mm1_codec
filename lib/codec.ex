@@ -27,7 +27,7 @@ defmodule DataTypes do
   end
 end
 
-defmodule Codec do
+defmodule Codec2 do
   def ok value, rest do
     OkError.ok {value, rest}
   end
@@ -38,7 +38,7 @@ defmodule Codec do
       import Monad.Operators
       import OkError
       import OkError.Operators
-      import Codec
+      import Codec2
 
       def decode <<>> do
         error code: :insufficient_bytes, bytes: <<>>

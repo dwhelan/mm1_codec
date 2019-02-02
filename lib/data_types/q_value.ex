@@ -1,5 +1,5 @@
 defmodule MMS.QValue do
-  use Codec
+  use Codec2
 
   def decode bytes do
     bytes

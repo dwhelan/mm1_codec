@@ -24,7 +24,7 @@ defmodule MMS.Test do
 end
 
 defmodule Codec2Test do
-  def uint32 value do
+  def u value do
     value |> MMS.Uint32.encode |> elem(1)
   end
 
@@ -37,7 +37,7 @@ defmodule Codec2Test do
       use ExUnit.Case
 
       import OkError
-      import Codec
+      import Codec2
       import Codec2Test
     end
   end
