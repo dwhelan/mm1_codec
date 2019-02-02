@@ -9,20 +9,20 @@ defmodule QValue do
       bytes |> Uint32.decode ~> fn result -> to_q_string(result, bytes) end
     end
 
-    defp to_q_string({value, rest}, _bytes) when value > 0 and value <= 100 do
-      ok (value - 1) |> format(2), rest
+    defp to_q_string({q_value, rest}, _bytes) when q_value > 0 and q_value <= 100 do
+      ok (q_value - 1) |> format(2), rest
     end
 
-    defp to_q_string({value, rest}, _bytes) when value > 100 and value < 1100 do
-      ok (value - 100) |> format(3), rest
+    defp to_q_string({q_value, rest}, _bytes) when q_value > 100 and q_value < 1100 do
+      ok (q_value - 100) |> format(3), rest
     end
 
-    defp to_q_string {value, _rest}, bytes do
-      error :invalid_q_value, bytes, value
+    defp to_q_string {q_value, _rest}, bytes do
+      error :invalid_q_value, bytes, q_value
     end
 
-    defp format value, digits do
-      value |> Integer.to_string |> String.pad_leading(digits, "0")
+    defp format q_value, digits do
+      q_value |> Integer.to_string |> String.pad_leading(digits, "0")
     end
   end
 
@@ -33,27 +33,32 @@ defmodule QValue do
     import Operators
 
     def encode(string) when is_binary(string) do
-      string |> Integer.parse |> to_q_value ~> fn q_value -> to_uint32(q_value, string) end ~> Uint32.encode |> bind_error(fn error -> error :invalid_q_value, string end)
+      string
+      |> Integer.parse
+      |> to_ok_error
+      ~> fn integer -> to_q_value integer, byte_size string end
+      ~> Uint32.encode
+      |> bind_error fn _ -> error :invalid_q_value, string end
     end
 
-    defp to_q_value {value, ""} do
-        ok value
+    defp to_ok_error {integer, ""} do
+        ok integer
     end
 
-    defp to_q_value _ do
-      error :invalid_q_value
+    defp to_ok_error _ do
+      error
     end
 
-    defp to_uint32(q_value, string) when q_value > 999 do
-      error :invalid_q_value, q_value
+    defp to_q_value q_value, 2 do
+      ok q_value + 1
     end
 
-    defp to_uint32(q_value, string) when byte_size(string) == 2 do
-      ok round q_value + 1
+    defp to_q_value q_value, 3 do
+      ok q_value + 100
     end
 
-    defp to_uint32 q_value, _ do
-      ok round q_value + 100
+    defp to_q_value _ , _ do
+      error
     end
   end
 end
