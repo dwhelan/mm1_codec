@@ -10,6 +10,6 @@ defmodule MMS.Byte do
   end
 
   def encode value do
-    error code: :invalid_byte, value: value
+    error :invalid_byte, value, :out_of_range
   end
 end

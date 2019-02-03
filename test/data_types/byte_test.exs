@@ -5,7 +5,7 @@ defmodule MMS.ByteTest do
 
   describe "decode" do
     test "with no bytes" do
-      assert decode(<<>>) == error {:invalid_byte, <<>>, :no_bytes}
+      assert decode(<<>>) == error :invalid_byte, <<>>, :no_bytes
     end
 
     test "with bytes" do
@@ -21,7 +21,7 @@ defmodule MMS.ByteTest do
     end
 
     test "with a non-byte" do
-      assert encode(256) == error code: :invalid_byte, value: 256
+      assert encode(256) == error :invalid_byte, 256, :out_of_range
     end
   end
 end

@@ -57,11 +57,11 @@ defmodule MMS.ComposerTest do
     end
 
     test "first value invalid" do
-      assert encode([256], [Byte]) == error code: :invalid_byte, value: 256
+      assert encode([256], [Byte]) == error {:invalid_byte, 256, :out_of_range}
     end
 
     test "subsequent value invalid" do
-      assert encode([0, 256], [Byte, Byte]) == error code: :invalid_byte, value: 256
+      assert encode([0, 256], [Byte, Byte]) == error {:invalid_byte, 256, :out_of_range}
     end
 
     test "[] -> <<>>" do
