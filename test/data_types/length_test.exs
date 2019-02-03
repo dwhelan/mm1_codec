@@ -7,8 +7,8 @@ defmodule MMS.LengthTest do
       codec: MMS.Length,
 
       examples: [
-        { <<1>>,  1  },
-        { <<30>>, 30 },
+#        { <<1>>,  1  },
+#        { <<30>>, 30 },
 
         { <<length_quote, 31>>,                   31           },
         { <<length_quote>> <> max_uint32_bytes(), max_uint32() },
