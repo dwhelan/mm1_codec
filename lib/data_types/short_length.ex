@@ -1,5 +1,5 @@
 defmodule MMS.ShortLength do
-  use Codec2
+  use Codec2, error: :invalid_short_length
 
   def decode(<<length, rest::binary>>) when is_short_length(length) and length <= byte_size(rest) do
     ok length, rest

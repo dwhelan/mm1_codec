@@ -5,7 +5,7 @@ defmodule MMS.ShortLengthTest do
 
   describe "decode" do
     test "decode with no bytes" do
-      assert decode(<<>>) == error code: :insufficient_bytes, bytes: <<>>
+      assert decode(<<>>) == error :invalid_short_length, <<>>, :no_bytes
     end
 
     @thirty_chars String.duplicate("a", 30)

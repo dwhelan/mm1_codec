@@ -1,5 +1,5 @@
 defmodule MMS.QValue do
-  use Codec2
+  use Codec2, error: :invalid_q_value
 
   def decode bytes do
     bytes

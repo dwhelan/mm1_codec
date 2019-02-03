@@ -32,7 +32,11 @@ defmodule Codec2 do
     OkError.ok {value, rest}
   end
 
-  defmacro __using__ _ do
+  def error reason, input, details do
+    OkError.error {reason, input, details}
+  end
+
+  defmacro __using__ (opts \\ []) do
     quote do
       import DataTypes
       import Monad.Operators
@@ -41,7 +45,7 @@ defmodule Codec2 do
       import Codec2
 
       def decode <<>> do
-        error code: :insufficient_bytes, bytes: <<>>
+        error {unquote(opts[:error]), <<>>, :no_bytes}
       end
     end
   end
