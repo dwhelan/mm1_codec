@@ -4,7 +4,7 @@ defmodule MMS.QValue do
   def decode bytes do
     bytes
     |> MMS.Uint32.decode
-    ~>> fn error -> error code: :invalid_q_value, bytes: bytes, nested: error end
+    ~>> fn error -> error :invalid_q_value, bytes, error end
     ~> fn result -> to_q_string(result, bytes) end
   end
 
@@ -17,7 +17,7 @@ defmodule MMS.QValue do
   end
 
   defp to_q_string {q_value, _rest}, bytes do
-    error code: :invalid_q_value, bytes: bytes, value: q_value
+    error :invalid_q_value, bytes, out_of_range: q_value
   end
 
   defp format q_value, digits do
