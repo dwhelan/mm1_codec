@@ -1,5 +1,5 @@
 defmodule MMS.MediaTest do
-  use MMS.Test
+  use MMS.Test2
 
   use MMS.TestExamples,
       codec: MMS.Media,
@@ -23,7 +23,7 @@ defmodule MMS.MediaTest do
 end
 
 defmodule MMS.KnownMediaTest do
-  use MMS.Test
+  use MMS.Test2
 
   use MMS.TestExamples,
       codec: MMS.KnownMedia,

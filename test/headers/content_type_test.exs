@@ -1,5 +1,5 @@
 defmodule MMS.ContentTypeTest do
-  use MMS.Test
+  use MMS.Test2
 
   use MMS.TestExamples,
       codec: MMS.ContentType,

@@ -1,5 +1,5 @@
 defmodule MMS.HeadersTest do
-  use MMS.Test
+  use MMS.Test2
 
   alias MMS.Headers
 

@@ -1,5 +1,5 @@
 defmodule MMS.VersionTest do
-  use MMS.Test
+  use MMS.Test2
 
   use MMS.TestExamples,
       codec: MMS.Version,
@@ -22,7 +22,7 @@ defmodule MMS.VersionTest do
 end
 
 defmodule MMS.VersionIntegerTest do
-  use MMS.Test
+  use MMS.Test2
 
   use MMS.TestExamples,
       codec: MMS.VersionInteger,

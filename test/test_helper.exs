@@ -4,7 +4,7 @@ ExUnit.start exclude: [:skip], include: [
   ]
 
 
-defmodule MMS.Test do
+defmodule MMS.Test2 do
   def s(short),  do: short + 128
   def l(length), do: length
 
@@ -16,7 +16,7 @@ defmodule MMS.Test do
     quote bind_quoted: [opts: opts] do
       use ExUnit.Case
 
-      import MMS.Test
+      import MMS.Test2
       import OldOkError
       import MMS.DataTypes
     end
@@ -40,7 +40,7 @@ defmodule MMS.Test2 do
     quote do
       use ExUnit.Case
 
-      import DataTypes
+      import MMS.DataTypes
       import OkError
       import Codec2
       import MMS.Test2

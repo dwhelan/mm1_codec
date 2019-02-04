@@ -1,5 +1,5 @@
 defmodule MMS.TextStringTest do
-  use MMS.Test
+  use MMS.Test2
 
   @quote 127
 

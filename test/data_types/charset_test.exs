@@ -1,5 +1,5 @@
 defmodule MMS.CharsetTest do
-  use MMS.Test
+  use MMS.Test2
 
   use MMS.TestExamples,
       codec: MMS.Charset,

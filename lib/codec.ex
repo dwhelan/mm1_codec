@@ -1,32 +1,3 @@
-defmodule DataTypes do
-  defp is_integer? value, min, max do
-    quote do
-      is_integer(unquote value) and unquote(value) >= unquote(min) and unquote(value) <= unquote(max)
-    end
-  end
-
-  defmacro is_byte value do
-    is_integer? value, 0, 255
-  end
-
-  defmacro is_short_length(value) do
-    is_integer? value, 0, 30
-  end
-
-  def max_long do
-    # 30 0xffs
-    0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-  end
-
-  def max_long_bytes do
-    <<30, max_long()::240>>
-  end
-
-  defmacro is_long value do
-    is_integer? value, 0, max_long()
-  end
-end
-
 defmodule Codec2 do
   def ok value, rest do
     OkError.ok {value, rest}
@@ -42,7 +13,7 @@ defmodule Codec2 do
 
   defmacro __using__ (opts \\ []) do
     quote do
-      import DataTypes
+      import MMS.DataTypes
       import Monad.Operators
       import OkError
       import OkError.Operators

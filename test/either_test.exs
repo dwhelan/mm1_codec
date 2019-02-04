@@ -1,5 +1,5 @@
 defmodule MMS.EitherTest do
-  use MMS.Test
+  use MMS.Test2
 
   use MMS.Either, [MMS.Short, MMS.Text]
 

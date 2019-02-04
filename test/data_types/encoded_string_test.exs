@@ -1,5 +1,5 @@
 defmodule MMS.EncodedStringTest do
-  use MMS.Test
+  use MMS.Test2
 
   alias MMS.EncodedString
 

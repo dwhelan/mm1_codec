@@ -1,5 +1,5 @@
 defmodule MMS.LengthTest do
-  use MMS.Test
+  use MMS.Test2
 
   length_quote = 31
 

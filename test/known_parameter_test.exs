@@ -1,5 +1,5 @@
 defmodule MMS.KnownParameterTest do
-  use MMS.Test
+  use MMS.Test2
 
   alias MMS.KnownParameter
 

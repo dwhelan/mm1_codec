@@ -1,5 +1,5 @@
 defmodule MMS.ShortTest do
-  use MMS.Test
+  use MMS.Test2
 
   use MMS.TestExamples,
       codec: MMS.Short,

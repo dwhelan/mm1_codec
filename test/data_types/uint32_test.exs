@@ -1,5 +1,5 @@
 defmodule MMS.Uint32Test do
-  use MMS.Test
+  use MMS.Test2
 
   use MMS.TestExamples,
       codec: MMS.Uint32,

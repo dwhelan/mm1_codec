@@ -1,5 +1,5 @@
 defmodule MMS.RetrieveStatusTest do
-  import MMS.Test
+  import MMS.Test2
 
   use MMS.TestExamples,
       codec: MMS.RetrieveStatus,
