@@ -17,7 +17,6 @@ defmodule MMS.VersionTest do
       ],
 
       encode_errors: [
-        {:not_a_version, :invalid_version},
       ]
 end
 

@@ -14,7 +14,6 @@ defmodule MMS.EitherTest do
     ],
 
     encode_errors: [
-      :neither,
     ]
 
   test "raise if no types provided" do

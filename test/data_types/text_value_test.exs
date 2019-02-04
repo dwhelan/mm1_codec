@@ -15,6 +15,5 @@ defmodule MMS.TextValueTest do
       ],
 
       encode_errors: [
-        {:not_a_text_value, :invalid_text_value},
       ]
 end
