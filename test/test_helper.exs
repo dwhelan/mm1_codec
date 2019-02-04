@@ -4,26 +4,7 @@ ExUnit.start exclude: [:skip], include: [
   ]
 
 
-defmodule MMS.Test2 do
-  def s(short),  do: short + 128
-  def l(length), do: length
-
-  def assert_code_raise code do
-    ExUnit.Assertions.assert_raise ArgumentError, fn -> Code.eval_string(code) end
-  end
-
-  defmacro __using__ opts \\ [] do
-    quote bind_quoted: [opts: opts] do
-      use ExUnit.Case
-
-      import MMS.Test2
-      import OldOkError
-      import MMS.DataTypes
-    end
-  end
-end
-
-defmodule MMS.Test2 do
+defmodule MMS.CodecTest do
   def s(short),  do: short + 128
   def l(length), do: length
   def u(value),  do: value |> MMS.Uint32.encode |> elem(1)
@@ -43,7 +24,7 @@ defmodule MMS.Test2 do
       import MMS.DataTypes
       import OkError
       import Codec2
-      import MMS.Test2
+      import MMS.CodecTest
     end
   end
 end

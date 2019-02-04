@@ -1,5 +1,5 @@
 defmodule MMS.ShortLengthTest do
-  use MMS.Test2
+  use MMS.CodecTest
 
   import MMS.ShortLength
 

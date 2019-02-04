@@ -1,5 +1,5 @@
 defmodule MMS.ByteTest do
-  use MMS.Test2
+  use MMS.CodecTest
 
   import MMS.Byte
 

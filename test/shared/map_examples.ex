@@ -5,7 +5,7 @@ defmodule MMS.MapExamples do
 
   defmacro __using__(opts) do
     quote bind_quoted: [opts: opts] do
-      use MMS.Test2
+      use MMS.CodecTest
       import MMS.MapExamples
       require CodecError
 

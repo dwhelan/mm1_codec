@@ -1,5 +1,5 @@
 defmodule MMS.KnownParameterTest do
-  use MMS.Test2
+  use MMS.CodecTest
 
   alias MMS.KnownParameter
 

@@ -1,5 +1,5 @@
 defmodule MMS.LookupWithMapTest do
-  use MMS.Test2
+  use MMS.CodecTest
 
   use MMS.Lookup, map: %{0 => false, 1 => true}
 
@@ -20,7 +20,7 @@ defmodule MMS.LookupWithMapTest do
 end
 
 defmodule MMS.LookupWithValuesTest do
-  use MMS.Test2
+  use MMS.CodecTest
 
   use MMS.Lookup, values: [false, true]
 

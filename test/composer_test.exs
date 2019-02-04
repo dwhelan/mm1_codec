@@ -1,5 +1,5 @@
 defmodule MMS.ComposerTest do
-  use MMS.Test2
+  use MMS.CodecTest
 
   alias MMS.{Composer, Byte, Short}
 

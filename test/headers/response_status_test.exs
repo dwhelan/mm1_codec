@@ -1,5 +1,5 @@
 defmodule MMS.ResponseStatusTest do
-  import MMS.Test2
+  import MMS.CodecTest
 
   use MMS.TestExamples,
       codec: MMS.ResponseStatus,

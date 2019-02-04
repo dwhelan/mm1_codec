@@ -1,5 +1,5 @@
 defmodule MMS.TimeTest do
-  use MMS.Test2
+  use MMS.CodecTest
 
   length_quote = 31
 

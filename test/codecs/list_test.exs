@@ -1,5 +1,5 @@
 defmodule MMS.ListTest do
-  use MMS.Test2
+  use MMS.CodecTest
 
   alias MMS.{Byte, Short}
   import MMS.List
@@ -39,7 +39,7 @@ defmodule MMS.ListTest do
 end
 
 defmodule MMS.ListUseTest do
-  use MMS.Test2
+  use MMS.CodecTest
 
   use MMS.List, [MMS.Short, MMS.Text]
 

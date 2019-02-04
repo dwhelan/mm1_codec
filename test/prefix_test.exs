@@ -1,5 +1,5 @@
 defmodule MMS.PrefixTest do
-  use MMS.Test2
+  use MMS.CodecTest
 
   use MMS.Prefix, prefix: 42, codec: MMS.Short
 
