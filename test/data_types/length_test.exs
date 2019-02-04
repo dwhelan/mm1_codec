@@ -23,7 +23,6 @@ defmodule MMS.LengthTest do
       encode_errors: [
         { -1,               :invalid_length },
         { max_uint32() + 1, :invalid_length },
-        { :not_a_length,    :invalid_length },
       ]
 end
 

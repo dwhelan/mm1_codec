@@ -17,7 +17,7 @@ defmodule MMS.ShortLength do
     ok <<value>>
   end
 
-  def encode value do
+  def encode(value) when is_integer(value) do
     error :invalid_short_length, value
   end
 
