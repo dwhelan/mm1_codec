@@ -10,7 +10,7 @@ defmodule MMS.QValue.Test do
     test "u 1099 -> 999", do: assert decode(u 1099) == ok "999", <<>>
 
     test "<<>>",    do: assert decode(<<>>)    == error :invalid_q_value, <<>>,    :no_bytes
-    test "<<128>>", do: assert decode(<<128>>) == error :invalid_q_value, <<128>>, :invalid_uint32
+    test "<<128>>", do: assert decode(<<128>>) == error :invalid_q_value, <<128>>, {:invalid_uint32, <<128>>, :first_byte_cannot_be_128}
     test "u 0",     do: assert decode(u 0)     == error :invalid_q_value, u(0),    out_of_range: 0
     test "u 1100",  do: assert decode(u 1100)  == error :invalid_q_value, u(1100), out_of_range: 1100
   end
