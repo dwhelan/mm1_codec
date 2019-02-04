@@ -1,4 +1,8 @@
 defmodule MMS.Codec2 do
+  def ok {:ok, value}, rest do
+    OkError.ok {value, rest}
+  end
+
   def ok value, rest do
     OkError.ok {value, rest}
   end

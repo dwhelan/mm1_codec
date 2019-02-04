@@ -1,10 +1,13 @@
 defmodule MMS.DateTime do
-  use MMS.Codec
+  use MMS.Codec2
 
   alias MMS.Long
 
   def decode bytes do
-    bytes |> Long.decode <~> DateTime.from_unix
+    bytes
+    |> Long.decode
+    ~> fn {long, rest} -> ok DateTime.from_unix(long), rest end
+    ~>> fn reason -> error :invalid_date_time, bytes, reason end
   end
 
   def encode date_time = %DateTime{} do
