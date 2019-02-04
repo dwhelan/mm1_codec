@@ -12,11 +12,17 @@ defmodule MMS.Long do
   """
   use Codec2
 
+  alias MMS.ShortLength
+
   def decode bytes do
-    bytes |> MMS.ShortLength.decode ~> check_length ~> to_unsigned ~>> fn details -> error :invalid_long, bytes, details end
+    bytes
+    |> ShortLength.decode
+    ~> check_length
+    ~> to_unsigned
+    ~>> fn details -> error :invalid_long, bytes, details end
   end
 
-  defp check_length {0, bytes} do
+  defp check_length {0, _bytes} do
     error :must_have_at_least_one_data_byte
   end
 
@@ -33,22 +39,10 @@ defmodule MMS.Long do
   end
 
   def encode(value) when is_long(value) do
-    value |> :binary.encode_unsigned |> MMS.ShortLength.Encode.prepend
+    value |> :binary.encode_unsigned |> ShortLength.prepend_length
   end
 
   def encode value do
-    error :invalid_long, value, nil
+    error :invalid_long, value
   end
-
-#  def decode(<<length, bytes::binary>>) when is_short_length(length) and length <= byte_size(bytes) do
-#    {value_bytes, rest} = String.split_at bytes, length
-#    ok :binary.decode_unsigned(value_bytes), rest
-#  end
-#
-#  def encode(value) when is_long(value) do
-#    bytes = :binary.encode_unsigned value
-#    ok <<byte_size(bytes)>> <> bytes
-#  end
-#
-#  defaults()
 end

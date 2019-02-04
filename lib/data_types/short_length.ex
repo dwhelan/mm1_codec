@@ -21,9 +21,7 @@ defmodule MMS.ShortLength do
     error :invalid_short_length, value
   end
 
-  defmodule Encode do
-    def prepend bytes do
-      ok <<byte_size bytes>> <> bytes
-    end
+  def prepend_length bytes do
+    ok <<byte_size bytes>> <> bytes
   end
 end
