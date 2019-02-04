@@ -40,6 +40,7 @@ defmodule MMS.Test2 do
     quote do
       use ExUnit.Case
 
+      import DataTypes
       import OkError
       import Codec2
       import MMS.Test2

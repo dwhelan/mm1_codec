@@ -6,11 +6,11 @@ defmodule MMS.ShortLength do
   end
 
   def decode(bytes = <<length, _::binary>>) when is_short_length(length) do
-    error code: :insufficient_bytes_for_short_length, bytes: bytes, value: length
+    error :invalid_short_length, bytes, {:insufficient_bytes, length}
   end
 
   def decode bytes = <<length, _::binary>> do
-    error code: :invalid_short_length, bytes: bytes, value: length
+    error :invalid_short_length, bytes, length
   end
 
   def encode(value) when is_short_length(value) do
@@ -18,6 +18,12 @@ defmodule MMS.ShortLength do
   end
 
   def encode value do
-    error code: :invalid_short_length, value: value
+    error :invalid_short_length, value
+  end
+
+  defmodule Encode do
+    def prepend bytes do
+      ok <<byte_size bytes>> <> bytes
+    end
   end
 end

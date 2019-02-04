@@ -1,9 +1,11 @@
 defmodule MMS.QValue do
   use Codec2, error: :invalid_q_value
 
+  alias MMS.Uint32
+
   def decode bytes do
     bytes
-    |> MMS.Uint32.decode
+    |> Uint32.decode
     ~>> fn error -> error :invalid_q_value, bytes, error end
     ~> fn result -> to_q_string(result, bytes) end
   end
@@ -27,16 +29,16 @@ defmodule MMS.QValue do
   def encode(string) when is_binary(string) do
     string
     |> Integer.parse
-    |> to_ok_error
+    |> pure
     ~> fn integer -> to_q_value integer, byte_size string end
-    ~> MMS.Uint32.encode
-    ~>> fn _ -> error code: :invalid_q_value, value: string end
+    ~> Uint32.encode
+    ~>> fn _ -> error :invalid_q_value, string, :must_be_string_of_2_or_3_digits end
   end
 
-  defp to_ok_error({integer, ""}), do: ok integer
-  defp to_ok_error(_),             do: OkError.error :invalid_q_value
+  defp pure({integer, ""}), do: ok integer
+  defp pure(_),             do: error nil
 
-  defp to_q_value(integer, 2),     do: ok integer + 1
-  defp to_q_value(integer, 3),     do: ok integer + 100
-  defp to_q_value(_int , _digits), do: OkError.error nil
+  defp to_q_value(integer, 2), do: ok integer + 1
+  defp to_q_value(integer, 3), do: ok integer + 100
+  defp to_q_value(_ , _),      do: error nil
 end

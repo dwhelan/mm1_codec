@@ -16,7 +16,7 @@ defmodule MMS.TestExamples do
   end
 
   defmacro __using__(opts) do
-    quote bind_quoted: [opts: opts] do
+    quote location: :keep, bind_quoted: [opts: opts] do
       use MMS.Test
       import MMS.TestExamples
 

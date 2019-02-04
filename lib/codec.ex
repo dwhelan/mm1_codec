@@ -32,6 +32,10 @@ defmodule Codec2 do
     OkError.ok {value, rest}
   end
 
+  def error reason, input do
+    OkError.error {reason, input, nil}
+  end
+
   def error reason, input, details do
     OkError.error {reason, input, details}
   end

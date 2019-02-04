@@ -4,10 +4,10 @@ defmodule MMS.QValue.Test do
   import MMS.QValue
 
   describe "decode" do
-    test "00",  do: assert decode(u 1)    == ok "00",  <<>>
-    test "99",  do: assert decode(u 100)  == ok "99",  <<>>
-    test "001", do: assert decode(u 101)  == ok "001", <<>>
-    test "999", do: assert decode(u 1099) == ok "999", <<>>
+    test "u 1    -> 00",  do: assert decode(u 1)    == ok "00",  <<>>
+    test "u 100  -> 99",  do: assert decode(u 100)  == ok "99",  <<>>
+    test "u 101  -> 001", do: assert decode(u 101)  == ok "001", <<>>
+    test "u 1099 -> 999", do: assert decode(u 1099) == ok "999", <<>>
 
     test "<<>>",    do: assert decode(<<>>)    == error :invalid_q_value, <<>>,    :no_bytes
     test "<<128>>", do: assert decode(<<128>>) == error :invalid_q_value, <<128>>, :invalid_uint32
@@ -21,8 +21,9 @@ defmodule MMS.QValue.Test do
     test "001", do: assert encode("001") == ok u(101)
     test "999", do: assert encode("999") == ok u(1099)
 
-    test "0",    do: assert encode("0")    == error code: :invalid_q_value, value: "0"
-    test "1000", do: assert encode("1000") == error code: :invalid_q_value, value: "1000"
-    test "abcd", do: assert encode("abcd") == error code: :invalid_q_value, value: "abcd"
+    test "0",    do: assert encode("0")    == error :invalid_q_value, "0",    :must_be_string_of_2_or_3_digits
+    test "1000", do: assert encode("1000") == error :invalid_q_value, "1000", :must_be_string_of_2_or_3_digits
+    test "ab",   do: assert encode("ab")   == error :invalid_q_value, "ab",   :must_be_string_of_2_or_3_digits
+    test "abc",  do: assert encode("abc")  == error :invalid_q_value, "abc",  :must_be_string_of_2_or_3_digits
   end
 end
