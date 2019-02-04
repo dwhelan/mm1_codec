@@ -7,14 +7,13 @@ defmodule MMS.DateTime do
     bytes
     |> Long.decode
     ~> fn {long, rest} -> ok DateTime.from_unix(long), rest end
-    ~>> fn reason -> error :invalid_date_time, bytes, reason end
+    ~>> fn details -> error :invalid_date_time, bytes, details end
   end
 
   def encode date_time = %DateTime{} do
-    date_time |> DateTime.to_unix |> Long.encode
-  end
-
-  def encode(_)  do
-    {:error, __MODULE__}
+    date_time
+    |> DateTime.to_unix
+    |> Long.encode
+    ~>> fn details -> error :invalid_date_time, date_time, details end
   end
 end

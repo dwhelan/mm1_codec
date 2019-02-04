@@ -48,15 +48,15 @@ defmodule MMS.TestExamples do
 
       Enum.each(opts[:encode_errors] || [], fn test_case ->
           case test_case do
-          {value, reason} -> @value value; @reason reason
-            test "encode #{text value} => {:error, #{text reason}}" do
-              assert @codec.encode(@value) == {:error, @reason}
-            end
+            {value, reason} -> @value value; @reason reason
+              test "encode #{text value} => {:error, #{text reason}}" do
+                assert @codec.encode(@value) == {:error, @reason}
+              end
 
-          value -> @value value
-            test "encode #{text value} => {:error, _}" do
-              assert {:error, _} = @codec.encode(@value)
-            end
+            value -> @value value
+              test "encode #{text value} => {:error, _}" do
+                assert {:error, _} = @codec.encode(@value)
+              end
           end
       end)
     end

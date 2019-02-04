@@ -43,6 +43,6 @@ defmodule MMS.Long do
   end
 
   def encode value do
-    error :invalid_long, value
+    error :invalid_long, value, :out_of_range
   end
 end

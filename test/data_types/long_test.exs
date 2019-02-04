@@ -19,7 +19,7 @@ defmodule MMS.LongTest do
       ],
 
       encode_errors: [
-        { -1,              :invalid_long, 1, nil },
-        { max_long()+1,    :invalid_long, max_long()+1, nil },
+        { -1,           {:invalid_long, -1,           :out_of_range} },
+        { max_long()+1, {:invalid_long, max_long()+1, :out_of_range} },
       ]
 end
