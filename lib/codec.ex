@@ -1,4 +1,4 @@
-defmodule Codec2 do
+defmodule MMS.Codec2 do
   def ok value, rest do
     OkError.ok {value, rest}
   end
@@ -17,7 +17,7 @@ defmodule Codec2 do
       import Monad.Operators
       import OkError
       import OkError.Operators
-      import Codec2
+      import MMS.Codec2
 
       def decode <<>> do
         error {unquote(opts[:error]), <<>>, :no_bytes}

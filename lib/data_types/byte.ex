@@ -1,5 +1,5 @@
 defmodule MMS.Byte do
-  use Codec2, error: :invalid_byte
+  use MMS.Codec2, error: :invalid_byte
 
   def decode <<byte, rest::binary>> do
     ok byte, rest

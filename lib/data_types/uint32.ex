@@ -1,5 +1,5 @@
 defmodule MMS.Uint32 do
-  use Codec2
+  use MMS.Codec2
 
   use Bitwise
 

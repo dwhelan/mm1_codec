@@ -10,7 +10,7 @@ defmodule MMS.Long do
     encoded first (big-endian representation).
     The minimum number of octets must be used to encode the value.
   """
-  use Codec2
+  use MMS.Codec2
 
   alias MMS.ShortLength
 
