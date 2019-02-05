@@ -3,8 +3,8 @@ defmodule MMS.EncodedStringTest do
 
   alias MMS.EncodedString
 
-  string30     = String.duplicate "x", 30
-  length_quote = 31
+#  string30     = String.duplicate "x", 30
+#  length_quote = 31
 
   use MMS.TestExamples,
       codec: EncodedString,

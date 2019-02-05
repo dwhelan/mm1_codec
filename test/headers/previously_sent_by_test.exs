@@ -10,9 +10,9 @@ defmodule MMS.PreviouslySentByTest do
       ],
 
       decode_errors: [
-        { << 32 >>,                    :invalid_value_length  }, # length error
-        { << 2, 32 >>,                 :invalid_value_length }, # count error
-        { << l(5), l(2), 1, 0, "@" >>, :invalid_value_length  }, # address error -> missing terminator
+        { << 32 >>,                    {:invalid_value_length, " ", :does_not_start_with_a_short_length_or_length_quote}  }, # length error
+        { << 2, 32 >>,                 {:invalid_short_length, <<2, 32>>, {:insufficient_bytes, 2}} }, # count error
+        { << l(4), l(2), 1, 0, "@" >>, :invalid_address  }, # address error -> missing terminator
       ],
 
       encode_errors: [

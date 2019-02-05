@@ -1,6 +1,4 @@
 defmodule MMS.ValueLength do
-#  use MMS.Either, [MMS.ShortLength, MMS.Length]
-
   use MMS.Codec2, error: :invalid_value_length
 
   alias MMS.{ShortLength, Length}

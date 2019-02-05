@@ -23,11 +23,11 @@ defmodule MMS.ComposerTest do
     end
 
     test "length > 31" do
-      assert decode(<<l(32)>>, [Byte]) == error :invalid_value_length
+      assert decode(<<l(32)>>, [Byte]) == error {:invalid_value_length, " ", :does_not_start_with_a_short_length_or_length_quote}
     end
 
     test "incorrect length" do
-      assert decode(<<l(2), 3>>, [Byte]) == error :invalid_value_length
+      assert decode(<<l(2), 3>>, [Byte]) == error {:invalid_short_length, <<2, 3>>, {:insufficient_bytes, 2}}
     end
 
     test "error with first value" do
