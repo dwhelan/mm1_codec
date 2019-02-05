@@ -1,10 +1,10 @@
 defmodule MMS.Composer do
   use MMS.Codec
 
-  alias MMS.Length
+  alias MMS.ValueLength
 
   def decode bytes, codecs do
-    bytes |> Length.decode ~> do_decode(codecs)
+    bytes |> ValueLength.decode ~> do_decode(codecs)
   end
 
   defp do_decode {length, rest}, codecs do
@@ -56,7 +56,7 @@ defmodule MMS.Composer do
   defp do_encode [], value_bytes do
     bytes = value_bytes |> Enum.reverse |> Enum.join
 
-    case bytes |> byte_size |> Length.encode do
+    case bytes |> byte_size |> ValueLength.encode do
       {:ok, length_bytes} -> ok length_bytes <> bytes
       error -> error
     end

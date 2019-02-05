@@ -1,4 +1,4 @@
-defmodule MMS.Length do
+defmodule MMS.ValueLength do
   use MMS.Either, [MMS.ShortLength, MMS.Uint32Length]
 end
 
