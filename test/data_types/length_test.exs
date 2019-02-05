@@ -4,25 +4,21 @@ defmodule MMS.LengthTest do
   length_quote = 31
 
   use MMS.TestExamples,
-      codec: MMS.ValueLength,
+      codec: MMS.Length,
 
       examples: [
-#        { <<1>>,  1  },
-#        { <<30>>, 30 },
-
-        { <<length_quote, 31>>,                   31           },
+        { <<length_quote, 0>>,                    0            },
         { <<length_quote>> <> max_uint32_bytes(), max_uint32() },
       ],
 
       decode_errors: [
-        { <<32>>,                                         :invalid_value_length },
-        { <<length_quote>>,                               :invalid_value_length },
-        { <<length_quote, 128, 255, 255, 255, 255, 127>>, :invalid_value_length },
+        { <<>>,             {:invalid_length, <<>>, :no_bytes} },
+        { <<32>>,           {:invalid_length, " ", :missing_length_quote} },
+        { <<length_quote>>, {:invalid_length, <<31>>, {:invalid_uint32, "", :no_bytes}} },
       ],
 
       encode_errors: [
-        { -1,               :invalid_value_length },
-        { max_uint32() + 1, :invalid_value_length },
+        { -1, {:invalid_length, -1, {:invalid_uint32, -1, :out_of_range}} },
       ]
 end
 

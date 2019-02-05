@@ -19,6 +19,7 @@ defmodule MMS.Uint32Test do
       ],
 
       decode_errors: [
+        { <<>>,                      {:invalid_uint32, <<>>, :no_bytes} },
         { <<128>>,                   {:invalid_uint32, <<128>>, :first_byte_cannot_be_128} },
         { <<144, 128, 128, 128, 0>>, {:invalid_uint32, <<144, 128, 128, 128, 0>>, :out_of_range} },
       ],

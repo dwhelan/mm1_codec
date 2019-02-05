@@ -1,5 +1,5 @@
 defmodule MMS.Uint32 do
-  use MMS.Codec2
+  use MMS.Codec2, error: :invalid_uint32
 
   use Bitwise
 
