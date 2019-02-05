@@ -32,4 +32,8 @@ defmodule MMS.Text do
   def encode(string) when is_binary(string) do
     error :invalid_text, string, :first_byte_must_be_a_char
   end
+
+  def encode value do
+    error :invalid_text, value, :not_a_string
+  end
 end
