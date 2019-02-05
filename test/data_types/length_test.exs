@@ -7,8 +7,8 @@ defmodule MMS.LengthTest do
       codec: MMS.Length,
 
       examples: [
-        { <<length_quote, 0>>,                    0            },
-        { <<length_quote>> <> max_uint32_bytes(), max_uint32() },
+        { << length_quote, 0>>,                    0            },
+        { << length_quote>> <> max_uint32_bytes(), max_uint32() },
       ],
 
       decode_errors: [
@@ -21,4 +21,3 @@ defmodule MMS.LengthTest do
         { -1, {:invalid_length, -1, {:invalid_uint32, -1, :out_of_range}} },
       ]
 end
-
