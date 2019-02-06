@@ -21,10 +21,6 @@ defmodule MMS.EncodedString2 do
     error :invalid_text, bytes, :first_byte_must_be_a_char
   end
 
-  def encode {text, charset} do
-
-  end
-
   def encode(text) when is_binary(text) do
     text |> MMS.Text.encode
   end

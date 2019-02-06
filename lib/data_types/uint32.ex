@@ -27,7 +27,7 @@ defmodule MMS.Uint32 do
     ok value, rest
   end
 
-  defp ensure_uint32(value, rest) do
+  defp ensure_uint32(_value, _rest) do
     error :out_of_range
   end
 
