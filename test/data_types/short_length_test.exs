@@ -32,7 +32,7 @@ defmodule MMS.ShortLengthTest do
     end
 
     test "encode a non short length" do
-      assert encode(31) == error :invalid_short_length, 31
+      assert encode(31) == error :invalid_short_length, 31, :out_of_range
     end
   end
 end

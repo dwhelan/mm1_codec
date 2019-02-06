@@ -18,7 +18,7 @@ defmodule MMS.ShortLength do
   end
 
   def encode(value) when is_integer(value) do
-    error :invalid_short_length, value
+    error :invalid_short_length, value, :out_of_range
   end
 
   def prepend_length bytes do
