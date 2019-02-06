@@ -27,14 +27,16 @@ defmodule MMS.ValueLength do
   end
 
   def encode(value) when is_short_length(value) do
-    value
-    |> ShortLength.encode
-    ~>> fn details -> error :invalid_value_length, value, details end
+    value |> encode(ShortLength)
   end
 
-  def encode value do
+  def encode(value) when is_integer(value) do
+    value |> encode(Length)
+  end
+
+  defp encode(value, codec) do
     value
-    |> Length.encode
+    |> codec.encode
     ~>> fn details -> error :invalid_value_length, value, details end
   end
 end
