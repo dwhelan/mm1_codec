@@ -6,7 +6,7 @@ defmodule MMS.QValue do
   def decode bytes do
     bytes
     |> Uint32.decode
-    ~>> fn error -> error :invalid_q_value, bytes, error end
+    ~>> fn error -> error bytes, error end
     ~> fn result -> to_q_string(result, bytes) end
   end
 
@@ -19,7 +19,7 @@ defmodule MMS.QValue do
   end
 
   defp to_q_string {q_value, _rest}, bytes do
-    error :invalid_q_value, bytes, out_of_range: q_value
+    error bytes, out_of_range: q_value
   end
 
   defp format q_value, digits do
@@ -32,7 +32,7 @@ defmodule MMS.QValue do
     |> pure
     ~> fn integer -> to_q_value integer, byte_size string end
     ~> Uint32.encode
-    ~>> fn _ -> error :invalid_q_value, string, :must_be_string_of_2_or_3_digits end
+    ~>> fn _ -> error string, :must_be_string_of_2_or_3_digits end
   end
 
   defp pure({integer, ""}), do: ok integer

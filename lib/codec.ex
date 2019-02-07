@@ -20,9 +20,14 @@ defmodule MMS.Codec2 do
       import OkError
       import OkError.Operators
       import MMS.Codec2
+      import CodecError
 
       def decode <<>> do
-        error {unquote(opts[:error]), <<>>, :no_bytes}
+        error {error_name(), <<>>, :no_bytes}
+      end
+
+      defp error input, details do
+        error error_name(), input, details
       end
     end
   end
