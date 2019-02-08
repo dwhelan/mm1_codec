@@ -12,11 +12,11 @@ defmodule MMS.CharsetTest do
 
       decode_errors: [
         { << 0 >>,              {:invalid_charset, << 0 >>, :invalid_integer} },
-        { << s(120) >>,         {:invalid_charset, <<s(120)>>, :not_found} },
-        { << l(2), 9999::16 >>, {:invalid_charset, <<l(2), 9999::16>>, :not_found} },
+        { << s(120) >>,         {:invalid_charset, <<s(120)>>, :out_of_range} },
+        { << l(2), 9999::16 >>, {:invalid_charset, <<l(2), 9999::16>>, :out_of_range} },
       ],
 
       encode_errors: [
-        { :unknown_charset, {:invalid_charset, :unknown_charset, :not_found} },
+        { :unknown_charset, {:invalid_charset, :unknown_charset, :out_of_range} },
       ]
 end

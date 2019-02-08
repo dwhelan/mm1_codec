@@ -13,14 +13,14 @@ defmodule Codec.Map do
 
   def map {value, rest}, map do
     case Map.get(map, value) do
-      nil    -> error :not_found
+      nil    -> error :out_of_range
       result -> ok {result, rest}
     end
   end
 
   def map value, map do
     case Map.get(map, value) do
-      nil    -> error :not_found
+      nil    -> error :out_of_range
       result -> ok result
     end
   end
