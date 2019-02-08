@@ -1,5 +1,5 @@
 defmodule MMS.CodecMapper do
-  def from_list(values) when is_list(values) do
+  def with_index(values) when is_list(values) do
     values |> Enum.with_index(128) |> Enum.reduce(%{}, fn {v, i}, map -> Map.put(map, i, v) end)
   end
 
@@ -8,7 +8,7 @@ defmodule MMS.CodecMapper do
       import MMS.CodecMapper
       import OldOkError
 
-      @decode_map opts[:map] || from_list(opts[:values])
+      @decode_map opts[:map] || with_index(opts[:values])
       @codec_bytes @decode_map |> Map.keys   |> Enum.reject(& elem(@decode_map[&1], 0) == :_unassigned)
       @names       @decode_map |> Map.values |> Enum.map(& elem(&1, 0))
 

@@ -3,7 +3,7 @@ defmodule Codec.Map do
 
   def get(value, map), do: Map.get map, value
 
-  def from_list list do
+  def with_index list do
     list |> Enum.with_index |> Enum.reduce(%{}, fn {v, i}, map -> map |> Map.put(i, v) end)
   end
 

@@ -16,7 +16,7 @@ defmodule MMS.Lookup do
       import Codec.Map
 
       @codec   opts[:codec] || MMS.Short
-      @map     opts[:map]   || from_list opts[:values]
+      @map     opts[:map]   || with_index opts[:values]
       @inverse invert @map
 
       def decode bytes do

@@ -10,12 +10,11 @@ defmodule MMS.BooleanTest do
       ],
 
       decode_errors: [
-        { 0,    :invalid_boolean },
-        { s(2), :invalid_boolean },
+        { <<0>>,    {:invalid_boolean, <<0>>, :not_found} },
+        { <<s(2)>>, {:invalid_boolean, <<130>>, :not_found} },
       ],
 
       encode_errors: [
-        { :not_boolean, :invalid_boolean },
       ]
 end
 

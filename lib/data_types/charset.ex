@@ -275,7 +275,7 @@ defmodule MMS.Charset do
     bytes
     |> MMS.Integer.decode
     ~> fn result -> map result, @map end
-    ~>> fn details -> error :invalid_charset, bytes, details end
+    ~>> fn details -> error bytes, details end
   end
 
   @inverse invert @map
@@ -284,6 +284,6 @@ defmodule MMS.Charset do
     charset
     |> map(@inverse)
     ~> MMS.Integer.encode
-    ~>> fn details -> error :invalid_charset, charset, details end
+    ~>> fn details -> error charset, details end
   end
 end
