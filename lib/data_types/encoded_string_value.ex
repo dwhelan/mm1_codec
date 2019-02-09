@@ -2,7 +2,9 @@ defmodule MMS.Composer2 do
   use MMS.Codec2
 
   def decode bytes, fs do
-    bytes |> do_decode(fs, []) ~>> fn results -> error :nested, bytes, Enum.reverse(results) end
+    bytes
+    |> do_decode(fs, [])
+    ~>> fn results -> error :nested, bytes, Enum.reverse(results) end
   end
 
   defp do_decode bytes, [], values do
@@ -16,30 +18,25 @@ defmodule MMS.Composer2 do
     end
   end
 
-#  def encode [], _  do
-#    ok <<>>
-#  end
-#
-#  def encode values, codecs do
-#    do_encode Enum.zip(values, codecs), []
-#  end
-#
-#  defp do_encode [{value, codec} | list], value_bytes do
-#    case value |> codec.encode do
-#      {:ok, bytes} -> do_encode list, [bytes | value_bytes]
-#      error        -> error
-#    end
-#  end
-#
-#  defp do_encode [], value_bytes do
-#    bytes = value_bytes |> Enum.reverse |> Enum.join
-#
-#    case bytes |> byte_size |> ValueLength.encode do
-#      {:ok, length_bytes} -> ok length_bytes <> bytes
-#      error -> error
-#    end
-#  end
+  def encode [], _  do
+    ok <<>>
+  end
 
+  def encode values, fs do
+    do_encode(Enum.zip(values, fs), [])
+    ~>> fn results -> error :nested, values, Enum.reverse(results) end
+  end
+
+  defp do_encode [], value_bytes do
+    ok value_bytes |> Enum.reverse |> Enum.join
+  end
+
+  defp do_encode [{value, f} | list], value_bytes do
+    case value |> f.() do
+      {:ok, bytes} -> do_encode list, [bytes | value_bytes]
+      error        -> error [error | value_bytes]
+    end
+  end
 end
 
 defmodule MMS.EncodedStringValue do
