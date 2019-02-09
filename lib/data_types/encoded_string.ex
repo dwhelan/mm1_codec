@@ -1,5 +1,5 @@
 defmodule MMS.EncodedString do
-  use MMS.Either, [MMS.Text, MMS.TextWithCharset]
+  use MMS.Either, [MMS.Text, MMS.EncodedStringValue]
 
   def map({string, charset}, fun) do
     string |> map(fun) ~> OldOkError.Tuple.insert_at({charset}, 0)
@@ -25,8 +25,3 @@ defmodule MMS.EncodedString2 do
     text |> MMS.Text.encode
   end
 end
-
-defmodule MMS.TextWithCharset do
-  use MMS.Composer, codecs: [MMS.Charset, MMS.Text]
-end
-
