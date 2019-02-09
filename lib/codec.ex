@@ -1,19 +1,15 @@
 defmodule MMS.Codec2 do
   import OkError
 
-  def ok {:ok, value}, rest do
-    ok {value, rest}
-  end
-
   def ok value, rest do
     ok {value, rest}
   end
 
-  def error reason, input, details do
-    error {reason, input, details}
+  def error code, input, details do
+    error {code, input, details}
   end
 
-  defmacro __using__ (opts \\ []) do
+  defmacro __using__ (_ \\ []) do
     quote do
       import MMS.DataTypes
       import Monad.Operators
