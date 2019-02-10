@@ -1,3 +1,28 @@
+defmodule MMS.ValueLengthComposerTest do
+  use MMS.CodecTest
+
+  import MMS.ValueLengthComposer
+
+  def decode_ok(<<value , rest::binary>>), do: ok {value, rest}
+  def decode_error(bytes),                 do: error(:test, bytes, nil)
+
+  @bytes <<l(2), 3, 4, 5>>
+
+  describe "decode should" do
+    test "return nested values" do
+      assert decode(@bytes, [&decode_ok/1, &decode_ok/1]) == ok [3, 4], <<5>>
+    end
+
+    test "return error if too few bytes used" do
+      assert decode(@bytes, [&decode_ok/1]) == error :invalid_value_length_composer, @bytes, values: [3], value_length: 2, bytes_used: 1
+    end
+
+    test "return error if too many bytes used" do
+      assert decode(@bytes, [&decode_ok/1, &decode_ok/1, &decode_ok/1]) == error :invalid_value_length_composer, @bytes, values: [3, 4, 5], value_length: 2, bytes_used: 3
+    end
+  end
+end
+
 defmodule MMS.Composer2Test do
   use MMS.CodecTest
 
