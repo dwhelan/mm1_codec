@@ -3,38 +3,38 @@ defmodule MMS.ValueLengthComposer do
 
   alias MMS.{Composer2, ValueLength}
 
-  def decode bytes, fs do
+  def decode bytes, functions do
     bytes
-    |> Composer2.decode([&ValueLength.decode/1 | fs])
+    |> Composer2.decode([&ValueLength.decode/1 | functions])
     ~> fn result -> check_bytes_used(result, bytes) end
   end
 
-  defp check_bytes_used({result = [length | values], rest}, bytes) when length == (byte_size(bytes) - byte_size(rest) - 1) do
-    ok result, rest
-  end
-
-  defp check_bytes_used {[length | values], rest}, bytes do
-    error [error({:incorrect_value_length, length, [bytes_actually_used: byte_size(bytes) - byte_size(rest) - 1]}) | values]
+  defp check_bytes_used({result = [length | values], rest}, bytes) do
+    used = byte_size(bytes) - byte_size(rest) - 1
+    if used == length do
+      ok result, rest
+    else
+      error [error({:incorrect_value_length, length, [bytes_actually_used: used]}) | values]
+    end
   end
 end
 
 defmodule MMS.Composer2 do
   use MMS.Codec2
 
-  def decode bytes, fs do
+  def decode bytes, functions do
     bytes
-    |> do_decode(fs, [])
-    ~>> fn results -> error Enum.reverse(results) end
+    |> do_decode(functions, [])
   end
 
-  defp do_decode bytes, [], values do
-    ok Enum.reverse(values), bytes
+  defp do_decode rest, [], values do
+    ok Enum.reverse(values), rest
   end
 
-  defp do_decode bytes, [f | fs], values do
-    case bytes |> f.() do
-      {:ok, {value, rest}} -> do_decode rest, fs, [value | values]
-      error                -> error [error | values]
+  defp do_decode rest, [f | functions], values do
+    case rest |> f.() do
+      {:ok, {value, rest}} -> do_decode rest, functions, [value | values]
+      error                -> [error | values] |> Enum.reverse |> error
     end
   end
 
@@ -42,19 +42,20 @@ defmodule MMS.Composer2 do
     ok <<>>
   end
 
-  def encode values, fs do
-    do_encode(Enum.zip(values, fs), [])
-    ~>> fn results -> error Enum.reverse(results) end
+  def encode values, functions do
+    values
+    |> Enum.zip(functions)
+    |> do_encode([])
   end
 
-  defp do_encode [], value_bytes do
-    ok value_bytes |> Enum.reverse |> Enum.join
+  defp do_encode [], bytes_list do
+    ok bytes_list |> Enum.reverse |> Enum.join
   end
 
-  defp do_encode [{value, f} | list], value_bytes do
+  defp do_encode [{value, f} | value_pairs], bytes_list do
     case value |> f.() do
-      {:ok, bytes} -> do_encode list, [bytes | value_bytes]
-      error        -> error [error | value_bytes]
+      {:ok, bytes} -> do_encode value_pairs, [bytes | bytes_list]
+      error        -> [error | bytes_list] |> Enum.reverse |> error
     end
   end
 end
