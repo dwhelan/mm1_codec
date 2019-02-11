@@ -5,23 +5,43 @@ defmodule MMS.ValueLengthComposer do
 
   def decode bytes, functions do
     bytes
-    |> Composer2.decode([&ValueLength.decode/1 | functions])
-    ~> fn result -> check_bytes_used(result, bytes) end
+    |> ValueLength.decode
+    ~> fn result -> decode_values result, functions end
   end
 
-  defp check_bytes_used({result = [length | values], rest}, bytes) do
-    used = byte_size(bytes) - byte_size(rest) - 1
-    if used == length do
-      ok result, rest
-    else
-      error [error({:incorrect_value_length, length, [bytes_actually_used: used]}) | values]
-    end
+  defp decode_values {length, value_bytes}, functions do
+    value_bytes
+    |> Composer2.decode(functions)
+    ~>> fn results -> [length | results] end
+    ~> fn {values, rest} -> check_value_bytes_used(length, used(value_bytes, rest), values, rest) end
+  end
+
+  defp used value_bytes, rest do
+    byte_size(value_bytes) - byte_size(rest)
+  end
+
+  defp check_value_bytes_used(length, used, values, rest) when length == used do
+    ok [length | values], rest
+  end
+
+  defp check_value_bytes_used(length, used, values, _rest) do
+    error [incorrect_value_length(length, used) | values]
+  end
+
+  defp incorrect_value_length length, used do
+    error :incorrect_value_length, length, [bytes_actually_used: used]
   end
 
   def encode values, functions do
     values
     |> Composer2.encode(functions)
-    ~> fn bytes -> <<byte_size(bytes)>> <> bytes end
+    ~> fn bytes ->
+         case bytes |> byte_size |> ValueLength.encode do
+           {:ok, length_bytes} -> ok length_bytes <> bytes
+           error        -> error
+         end
+         <<byte_size(bytes)>> <> bytes
+       end
   end
 end
 
