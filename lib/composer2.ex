@@ -17,6 +17,12 @@ defmodule MMS.ValueLengthComposer do
       error [error({:incorrect_value_length, length, [bytes_actually_used: used]}) | values]
     end
   end
+
+  def encode values, functions do
+    values
+    |> Composer2.encode(functions)
+    ~> fn bytes -> <<byte_size(bytes)>> <> bytes end
+  end
 end
 
 defmodule MMS.Composer2 do

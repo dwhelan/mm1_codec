@@ -9,7 +9,7 @@ defmodule MMS.ValueLengthComposerTest do
   @bytes <<l(2), 3, 4, 5>>
 
   describe "decode should" do
-    test "return nested values" do
+    test "return list of decoded values" do
       assert decode(@bytes, [&decode_ok/1, &decode_ok/1]) == ok [2, 3, 4], <<5>>
     end
 
@@ -23,6 +23,27 @@ defmodule MMS.ValueLengthComposerTest do
 
     test "return error if any decoder returns an error" do
       assert decode(@bytes, [&decode_error/1]) == error [2, {:error, {:test, <<3, 4, 5>>, nil}}]
+    end
+  end
+
+  def encode_ok(value),    do: ok <<value>>
+  def encode_error(value), do: error(:test, value, nil)
+
+  describe "encode should" do
+    test "encode an empty list of values" do
+      assert encode([], [&encode_ok/1]) == ok <<l(0)>>
+    end
+
+    test "encode a single value" do
+      assert encode([3], [&encode_ok/1]) == ok <<l(1), 3>>
+    end
+
+    test "encode multiple values" do
+      assert encode([3, 4], [&encode_ok/1, &encode_ok/1]) == ok <<l(2), 3, 4>>
+    end
+
+    test "return an error if any encoder returns an error" do
+      assert encode([3, 4, 5], [&encode_ok/1, &encode_error/1, &encode_ok/1]) == error [<<3>>, error(:test, 4, nil)]
     end
   end
 end
