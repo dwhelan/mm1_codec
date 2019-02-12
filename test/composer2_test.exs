@@ -18,11 +18,11 @@ defmodule MMS.ValueLengthComposerTest do
     end
 
     test "return an error if too few bytes used" do
-      assert decode(@bytes, [&decode_ok/1]) == error :incorrect_value_length, @bytes, [length: 2, bytes_used: 1]
+      assert decode(@bytes, [&decode_ok/1]) == error :incorrect_value_length, @bytes, length: 2, bytes_used: 1, values: [3]
     end
 
     test "return an error if too many bytes used" do
-      assert decode(@bytes, [&decode_ok/1, &decode_ok/1, &decode_ok/1]) == error :incorrect_value_length, @bytes, [length: 2, bytes_used: 3]
+      assert decode(@bytes, [&decode_ok/1, &decode_ok/1, &decode_ok/1]) == error :incorrect_value_length, @bytes, length: 2, bytes_used: 3, values: [3, 4, 5]
     end
 
     test "return an error if any decoder returns an error" do

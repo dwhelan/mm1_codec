@@ -24,8 +24,8 @@ defmodule MMS.ValueLengthComposer do
     ok values, rest
   end
 
-  defp check_value_bytes_used(length, used, _values, _rest, bytes) do
-    error :incorrect_value_length, bytes, [length: length, bytes_used: used]
+  defp check_value_bytes_used(length, used, values, _rest, bytes) do
+    error :incorrect_value_length, bytes, [length: length, bytes_used: used, values: values]
   end
 
   def encode values, functions do
