@@ -20,11 +20,11 @@ defmodule MMS.ValueLengthComposer do
     byte_size(value_bytes) - byte_size(rest)
   end
 
-  defp check_value_bytes_used(length, used, values, rest, bytes) when length == used do
-    ok [length | values], rest
+  defp check_value_bytes_used(length, used, values, rest, _bytes) when length == used do
+    ok values, rest
   end
 
-  defp check_value_bytes_used(length, used, values, _rest, bytes) do
+  defp check_value_bytes_used(length, used, _values, _rest, bytes) do
     error :incorrect_value_length, bytes, [length: length, bytes_used: used]
   end
 

@@ -10,7 +10,7 @@ defmodule MMS.ValueLengthComposerTest do
 
   describe "decode should" do
     test "return a list of decoded values" do
-      assert decode(@bytes, [&decode_ok/1, &decode_ok/1]) == ok [2, 3, 4], <<5>>
+      assert decode(@bytes, [&decode_ok/1, &decode_ok/1]) == ok [3, 4], <<5>>
     end
 
     test "return an error if an error with value length" do
