@@ -9,19 +9,23 @@ defmodule MMS.ValueLengthComposerTest do
   @bytes <<l(2), 3, 4, 5>>
 
   describe "decode should" do
-    test "return list of decoded values" do
+    test "return a list of decoded values" do
       assert decode(@bytes, [&decode_ok/1, &decode_ok/1]) == ok [2, 3, 4], <<5>>
     end
 
-    test "return error if too few bytes used" do
-      assert decode(@bytes, [&decode_ok/1]) == error [error(:incorrect_value_length, 2, [bytes_actually_used: 1]), 3]
+    test "return an error if an error with value length" do
+      assert decode(<<"bytes">>, [&decode_ok/1]) == error :invalid_value_length, <<"bytes">>, :does_not_start_with_a_short_length_or_length_quote
     end
 
-    test "return error if too many bytes used" do
-      assert decode(@bytes, [&decode_ok/1, &decode_ok/1, &decode_ok/1]) == error [error(:incorrect_value_length, 2, [bytes_actually_used: 3]), 3, 4, 5]
+    test "return an error if too few bytes used" do
+      assert decode(@bytes, [&decode_ok/1]) == error :incorrect_value_length, @bytes, [length: 2, bytes_used: 1]
     end
 
-    test "return error if any decoder returns an error" do
+    test "return an error if too many bytes used" do
+      assert decode(@bytes, [&decode_ok/1, &decode_ok/1, &decode_ok/1]) == error :incorrect_value_length, @bytes, [length: 2, bytes_used: 3]
+    end
+
+    test "return an error if any decoder returns an error" do
       assert decode(@bytes, [&decode_error/1]) == error [2, {:error, {:test, <<3, 4, 5>>, nil}}]
     end
   end
