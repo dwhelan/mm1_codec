@@ -12,20 +12,24 @@ defmodule MMS.ValueLengthComposer do
   defp decode_values {length, value_bytes}, functions, bytes do
     value_bytes
     |> Composer2.decode(functions)
-    ~>> fn results -> [length | results] end
-    ~> fn {values, rest} -> check_value_bytes_used(length, used(value_bytes, rest), values, rest, bytes) end
+    ~>> fn values -> length_details(length, bytes, values, value_bytes) end
+    ~> fn {values, rest} -> check_value_bytes_used(length, value_bytes, values, rest, bytes) end
   end
 
-  defp used value_bytes, rest do
-    byte_size(value_bytes) - byte_size(rest)
+  defp length_details length, bytes, values, value_bytes do
+    length_bytes_used = byte_size(bytes) - byte_size(value_bytes)
+    length_bytes = binary_part(bytes, 0, length_bytes_used)
+    %{length: {length, length_bytes}, values: values}
   end
 
-  defp check_value_bytes_used(length, used, values, rest, _bytes) when length == used do
+  defp check_value_bytes_used(length, value_bytes, values, rest, _bytes) when length == byte_size(value_bytes) - byte_size(rest) do
     ok values, rest
   end
 
-  defp check_value_bytes_used(length, used, values, _rest, bytes) do
-    error :incorrect_value_length, bytes, [length: length, bytes_used: used, values: values]
+  defp check_value_bytes_used(length, value_bytes, values, rest, bytes) do
+    bytes_used = byte_size(value_bytes) - byte_size(rest)
+    error_details = length_details(length, bytes, values, value_bytes) |> Map.put(:bytes_used, bytes_used)
+    error :incorrect_value_length, bytes, error_details
   end
 
   def encode values, functions do
