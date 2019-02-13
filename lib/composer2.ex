@@ -53,15 +53,15 @@ defmodule MMS.Composer2 do
     |> do_decode(functions, [])
   end
 
-  defp do_decode rest, [], values do
-    ok Enum.reverse(values), rest
-  end
-
   defp do_decode rest, [f | functions], values do
     case rest |> f.() do
       {:ok, {value, rest}} -> do_decode rest, functions, [value | values]
       error                -> [error | values] |> Enum.reverse |> error
     end
+  end
+
+  defp do_decode rest, [], values do
+    ok Enum.reverse(values), rest
   end
 
   def encode [], _  do
