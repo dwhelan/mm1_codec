@@ -57,7 +57,7 @@ defmodule MMS.Address2 do
   defp do_decode [ipv4_string, "IPv4"], rest do
     case ipv4_string |> to_charlist |> :inet.parse_ipv4strict_address do
       {:ok, ipv4} -> ok ipv4, rest
-      error -> error :invalid_ipv4_address
+      _error -> error :invalid_ipv4_address
     end
   end
 
@@ -72,6 +72,7 @@ defmodule MMS.Address2 do
     ipv4
     |> :inet.ntoa
     |> OkError.return
+    ~>> fn _error -> error :invalid_ipv4_address end
     ~> fn charlist -> EncodedStringValue2.encode to_string(charlist) <> "/TYPE=IPv4" end
     ~>> fn details -> error ipv4, details end
   end
