@@ -7,7 +7,7 @@ defmodule MMS.TextStringWithCharsetTest do
       codec: TextStringWithCharset,
 
       examples: [
-        { << l(3), s(106), "x\0" >>, [:csUTF8, "x"]},
+        { << l(3), s(106), "x\0" >>, {"x", :csUTF8}},
       ],
 
       decode_errors: [

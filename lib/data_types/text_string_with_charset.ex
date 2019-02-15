@@ -18,10 +18,11 @@ defmodule MMS.TextStringWithCharset do
 
   def decode bytes do
     ValueLengthList.decode(bytes, [&(Charset.decode/1), &(Text.decode/1)])
+    ~> fn {[charset, text], rest} -> ok {text, charset}, rest end
   end
 
-  def encode values = [charset, text] do
-    ValueLengthList.encode(values, [&(Charset.encode/1), &(Text.encode/1)])
+  def encode {text, charset} do
+    ValueLengthList.encode([charset, text], [&(Charset.encode/1), &(Text.encode/1)])
   end
 end
 

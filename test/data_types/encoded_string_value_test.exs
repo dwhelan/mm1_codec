@@ -15,7 +15,7 @@ defmodule MMS.EncodedStringValueTest do
         { <<"x\0">>, "x" },
 #
         # Encoded with short length
-        { << l(3), s(106), "x\0" >>,         [:csUTF8, "x"] }, # short charset
+        { << l(3), s(106), "x\0" >>,         {"x", :csUTF8}}, # short charset
 #        { << l(5), l(2), 1000::16, "x\0" >>, {"x", :csUnicode} }, # long charset
 #
 #        # Encoded with uint32 length
