@@ -54,11 +54,26 @@ defmodule MMS.Address2 do
     end
   end
 
+  defp do_decode [ipv4, "IPv4"], rest do
+    case ipv4 |> to_charlist |> :inet.parse_ipv4strict_address do
+      {:ok, ipv4} -> ok ipv4, rest
+      false -> error :invalid_phone_number
+    end
+  end
+
   def encode(address) when is_binary(address) do
     address
     |> check_address
     ~> fn string -> string |> EncodedStringValue2.encode end
     ~>> fn details -> error address, details end
+  end
+
+  def encode(ipv4) when is_tuple(ipv4) and tuple_size(ipv4) == 4 do
+    ipv4
+    |> :inet.ntoa
+    |> OkError.return
+    ~> fn charlist -> EncodedStringValue2.encode to_string(charlist) <> "/TYPE=IPv4" end
+    ~>> fn details -> error ipv4, details end
   end
 
   defp check_address string do
