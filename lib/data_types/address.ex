@@ -19,11 +19,23 @@ defmodule MMS.Address do
     value|> unmap ~> EncodedStringValue.encode ~>> module_error()
   end
 
-  defp unmap({address, charset}) when is_atom(charset) do
+  defp unmap([charset, address]) when is_atom(charset) do
     address |> unmap ~> OldOkError.Tuple.insert_at({charset}, 0)
   end
 
   defp unmap address do
     address |> Either.apply_until_ok(@types, :unmap)
+  end
+end
+
+defmodule MMS.Address2 do
+  use MMS.Codec2
+
+  def decode bytes do
+    ok "email@address", ""
+  end
+
+  def encode address do
+    ok "email@address\0"
   end
 end

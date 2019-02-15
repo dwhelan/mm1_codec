@@ -13,11 +13,11 @@ defmodule MMS.AddressTest do
         { ":/TYPE=IPv6\0",           {0, 0, 0, 0, 0, 0, 0, 0} },
 
         #    length charset address
-        { << l(3),  s(106), "@\0" >>,                 {"@",                      :csUTF8} },
-        { << l(13), s(106), "1/TYPE=PLMN\0" >>,       {"1",                      :csUTF8} },
-        { << l(10), s(106), "v/TYPE=t\0" >>,          {{"v", "t"},               :csUTF8} },
-        { << l(19), s(106), "0.0.0.0/TYPE=IPv4\0" >>, {{0, 0, 0, 0},             :csUTF8} },
-        { << l(13), s(106), ":/TYPE=IPv6\0" >>,       {{0, 0, 0, 0, 0, 0, 0, 0}, :csUTF8} },
+#        { << l(3),  s(106), "@\0" >>,                 [:csUTF8, "@"                      ] },
+#        { << l(13), s(106), "1/TYPE=PLMN\0" >>,       [:csUTF8, "1"                      ] },
+#        { << l(10), s(106), "v/TYPE=t\0" >>,          [:csUTF8, {"v", "t"}               ] },
+#        { << l(19), s(106), "0.0.0.0/TYPE=IPv4\0" >>, [:csUTF8, {0, 0, 0, 0}             ] },
+#        { << l(13), s(106), ":/TYPE=IPv6\0" >>,       [:csUTF8, {0, 0, 0, 0, 0, 0, 0, 0} ] },
       ],
 
       decode_errors: [
@@ -34,4 +34,16 @@ defmodule MMS.AddressTest do
         { "0+",            :invalid_address },
         { {0, 0, 0},       :invalid_address },
       ]
+end
+
+defmodule MMS.Address2Test do
+  use MMS.CodecTest
+
+    use MMS.TestExamples,
+    codec: MMS.Address2,
+
+    examples: [
+              # address
+              { "email@address\0",         "email@address"          },
+    ]
 end

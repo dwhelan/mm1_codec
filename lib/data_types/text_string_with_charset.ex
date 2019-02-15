@@ -13,7 +13,7 @@ defmodule MMS.TextStringWithCharset do
   """
 
   use MMS.Codec2
-#
+
   alias MMS.{ValueLengthList, Charset, Text}
 
   def decode bytes do
