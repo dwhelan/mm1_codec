@@ -29,6 +29,26 @@ defmodule MMS.Address do
 end
 
 defmodule MMS.Address2 do
+  @moduledoc """
+  address = ( e-mail / device-address )
+  e-mail = "Joe User <joe@user.org>" ; corresponding syntax defined in RFC822 per header field
+  device-address = ( global-phone-number "/TYPE=PLMN" )
+                   / ( ipv4 "/TYPE=IPv4" )
+                   / ( ipv6 "/TYPE=IPv6" )
+                   / ( escaped-value "/TYPE=" address-type )
+  address-type = 1*address-char; A network bearer address type [WDP]
+  address-char = ( ALPHA / DIGIT / "_" )
+  escaped-value = 1*( safe-char )
+  ; the actual value escaped to use only safe characters by replacing
+  ; any unsafe-octet with its hex-escape
+  safe-char = ALPHA / DIGIT / "+" / "-" / "." / "%" / "_"
+  unsafe-octet = %x00-2A / %x2C / %x2F / %x3A-40 / %x5B-60 / %x7B-FF
+  hex-escape = "%" 2HEXDIG ; value of octet as hexadecimal value
+  global-phone-number = ["+"] 1*( DIGIT / written-sep )
+  written-sep =("-"/".")
+  ipv4 = 1*3DIGIT 3( "." 1*3DIGIT ) ; IPv4 address value
+  ipv6 = 4HEXDIG 7( ":" 4HEXDIG ) ; IPv6 address per RFC 2373
+  """
   use MMS.Codec2
 
   alias MMS.EncodedStringValue2
@@ -62,7 +82,6 @@ defmodule MMS.Address2 do
     ~>> fn _error -> error :invalid_ipv4_address end
   end
 
-
   defp do_decode [ipv6_string, "IPv6"], rest do
     ipv6_string
     |> String.replace(":", "::")
@@ -70,6 +89,10 @@ defmodule MMS.Address2 do
     |> :inet.parse_ipv6strict_address
     ~> fn ipv6 -> ok ipv6, rest end
     ~>> fn _error -> error :invalid_ipv6_address end
+  end
+
+  defp do_decode [address, type], rest do
+    ok {address, type}, rest
   end
 
   def encode(address) when is_binary(address) do
@@ -96,6 +119,11 @@ defmodule MMS.Address2 do
     ~>> fn _error -> error :invalid_ipv6_address end
     ~> fn charlist -> EncodedStringValue2.encode to_string(charlist) <> "/TYPE=IPv6" end
     ~>> fn details -> error ipv6, details end
+  end
+
+  def encode({address, type}) when is_binary(address) and is_binary(type) do
+    address <> "/TYPE=#{type}"
+    |> EncodedStringValue2.encode
   end
 
   defp check_address string do
