@@ -1,4 +1,4 @@
-defmodule MMS.EncodedString do
+defmodule MMS.EncodedStringValue do
   use MMS.Either, [MMS.Text, MMS.TextStringWithCharset]
 
   def map({string, charset}, fun) do
@@ -10,7 +10,7 @@ defmodule MMS.EncodedString do
   end
 end
 
-defmodule MMS.EncodedString2 do
+defmodule MMS.EncodedStringValue2 do
   use MMS.Codec2
 
   def decode(<<byte, _::binary>> = bytes) when is_char(byte) do

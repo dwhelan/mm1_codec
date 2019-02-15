@@ -1,6 +1,6 @@
 defmodule MMS.Headers do
   # Based on OMA-WAP-MMS-ENC-V1_1-20040715-A: Table 12. Field Name Assignments
-  alias MMS.{Address, Boolean, DateTime, EncodedString, VersionInteger, Long, Text, Time}
+  alias MMS.{Address, Boolean, DateTime, EncodedStringValue, VersionInteger, Long, Text, Time}
 
   alias MMS.{ContentType, From, MessageClass, MessageType, PreviouslySentBy, PreviouslySentDate}
   alias MMS.{Priority, ReadStatus, ReplyCharging, ResponseStatus, RetrieveStatus, SenderVisibility, Status}
@@ -25,15 +25,15 @@ defmodule MMS.Headers do
         priority:                Priority,
         report_allowed:          Boolean,
         response_status:         ResponseStatus,
-        response_text:           EncodedString,
+        response_text:           EncodedStringValue,
         sender_visibility:       SenderVisibility,
         read_report:             Boolean,
         status:                  Status,
-        subject:                 EncodedString,
-        to:                      EncodedString,
+        subject:                 EncodedStringValue,
+        to:                      EncodedStringValue,
         transaction_id:          Text,
         retrieve_status:         RetrieveStatus,
-        retrieve_text:           EncodedString,
+        retrieve_text:           EncodedStringValue,
         read_status:             ReadStatus,
         reply_charging:          ReplyCharging,
         reply_charging_deadline: Time,

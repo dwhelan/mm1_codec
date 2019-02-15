@@ -1,13 +1,13 @@
-defmodule MMS.EncodedStringTest do
+defmodule MMS.EncodedStringValueTest do
   use MMS.CodecTest
 
-  alias MMS.EncodedString
+  alias MMS.EncodedStringValue
 
 #  string30     = String.duplicate "x", 30
 #  length_quote = 31
 
   use MMS.TestExamples,
-      codec: EncodedString,
+      codec: EncodedStringValue,
 
       examples: [
         # Not encoded
@@ -31,11 +31,11 @@ defmodule MMS.EncodedStringTest do
       ]
 
 #  test "map(string, fun)" do
-#    assert EncodedString.map("x", &String.upcase/1) == ok "X"
+#    assert EncodedStringValue.map("x", &String.upcase/1) == ok "X"
 #  end
 #
 #  test "map({string, charset}, fun)" do
-#    assert EncodedString.map({"x", :utf8}, &String.upcase/1) == ok {"X", :utf8}
+#    assert EncodedStringValue.map({"x", :utf8}, &String.upcase/1) == ok {"X", :utf8}
 #  end
 end
 

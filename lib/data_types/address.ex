@@ -2,13 +2,13 @@ defmodule MMS.Address do
   use MMS.Codec
   import CodecError
 
-  alias MMS.EncodedString
+  alias MMS.EncodedStringValue
   alias MMS.{Either, IPv4Address, IPv6Address, PhoneNumber, EmailAddress, UnknownAddress}
 
   @types [PhoneNumber, EmailAddress, IPv4Address, IPv6Address, UnknownAddress]
 
   def decode bytes do
-    bytes |> EncodedString.decode <~> EncodedString.map(&map/1)
+    bytes |> EncodedStringValue.decode <~> EncodedStringValue.map(&map/1)
   end
 
   defp map string do
@@ -16,7 +16,7 @@ defmodule MMS.Address do
   end
 
   def encode value do
-    value|> unmap ~> EncodedString.encode ~>> module_error()
+    value|> unmap ~> EncodedStringValue.encode ~>> module_error()
   end
 
   defp unmap({address, charset}) when is_atom(charset) do
