@@ -1,7 +1,7 @@
 defmodule MMS.ValueLengthList do
   use MMS.Codec2
 
-  alias MMS.{List2, ValueLength}
+  alias MMS.{List, ValueLength}
 
   def decode(bytes, functions) when is_binary(bytes) and is_list(functions) do
     bytes
@@ -11,7 +11,7 @@ defmodule MMS.ValueLengthList do
 
   defp decode_values {length, value_bytes}, functions, bytes do
     value_bytes
-    |> List2.decode(functions)
+    |> List.decode(functions)
     ~>> fn values -> length_details(length, bytes, values, value_bytes) end
     ~> fn {values, rest} -> check_value_bytes_used(length, value_bytes, values, rest, bytes) end
   end
@@ -34,7 +34,7 @@ defmodule MMS.ValueLengthList do
 
   def encode(values, functions) when is_list(values) and is_list(functions) do
     values
-    |> List2.encode(functions)
+    |> List.encode(functions)
     ~> fn bytes ->
       case bytes |> byte_size |> ValueLength.encode do
         {:ok, length_bytes} -> ok length_bytes <> bytes

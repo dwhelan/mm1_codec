@@ -1,4 +1,4 @@
-defmodule MMS.List2 do
+defmodule MMS.List do
   use MMS.Codec2
 
   def decode(bytes, functions) when is_binary(bytes) and is_list(functions) do
