@@ -35,12 +35,13 @@ defmodule MMS.ValueLengthList do
   def encode(values, functions) when is_list(values) and is_list(functions) do
     values
     |> List.encode(functions)
-    ~> fn bytes ->
-      case bytes |> byte_size |> ValueLength.encode do
-        {:ok, length_bytes} -> ok length_bytes <> bytes
-        error        -> error
-      end
-      <<byte_size(bytes)>> <> bytes
-       end
+    ~> &prepend_length_bytes/1
+  end
+
+  defp prepend_length_bytes value_bytes do
+    case value_bytes |> byte_size |> ValueLength.encode do
+      {:ok, length_bytes} -> ok length_bytes <> value_bytes
+      error               -> error
+    end
   end
 end
