@@ -55,10 +55,21 @@ defmodule MMS.Address2 do
   end
 
   defp do_decode [ipv4_string, "IPv4"], rest do
-    case ipv4_string |> to_charlist |> :inet.parse_ipv4strict_address do
-      {:ok, ipv4} -> ok ipv4, rest
-      _error -> error :invalid_ipv4_address
-    end
+    ipv4_string
+    |> to_charlist
+    |> :inet.parse_ipv4strict_address
+    ~> fn ipv4 -> ok ipv4, rest end
+    ~>> fn _error -> error :invalid_ipv4_address end
+  end
+
+
+  defp do_decode [ipv6_string, "IPv6"], rest do
+    ipv6_string
+    |> String.replace(":", "::")
+    |> to_charlist
+    |> :inet.parse_ipv6strict_address
+    ~> fn ipv6 -> ok ipv6, rest end
+    ~>> fn _error -> error :invalid_ipv6_address end
   end
 
   def encode(address) when is_binary(address) do
@@ -75,6 +86,16 @@ defmodule MMS.Address2 do
     ~>> fn _error -> error :invalid_ipv4_address end
     ~> fn charlist -> EncodedStringValue2.encode to_string(charlist) <> "/TYPE=IPv4" end
     ~>> fn details -> error ipv4, details end
+  end
+
+  def encode(ipv6) when is_tuple(ipv6) and tuple_size(ipv6) == 8 do
+    ipv6
+    |> :inet.ntoa
+    |> OkError.return
+    ~> fn charlist -> charlist |> to_string |> String.replace("::", ":") end
+    ~>> fn _error -> error :invalid_ipv6_address end
+    ~> fn charlist -> EncodedStringValue2.encode to_string(charlist) <> "/TYPE=IPv6" end
+    ~>> fn details -> error ipv6, details end
   end
 
   defp check_address string do

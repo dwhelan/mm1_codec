@@ -47,6 +47,7 @@ defmodule MMS.Address2Test do
         { "email@address\0",         "email@address"          },
         { "1234567890/TYPE=PLMN\0",  "1234567890"             },
         { "0.0.0.0/TYPE=IPv4\0",     {0, 0, 0, 0}             },
+        { ":/TYPE=IPv6\0",           {0, 0, 0, 0, 0, 0, 0, 0} },
       ],
 
       decode_errors: [
