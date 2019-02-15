@@ -33,7 +33,9 @@ defmodule MMS.EncodedStringValue2 do
   end
 
   def decode(bytes) when is_binary(bytes) do
-    bytes |> MMS.TextStringWithCharset.decode
+    bytes
+    |> MMS.TextStringWithCharset.decode
+    ~>> fn details -> error bytes, details end
   end
 
   def encode(text) when is_binary(text) do

@@ -23,19 +23,8 @@ defmodule MMS.EncodedStringValueTest do
       ],
 
       decode_errors: [
-        { <<"x">>,               {:invalid_encoded_string_value2, "x", {:invalid_text, "x", :missing_terminator}} },
-#        { <<l(2), s(106), "x">>, :invalid_encoded_string },
-#
-#        { << l(2), s(106), "x\0">>,                              :invalid_encoded_string }, #  short length
-#        { << length_quote, l(33), s(106)>> <> string30 <> <<0>>, :invalid_encoded_string }, # uint32 length
+        { <<"x">>,               {:invalid_encoded_string_value2, "x", {:invalid_text, "x", :missing_text_string_terminator}} },
+        { <<l(2), s(106), "x">>, {:invalid_encoded_string_value2, <<l(2), s(106), "x">>, %{length: {2, <<2>>}, values: [:csUTF8, {:error, {:invalid_text, "x", :missing_text_string_terminator}}]} }},
       ]
-
-#  test "map(string, fun)" do
-#    assert EncodedStringValue.map("x", &String.upcase/1) == ok "X"
-#  end
-#
-#  test "map({string, charset}, fun)" do
-#    assert EncodedStringValue.map({"x", :utf8}, &String.upcase/1) == ok {"X", :utf8}
-#  end
 end
 
