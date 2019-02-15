@@ -24,7 +24,12 @@ defmodule MMS.EncodedStringValueTest do
 
       decode_errors: [
         { <<"x">>,               {:invalid_encoded_string_value2, "x", {:invalid_text, "x", :missing_text_string_terminator}} },
-        { <<l(2), s(106), "x">>, {:invalid_encoded_string_value2, <<l(2), s(106), "x">>, %{length: {2, <<2>>}, values: [:csUTF8, {:error, {:invalid_text, "x", :missing_text_string_terminator}}]} }},
+        { <<l(2), s(106), "x">>, {:invalid_encoded_string_value2, <<l(2), s(106), "x">>, %{length: {2, <<2>>}, values: [:csUTF8, error(:invalid_text, "x", :missing_text_string_terminator)]} }},
+      ],
+
+      encode_errors: [
+        { "x\0",            {:invalid_encoded_string_value2, "x\0", {:invalid_text, "x\0", :cannot_have_terminator_char}} },
+        { {"x\0", :csUTF8}, {:invalid_encoded_string_value2, {"x\0", :csUTF8}, [<<s(106)>>, error(:invalid_text, "x\0", :cannot_have_terminator_char)]} },
       ]
 end
 

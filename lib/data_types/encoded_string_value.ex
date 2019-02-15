@@ -27,10 +27,11 @@ defmodule MMS.EncodedStringValue2 do
   use MMS.Codec2
 
   alias MMS.EncodedStringValue2.TextStringWithCharset
+  alias MMS.Text
 
   def decode(<<byte, _::binary>> = bytes) when is_char(byte) do
     bytes
-    |> MMS.Text.decode
+    |> Text.decode
     ~>> fn details -> error bytes, details end
   end
 
@@ -41,11 +42,15 @@ defmodule MMS.EncodedStringValue2 do
   end
 
   def encode(text) when is_binary(text) do
-    text |> MMS.Text.encode
+    text
+    |> Text.encode
+    ~>> fn details -> error text, details end
   end
 
   def encode({text, charset}) when is_binary(text) do
-    {text, charset} |> TextStringWithCharset.encode
+    {text, charset}
+    |> TextStringWithCharset.encode
+    ~>> fn details -> error {text, charset}, details end
   end
 
   defmodule TextStringWithCharset do
