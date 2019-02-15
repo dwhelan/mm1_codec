@@ -1,7 +1,7 @@
-defmodule MMS.Composer2Test do
+defmodule MMS.List2Test do
   use MMS.CodecTest
 
-  import MMS.Composer2
+  import MMS.List2
 
   def decode_ok(<<value , rest::binary>>), do: ok {value, rest}
   def decode_error(bytes),                 do: error(:test, bytes, nil)
