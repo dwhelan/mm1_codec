@@ -45,5 +45,6 @@ defmodule MMS.Address2Test do
     examples: [
       # address
       { "email@address\0",         "email@address"          },
+      { "1234567890/TYPE=PLMN\0",  "1234567890"             },
     ]
 end

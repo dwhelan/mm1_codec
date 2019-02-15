@@ -34,10 +34,29 @@ defmodule MMS.Address2 do
   alias MMS.EncodedStringValue
 
   def decode bytes do
-    EncodedStringValue.decode bytes
+    bytes
+    |> EncodedStringValue.decode
+    ~> fn {string, rest} -> string |> String.split("/TYPE=") |> do_decode(rest) end
+  end
+
+  defp do_decode [email], rest do
+    ok email, rest
+  end
+
+  defp do_decode [phone_number, "PLMN"], rest do
+    ok phone_number, rest
   end
 
   def encode address do
-    EncodedStringValue.encode address
+    address
+    |> do_encode
+    ~> fn string -> string |> EncodedStringValue.encode end
+  end
+
+  defp do_encode(string) when is_binary(string) do
+    case string |> String.contains?("@") do
+      true -> ok string
+      false -> ok string <> "/TYPE=PLMN"
+    end
   end
 end
