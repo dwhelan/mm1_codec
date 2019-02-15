@@ -40,11 +40,30 @@ defmodule MMS.Address2Test do
   use MMS.CodecTest
 
     use MMS.TestExamples,
-    codec: MMS.Address2,
+      codec: MMS.Address2,
 
-    examples: [
-      # address
-      { "email@address\0",         "email@address"          },
-      { "1234567890/TYPE=PLMN\0",  "1234567890"             },
-    ]
+      examples: [
+        # address
+        { "email@address\0",         "email@address"          },
+        { "1234567890/TYPE=PLMN\0",  "1234567890"             },
+      ],
+
+      decode_errors: [
+        { "x\0",                   {:invalid_address2, "x\0", :email_address_missing_@} },
+#        { "@/TYPE=PLMN\0",         :invalid_address },
+#        { "x.0.0.0/TYPE=IPv4\0",   :invalid_address },
+#        { "::x/TYPE=IPv6\0",       :invalid_address },
+#        { "@",                     :invalid_address },
+#        { << l(3), s(106), "@" >>, :invalid_address },
+      ],
+
+      encode_errors: [
+        { "x",                   {:invalid_address2, "x", :invalid_phone_number} },
+#        { "@/TYPE=PLMN\0",         :invalid_address },
+#        { "x.0.0.0/TYPE=IPv4\0",   :invalid_address },
+#        { "::x/TYPE=IPv6\0",       :invalid_address },
+#        { "@",                     :invalid_address },
+#        { << l(3), s(106), "@" >>, :invalid_address },
+      ]
+
 end

@@ -37,26 +37,49 @@ defmodule MMS.Address2 do
     bytes
     |> EncodedStringValue.decode
     ~> fn {string, rest} -> string |> String.split("/TYPE=") |> do_decode(rest) end
+    ~>> fn details -> error bytes, details end
   end
 
   defp do_decode [email], rest do
-    ok email, rest
+    case email |> valid_email? do
+      true -> ok email, rest
+      false -> error :email_address_missing_@
+    end
   end
 
   defp do_decode [phone_number, "PLMN"], rest do
-    ok phone_number, rest
-  end
-
-  def encode address do
-    address
-    |> do_encode
-    ~> fn string -> string |> EncodedStringValue.encode end
-  end
-
-  defp do_encode(string) when is_binary(string) do
-    case string |> String.contains?("@") do
-      true -> ok string
-      false -> ok string <> "/TYPE=PLMN"
+    case phone_number |> valid_phone_number? do
+      true -> ok phone_number, rest
+      false -> error :invalid_phone_number
     end
+  end
+
+  def encode(address) when is_binary(address) do
+    address
+    |> check_address
+    ~> fn string -> string |> EncodedStringValue.encode end
+    ~>> fn details -> error address, details end
+  end
+
+  defp check_address string do
+    case string |> valid_email? do
+      true  -> ok string
+      false -> string |> check_phone_number
+    end
+  end
+
+  defp check_phone_number phone_number do
+    case phone_number |> valid_phone_number? do
+      true -> ok phone_number <> "/TYPE=PLMN"
+      false -> error :invalid_phone_number
+    end
+  end
+
+  defp valid_phone_number? phone_number do
+    phone_number |> String.match?(~r/^\+?[\d\-\.]+$/)
+  end
+
+  defp valid_email? email do
+    email |> String.contains?("@")
   end
 end
