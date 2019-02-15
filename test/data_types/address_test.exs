@@ -52,7 +52,7 @@ defmodule MMS.Address2Test do
       decode_errors: [
         { "x\0",                   {:invalid_address2, "x\0",           :email_address_missing_@} },
         { "@/TYPE=PLMN\0",         {:invalid_address2, "@/TYPE=PLMN\0", :invalid_phone_number} },
-#        { "x.0.0.0/TYPE=IPv4\0",   :invalid_address },
+        { "x.0.0.0/TYPE=IPv4\0",   {:invalid_address2, "x.0.0.0/TYPE=IPv4\0", :invalid_ipv4_address} },
 #        { "::x/TYPE=IPv6\0",       :invalid_address },
 #        { "@",                     :invalid_address },
 #        { << l(3), s(106), "@" >>, :invalid_address },

@@ -54,10 +54,10 @@ defmodule MMS.Address2 do
     end
   end
 
-  defp do_decode [ipv4, "IPv4"], rest do
-    case ipv4 |> to_charlist |> :inet.parse_ipv4strict_address do
+  defp do_decode [ipv4_string, "IPv4"], rest do
+    case ipv4_string |> to_charlist |> :inet.parse_ipv4strict_address do
       {:ok, ipv4} -> ok ipv4, rest
-      false -> error :invalid_phone_number
+      error -> error :invalid_ipv4_address
     end
   end
 
