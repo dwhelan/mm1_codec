@@ -49,7 +49,7 @@ defmodule MMS.Address2Test do
       ],
 
       decode_errors: [
-        { "x\0",                   {:invalid_address2, "x\0", :email_address_missing_@} },
+        { "x\0",                   {:invalid_address2, "x\0",           :email_address_missing_@} },
         { "@/TYPE=PLMN\0",         {:invalid_address2, "@/TYPE=PLMN\0", :invalid_phone_number} },
 #        { "x.0.0.0/TYPE=IPv4\0",   :invalid_address },
 #        { "::x/TYPE=IPv6\0",       :invalid_address },
@@ -59,7 +59,7 @@ defmodule MMS.Address2Test do
 
       encode_errors: [
         { "x",                   {:invalid_address2, "x", :invalid_phone_number} },
-#        { "@/TYPE=PLMN\0",         :invalid_address },
+        { "email@address\0",     {:invalid_address2, "email@address\0", {:invalid_encoded_string_value2, "email@address\0", {:invalid_text, "email@address\0", :cannot_have_terminator_char}}} },
 #        { "x.0.0.0/TYPE=IPv4\0",   :invalid_address },
 #        { "::x/TYPE=IPv6\0",       :invalid_address },
 #        { "@",                     :invalid_address },

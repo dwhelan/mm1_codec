@@ -31,11 +31,11 @@ end
 defmodule MMS.Address2 do
   use MMS.Codec2
 
-  alias MMS.EncodedStringValue
+  alias MMS.EncodedStringValue2
 
   def decode bytes do
     bytes
-    |> EncodedStringValue.decode
+    |> EncodedStringValue2.decode
     ~> fn {string, rest} -> string |> String.split("/TYPE=") |> do_decode(rest) end
     ~>> fn details -> error bytes, details end
   end
@@ -57,7 +57,7 @@ defmodule MMS.Address2 do
   def encode(address) when is_binary(address) do
     address
     |> check_address
-    ~> fn string -> string |> EncodedStringValue.encode end
+    ~> fn string -> string |> EncodedStringValue2.encode end
     ~>> fn details -> error address, details end
   end
 
