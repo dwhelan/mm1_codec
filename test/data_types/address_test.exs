@@ -43,7 +43,7 @@ defmodule MMS.Address2Test do
     codec: MMS.Address2,
 
     examples: [
-              # address
-              { "email@address\0",         "email@address"          },
+      # address
+      { "email@address\0",         "email@address"          },
     ]
 end

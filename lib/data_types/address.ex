@@ -31,11 +31,13 @@ end
 defmodule MMS.Address2 do
   use MMS.Codec2
 
+  alias MMS.EncodedStringValue
+
   def decode bytes do
-    ok "email@address", ""
+    EncodedStringValue.decode bytes
   end
 
   def encode address do
-    ok "email@address\0"
+    EncodedStringValue.encode address
   end
 end
