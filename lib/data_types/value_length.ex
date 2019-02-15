@@ -37,7 +37,6 @@ defmodule MMS.ValueLength do
   defp encode(value, codec) do
     value
     |> codec.encode
-    |> IO.inspect
     ~>> fn details -> error value, details end
   end
 end
