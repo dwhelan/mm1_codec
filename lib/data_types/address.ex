@@ -43,7 +43,7 @@ defmodule MMS.Address2 do
   defp do_decode [email], rest do
     case email |> valid_email? do
       true  -> ok email, rest
-      false -> error :email_address_missing_@
+      false -> error :invalid_email_address
     end
   end
 
