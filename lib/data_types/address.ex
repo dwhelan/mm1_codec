@@ -42,14 +42,14 @@ defmodule MMS.Address2 do
 
   defp do_decode [email], rest do
     case email |> valid_email? do
-      true -> ok email, rest
+      true  -> ok email, rest
       false -> error :email_address_missing_@
     end
   end
 
   defp do_decode [phone_number, "PLMN"], rest do
     case phone_number |> valid_phone_number? do
-      true -> ok phone_number, rest
+      true  -> ok phone_number, rest
       false -> error :invalid_phone_number
     end
   end
