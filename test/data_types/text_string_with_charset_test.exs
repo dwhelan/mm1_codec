@@ -1,10 +1,10 @@
-defmodule MMS.EncodedStringValueTest do
+defmodule MMS.TextStringWithCharsetTest do
   use MMS.CodecTest
 
-  alias MMS.EncodedStringValue
+  alias MMS.TextStringWithCharset
 
   use MMS.TestExamples,
-      codec: EncodedStringValue,
+      codec: TextStringWithCharset,
 
       examples: [
         { << l(3), s(106), "x\0" >>, {"x", :csUTF8} },

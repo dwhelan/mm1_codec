@@ -1,4 +1,4 @@
-defmodule MMS.EncodedStringValue do
+defmodule MMS.TextStringWithCharset do
   @moduledoc """
 
   Encoded-string-value = Text-string | Value-length Char-set Text-string
