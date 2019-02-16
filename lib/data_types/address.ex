@@ -121,7 +121,7 @@ defmodule MMS.Address2 do
     ~>> fn details -> error ipv6, details end
   end
 
-  def encode({address, type}) when is_binary(address) and is_binary(type) do
+  def encode({address, type}) when is_binary(address) and type not in ["IPv4", "IPv6", "PLMN"] do
     address <> "/TYPE=#{type}"
     |> EncodedStringValue2.encode
   end
