@@ -6,7 +6,7 @@ defmodule MMS.ValueLengthList do
   def decode(bytes, functions) when is_binary(bytes) and is_list(functions) do
     bytes
     |> ValueLength.decode
-    ~> fn result -> decode_values result, functions, bytes end
+    ~> fn result -> result |> decode_values(functions, bytes) end
   end
 
   defp decode_values {length, value_bytes}, functions, bytes do
@@ -18,7 +18,7 @@ defmodule MMS.ValueLengthList do
 
   defp length_details length, bytes, values, value_bytes do
     length_bytes_used = byte_size(bytes) - byte_size(value_bytes)
-    length_bytes = binary_part(bytes, 0, length_bytes_used)
+    length_bytes      = binary_part(bytes, 0, length_bytes_used)
     %{length: {length, length_bytes}, values: values}
   end
 
