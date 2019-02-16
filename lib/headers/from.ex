@@ -15,7 +15,7 @@ defmodule MMS.From do
   defp address(_),                                 do: module_error()
 
   def encode :insert_address_token do
-    ok <<1, short @insert_address_token>>
+    ok <<1, @insert_address_token + 128>>
   end
 
   def encode string do
