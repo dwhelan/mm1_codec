@@ -6,10 +6,6 @@ defmodule MMS.TextValue do
 
   alias MMS.{NoValue, QuotedString, Text}
 
-  def reason {_, _, reason} do
-    reason
-  end
-
   def decode(bytes) when is_binary(bytes) do
     bytes
     |> do_decode

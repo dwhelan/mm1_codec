@@ -13,7 +13,7 @@ defmodule MMS.QuotedString do
   def decode bytes = << ~s("), _::binary >> do
     bytes
     |> Text.decode
-    ~>> fn {_, _, reason} -> error bytes, reason end
+    ~>> fn error -> error bytes, reason(error) end
   end
 
   def decode(bytes) when is_binary(bytes) do
@@ -23,7 +23,7 @@ defmodule MMS.QuotedString do
   def encode string = << ~s("), _::binary >> do
     string
     |> Text.encode
-    ~>> fn {_, _, reason} -> error string, reason end
+    ~>> fn error -> error string, reason(error) end
   end
 
   def encode(string) when is_binary(string) do

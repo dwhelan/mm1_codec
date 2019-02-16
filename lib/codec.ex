@@ -9,6 +9,10 @@ defmodule MMS.Codec2 do
     error {code, input, details}
   end
 
+  def reason {_, _, reason} do
+    reason
+  end
+
   defmacro __using__ (_ \\ []) do
     quote do
       import MMS.DataTypes

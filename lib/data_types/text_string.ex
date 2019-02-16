@@ -18,7 +18,7 @@ defmodule MMS.TextString do
     bytes
     |> Text.decode
     ~> fn {text_string, rest} -> ok String.slice(text_string, 1..-1), rest end
-    ~>> fn {_, _, reason} -> error bytes, reason end
+    ~>> fn error -> error bytes, reason(error) end
   end
 
   def decode(<<@quote, _::binary>> = bytes) do
@@ -28,7 +28,7 @@ defmodule MMS.TextString do
   def decode(<<byte, _::binary>> = bytes) when is_char(byte) and byte != @quote do
     bytes
     |> Text.decode
-    ~>> fn {_, _, reason} -> error bytes, reason end
+    ~>> fn error -> error bytes, reason(error) end
   end
 
   def decode(bytes) when is_binary(bytes) do
