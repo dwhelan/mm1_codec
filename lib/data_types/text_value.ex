@@ -29,22 +29,28 @@ defmodule MMS.TextValue do
   end
 
   defp do_decode(bytes) when is_binary(bytes) do
-    error bytes, :must_be_no_value_quoted_string_or_text
+    error bytes, :first_byte_must_be_no_value_or_quote_or_char
   end
 
   def encode(:no_value) do
     :no_value |> NoValue.encode
   end
 
-  def encode(quoted_string = << ~s("), _::binary >>) do
+  def encode(string) when is_binary(string) do
+    string
+    |> do_encode
+    ~>> fn error -> error string, reason(error) end
+  end
+
+  defp do_encode(quoted_string = << ~s("), _::binary >>) do
     quoted_string |> QuotedString.encode
   end
 
-  def encode(text = <<byte, _::binary>>) when is_char(byte) do
+  defp do_encode(text = <<byte, _::binary>>) when is_char(byte) do
     text |> Text.encode
   end
 
-  def encode(string) when is_binary(string) do
-    error string, :must_be_no_value_quoted_string_or_text
+  defp do_encode(string) when is_binary(string) do
+    error string, :first_byte_must_be_no_value_or_quote_or_char
   end
 end

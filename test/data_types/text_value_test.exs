@@ -11,13 +11,16 @@ defmodule MMS.TextValueTest do
       ],
 
       decode_errors: [
-        { <<1>>,        {:invalid_text_value, <<1>>,        :must_be_no_value_quoted_string_or_text} },
-        { <<128>>,      {:invalid_text_value, <<128>>,      :must_be_no_value_quoted_string_or_text} },
-        { <<"x">>,      {:invalid_text_value, <<"x">>,      :missing_end_of_string_byte_of_0}        },
-        { << ~s("x) >>, {:invalid_text_value, << ~s("x) >>, :missing_end_of_string_byte_of_0}        },
+        { <<1>>,        {:invalid_text_value, <<1>>,        :first_byte_must_be_no_value_or_quote_or_char} },
+        { <<128>>,      {:invalid_text_value, <<128>>,      :first_byte_must_be_no_value_or_quote_or_char} },
+        { <<"x">>,      {:invalid_text_value, <<"x">>,      :missing_end_of_string_byte_of_0}              },
+        { << ~s("x) >>, {:invalid_text_value, << ~s("x) >>, :missing_end_of_string_byte_of_0}              },
       ],
 
       encode_errors: [
-        {<<1>>, {:invalid_text_value, <<1>>, :must_be_no_value_quoted_string_or_text}}
+        { <<1>>,    {:invalid_text_value, <<1>>,      :first_byte_must_be_no_value_or_quote_or_char}},
+        { <<128>>,  {:invalid_text_value, <<128>>,    :first_byte_must_be_no_value_or_quote_or_char}},
+        { "x\0",    {:invalid_text_value, <<120, 0>>, :contain_end_of_string_byte_of_0}             },
+        { ~s("x\0), {:invalid_text_value, ~s("x\0),   :contain_end_of_string_byte_of_0}             },
       ]
 end
