@@ -1,7 +1,7 @@
 defmodule MMS.EitherTest do
   use MMS.CodecTest
 
-  use MMS.Either, [MMS.Short, HTTP.Text]
+  use MMS.Either, [MMS.Short, MMS.Text]
 
   use MMS.TestExamples,
     examples: [

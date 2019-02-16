@@ -1,4 +1,4 @@
-defmodule HTTP.Text do
+defmodule MMS.Text do
   @moduledoc """
 
   """

@@ -1,7 +1,7 @@
 defmodule MMS.TextString do
   use MMS.Codec2
 
-  alias HTTP.Text
+  alias MMS.Text
 
   @quote 127
 

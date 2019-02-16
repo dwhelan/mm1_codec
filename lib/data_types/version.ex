@@ -25,5 +25,5 @@ defmodule MMS.VersionInteger do
 end
 
 defmodule MMS.Version do
-  use MMS.Either, [MMS.VersionInteger, HTTP.Text]
+  use MMS.Either, [MMS.VersionInteger, MMS.Text]
 end

@@ -21,7 +21,7 @@ defmodule MMS.Address do
   """
   use MMS.Codec2
 
-  alias HTTP.Text
+  alias MMS.Text
 
   def decode bytes do
     bytes

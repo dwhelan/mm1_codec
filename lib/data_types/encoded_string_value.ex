@@ -44,7 +44,7 @@ defmodule MMS.EncodedStringValue do
   defmodule TextStringWithCharset do
     use MMS.Codec2
 
-    alias MMS.{ValueLengthList, Charset, Text}
+    alias MMS.{ValueLengthList, Charset}
 
     def decode bytes do
       ValueLengthList.decode(bytes, [&(Charset.decode/1), &(TextString.decode/1)])

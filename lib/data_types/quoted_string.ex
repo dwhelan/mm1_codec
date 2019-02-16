@@ -1,7 +1,7 @@
 defmodule MMS.QuotedString do
   use MMS.Codec
 
-  alias HTTP.Text
+  alias MMS.Text
 
   @quote ~s(")
 

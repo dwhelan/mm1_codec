@@ -2,7 +2,7 @@ defmodule MMS.TextTest do
   use MMS.CodecTest
 
   use MMS.TestExamples,
-      codec: HTTP.Text,
+      codec: MMS.Text,
 
       examples: [
         {<<0>>,           ""      },

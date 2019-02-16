@@ -1,5 +1,5 @@
 defmodule MMS.MessageClass do
-  use MMS.Either, [MMS.KnownMessageClass, HTTP.Text]
+  use MMS.Either, [MMS.KnownMessageClass, MMS.Text]
 end
 
 defmodule MMS.KnownMessageClass do
