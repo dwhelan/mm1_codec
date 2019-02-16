@@ -1,5 +1,5 @@
 defmodule MMS.Media do
-  use MMS.Either, [MMS.KnownMedia, MMS.Text]
+  use MMS.Either, [MMS.KnownMedia, HTTP.Text]
 end
 
 # http://www.openmobilealliance.org/wp/OMNA/wsp/wsp_content_type_codes.html

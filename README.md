@@ -14,6 +14,9 @@ def deps do
 end
 ```
 
+# Specifications
+
+
 # Codec functions
 
 ## decode

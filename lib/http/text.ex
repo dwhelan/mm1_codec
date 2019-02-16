@@ -1,4 +1,7 @@
-defmodule MMS.Text do
+defmodule HTTP.Text do
+  @moduledoc """
+
+  """
   use MMS.Codec2
 
   def decode(<<byte, _::binary>> = bytes) when is_char(byte) do
@@ -14,12 +17,12 @@ defmodule MMS.Text do
   end
 
   defp decode_parts [string | []] do
-    error :invalid_text, string, :missing_text_string_terminator
+    error :invalid_text, string, :missing_end_of_string_byte_of_0
   end
 
   def encode(<<byte, _::binary>> = string) when is_char(byte) do
     if string |> String.contains?("\0") do
-      error :invalid_text, string, :contains_end_of_string_byte
+      error :invalid_text, string, :contain_end_of_string_byte_of_0
     else
       ok string <> <<0>>
     end
@@ -31,9 +34,5 @@ defmodule MMS.Text do
 
   def encode(string) when is_binary(string) do
     error :invalid_text, string, :first_byte_must_be_a_char
-  end
-
-  def encode value do
-    error :invalid_text, value, :not_a_string
   end
 end
