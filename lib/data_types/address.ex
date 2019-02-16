@@ -1,4 +1,4 @@
-defmodule MMS.Address2 do
+defmodule MMS.Address do
   @moduledoc """
   address = ( e-mail / device-address )
   e-mail = "Joe User <joe@user.org>" ; corresponding syntax defined in RFC822 per header field

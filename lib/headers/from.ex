@@ -1,13 +1,13 @@
 defmodule MMS.From do
   use MMS.Codec
 
-  alias MMS.{Composer, Short, Address2}
+  alias MMS.{Composer, Short, Address}
 
   @address_present_token 0
   @insert_address_token  1
 
   def decode bytes do
-    bytes |> Composer.decode([Short, Address2]) <~> address
+    bytes |> Composer.decode([Short, Address]) <~> address
   end
 
   defp address({address, @address_present_token}), do: address
@@ -19,6 +19,6 @@ defmodule MMS.From do
   end
 
   def encode string do
-    [@address_present_token, string] |> Composer.encode([Short, Address2]) ~>> module_error
+    [@address_present_token, string] |> Composer.encode([Short, Address]) ~>> module_error
   end
 end
