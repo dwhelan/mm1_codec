@@ -19,12 +19,12 @@ defmodule MMS.TextValue do
     error bytes, :must_be_no_value_quoted_string_or_a_char
   end
 
-  def encode(value) when is_no_value(value) do
-    value |> NoValue.encode
+  def encode(no_value) when is_no_value(no_value) do
+    no_value |> NoValue.encode
   end
 
-  def encode(value = <<quote, _::binary >>) when is_quote(quote) do
-    value |> QuotedString.encode
+  def encode(quoted_string = <<quote, _::binary >>) when is_quote(quote) do
+    quoted_string |> QuotedString.encode
   end
 
   def encode(text = <<byte, _::binary>>) when is_char(byte) do

@@ -10,6 +10,6 @@ defmodule MMS.NoValue do
   end
 
   def encode(value) when is_no_value(value) do
-    ok no_value_bytes()
+    ok <<no_value_byte()>>
   end
 end
