@@ -39,20 +39,33 @@ defmodule MMS.DataTypes do
   end
 
   defmacro is_char value do
-    quote do
-      unquote(value) == 0 or (unquote(value) >= 32 and unquote(value) <= 127)
-    end
+    quote do unquote(value) == 0 or (unquote(value) >= 32 and unquote(value) <= 127) end
   end
 
   defmacro is_quote value do
-    quote do
-      unquote(value) == 34
-    end
+    quote do unquote(value) == 34 end
+  end
+
+  defmacro is_no_value_byte byte do
+    quote do unquote(byte) == 0 end
+  end
+
+  defmacro is_no_value value do
+    quote do unquote(value) == :no_value end
+  end
+
+  defmacro no_value do
+    quote do :no_value end
+  end
+
+  defmacro no_value_bytes do
+    quote do <<0>> end
   end
 
   def quote_string do
     ~s(")
   end
+
   def short(value) when is_short(value) do
     value + 128
   end
