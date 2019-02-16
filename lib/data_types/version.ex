@@ -1,7 +1,9 @@
 defmodule MMS.VersionInteger do
   use MMS.Codec
 
-  def decode <<1::1, major::3, 15::4, rest::binary>> do
+  @no_minor 15
+
+  def decode <<1::1, major::3, @no_minor::4, rest::binary>> do
     ok major, rest
   end
 
@@ -9,11 +11,11 @@ defmodule MMS.VersionInteger do
     ok {major, minor}, rest
   end
 
-  def encode(major) when is_major_version(major) do
-    do_encode major, 15
+  def encode(major) when major in 0..7 do
+    do_encode major, @no_minor
   end
 
-  def encode({major, minor}) when is_major_version(major) and is_minor_version(minor) do
+  def encode({major, minor}) when major in 0..7 and minor in 0..14 do
     do_encode major, minor
   end
 

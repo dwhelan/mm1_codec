@@ -5,8 +5,6 @@ defmodule MMS.DataTypes do
   defmacro is_short_length(value),  do: value |> in_range?(0..max_short_length())
   defmacro is_uint32(value),        do: value |> in_range?(0..max_uint32())
   defmacro is_long(value),          do: value |> in_range?(0..max_long())
-  defmacro is_major_version(value), do: value |> in_range?(0..7)
-  defmacro is_minor_version(value), do: value |> in_range?(0..14)
   defmacro is_no_value_byte(value), do: value |> equal?(no_value_byte())
   defmacro is_no_value(value),      do: value |> equal?(no_value())
   defmacro is_quote(value),         do: value |> equal?(34)
