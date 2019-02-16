@@ -26,7 +26,7 @@ defmodule MMS.Address do
   def decode bytes do
     bytes
     |> Text.decode
-    ~> fn {string, rest} -> string |> String.split("/TYPE=") |> do_decode(rest) end
+    ~> fn {text, rest} -> text |> String.split("/TYPE=") |> do_decode(rest) end
     ~>> fn details -> error bytes, details end
   end
 
