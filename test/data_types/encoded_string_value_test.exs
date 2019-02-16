@@ -1,13 +1,13 @@
 defmodule MMS.EncodedStringValueTest do
   use MMS.CodecTest
 
-  alias MMS.EncodedStringValue2
+  alias MMS.EncodedStringValue
 
   string30     = String.duplicate "x", 30
   length_quote = 31
 
   use MMS.TestExamples,
-      codec: EncodedStringValue2,
+      codec: EncodedStringValue,
 
       examples: [
         # Not encoded
@@ -23,13 +23,13 @@ defmodule MMS.EncodedStringValueTest do
       ],
 
       decode_errors: [
-        { <<"x">>,               {:invalid_encoded_string_value2, "x", {:invalid_text, "x", :missing_text_string_terminator}} },
-        { <<l(2), s(106), "x">>, {:invalid_encoded_string_value2, <<l(2), s(106), "x">>, %{length: {2, <<2>>}, values: [:csUTF8, error(:invalid_text, "x", :missing_text_string_terminator)]} }},
+        { <<"x">>,               {:invalid_encoded_string_value, "x", {:invalid_text, "x", :missing_text_string_terminator}} },
+        { <<l(2), s(106), "x">>, {:invalid_encoded_string_value, <<l(2), s(106), "x">>, %{length: {2, <<2>>}, values: [:csUTF8, error(:invalid_text, "x", :missing_text_string_terminator)]} }},
       ],
 
       encode_errors: [
-        { "x\0",            {:invalid_encoded_string_value2, "x\0", {:invalid_text, "x\0", :contains_end_of_string_byte}} },
-        { {"x\0", :csUTF8}, {:invalid_encoded_string_value2, {"x\0", :csUTF8}, [<<s(106)>>, error(:invalid_text, "x\0", :contains_end_of_string_byte)]} },
+        { "x\0",            {:invalid_encoded_string_value, "x\0", {:invalid_text, "x\0", :contains_end_of_string_byte}} },
+        { {"x\0", :csUTF8}, {:invalid_encoded_string_value, {"x\0", :csUTF8}, [<<s(106)>>, error(:invalid_text, "x\0", :contains_end_of_string_byte)]} },
       ]
 end
 

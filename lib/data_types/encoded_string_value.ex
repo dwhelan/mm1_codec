@@ -1,4 +1,4 @@
-defmodule MMS.EncodedStringValue2 do
+defmodule MMS.EncodedStringValue do
   @moduledoc """
 
   Encoded-string-value = Text-string | Value-length Char-set Text-string
@@ -14,7 +14,7 @@ defmodule MMS.EncodedStringValue2 do
 
   use MMS.Codec2
 
-  alias MMS.EncodedStringValue2.TextStringWithCharset
+  alias MMS.EncodedStringValue.TextStringWithCharset
   alias MMS.Text
 
   def decode(<<byte, _::binary>> = bytes) when is_char(byte) do
