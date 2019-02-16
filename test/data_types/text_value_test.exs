@@ -11,10 +11,10 @@ defmodule MMS.TextValueTest do
       ],
 
       decode_errors: [
-        {<<128>>, {:invalid_text_value, <<128>>, :must_be_no_value_quoted_string_or_a_char} },
+        {<<128>>, {:invalid_text_value, <<128>>, :must_be_no_value_quoted_string_or_text} },
       ],
 
       encode_errors: [
-        {<<1>>, {:invalid_text_value, <<1>>, :must_be_no_value_quoted_string_or_a_char}}
+        {<<1>>, {:invalid_text_value, <<1>>, :must_be_no_value_quoted_string_or_text}}
       ]
 end

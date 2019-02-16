@@ -3,8 +3,8 @@ defmodule MMS.QuotedString do
 
   alias MMS.Text
 
-  def decode(<<quote, _::binary >> = bytes) when is_quote(quote) do
-    bytes |> Text.decode <~> append(quote_string())
+  def decode bytes = << ~s("), _::binary >> do
+    bytes |> Text.decode <~> append(~s("))
   end
 
   def encode(string) when is_binary(string) do
@@ -15,7 +15,7 @@ defmodule MMS.QuotedString do
   end
 
   defp is_quoted? string do
-    String.starts_with?(string, quote_string()) and String.ends_with?(string, quote_string())
+    String.starts_with?(string, ~s(")) and String.ends_with?(string, ~s("))
   end
 
   defp remove_trailing_quote string do
