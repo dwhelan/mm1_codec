@@ -51,11 +51,12 @@ defmodule MMS.Address2 do
   """
   use MMS.Codec2
 
-  alias MMS.EncodedStringValue2
+  alias MMS.ExncodedStringValue2
+  alias MMS.Text
 
   def decode bytes do
     bytes
-    |> EncodedStringValue2.decode
+    |> Text.decode
     ~> fn {string, rest} -> string |> String.split("/TYPE=") |> do_decode(rest) end
     ~>> fn details -> error bytes, details end
   end
@@ -98,7 +99,7 @@ defmodule MMS.Address2 do
   def encode(address) when is_binary(address) do
     address
     |> check_address
-    ~> fn string -> string |> EncodedStringValue2.encode end
+    ~> fn string -> string |> Text.encode end
     ~>> fn details -> error address, details end
   end
 
@@ -107,7 +108,7 @@ defmodule MMS.Address2 do
     |> :inet.ntoa
     |> OkError.return
     ~>> fn _error -> error :invalid_ipv4_address end
-    ~> fn charlist -> EncodedStringValue2.encode to_string(charlist) <> "/TYPE=IPv4" end
+    ~> fn charlist -> Text.encode to_string(charlist) <> "/TYPE=IPv4" end
     ~>> fn details -> error ipv4, details end
   end
 
@@ -117,13 +118,13 @@ defmodule MMS.Address2 do
     |> OkError.return
     ~> fn charlist -> charlist |> to_string |> String.replace("::", ":") end
     ~>> fn _error -> error :invalid_ipv6_address end
-    ~> fn charlist -> EncodedStringValue2.encode to_string(charlist) <> "/TYPE=IPv6" end
+    ~> fn charlist -> Text.encode to_string(charlist) <> "/TYPE=IPv6" end
     ~>> fn details -> error ipv6, details end
   end
 
   def encode({address, type}) when is_binary(address) and type not in ["IPv4", "IPv6", "PLMN"] do
     address <> "/TYPE=#{type}"
-    |> EncodedStringValue2.encode
+    |> Text.encode
   end
 
   defp check_address string do
