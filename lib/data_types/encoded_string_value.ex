@@ -1,4 +1,4 @@
-defmodule MMS.EncodedStringValue do
+defmodule MMS.EncodedStringValue2 do
   @moduledoc """
 
   Encoded-string-value = Text-string | Value-length Char-set Text-string
@@ -12,18 +12,6 @@ defmodule MMS.EncodedStringValue do
   [RFC2047] encoding for UTF-8 character- set encoding MAY be supported in the MMS Client and/or MMS Proxy-Relay.
   """
 
-  use MMS.Either, [MMS.Text, MMS.EncodedStringValue2.TextStringWithCharset]
-
-  def map([charset, string], fun) do
-    string |> map(fun) ~> OldOkError.Tuple.insert_at({charset}, 0)
-  end
-
-  def map(string, fun) do
-    fun.(string) ~> ok
-  end
-end
-
-defmodule MMS.EncodedStringValue2 do
   use MMS.Codec2
 
   alias MMS.EncodedStringValue2.TextStringWithCharset
