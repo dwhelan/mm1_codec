@@ -17,6 +17,5 @@ defmodule MMS.FromTest do
       ],
 
       encode_errors: [
-        { :not_a_from, :invalid_from },
       ]
 end
