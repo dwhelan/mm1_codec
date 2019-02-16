@@ -27,7 +27,7 @@ defmodule MMS.ValueLengthList do
   end
 
   defp check_value_bytes_used(length, value_bytes, values, rest, bytes) do
-    bytes_used = byte_size(value_bytes) - byte_size(rest)
+    bytes_used    = byte_size(value_bytes) - byte_size(rest)
     error_details = length_details(length, bytes, values, value_bytes) |> Map.put(:bytes_used, bytes_used)
     error :incorrect_value_length, bytes, error_details
   end
@@ -35,13 +35,11 @@ defmodule MMS.ValueLengthList do
   def encode(values, functions) when is_list(values) and is_list(functions) do
     values
     |> List.encode(functions)
-    ~> &prepend_length_bytes/1
-  end
-
-  defp prepend_length_bytes value_bytes do
-    case value_bytes |> byte_size |> ValueLength.encode do
-      {:ok, length_bytes} -> ok length_bytes <> value_bytes
-      error               -> error
-    end
+    ~> fn value_bytes ->
+         value_bytes
+         |> byte_size
+         |> ValueLength.encode
+         ~> fn length_bytes -> ok length_bytes <> value_bytes end
+       end
   end
 end
