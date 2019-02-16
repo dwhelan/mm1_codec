@@ -1,4 +1,13 @@
 defmodule MMS.TextString do
+  @moduledoc """
+  Text-string = [Quote] *TEXT End-of-string
+
+  If the first character in the TEXT is in the range of 128-255, a Quote character must precede it.
+  Otherwise the Quote character must be omitted.
+  The Quote is not part of the contents.
+
+  Quote = <Octet 127>
+  """
   use MMS.Codec2
 
   alias MMS.Text

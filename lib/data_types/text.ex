@@ -1,6 +1,11 @@
 defmodule MMS.Text do
   @moduledoc """
+  Text = Char *TEXT End-of-string
 
+  This is a convenience codec that handles text.
+  Text is any sequence of bytes starting with a "char" and terminated with a "\0".
+
+  End-of-string = <Octet 0>
   """
   use MMS.Codec2
 
