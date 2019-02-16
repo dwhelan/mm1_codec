@@ -6,19 +6,29 @@ defmodule MMS.TextValue do
 
   alias MMS.{NoValue, QuotedString, Text}
 
-  def decode(bytes = <<0, _::binary>>) do
-    bytes |> NoValue.decode
-  end
-
-  def decode(bytes = << ~s("), _::binary>>) do
-    bytes |> QuotedString.decode
-  end
-
-  def decode(bytes = <<byte, _::binary>>) when is_char(byte) do
-    bytes |> Text.decode
+  def reason {_, _, reason} do
+    reason
   end
 
   def decode(bytes) when is_binary(bytes) do
+    bytes
+    |> do_decode
+    ~>> fn error -> error bytes, reason(error) end
+  end
+
+  defp do_decode(bytes = <<0, _::binary>>) do
+    bytes |> NoValue.decode
+  end
+
+  defp do_decode(bytes = << ~s("), _::binary>>) do
+    bytes |> QuotedString.decode
+  end
+
+  defp do_decode(bytes = <<byte, _::binary>>) when is_char(byte) do
+    bytes |> Text.decode
+  end
+
+  defp do_decode(bytes) when is_binary(bytes) do
     error bytes, :must_be_no_value_quoted_string_or_text
   end
 
