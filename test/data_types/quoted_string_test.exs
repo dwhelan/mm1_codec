@@ -5,18 +5,17 @@ defmodule MMS.QuotedStringTest do
       codec: MMS.QuotedString,
 
       examples: [
-        { ~s("\0),  ~s("")  },
-        { ~s("x\0), ~s("x") },
+        { ~s("\0),  ~s(")  },
+        { ~s("x\0), ~s("x) },
       ],
 
       decode_errors: [
-        { <<1>>,       :invalid_quoted_string }, # does not start with text byte
-        { ~s("string), :invalid_quoted_string }, # missing terminator
+        { <<1>>,       {:invalid_quoted_string, <<1>>,       :must_start_with_a_quote}         },
+        { ~s("string), {:invalid_quoted_string, ~s("string), :missing_end_of_string_byte_of_0} },
       ],
 
       encode_errors: [
-        { :not_a_quoted_string, :invalid_quoted_string },
-        { ~s("x),               :invalid_quoted_string }, # only leading quote
-        { ~s(x"),               :invalid_quoted_string }, # only trailing quote
+        { "x",       {:invalid_quoted_string, "x",       :must_start_with_a_quote}         },
+        { ~s("x\0"), {:invalid_quoted_string, ~s("x\0"), :contain_end_of_string_byte_of_0} },
       ]
 end

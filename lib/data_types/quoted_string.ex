@@ -1,26 +1,32 @@
 defmodule MMS.QuotedString do
-  use MMS.Codec
+  @moduledoc """
+  Quoted-string = <Octet 34> *TEXT End-of-string
+
+  The TEXT encodes an RFC2616 Quoted-string with the enclosing quotation-marks <"> removed.
+
+  <Octet 34> = "
+  """
+  use MMS.Codec2
 
   alias MMS.Text
 
   def decode bytes = << ~s("), _::binary >> do
-    bytes |> Text.decode <~> append(~s("))
+    bytes
+    |> Text.decode
+    ~>> fn {_, _, reason} -> error bytes, reason end
+  end
+
+  def decode(bytes) when is_binary(bytes) do
+    error bytes, :must_start_with_a_quote
+  end
+
+  def encode string = << ~s("), _::binary >> do
+    string
+    |> Text.encode
+    ~>> fn {_, _, reason} -> error string, reason end
   end
 
   def encode(string) when is_binary(string) do
-    cond do
-      is_quoted? string -> string |> remove_trailing_quote ~> Text.encode
-      true              -> module_error()
-    end
+    error string, :must_start_with_a_quote
   end
-
-  defp is_quoted? string do
-    String.starts_with?(string, ~s(")) and String.ends_with?(string, ~s("))
-  end
-
-  defp remove_trailing_quote string do
-    string |> String.slice(0..-2)
-  end
-
-  defaults()
 end
