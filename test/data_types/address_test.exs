@@ -21,7 +21,7 @@ defmodule MMS.Address2Test do
 
       encode_errors: [
         { "x",                        {:invalid_address, "x",                        :invalid_phone_number} },
-        { "email@address\0",          {:invalid_address, "email@address\0",          {:invalid_text, "email@address\0", :contain_end_of_string_byte_of_0}} },
+        { "email@address\0",          {:invalid_address, "email@address\0",          {:invalid_text, "email@address\0", :contains_end_of_string_0_byte}} },
         { {"x", 0, 0, 0},             {:invalid_address, {"x", 0, 0, 0},             :invalid_ipv4_address} },
         { {"x", 0, 0, 0, 0, 0, 0, 0}, {:invalid_address, {"x", 0, 0, 0, 0, 0, 0, 0}, :invalid_ipv6_address} },
       ]

@@ -13,14 +13,14 @@ defmodule MMS.TextValueTest do
       decode_errors: [
         { <<1>>,        {:invalid_text_value, <<1>>,        :first_byte_must_be_no_value_or_quote_or_char} },
         { <<128>>,      {:invalid_text_value, <<128>>,      :first_byte_must_be_no_value_or_quote_or_char} },
-        { <<"x">>,      {:invalid_text_value, <<"x">>,      :missing_end_of_string_byte_of_0}              },
-        { << ~s("x) >>, {:invalid_text_value, << ~s("x) >>, :missing_end_of_string_byte_of_0}              },
+        { <<"x">>,      {:invalid_text_value, <<"x">>,      :missing_end_of_string_0_byte}                 },
+        { << ~s("x) >>, {:invalid_text_value, << ~s("x) >>, :missing_end_of_string_0_byte}                 },
       ],
 
       encode_errors: [
         { <<1>>,    {:invalid_text_value, <<1>>,      :first_byte_must_be_no_value_or_quote_or_char}},
         { <<128>>,  {:invalid_text_value, <<128>>,    :first_byte_must_be_no_value_or_quote_or_char}},
-        { "x\0",    {:invalid_text_value, <<120, 0>>, :contain_end_of_string_byte_of_0}             },
-        { ~s("x\0), {:invalid_text_value, ~s("x\0),   :contain_end_of_string_byte_of_0}             },
+        { "x\0",    {:invalid_text_value, <<120, 0>>, :contains_end_of_string_0_byte}               },
+        { ~s("x\0), {:invalid_text_value, ~s("x\0),   :contains_end_of_string_0_byte}               },
       ]
 end
