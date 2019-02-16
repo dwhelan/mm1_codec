@@ -3,11 +3,13 @@ defmodule MMS.TextValue do
 
   alias MMS.{NoValue, QuotedString, Text}
 
+  @quote ~s(")
+
   def decode bytes = <<0, _::binary>> do
     bytes |> NoValue.decode
   end
 
-  def decode bytes = <<"\"", _::binary>> do
+  def decode(bytes = <<quote, _::binary>>) when is_quote(quote) do
     bytes |> QuotedString.decode
   end
 
