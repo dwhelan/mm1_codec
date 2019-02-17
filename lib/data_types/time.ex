@@ -1,5 +1,5 @@
 defmodule MMS.Time do
-  use MMS.Codec
+  use MMS.Codec2
 
   import MMS.Composer
 
@@ -9,23 +9,24 @@ defmodule MMS.Time do
   alias MMS.{ValueLengthList, Short, Long}
   @codecs [MMS.Short, MMS.Long, ValueLengthList]
 
-  def decode(bytes) do
-    bytes
-    |> decode(@codecs)
-    <~> to_time
-  end
+#  def decode(bytes) do
+#    bytes
+#    |> decode(@codecs)
+#    <~> to_time
+#  end
 
   def decode(bytes) do
     bytes
     |> ValueLengthList.decode([&Short.decode/1, &Long.decode/1])
-#    ~> fn {[time_type, seconds], rest} -> ok {seconds, time_type}, rest end
+    ~> fn {result, rest} -> ok to_time(result), rest end
+    ~>> fn details -> error bytes, details end
   end
 
-  defp to_time({seconds, @absolute}) do
+  defp to_time([@absolute, seconds]) do
     seconds |> DateTime.from_unix!
   end
 
-  defp to_time({seconds, @relative}) do
+  defp to_time([@relative, seconds]) do
     seconds
   end
 
