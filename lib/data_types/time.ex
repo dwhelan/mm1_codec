@@ -6,16 +6,32 @@ defmodule MMS.Time do
   @absolute 0
   @relative 1
 
-  alias MMS.{ValueLengthList}
+  alias MMS.{ValueLengthList, Short, Long}
   @codecs [MMS.Short, MMS.Long, ValueLengthList]
 
-  def decode(bytes), do: bytes |> decode(@codecs) <~> to_time
+  def decode(bytes) do
+    bytes
+    |> decode(@codecs)
+    <~> to_time
+  end
 
-  defp to_time({seconds, @absolute}), do: seconds |> DateTime.from_unix!
-  defp to_time({seconds, @relative}), do: seconds
-  defp to_time(_),                    do: module_error()
+  def decode(bytes) do
+    bytes
+    |> ValueLengthList.decode([&Short.decode/1, &Long.decode/1])
+#    ~> fn {[time_type, seconds], rest} -> ok {seconds, time_type}, rest end
+  end
 
-#  defp do_encode(seconds, absolute),  do: [absolute, seconds] |> encode(@codecs) ~>> module_error
+  defp to_time({seconds, @absolute}) do
+    seconds |> DateTime.from_unix!
+  end
+
+  defp to_time({seconds, @relative}) do
+    seconds
+  end
+
+  defp to_time(_) do
+    module_error()
+  end
 
   def decode(bytes) when is_binary(bytes) do
     error :invalid_short
@@ -34,6 +50,6 @@ defmodule MMS.Time do
 
   defp do_encode seconds, time_type do
     [time_type, seconds]
-    |> ValueLengthList.encode([&MMS.Short.encode/1, &MMS.Long.encode/1])
+    |> ValueLengthList.encode([&Short.encode/1, &Long.encode/1])
   end
 end
