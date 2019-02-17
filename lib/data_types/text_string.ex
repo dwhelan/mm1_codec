@@ -25,7 +25,7 @@ defmodule MMS.TextString do
     error bytes, :byte_following_quote_must_be_greater_than_127
   end
 
-  def decode(<<byte, _::binary>> = bytes) when is_char(byte) and byte != @quote do
+  def decode(<<byte, _::binary>> = bytes) when is_text(byte) and byte != @quote do
     bytes
     |> Text.decode
     ~>> fn error -> error bytes, reason(error) end

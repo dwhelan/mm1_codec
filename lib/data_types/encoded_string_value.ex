@@ -17,7 +17,7 @@ defmodule MMS.EncodedStringValue do
   alias MMS.EncodedStringValue.TextStringWithCharset
   alias MMS.TextString
 
-  def decode(<<byte, _::binary>> = bytes) when is_char(byte) do
+  def decode(<<byte, _::binary>> = bytes) when is_text(byte) do
     bytes
     |> TextString.decode
     ~>> fn details -> error bytes, details end

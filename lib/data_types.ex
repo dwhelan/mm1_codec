@@ -2,12 +2,17 @@ defmodule MMS.DataTypes do
 
   defmacro is_byte(value),          do: value |> in_range?(0..255)
   defmacro is_short(value),         do: value |> in_range?(0..127)
+  defmacro is_char(value),          do: value |> in_range?(32..127)
   defmacro is_short_length(value),  do: value |> in_range?(0..max_short_length())
   defmacro is_uint32(value),        do: value |> in_range?(0..max_uint32())
   defmacro is_long(value),          do: value |> in_range?(0..max_long())
 
-  defmacro is_char(value) do
-    quote do unquote(value) == 0 or (unquote(value) in 32..127) end
+  defmacro is_end_of_string(value) do
+    quote do unquote(value) == 0 end
+  end
+
+  defmacro is_text(value) do
+    quote do is_end_of_string(unquote value) or is_char(unquote value) end
   end
 
   def max_short_length, do: 30
@@ -20,4 +25,3 @@ defmodule MMS.DataTypes do
     quote do unquote(value) in unquote(Macro.escape range) end
   end
 end
-

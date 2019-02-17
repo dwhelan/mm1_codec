@@ -22,7 +22,7 @@ defmodule MMS.Short do
     ok <<1::1, value::7>>
   end
 
-  def encode(value) do
-    error :invalid_short
+  def encode value do
+    error value, :out_of_range
   end
 end
