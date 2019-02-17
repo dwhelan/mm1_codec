@@ -25,7 +25,7 @@ defmodule MMS.TimeTest do
       ],
 
       encode_errors: [
-        { -1,             :invalid_time },
-        { max_long() + 1, :invalid_time },
+        { -1,             [<<129>>, {:error, {:invalid_long, -1, :out_of_range}}] },
+        { max_long() + 1, [<<129>>, {:error, {:invalid_long, 1766847064778384329583297500742918515827483896875618958121606201292619776, :out_of_range}}] },
       ]
 end
