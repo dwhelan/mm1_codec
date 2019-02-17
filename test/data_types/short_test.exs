@@ -14,9 +14,6 @@ defmodule MMS.ShortTest do
       ],
 
       encode_errors: [
-        {-1,  :invalid_short},
-        {128, :invalid_short},
-        {"x", :invalid_short},
       ]
 end
 

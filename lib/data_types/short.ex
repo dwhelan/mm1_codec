@@ -8,15 +8,21 @@ defmodule MMS.Short do
     significant bit set to one (1xxx xxxx) and with the value in the remaining
     least significant bits.
   """
-  use MMS.Codec
+  use MMS.Codec2
 
   def decode <<1::1, value::7, rest::binary>> do
     ok value, rest
   end
 
-  def encode(value) when is_short(value) do
-    ok <<value+128>>
+  def decode(bytes) when is_binary(bytes) do
+    error :invalid_short
   end
 
-  defaults()
+  def encode(value) when is_short(value) do
+    ok <<1::1, value::7>>
+  end
+
+  def encode(value) do
+    error :invalid_short
+  end
 end

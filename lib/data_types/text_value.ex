@@ -1,6 +1,8 @@
 defmodule MMS.TextValue do
   @moduledoc """
   Text-value = No-value | Token-text | Quoted-string
+
+  Note: we use Text as for our purposes it is equivalent to Token-text
   """
   use MMS.Codec2
 
