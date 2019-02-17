@@ -27,7 +27,7 @@ defmodule MMS.Text do
 
   def encode(<<byte, _::binary>> = string) when is_char(byte) do
     if string |> String.contains?("\0") do
-      error :invalid_text, string, :contains_end_of_string_0_byte
+      error :invalid_text, string, :contains_end_of_string_0
     else
       ok string <> <<0>>
     end

@@ -20,7 +20,7 @@ defmodule MMS.TextValueTest do
       encode_errors: [
         { <<1>>,    {:invalid_text_value, <<1>>,      :first_byte_must_be_no_value_or_quote_or_char}},
         { <<128>>,  {:invalid_text_value, <<128>>,    :first_byte_must_be_no_value_or_quote_or_char}},
-        { "x\0",    {:invalid_text_value, <<120, 0>>, :contains_end_of_string_0_byte}               },
-        { ~s("x\0), {:invalid_text_value, ~s("x\0),   :contains_end_of_string_0_byte}               },
+        { "x\0",    {:invalid_text_value, <<120, 0>>, :contains_end_of_string_0}               },
+        { ~s("x\0), {:invalid_text_value, ~s("x\0),   :contains_end_of_string_0}               },
       ]
 end

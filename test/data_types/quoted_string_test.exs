@@ -16,6 +16,6 @@ defmodule MMS.QuotedStringTest do
 
       encode_errors: [
         { "x",       {:invalid_quoted_string, "x",       :must_start_with_a_quote}         },
-        { ~s("x\0"), {:invalid_quoted_string, ~s("x\0"), :contains_end_of_string_0_byte} },
+        { ~s("x\0"), {:invalid_quoted_string, ~s("x\0"), :contains_end_of_string_0} },
       ]
 end
