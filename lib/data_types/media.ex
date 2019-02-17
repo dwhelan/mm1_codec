@@ -105,7 +105,7 @@ defmodule MMS.KnownMedia do
     bytes
     |> Short.decode
     ~> fn result -> result |> map(@map) end
-    ~>> fn _ -> error bytes, :out_of_range end
+    ~>> fn reason -> error bytes, reason end
   end
 
   @inverse invert @map
@@ -114,5 +114,6 @@ defmodule MMS.KnownMedia do
     value
     |> map(@inverse)
     ~> Short.encode
+    ~>> fn reason -> error value, :unknown end
   end
 end

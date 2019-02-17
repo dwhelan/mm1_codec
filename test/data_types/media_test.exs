@@ -121,7 +121,11 @@ defmodule MMS.KnownMediaTest do
       ],
 
       decode_errors: [
-        {<< s(-1) >>, {:invalid_known_media, << s(-1) >>, :out_of_range}},
+        {<< s(-1) >>, {:invalid_known_media, << s(-1) >>, :invalid_short}},
         {<< s(89) >>, {:invalid_known_media, << s(89) >>, :out_of_range}},
+      ],
+
+      encode_errors: [
+        { "bad media", {:invalid_known_media, "bad media", :unknown}}
       ]
 end
