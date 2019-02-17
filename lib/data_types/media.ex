@@ -1,12 +1,23 @@
 defmodule MMS.Media do
-  use MMS.Either, [MMS.KnownMedia, MMS.Text]
+  use MMS.Codec2
 
-  def decode(<<byte, _::binary>> = bytes) when is_char(byte) do
+  def decode(<<char, _::binary>> = bytes) when is_char(char) do
     bytes
     |> MMS.Text.decode
-#    ~>> fn details -> error bytes, details end
+    ~>> fn details -> error bytes, reason(details) end
   end
 
+  def decode bytes do
+    bytes
+    |> MMS.KnownMedia.decode
+    ~>> fn details -> error bytes, reason(details) end
+  end
+
+  def encode(string) when is_binary(string) do
+    string
+    |> MMS.KnownMedia.encode
+    ~>> fn _ -> string |> MMS.Text.encode end
+  end
 end
 
 # http://www.openmobilealliance.org/wp/OMNA/wsp/wsp_content_type_codes.html

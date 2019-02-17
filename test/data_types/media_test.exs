@@ -16,9 +16,9 @@ defmodule MMS.MediaTest do
       ],
 
       decode_errors: [
-        { <<1>>,  :invalid_media },
-        { <<31>>, :invalid_media },
-        { "x",    :invalid_media }, # missing terminator
+        { <<1>>,  {:invalid_media, <<1>>, {:invalid_integer, <<1>>, {:invalid_long, <<1>>, {:invalid_short_length, <<1>>, {:insufficient_bytes, 1}}}}} },
+        { <<31>>, {:invalid_media, <<31>>, {:invalid_integer, <<31>>, {:invalid_long, <<31>>, {:invalid_short_length, <<31>>, 31}}}} },
+        { "x",    {:invalid_media, "x", :missing_end_of_string_0_byte} },
       ]
 end
 
