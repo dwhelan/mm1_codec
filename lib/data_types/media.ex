@@ -1,5 +1,12 @@
 defmodule MMS.Media do
   use MMS.Either, [MMS.KnownMedia, MMS.Text]
+
+  def decode(<<byte, _::binary>> = bytes) when is_char(byte) do
+    bytes
+    |> MMS.Text.decode
+#    ~>> fn details -> error bytes, details end
+  end
+
 end
 
 # http://www.openmobilealliance.org/wp/OMNA/wsp/wsp_content_type_codes.html
@@ -7,7 +14,7 @@ defmodule MMS.KnownMedia do
   use MMS.Codec2
 
   import Codec.Map
-  alias MMS.Short
+  alias MMS.Integer
 
   @map with_index [
     "*/*",
@@ -103,7 +110,7 @@ defmodule MMS.KnownMedia do
 
   def decode(bytes) when is_binary(bytes) do
     bytes
-    |> Short.decode
+    |> Integer.decode
     ~> fn result -> result |> map(@map) end
     ~>> fn reason -> error bytes, reason end
   end
@@ -113,7 +120,7 @@ defmodule MMS.KnownMedia do
   def encode(value) when is_binary(value) do
     value
     |> map(@inverse)
-    ~> Short.encode
+    ~> Integer.encode
     ~>> fn reason -> error value, :unknown end
   end
 end
