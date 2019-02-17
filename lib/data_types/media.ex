@@ -4,11 +4,13 @@ defmodule MMS.Media do
   alias MMS.{Text, WellKnownMedia}
 
   def decode(<<char, _::binary>> = bytes) when is_char(char) do
-    bytes |> do_decode(Text)
+    bytes
+    |> do_decode(Text)
   end
 
   def decode bytes do
-    bytes |> do_decode(WellKnownMedia)
+    bytes
+    |> do_decode(WellKnownMedia)
   end
 
   defp do_decode bytes, codec do
