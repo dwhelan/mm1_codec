@@ -14,7 +14,7 @@ defmodule MMS.Text do
   end
 
   def decode(bytes) when is_binary(bytes) do
-    error :invalid_text, bytes, :first_byte_must_be_a_char
+    error bytes, :first_byte_must_be_a_char
   end
 
   defp decode_parts [string | [rest]] do
@@ -22,12 +22,12 @@ defmodule MMS.Text do
   end
 
   defp decode_parts [string | []] do
-    error :invalid_text, string, :missing_end_of_string_0_byte
+    error string, :missing_end_of_string_0_byte
   end
 
   def encode(<<byte, _::binary>> = string) when is_char(byte) do
     if string |> String.contains?("\0") do
-      error :invalid_text, string, :contains_end_of_string_0
+      error string, :contains_end_of_string_0
     else
       ok string <> <<0>>
     end
@@ -38,6 +38,6 @@ defmodule MMS.Text do
   end
 
   def encode(string) when is_binary(string) do
-    error :invalid_text, string, :first_byte_must_be_a_char
+    error string, :first_byte_must_be_a_char
   end
 end
