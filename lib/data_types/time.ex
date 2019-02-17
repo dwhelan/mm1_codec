@@ -1,19 +1,10 @@
 defmodule MMS.Time do
   use MMS.Codec2
 
-  import MMS.Composer
-
   @absolute 0
   @relative 1
 
   alias MMS.{ValueLengthList, Short, Long}
-  @codecs [MMS.Short, MMS.Long, ValueLengthList]
-
-#  def decode(bytes) do
-#    bytes
-#    |> decode(@codecs)
-#    <~> to_time
-#  end
 
   def decode(bytes) do
     bytes
@@ -22,11 +13,11 @@ defmodule MMS.Time do
     ~>> fn details -> error bytes, details end
   end
 
-  defp to_time([@absolute, seconds]) do
+  defp to_time [@absolute, seconds] do
     seconds |> DateTime.from_unix!
   end
 
-  defp to_time([@relative, seconds]) do
+  defp to_time [@relative, seconds] do
     seconds
   end
 
@@ -34,17 +25,13 @@ defmodule MMS.Time do
     module_error()
   end
 
-  def decode(bytes) when is_binary(bytes) do
-    error :invalid_short
-  end
-
-  def encode(%DateTime{} = date_time) do
+  def encode date_time = %DateTime{} do
     date_time
     |> DateTime.to_unix
     |> do_encode(@absolute)
   end
 
-  def encode seconds do
+  def encode(seconds) when is_long(seconds) do
     seconds
     |> do_encode(@relative)
   end
