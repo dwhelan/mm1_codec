@@ -5,7 +5,9 @@ defmodule MMS.Charset do
   The Char-set values are registered by IANA as MIBEnum values.
   """
   use MMS.Codec2
+
   import Codec.Map
+  alias MMS.Integer
 
   @map %{
        0 => :any,
@@ -273,7 +275,7 @@ defmodule MMS.Charset do
 
   def decode bytes do
     bytes
-    |> MMS.Integer.decode
+    |> Integer.decode
     ~> fn result -> map result, @map end
     ~>> fn details -> error bytes, details end
   end
@@ -283,7 +285,7 @@ defmodule MMS.Charset do
   def encode(charset) when is_atom(charset) do
     charset
     |> map(@inverse)
-    ~> MMS.Integer.encode
+    ~> Integer.encode
     ~>> fn details -> error charset, details end
   end
 end
