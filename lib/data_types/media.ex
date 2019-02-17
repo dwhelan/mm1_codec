@@ -1,137 +1,25 @@
 defmodule MMS.Media do
   use MMS.Codec2
 
+  alias MMS.{Text, WellKnownMedia}
+
   def decode(<<char, _::binary>> = bytes) when is_char(char) do
-    bytes
-    |> MMS.Text.decode
-    ~>> fn details -> error bytes, reason(details) end
+    bytes |> do_decode(Text)
   end
 
   def decode bytes do
+    bytes |> do_decode(WellKnownMedia)
+  end
+
+  defp do_decode bytes, codec do
     bytes
-    |> MMS.KnownMedia.decode
+    |> codec.decode
     ~>> fn details -> error bytes, reason(details) end
   end
 
   def encode(string) when is_binary(string) do
     string
-    |> MMS.KnownMedia.encode
-    ~>> fn _ -> string |> MMS.Text.encode end
-  end
-end
-
-# http://www.openmobilealliance.org/wp/OMNA/wsp/wsp_content_type_codes.html
-defmodule MMS.KnownMedia do
-  use MMS.Codec2
-
-  import Codec.Map
-  alias MMS.Integer
-
-  @map with_index [
-    "*/*",
-    "text/*",
-    "text/html",
-    "text/plain",
-    "text/x-hdml",
-    "text/x-ttml",
-    "text/x-vCalendar",
-    "text/x-vCard",
-    "text/vnd.wap.wml",
-    "text/vnd.wap.wmlscript",
-    "text/vnd.wap.wta-event",
-    "multipart/*",
-    "multipart/mixed",
-    "multipart/form-data",
-    "multipart/byterantes",
-    "multipart/alternative",
-    "application/*",
-    "application/java-vm",
-    "application/x-www-form-urlencoded",
-    "application/x-hdmlc",
-    "application/vnd.wap.wmlc",
-    "application/vnd.wap.wmlscriptc",
-    "application/vnd.wap.wta-eventc",
-    "application/vnd.wap.uaprof",
-    "application/vnd.wap.wtls-ca-certificate",
-    "application/vnd.wap.wtls-user-certificate",
-    "application/x-x509-ca-cert",
-    "application/x-x509-user-cert",
-    "image/*",
-    "image/gif",
-    "image/jpeg",
-    "image/tiff",
-    "image/png",
-    "image/vnd.wap.wbmp",
-    "application/vnd.wap.multipart.*",
-    "application/vnd.wap.multipart.mixed",
-    "application/vnd.wap.multipart.form-data",
-    "application/vnd.wap.multipart.byteranges",
-    "application/vnd.wap.multipart.alternative",
-    "application/xml",
-    "text/xml",
-    "application/vnd.wap.wbxml",
-    "application/x-x968-cross-cert",
-    "application/x-x968-ca-cert",
-    "application/x-x968-user-cert",
-    "text/vnd.wap.si",
-    "application/vnd.wap.sic",
-    "text/vnd.wap.sl",
-    "application/vnd.wap.slc",
-    "text/vnd.wap.co",
-    "application/vnd.wap.coc",
-    "application/vnd.wap.multipart.related",
-    "application/vnd.wap.sia",
-    "text/vnd.wap.connectivity-xml",
-    "application/vnd.wap.connectivity-wbxml",
-    "application/pkcs7-mime",
-    "application/vnd.wap.hashed-certificate",
-    "application/vnd.wap.signed-certificate",
-    "application/vnd.wap.cert-response",
-    "application/xhtml+xml",
-    "application/wml+xml",
-    "text/css",
-    "application/vnd.wap.mms-message",
-    "application/vnd.wap.rollover-certificate",
-    "application/vnd.wap.locc+wbxml",
-    "application/vnd.wap.loc+xml",
-    "application/vnd.syncml.dm+wbxml",
-    "application/vnd.syncml.dm+xml",
-    "application/vnd.syncml.notification",
-    "application/vnd.wap.xhtml+xml",
-    "application/vnd.wv.csp.cir",
-    "application/vnd.oma.dd+xml",
-    "application/vnd.oma.drm.message",
-    "application/vnd.oma.drm.content",
-    "application/vnd.oma.drm.rights+xml",
-    "application/vnd.oma.drm.rights+wbxml",
-    "application/vnd.wv.csp+xml",
-    "application/vnd.wv.csp+wbxml",
-    "application/vnd.syncml.ds.notification",
-    "audio/*",
-    "video/*",
-    "application/vnd.oma.dd2+xml",
-    "application/mikey",
-    "application/vnd.oma.dcd",
-    "application/vnd.oma.dcdc",
-    "text/x-vMessage",
-    "application/vnd.omads-email+wbxml",
-    "text/x-vBookmark",
-    "application/vnd.syncml.dm.notification",
-  ]
-
-  def decode(bytes) when is_binary(bytes) do
-    bytes
-    |> Integer.decode
-    ~> fn result -> result |> map(@map) end
-    ~>> fn reason -> error bytes, reason end
-  end
-
-  @inverse invert @map
-
-  def encode(value) when is_binary(value) do
-    value
-    |> map(@inverse)
-    ~> Integer.encode
-    ~>> fn reason -> error value, :unknown end
+    |> WellKnownMedia.encode
+    ~>> fn _ -> string |> Text.encode end
   end
 end
