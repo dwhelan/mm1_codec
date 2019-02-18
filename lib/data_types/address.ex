@@ -27,7 +27,7 @@ defmodule MMS.Address do
     bytes
     |> Text.decode
     ~> fn {text, rest} -> text |> String.split("/TYPE=") |> do_decode(rest) end
-    ~>> fn details -> error bytes, details end
+    ~>> fn details -> error bytes, reason(details) end
   end
 
   defp do_decode [email], rest do
@@ -69,7 +69,7 @@ defmodule MMS.Address do
     address
     |> check_address
     ~> fn string -> string |> Text.encode end
-    ~>> fn details -> error address, details end
+    ~>> fn details -> error address, reason(details) end
   end
 
   def encode(ipv4) when is_tuple(ipv4) and tuple_size(ipv4) == 4 do

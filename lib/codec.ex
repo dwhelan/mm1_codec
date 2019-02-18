@@ -13,6 +13,10 @@ defmodule MMS.Codec2 do
     reason
   end
 
+  def reason reason do
+    reason
+  end
+
   def error_detail_list details do
     details
     |> do_error_detail_list([])
