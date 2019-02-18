@@ -1,7 +1,7 @@
 defmodule MMS.KnownParameter do
   # Based on WAP-230-WSP-20010705-a: Table 38. Well-Known Parameter Assignments
 
-  alias MMS.{Charset, DateTime, Integer, Media, NoValue, QValue, Short, TextString, TextValue, Version}
+  alias MMS.{Charset, DateValue, Integer, Media, NoValue, QValue, Short, TextString, TextValue, Version}
 
   alias Media,      as: ConstrainedEncoding
   alias Integer,    as: DeltaSecondsValue
@@ -28,9 +28,9 @@ defmodule MMS.KnownParameter do
         secure:                NoValue,
         sec:                   Short,
         mac:                   TextValue,
-        creation_date:         DateTime,
-        modification_date:     DateTime,
-        read_date:             DateTime,
+        creation_date:         DateValue,
+        modification_date:     DateValue,
+        read_date:             DateValue,
         size:                  Integer,
         name:                  TextValue,
         file_name:             TextValue,

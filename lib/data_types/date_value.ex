@@ -1,4 +1,4 @@
-defmodule MMS.DateTime do
+defmodule MMS.DateValue do
   use MMS.Codec2
 
   alias MMS.Long
