@@ -17,7 +17,7 @@ defmodule MMS.ShortLengthTest do
     end
 
     test "decode a short length with insufficient bytes" do
-      assert decode(<<5, "rest">>) == error :invalid_short_length, <<5, "rest">>, {:insufficient_bytes, 5}
+      assert decode(<<5, "rest">>) == error :invalid_short_length, <<5, "rest">>, %{length: 5, available_bytes: 4}
     end
 
     test "decode a non short length" do

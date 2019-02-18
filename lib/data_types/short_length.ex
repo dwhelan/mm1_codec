@@ -5,8 +5,8 @@ defmodule MMS.ShortLength do
     ok length, rest
   end
 
-  def decode(bytes = <<length, _::binary>>) when is_short_length(length) do
-    error bytes, {:insufficient_bytes, length}
+  def decode(bytes = <<length, rest::binary>>) when is_short_length(length) do
+    error bytes, %{length: length, available_bytes: byte_size(rest)}
   end
 
   def decode bytes = <<length, _::binary>> do

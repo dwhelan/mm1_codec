@@ -10,22 +10,24 @@ defmodule MMS.DateValueTest do
       ],
 
       decode_errors: [
-        {<<32>>,     {:invalid_date_value, <<32>>,
-                       {:invalid_long, <<32>>,
-                         {:invalid_short_length, <<32>>, 32}
-                       }
-                     } },
+        {<<32>>,     {:invalid_date_value, <<32>>, [:invalid_long, :invalid_short_length, 32]} },
 
-        {<<2, 32>>,  {:invalid_date_value, <<2, 32>>,
-                       {:invalid_long, <<2, 32>>,
-                         {:invalid_short_length, <<2, 32>>,
-                           {:insufficient_bytes, 2}
-                         }
-                       }
-                     } },
+        {<<l(2), 32>>,  {:invalid_date_value,  <<l(2), 32>>, [:invalid_long, :invalid_short_length, %{length: 2, available_bytes: 1}]} },
       ],
 
       encode_errors: [
         {DateTime.from_unix!(-1), {:invalid_date_value, DateTime.from_unix!(-1), :cannot_be_before_1970}},
       ]
+
+  import MMS.DateValue
+
+  describe "compress_details" do
+    test "should remove value" do
+      assert compress_details({:code, :value, :details}) == [:code, :details]
+    end
+
+    test "should apply recursively" do
+      assert compress_details({:code, :value, {:code2, :value2, :details2}}) == [:code, :code2, :details2]
+    end
+  end
 end

@@ -27,7 +27,7 @@ defmodule MMS.ComposerTest do
     end
 
     test "incorrect length" do
-      assert decode(<<l(2), 3>>, [Byte]) == error {:invalid_short_length, <<2, 3>>, {:insufficient_bytes, 2}}
+      assert decode(<<l(2), 3>>, [Byte]) == error {:invalid_short_length, <<2, 3>>, %{available_bytes: 1, length: 2}}
     end
 
     test "error with first value" do

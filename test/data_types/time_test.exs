@@ -19,7 +19,7 @@ defmodule MMS.TimeTest do
       ],
 
       decode_errors: [
-        { << l(3), abs, l(0) >>,  {:invalid_time, <<l(3), abs, l(0)>>,  {:invalid_short_length, <<l(3), abs, l(0)>>, {:insufficient_bytes, 3}}} },
+        { << l(3), abs, l(0) >>,  {:invalid_time, <<l(3), abs, l(0)>>,  {:invalid_short_length, <<l(3), abs, l(0)>>, %{available_bytes: 2, length: 3}}} },
         { << l(32) >>,            {:invalid_time, <<l(32)>>,            {:invalid_value_length, <<l(32)>>, :does_not_start_with_a_short_length_or_length_quote}} },
         { << l(3), 0, l(1), 0 >>, {:invalid_time, <<3, 0, 1, 0>>,       %{length: {3, <<3>>}, values: [error: :invalid_short]}} },
       ],

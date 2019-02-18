@@ -3,6 +3,20 @@ defmodule MMS.DateValue do
 
   alias MMS.Long
 
+  def compress_details details do
+    details
+    |> do_compress_details([])
+    |> Enum.reverse
+  end
+
+  def do_compress_details({code, value, details}, foo) when is_tuple(details) do
+    details |> do_compress_details([code | foo])
+  end
+
+  def do_compress_details {code, value, details}, foo do
+    [details, code  | foo]
+  end
+
   def decode bytes do
     bytes
     |> Long.decode
@@ -11,7 +25,7 @@ defmodule MMS.DateValue do
         |> DateTime.from_unix
         |> check_date_time(rest)
        end
-    ~>> fn details -> error bytes, details end
+    ~>> fn details -> error bytes, compress_details(details) end
   end
 
   defp check_date_time {:ok, date_time}, rest do
