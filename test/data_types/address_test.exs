@@ -1,4 +1,4 @@
-defmodule MMS.Address2Test do
+defmodule MMS.AddressTest do
   use MMS.CodecTest
 
     use MMS.TestExamples,
