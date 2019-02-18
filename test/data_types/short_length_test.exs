@@ -1,14 +1,16 @@
 defmodule MMS.ShortLengthTest do
   use MMS.CodecTest
 
+  @thirty_chars String.duplicate("a", 30)
+
   import MMS.ShortLength
+
+  # Cannot use TestExamples because it assumes all bytes specified will be consumed.
 
   describe "decode" do
     test "decode with no bytes" do
       assert decode(<<>>) == error :invalid_short_length, <<>>, :no_bytes
     end
-
-    @thirty_chars String.duplicate("a", 30)
 
     test "decode a short length with sufficient bytes" do
       assert decode(<<0,  "rest">>)        == ok 0,  "rest"
@@ -36,4 +38,3 @@ defmodule MMS.ShortLengthTest do
     end
   end
 end
-
