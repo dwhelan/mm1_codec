@@ -18,16 +18,4 @@ defmodule MMS.DateValueTest do
       encode_errors: [
         {DateTime.from_unix!(-1), {:invalid_date_value, DateTime.from_unix!(-1), :cannot_be_before_1970}},
       ]
-
-  import MMS.DateValue
-
-  describe "compress_details" do
-    test "should remove value" do
-      assert compress_details({:code, :value, :details}) == [:code, :details]
-    end
-
-    test "should apply recursively" do
-      assert compress_details({:code, :value, {:code2, :value2, :details2}}) == [:code, :code2, :details2]
-    end
-  end
 end
