@@ -26,6 +26,6 @@ defmodule MMS.DateValueTest do
       ],
 
       encode_errors: [
-        {DateTime.from_unix!(-1), {:invalid_date_value, DateTime.from_unix!(-1), {:invalid_long, -1, :out_of_range}}},
+        {DateTime.from_unix!(-1), {:invalid_date_value, DateTime.from_unix!(-1), :cannot_be_before_1970}},
       ]
 end
