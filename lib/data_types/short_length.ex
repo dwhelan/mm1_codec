@@ -10,7 +10,7 @@ defmodule MMS.ShortLength do
   end
 
   def decode bytes = <<length, _::binary>> do
-    error bytes, length
+    error bytes, %{out_of_range: length}
   end
 
   def encode(value) when is_short_length(value) do

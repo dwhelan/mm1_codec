@@ -10,9 +10,8 @@ defmodule MMS.DateValueTest do
       ],
 
       decode_errors: [
-        {<<32>>,     {:invalid_date_value, <<32>>, [:invalid_long, :invalid_short_length, 32]} },
-
-        {<<l(2), 32>>,  {:invalid_date_value,  <<l(2), 32>>, [:invalid_long, :invalid_short_length, %{length: 2, available_bytes: 1}]} },
+        {<<32>>,        {:invalid_date_value, <<32>>,       [:invalid_long, :invalid_short_length, %{out_of_range: 32}]} },
+        {<<l(2), 32>>,  {:invalid_date_value, <<l(2), 32>>, [:invalid_long, :invalid_short_length, %{length: 2, available_bytes: 1}]} },
       ],
 
       encode_errors: [
