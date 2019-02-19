@@ -277,7 +277,7 @@ defmodule MMS.Charset do
     bytes
     |> Integer.decode
     ~> fn result -> map result, @map end
-    ~>> fn details -> error bytes, details end
+    ~>> fn details -> error bytes, error_detail_list(details) end
   end
 
   @inverse invert @map

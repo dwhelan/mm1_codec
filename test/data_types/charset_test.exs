@@ -11,8 +11,8 @@ defmodule MMS.CharsetTest do
       ],
 
       decode_errors: [
-        { << 0 >>,              {:invalid_charset, << 0 >>, {:invalid_integer, <<0>>, {:invalid_long, <<0>>, :must_have_at_least_one_data_byte}}} },
-        { << s(120) >>,         {:invalid_charset, <<s(120)>>, :out_of_range} },
+        { << 0 >>,              {:invalid_charset, << 0 >>,            [:invalid_integer, :invalid_long, :must_have_at_least_one_data_byte]} },
+        { << s(120) >>,         {:invalid_charset, <<s(120)>>,         :out_of_range} },
         { << l(2), 9999::16 >>, {:invalid_charset, <<l(2), 9999::16>>, :out_of_range} },
       ],
 
