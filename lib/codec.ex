@@ -17,7 +17,7 @@ defmodule MMS.Codec2 do
     reason
   end
 
-  def error_detail_list(reason) when is_atom(reason) do
+  def error_detail_list(reason) when is_atom(reason) or is_map(reason) do
     reason
   end
 

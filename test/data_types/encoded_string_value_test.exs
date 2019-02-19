@@ -23,7 +23,7 @@ defmodule MMS.EncodedStringValueTest do
       ],
 
       decode_errors: [
-        { <<"x">>,               {:invalid_encoded_string_value, "x",                   {:invalid_text_string, "x", :missing_end_of_string_0_byte}} },
+        { <<"x">>,               {:invalid_encoded_string_value, "x",                   [:invalid_text_string, :missing_end_of_string_0_byte]} },
         { <<l(2), s(106), "x">>, {:invalid_encoded_string_value, <<l(2), s(106), "x">>, %{length: {2, <<2>>}, values: [:csUTF8, error(:invalid_text_string, "x", :missing_end_of_string_0_byte)]} }},
       ],
 
