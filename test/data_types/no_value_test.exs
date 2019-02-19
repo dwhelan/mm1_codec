@@ -9,7 +9,7 @@ defmodule MMS.NoValueTest do
       ],
 
       decode_errors: [
-        { <<1>>, {:invalid_no_value, <<1>>, :must_be_zero} },
-      ],
+        { <<1>>, {:invalid_no_value, <<1>>, %{out_of_range: 1}} },
+      ]
 end
 
