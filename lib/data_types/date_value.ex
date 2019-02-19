@@ -11,7 +11,7 @@ defmodule MMS.DateValue do
         |> DateTime.from_unix
         |> check_date_time(rest)
        end
-    ~>> fn details -> error bytes, error_detail_list(details) end
+    ~>> fn details -> error bytes, details end
   end
 
   defp check_date_time {:ok, date_time}, rest do
