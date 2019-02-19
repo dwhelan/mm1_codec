@@ -1,5 +1,5 @@
 defmodule MMS.Byte do
-  use MMS.Codec2, error: :byte
+  use MMS.Codec2
 
   def decode <<byte, rest::binary>> do
     ok byte, rest
@@ -10,6 +10,6 @@ defmodule MMS.Byte do
   end
 
   def encode value do
-    error :byte, value, :out_of_range
+    error value, :out_of_range
   end
 end
