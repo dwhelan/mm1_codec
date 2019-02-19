@@ -16,7 +16,7 @@ defmodule MMS.IntegerTest do
       ],
 
       encode_errors: [
-        { -1, {:invalid_integer, -1, {:invalid_long, -1, :out_of_range} } },
+        { -1, {:invalid_integer, -1, [:invalid_long, :out_of_range] } },
       ]
 end
 

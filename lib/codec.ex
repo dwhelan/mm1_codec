@@ -36,6 +36,10 @@ defmodule MMS.Codec2 do
     [details, code | list]
   end
 
+  defp do_error_detail_list(nested_list, list) when is_list(nested_list) do
+    Enum.reverse(nested_list) ++ list
+  end
+
   defmacro __using__ (_ \\ []) do
     quote do
       import MMS.DataTypes
@@ -50,7 +54,7 @@ defmodule MMS.Codec2 do
       end
 
       defp error input, details do
-        error error_name(), input, details
+        error error_name(), input, error_detail_list(details)
       end
     end
   end
