@@ -15,7 +15,7 @@ defmodule MMS.Short do
   end
 
   def decode(bytes) when is_binary(bytes) do
-    error :invalid_short
+    error :short
   end
 
   def encode(value) when is_short(value) do

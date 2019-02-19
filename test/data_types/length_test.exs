@@ -12,12 +12,12 @@ defmodule MMS.LengthTest do
       ],
 
       decode_errors: [
-        { <<>>,             {:invalid_length, <<>>,   :no_bytes} },
-        { <<32>>,           {:invalid_length, <<32>>, :missing_length_quote} },
-        { <<length_quote>>, {:invalid_length, <<31>>, [:invalid_uint32, :no_bytes]} },
+        { <<>>,             {:length, <<>>,   :no_bytes} },
+        { <<32>>,           {:length, <<32>>, :missing_length_quote} },
+        { <<length_quote>>, {:length, <<31>>, [:uint32, :no_bytes]} },
       ],
 
       encode_errors: [
-        { -1, {:invalid_length, -1, [:invalid_uint32, :out_of_range]} },
+        { -1, {:length, -1, [:uint32, :out_of_range]} },
       ]
 end

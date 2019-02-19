@@ -18,6 +18,6 @@ defmodule MMS.MessageTypeTest do
       ],
 
       decode_errors: [
-        { <<139>>, :invalid_message_type },
+        { <<139>>, :message_type },
       ]
 end

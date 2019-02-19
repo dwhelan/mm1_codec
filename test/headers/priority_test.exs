@@ -10,8 +10,8 @@ defmodule MMS.PriorityTest do
       ],
 
       decode_errors: [
-        { <<127>>, :invalid_priority },
-        { <<131>>, :invalid_priority },
+        { <<127>>, :priority },
+        { <<131>>, :priority },
       ]
 end
 

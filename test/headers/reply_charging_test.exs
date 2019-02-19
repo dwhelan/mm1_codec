@@ -12,7 +12,7 @@ defmodule MMS.ReplyChargingTest do
       ],
 
       decode_errors: [
-        { <<127>>, :invalid_reply_charging },
-        { <<132>>, :invalid_reply_charging },
+        { <<127>>, :reply_charging },
+        { <<132>>, :reply_charging },
       ]
 end

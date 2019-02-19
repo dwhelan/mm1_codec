@@ -14,7 +14,7 @@ defmodule MMS.ValueLengthListTest do
     end
 
     test "return an error if an error decoding value length" do
-      assert decode(<<"bytes">>, [&decode_ok/1]) == error :invalid_value_length, <<"bytes">>, :does_not_start_with_a_short_length_or_length_quote
+      assert decode(<<"bytes">>, [&decode_ok/1]) == error :value_length, <<"bytes">>, :does_not_start_with_a_short_length_or_length_quote
     end
 
     test "return an error if too few bytes used" do

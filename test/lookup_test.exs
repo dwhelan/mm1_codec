@@ -10,12 +10,12 @@ defmodule MMS.LookupWithMapTest do
       ],
 
       decode_errors: [
-        { << s(-1) >>, :invalid_lookup_with_map_test },
-        { << s(2)  >>, :invalid_lookup_with_map_test },
+        { << s(-1) >>, :lookup_with_map_test },
+        { << s(2)  >>, :lookup_with_map_test },
       ],
 
       encode_errors: [
-        { :_, :invalid_lookup_with_map_test },
+        { :_, :lookup_with_map_test },
       ]
 end
 
@@ -31,11 +31,11 @@ defmodule MMS.LookupWithValuesTest do
       ],
 
       decode_errors: [
-        { <<127>>, :invalid_lookup_with_values_test },
-        { <<130>>, :invalid_lookup_with_values_test },
+        { <<127>>, :lookup_with_values_test },
+        { <<130>>, :lookup_with_values_test },
       ],
 
       encode_errors: [
-        {-1, :invalid_lookup_with_values_test},
+        {-1, :lookup_with_values_test},
       ]
 end

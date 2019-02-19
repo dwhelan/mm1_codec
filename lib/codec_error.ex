@@ -14,6 +14,7 @@ defmodule CodecError do
   defmacro error_name module \\ __CALLER__.module do
     quote do
       "invalid_#{CodecError.name unquote(module)}" |> String.to_atom
+      CodecError.name unquote(module)
     end
   end
 

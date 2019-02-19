@@ -10,7 +10,7 @@ defmodule MMS.ContentTypeTest do
       ],
 
       decode_errors: [
-        { :not_content_type, :invalid_content_type },
-        { "x",               :invalid_content_type },
+        { :not_content_type, :content_type },
+        { "x",               :content_type },
       ]
 end

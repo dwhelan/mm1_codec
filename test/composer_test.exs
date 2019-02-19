@@ -23,19 +23,19 @@ defmodule MMS.ComposerTest do
     end
 
     test "length > 31" do
-      assert decode(<<l(32)>>, [Byte]) == error {:invalid_value_length, " ", :does_not_start_with_a_short_length_or_length_quote}
+      assert decode(<<l(32)>>, [Byte]) == error {:value_length, " ", :does_not_start_with_a_short_length_or_length_quote}
     end
 
     test "incorrect length" do
-      assert decode(<<l(2), 3>>, [Byte]) == error {:invalid_short_length, <<2, 3>>, %{available_bytes: 1, length: 2}}
+      assert decode(<<l(2), 3>>, [Byte]) == error {:short_length, <<2, 3>>, %{available_bytes: 1, length: 2}}
     end
 
     test "error with first value" do
-      assert decode(<<l(1), 0>>, [Short]) == error :invalid_short
+      assert decode(<<l(1), 0>>, [Short]) == error :short
     end
 
     test "error with subsequent values" do
-      assert decode(<<l(2), 0, 0>>, [Byte, Short]) == error :invalid_short
+      assert decode(<<l(2), 0, 0>>, [Byte, Short]) == error :short
     end
   end
 
@@ -57,11 +57,11 @@ defmodule MMS.ComposerTest do
     end
 
     test "first value invalid" do
-      assert encode([256], [Byte]) == error {:invalid_byte, 256, :out_of_range}
+      assert encode([256], [Byte]) == error {:byte, 256, :out_of_range}
     end
 
     test "subsequent value invalid" do
-      assert encode([0, 256], [Byte, Byte]) == error {:invalid_byte, 256, :out_of_range}
+      assert encode([0, 256], [Byte, Byte]) == error {:byte, 256, :out_of_range}
     end
 
     test "[] -> <<>>" do

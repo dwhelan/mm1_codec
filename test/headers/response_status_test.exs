@@ -31,11 +31,11 @@ defmodule MMS.ResponseStatusTest do
       ],
 
       decode_errors: [
-        { << s(-1) >>,  :invalid_response_status},
-        { << s(106) >>, :invalid_response_status},
+        { << s(-1) >>,  :response_status},
+        { << s(106) >>, :response_status},
       ],
 
       encode_errors: [
-        { :not_a_response_status, :invalid_response_status},
+        { :not_a_response_status, :response_status},
       ]
 end

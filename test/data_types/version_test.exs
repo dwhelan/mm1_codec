@@ -13,7 +13,7 @@ defmodule MMS.VersionTest do
       ],
 
       decode_errors: [
-        { "no terminator", :invalid_version},
+        { "no terminator", :version},
       ],
 
       encode_errors: [
@@ -37,14 +37,14 @@ defmodule MMS.VersionIntegerTest do
       ],
 
       encode_errors: [
-        { :not_an_integer_version, :invalid_version_integer },
-        { -1,                      :invalid_version_integer },
-        {  8,                      :invalid_version_integer },
-        { {:x, 0 },                :invalid_version_integer },
-        { {-1, 0 },                :invalid_version_integer },
-        { {8,  0 },                :invalid_version_integer },
-        { {0,  :x},                :invalid_version_integer },
-        { {0,  -1},                :invalid_version_integer },
-        { {0,  15},                :invalid_version_integer },
+        { :not_an_integer_version, :version_integer },
+        { -1,                      :version_integer },
+        {  8,                      :version_integer },
+        { {:x, 0 },                :version_integer },
+        { {-1, 0 },                :version_integer },
+        { {8,  0 },                :version_integer },
+        { {0,  :x},                :version_integer },
+        { {0,  -1},                :version_integer },
+        { {0,  15},                :version_integer },
       ]
 end

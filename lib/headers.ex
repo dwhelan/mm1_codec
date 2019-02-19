@@ -42,5 +42,5 @@ defmodule MMS.Headers do
         previously_sent_by:      PreviouslySentBy,
         previously_sent_date:    PreviouslySentDate,
       ],
-      error: :invalid_header
+      error: :header
 end

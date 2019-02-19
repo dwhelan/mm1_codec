@@ -10,7 +10,7 @@ defmodule MMS.ByteTest do
       ],
 
       encode_errors: [
-        { -1,  {:invalid_byte, -1,  :out_of_range} },
-        { 256, {:invalid_byte, 256, :out_of_range} },
+        { -1,  {:byte, -1,  :out_of_range} },
+        { 256, {:byte, 256, :out_of_range} },
       ]
 end

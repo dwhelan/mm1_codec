@@ -47,7 +47,7 @@ defmodule MMS.HeadersTest do
       ],
 
       encode_errors: [
-        { [not_a_header: "x"], {:not_a_header, :invalid_header}},
+        { [not_a_header: "x"], {:not_a_header, :header}},
       ]
 
   test "decode should terminate when an unmapped header byte is found" do

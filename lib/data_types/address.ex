@@ -33,14 +33,14 @@ defmodule MMS.Address do
   defp do_decode [email], rest do
     case email |> valid_email? do
       true  -> ok email, rest
-      false -> error :invalid_email_address
+      false -> error :email_address
     end
   end
 
   defp do_decode [phone_number, "PLMN"], rest do
     case phone_number |> valid_phone_number? do
       true  -> ok phone_number, rest
-      false -> error :invalid_phone_number
+      false -> error :phone_number
     end
   end
 
@@ -49,7 +49,7 @@ defmodule MMS.Address do
     |> to_charlist
     |> :inet.parse_ipv4strict_address
     ~> fn ipv4 -> ok ipv4, rest end
-    ~>> fn _error -> error :invalid_ipv4_address end
+    ~>> fn _error -> error :ipv4_address end
   end
 
   defp do_decode [ipv6_string, "IPv6"], rest do
@@ -58,7 +58,7 @@ defmodule MMS.Address do
     |> to_charlist
     |> :inet.parse_ipv6strict_address
     ~> fn ipv6 -> ok ipv6, rest end
-    ~>> fn _error -> error :invalid_ipv6_address end
+    ~>> fn _error -> error :ipv6_address end
   end
 
   defp do_decode [address, type], rest do
@@ -76,7 +76,7 @@ defmodule MMS.Address do
     ipv4
     |> :inet.ntoa
     |> OkError.return
-    ~>> fn _error -> error :invalid_ipv4_address end
+    ~>> fn _error -> error :ipv4_address end
     ~> fn charlist -> Text.encode to_string(charlist) <> "/TYPE=IPv4" end
     ~>> fn details -> error ipv4, details end
   end
@@ -86,7 +86,7 @@ defmodule MMS.Address do
     |> :inet.ntoa
     |> OkError.return
     ~> fn charlist -> charlist |> to_string |> String.replace("::", ":") end
-    ~>> fn _error -> error :invalid_ipv6_address end
+    ~>> fn _error -> error :ipv6_address end
     ~> fn charlist -> Text.encode to_string(charlist) <> "/TYPE=IPv6" end
     ~>> fn details -> error ipv6, details end
   end
@@ -106,7 +106,7 @@ defmodule MMS.Address do
   defp check_phone_number phone_number do
     case phone_number |> valid_phone_number? do
       true -> ok phone_number <> "/TYPE=PLMN"
-      false -> error :invalid_phone_number
+      false -> error :phone_number
     end
   end
 

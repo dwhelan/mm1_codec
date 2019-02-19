@@ -13,13 +13,13 @@ defmodule MMS.LongTest do
       ],
 
       decode_errors: [
-        { <<0>>,  {:invalid_long, <<0>>,  :must_have_at_least_one_data_byte}},
-        { <<1>>,  {:invalid_long, <<1>>,  [:invalid_short_length, %{length: 1, available_bytes: 0}]} },
-        { <<31>>, {:invalid_long, <<31>>, [:invalid_short_length, %{out_of_range: 31}]} },
+        { <<0>>,  {:long, <<0>>,  :must_have_at_least_one_data_byte}},
+        { <<1>>,  {:long, <<1>>,  [:short_length, %{length: 1, available_bytes: 0}]} },
+        { <<31>>, {:long, <<31>>, [:short_length, %{out_of_range: 31}]} },
       ],
 
       encode_errors: [
-        { -1,           {:invalid_long, -1,           :out_of_range} },
-        { max_long()+1, {:invalid_long, max_long()+1, :out_of_range} },
+        { -1,           {:long, -1,           :out_of_range} },
+        { max_long()+1, {:long, max_long()+1, :out_of_range} },
       ]
 end

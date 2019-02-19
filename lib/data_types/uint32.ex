@@ -1,14 +1,14 @@
 defmodule MMS.Uint32 do
-  use MMS.Codec2, error: :invalid_uint32
+  use MMS.Codec2, error: :uint32
 
   use Bitwise
 
   def decode bytes = <<128, _::binary>> do
-    error :invalid_uint32, bytes, :first_byte_cannot_be_128
+    error :uint32, bytes, :first_byte_cannot_be_128
   end
 
   def decode(bytes) when is_binary(bytes) do
-    bytes |> do_decode([]) ~>> fn reason -> error :invalid_uint32, bytes, reason end
+    bytes |> do_decode([]) ~>> fn reason -> error :uint32, bytes, reason end
   end
 
   defp do_decode <<1::1, next::7, rest::binary>>, values do
@@ -36,7 +36,7 @@ defmodule MMS.Uint32 do
   end
 
   def encode(value) when is_integer(value) do
-    error :invalid_uint32, value, :out_of_range
+    error :uint32, value, :out_of_range
   end
 
   defp do_encode 0, bytes do

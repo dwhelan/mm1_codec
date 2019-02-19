@@ -24,7 +24,7 @@ defmodule MMS.Integer do
   end
 
   def encode value do
-    error value, :invalid_integer
+    error value, :integer
   end
 
   def do_encode(value) when is_short(value) do

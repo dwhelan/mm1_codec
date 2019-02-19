@@ -10,10 +10,10 @@ defmodule MMS.FromTest do
       ],
 
       decode_errors: [
-        { << l(0)              >>, :invalid_from }, # length error
-        { << l(3), 0,    "@\0" >>, :invalid_from }, # address token error
-        { << l(2), s(0), "@"   >>, :invalid_from }, # string missing terminator
-        { << l(4), s(1), "@\0" >>, :invalid_from }, # composer error due to invalid length
+        { << l(0)              >>, :from }, # length error
+        { << l(3), 0,    "@\0" >>, :from }, # address token error
+        { << l(2), s(0), "@"   >>, :from }, # string missing terminator
+        { << l(4), s(1), "@\0" >>, :from }, # composer error due to invalid length
       ],
 
       encode_errors: [

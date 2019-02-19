@@ -23,12 +23,12 @@ defmodule MMS.EncodedStringValueTest do
       ],
 
       decode_errors: [
-        { <<"x">>,               {:invalid_encoded_string_value, "x",                   [:invalid_text_string, :invalid_text, :missing_end_of_string_0_byte]} },
-        { <<l(2), s(106), "x">>, {:invalid_encoded_string_value, <<l(2), s(106), "x">>, %{length: {2, <<2>>}, values: [:csUTF8, error(:invalid_text_string, "x", [:invalid_text, :missing_end_of_string_0_byte])]} }},
+        { <<"x">>,               {:encoded_string_value, "x",                   [:text_string, :text, :missing_end_of_string_0_byte]} },
+        { <<l(2), s(106), "x">>, {:encoded_string_value, <<l(2), s(106), "x">>, %{length: {2, <<2>>}, values: [:csUTF8, error(:text_string, "x", [:text, :missing_end_of_string_0_byte])]} }},
       ],
 
       encode_errors: [
-        { "x\0",            {:invalid_encoded_string_value, "x\0", [:invalid_text, :contains_end_of_string_0]} },
-        { {"x\0", :csUTF8}, {:invalid_encoded_string_value, {"x\0", :csUTF8}, [<<s(106)>>, error(:invalid_text, "x\0", :contains_end_of_string_0)]} },      ]
+        { "x\0",            {:encoded_string_value, "x\0", [:text, :contains_end_of_string_0]} },
+        { {"x\0", :csUTF8}, {:encoded_string_value, {"x\0", :csUTF8}, [<<s(106)>>, error(:text, "x\0", :contains_end_of_string_0)]} },      ]
 end
 

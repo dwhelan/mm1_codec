@@ -10,7 +10,7 @@ defmodule MMS.ShortTest do
       ],
 
       decode_errors: [
-        {<<127>>, :invalid_short},
+        {<<127>>, :short},
       ]
 end
 

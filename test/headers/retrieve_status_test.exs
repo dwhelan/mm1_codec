@@ -16,7 +16,7 @@ defmodule MMS.RetrieveStatusTest do
       ],
 
       decode_errors: [
-        { << s(-1) >>,  :invalid_retrieve_status },
-        { << s(100) >>, :invalid_retrieve_status },
+        { << s(-1) >>,  :retrieve_status },
+        { << s(100) >>, :retrieve_status },
       ]
 end

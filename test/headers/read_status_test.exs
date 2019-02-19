@@ -10,8 +10,8 @@ defmodule MMS.ReadStatusTest do
       ],
 
       decode_errors: [
-        { <<127>>, :invalid_read_status },
-        { <<130>>, :invalid_read_status },
+        { <<127>>, :read_status },
+        { <<130>>, :read_status },
       ]
 end
 

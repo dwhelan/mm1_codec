@@ -43,7 +43,7 @@ defmodule MMS.KnownParameterTest do
       ],
 
       encode_errors: [
-        {[x: ""], {:x, :invalid_known_parameter}},
+        {[x: ""], {:x, :known_parameter}},
       ]
 
   test "decode should terminate when an unmapped parameter byte is found" do

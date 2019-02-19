@@ -10,8 +10,8 @@ defmodule MMS.SenderVisibilityTest do
       ],
 
       decode_errors: [
-        { << s(-1)>>, :invalid_sender_visibility },
-        { << s(2)>>,  :invalid_sender_visibility },
+        { << s(-1)>>, :sender_visibility },
+        { << s(2)>>,  :sender_visibility },
       ]
 end
 

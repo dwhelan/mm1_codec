@@ -15,11 +15,11 @@ defmodule MMS.StatusTest do
       ],
 
       decode_errors: [
-        { << s(-1) >>, :invalid_status },
-        { << s(7)  >>, :invalid_status },
+        { << s(-1) >>, :status },
+        { << s(7)  >>, :status },
       ],
 
       encode_errors: [
-        { :x, :invalid_status},
+        { :x, :status},
       ]
 end

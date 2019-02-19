@@ -10,12 +10,12 @@ defmodule MMS.TextTest do
       ],
 
       decode_errors: [
-        {<<1, 0>>,     {:invalid_text, <<1, 0>>, :first_byte_must_be_a_char}       },
-        {<<"string">>, {:invalid_text, "string", :missing_end_of_string_0_byte} },
+        {<<1, 0>>,     {:text, <<1, 0>>, :first_byte_must_be_a_char}       },
+        {<<"string">>, {:text, "string", :missing_end_of_string_0_byte} },
       ],
 
       encode_errors: [
-        {<<1, 0>>, {:invalid_text, <<1, 0>>,   :first_byte_must_be_a_char}   },
-        {"x\0",    {:invalid_text, <<120, 0>>, :contains_end_of_string_0} },
+        {<<1, 0>>, {:text, <<1, 0>>,   :first_byte_must_be_a_char}   },
+        {"x\0",    {:text, <<120, 0>>, :contains_end_of_string_0} },
       ]
 end

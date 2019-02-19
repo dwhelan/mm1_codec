@@ -40,5 +40,5 @@ defmodule MMS.KnownParameter do
         domain:                TextValue,
         path:                  TextValue,
       ],
-      error: :invalid_known_parameter
+      error: :known_parameter
 end
