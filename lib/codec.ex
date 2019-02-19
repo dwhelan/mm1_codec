@@ -25,6 +25,7 @@ defmodule MMS.Codec2 do
     details
     |> do_error_detail_list([])
     |> Enum.reverse
+    |> List.flatten
   end
 
   defp do_error_detail_list({code, _, details}, list) when is_tuple(details) do
