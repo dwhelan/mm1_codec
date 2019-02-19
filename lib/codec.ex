@@ -9,14 +9,6 @@ defmodule MMS.Codec2 do
     error {code, input, details}
   end
 
-  def reason {_, _, reason} do
-    reason
-  end
-
-  def reason reason do
-    reason
-  end
-
   def error_detail_list(reason) when is_atom(reason) or is_map(reason) do
     reason
   end

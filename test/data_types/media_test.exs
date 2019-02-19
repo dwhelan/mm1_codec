@@ -16,9 +16,9 @@ defmodule MMS.MediaTest do
       ],
 
       decode_errors: [
-        { <<1>>,  {:invalid_media, <<1>>,  [:invalid_integer, :invalid_long, :invalid_short_length, %{available_bytes: 0, length: 1}]} },
-        { <<31>>, {:invalid_media, <<31>>, [:invalid_integer, :invalid_long, :invalid_short_length, %{out_of_range: 31}]} },
-        { "x",    {:invalid_media, "x",    :missing_end_of_string_0_byte} },
+        { <<1>>,  {:invalid_media, <<1>>,  [:invalid_well_known_media, :invalid_integer, :invalid_long, :invalid_short_length, %{available_bytes: 0, length: 1}]} },
+        { <<31>>, {:invalid_media, <<31>>, [:invalid_well_known_media, :invalid_integer, :invalid_long, :invalid_short_length, %{out_of_range: 31}]} },
+        { "x",    {:invalid_media, "x",    [:invalid_text, :missing_end_of_string_0_byte]} },
       ],
 
       encode_errors: [
