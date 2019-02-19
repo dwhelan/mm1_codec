@@ -19,7 +19,7 @@ defmodule MMS.Long do
     |> ShortLength.decode
     ~> check_length
     ~> to_unsigned
-    ~>> fn details -> error :invalid_long, bytes, details end
+    ~>> fn details -> error bytes, details end
   end
 
   defp check_length {0, _bytes} do

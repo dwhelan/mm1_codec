@@ -20,10 +20,6 @@ defmodule MMS.Codec2 do
     |> List.flatten
   end
 
-  defp do_error_detail_list({code, _, details}, list) when is_tuple(details) do
-    details |> do_error_detail_list([code | list])
-  end
-
   defp do_error_detail_list {code, _, details}, list do
     [details, code | list]
   end
