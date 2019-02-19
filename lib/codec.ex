@@ -9,15 +9,15 @@ defmodule MMS.Codec2 do
     error {code, input, details}
   end
 
-  def error_detail_list({code, _, details}) when is_list(details) do
-    [code | details]
+  def accumulate_error({data_type, _, error}) when is_list(error) do
+    [data_type | error]
   end
 
-  def error_detail_list({code, _, details}) do
-    [code, details]
+  def accumulate_error {data_type, _, error} do
+    [data_type, error]
   end
 
-  def error_detail_list reason do
+  def accumulate_error reason do
     reason
   end
 
@@ -35,7 +35,7 @@ defmodule MMS.Codec2 do
       end
 
       defp error input, details do
-        error error_name(), input, error_detail_list(details)
+        error error_name(), input, accumulate_error(details)
       end
     end
   end
