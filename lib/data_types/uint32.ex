@@ -27,8 +27,8 @@ defmodule MMS.Uint32 do
     ok value, rest
   end
 
-  defp ensure_uint32(_value, _rest) do
-    error :out_of_range
+  defp ensure_uint32(value, _rest) do
+    error %{out_of_range: value}
   end
 
   def encode(value) when is_uint32(value) do

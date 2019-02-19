@@ -13,7 +13,7 @@ defmodule Codec.Map do
 
   def map {value, rest}, map do
     case Map.get(map, value) do
-      nil    -> error :out_of_range
+      nil    -> error %{out_of_range: value}
       result -> ok {result, rest}
     end
   end
