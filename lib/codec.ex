@@ -9,23 +9,16 @@ defmodule MMS.Codec2 do
     error {code, input, details}
   end
 
-  def error_detail_list(reason) when is_atom(reason) or is_map(reason) do
+  def error_detail_list({code, _, details}) when is_list(details) do
+    [code | details]
+  end
+
+  def error_detail_list({code, _, details}) do
+    [code, details]
+  end
+
+  def error_detail_list reason do
     reason
-  end
-
-  def error_detail_list details do
-    details
-    |> do_error_detail_list([])
-    |> Enum.reverse
-    |> List.flatten
-  end
-
-  defp do_error_detail_list {code, _, details}, list do
-    [details, code | list]
-  end
-
-  defp do_error_detail_list(nested_list, list) when is_list(nested_list) do
-    Enum.reverse(nested_list) ++ list
   end
 
   defmacro __using__ (_ \\ []) do
