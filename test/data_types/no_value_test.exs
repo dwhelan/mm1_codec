@@ -11,8 +11,5 @@ defmodule MMS.NoValueTest do
       decode_errors: [
         { <<1>>, {:invalid_no_value, <<1>>, :must_be_zero} },
       ],
-
-      encode_errors: [
-      ]
 end
 
