@@ -13,7 +13,7 @@ defmodule MMS.Time do
     bytes
     |> ValueLengthList.decode([&Short.decode/1, &Long.decode/1])
     ~> fn {result, rest} -> ok to_time(result), rest end
-    ~>> fn details -> error bytes, details end
+    ~>> fn details -> decode_error bytes, details end
   end
 
   defp to_time [@absolute, seconds] do

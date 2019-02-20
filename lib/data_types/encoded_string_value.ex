@@ -20,13 +20,13 @@ defmodule MMS.EncodedStringValue do
   def decode(<<byte, _::binary>> = bytes) when is_text(byte) do
     bytes
     |> TextString.decode
-    ~>> fn details -> error bytes, details end
+    ~>> fn details -> decode_error bytes, details end
   end
 
   def decode(bytes) when is_binary(bytes) do
     bytes
     |> TextStringWithCharset.decode
-    ~>> fn details -> error bytes, details end
+    ~>> fn details -> decode_error bytes, details end
   end
 
   def encode(text) when is_binary(text) do

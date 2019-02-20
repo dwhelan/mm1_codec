@@ -34,6 +34,7 @@ defmodule MMS.Codec2 do
         error {error_name(), <<>>, :no_bytes}
       end
 
+      @deprecate "Use decode_error/2 or encode_error/2"
       defp error input, details do
         error error_name(), input, nest_decode_error(details)
       end

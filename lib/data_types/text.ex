@@ -14,7 +14,7 @@ defmodule MMS.Text do
   end
 
   def decode(bytes) when is_binary(bytes) do
-    error bytes, :first_byte_must_be_a_char
+    decode_error bytes, :first_byte_must_be_a_char
   end
 
   defp decode_parts [string | [rest]] do

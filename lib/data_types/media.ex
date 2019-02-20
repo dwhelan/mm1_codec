@@ -16,7 +16,7 @@ defmodule MMS.Media do
   defp do_decode bytes, codec do
     bytes
     |> codec.decode
-    ~>> fn details -> error bytes, details end
+    ~>> fn details -> decode_error bytes, details end
   end
 
   def encode(string) when is_binary(string) do

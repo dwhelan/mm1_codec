@@ -6,7 +6,7 @@ defmodule MMS.Integer do
   def decode(bytes) when is_binary(bytes) do
     bytes
     |> do_decode
-    ~>> fn details -> error bytes, details end
+    ~>> fn details -> decode_error bytes, details end
   end
 
   defp do_decode bytes = <<1::1, _::7, _::binary>> do

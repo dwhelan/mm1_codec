@@ -11,11 +11,11 @@ defmodule MMS.ValueLength do
     bytes
     |> Length.decode
     ~> ensure_minimal_encoding
-    ~>> fn details -> error bytes, details end
+    ~>> fn details -> decode_error bytes, details end
   end
 
   def decode(bytes) when is_binary(bytes) do
-    error bytes, :does_not_start_with_a_short_length_or_length_quote
+    decode_error bytes, :does_not_start_with_a_short_length_or_length_quote
   end
 
   defp ensure_minimal_encoding({length, _rest}) when is_short_length(length) do

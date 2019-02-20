@@ -8,11 +8,11 @@ defmodule MMS.Length do
   def decode bytes = <<@length_quote, rest::binary>> do
     rest
     |> Uint32.decode
-    ~>> fn details -> error bytes, details end
+    ~>> fn details -> decode_error bytes, details end
   end
 
   def decode(bytes) when is_binary(bytes) do
-    error bytes, :missing_length_quote
+    decode_error bytes, :missing_length_quote
   end
 
   def encode value do

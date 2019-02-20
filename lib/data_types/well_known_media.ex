@@ -101,7 +101,7 @@ defmodule MMS.WellKnownMedia do
     bytes
     |> Integer.decode
     ~> fn result -> result |> map(@map) end
-    ~>> fn reason -> error bytes, reason end
+    ~>> fn reason -> decode_error bytes, reason end
   end
 
   @inverse invert @map

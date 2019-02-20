@@ -19,7 +19,7 @@ defmodule MMS.QValue do
   end
 
   defp to_q_string {q_value, _rest}, bytes do
-    error bytes, %{out_of_range: q_value}
+    decode_error bytes, %{out_of_range: q_value}
   end
 
   defp format q_value, digits do

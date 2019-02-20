@@ -17,7 +17,7 @@ defmodule MMS.QuotedString do
   end
 
   def decode(bytes) when is_binary(bytes) do
-    error bytes, :must_start_with_a_quote
+    decode_error bytes, :must_start_with_a_quote
   end
 
   def encode string = << ~s("), _::binary >> do
