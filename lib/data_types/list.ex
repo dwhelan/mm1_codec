@@ -4,12 +4,13 @@ defmodule MMS.List do
   def decode(bytes, functions) when is_binary(bytes) and is_list(functions) do
     bytes
     |> do_decode(functions, [])
+    ~>> fn error -> error bytes, error end
   end
 
-  defp do_decode rest, [f | functions], values do
-    case rest |> f.() do
+  defp do_decode bytes, [f | functions], values do
+    case bytes |> f.() do
       {:ok, {value, rest}} -> do_decode rest, functions, [value | values]
-      error                -> [error | values] |> Enum.reverse |> error
+      {:error, error}      -> error %{error: error , values: Enum.reverse(values)}
     end
   end
 

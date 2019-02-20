@@ -3,8 +3,8 @@ defmodule MMS.ListTest do
 
   import MMS.List
 
-  def decode_ok(<<value , rest::binary>>), do: ok {value, rest}
-  def decode_error(bytes),                 do: error(:test, bytes, nil)
+  def decode_ok(<<value , rest::binary>>), do: ok  value, rest
+  def decode_error(bytes),                 do: error :test, bytes, :error_reason
 
   @bytes <<1, 2, "rest">>
 
@@ -22,16 +22,16 @@ defmodule MMS.ListTest do
     end
 
     test "return an error if it occurs on first function" do
-      assert decode(@bytes, [&decode_error/1, &decode_ok/1]) == error [error(:test, @bytes, nil)]
+      assert decode(@bytes, [&decode_error/1, &decode_ok/1]) == error :list, @bytes, %{error: {:test, @bytes, :error_reason}, values: []}
     end
 
     test "return an error if it occurs on subsequent functions" do
-      assert decode(@bytes, [&decode_ok/1, &decode_error/1]) == error [1, error(:test, <<2, "rest">>, nil)]
+      assert decode(@bytes, [&decode_ok/1, &decode_error/1]) == error :list, @bytes, %{error: {:test, <<2, "rest">>, :error_reason}, values: [1]}
     end
   end
 
   def encode_ok(value),    do: ok <<value>>
-  def encode_error(value), do: error(:test, value, nil)
+  def encode_error(value), do: error(:test, value, :error_reason)
 
   describe "encode should" do
     test "encode an empty list of values" do
@@ -55,11 +55,11 @@ defmodule MMS.ListTest do
     end
 
     test "return an error if it occurs on first function" do
-      assert encode([1,2], [&encode_error/1, &encode_ok/1]) == error [error(:test, 1, nil)]
+      assert encode([1,2], [&encode_error/1, &encode_ok/1]) == error [error(:test, 1, :error_reason)]
     end
 
     test "return an error if it occurs on subsequent functions" do
-      assert encode([1,2], [&encode_ok/1, &encode_error/1]) == error [<<1>>, error(:test, 2, nil)]
+      assert encode([1,2], [&encode_ok/1, &encode_error/1]) == error [<<1>>, error(:test, 2, :error_reason)]
     end
   end
 end

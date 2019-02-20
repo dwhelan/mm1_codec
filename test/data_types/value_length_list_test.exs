@@ -3,8 +3,8 @@ defmodule MMS.ValueLengthListTest do
 
   import MMS.ValueLengthList
 
-  def decode_ok(<<value , rest::binary>>), do: ok {value, rest}
-  def decode_error(bytes),                 do: error(:test, bytes, :details)
+  def decode_ok(<<value , rest::binary>>), do: ok value, rest
+  def decode_error(bytes),                 do: error :data_type, bytes, :details
 
   @bytes <<l(2), 3, 4, 5>>
 
@@ -18,20 +18,27 @@ defmodule MMS.ValueLengthListTest do
     end
 
     test "return an error if too few bytes used" do
-      assert decode(@bytes, [&decode_ok/1]) == error :incorrect_value_length, @bytes, %{length: {2, <<l(2)>>}, values: [3], bytes_used: 1}
+      assert decode(@bytes, [&decode_ok/1]) == error :value_length_list, @bytes, %{length: 2, values: [3], bytes_used: 1}
     end
 
     test "return an error if too many bytes used" do
-      assert decode(@bytes, [&decode_ok/1, &decode_ok/1, &decode_ok/1]) == error :incorrect_value_length, @bytes, %{length: {2, <<l(2)>>}, values: [3, 4, 5], bytes_used: 3}
+      assert decode(@bytes, [&decode_ok/1, &decode_ok/1, &decode_ok/1]) == error :value_length_list, @bytes, %{length: 2, values: [3, 4, 5], bytes_used: 3}
     end
 
-    test "return an error if any decoder returns an error" do
-      assert decode(@bytes, [&decode_error/1]) == error %{length: {2, <<l(2)>>}, values: [{:error, {:test, <<3, 4, 5>>, :details}}]}
+    test "return an error if first decoder returns an error" do
+      decoder_error = {:data_type, <<3, 4, 5>>, :details}
+      assert decode(@bytes, [&decode_error/1]) == error :value_length_list, @bytes, [:list, %{length: 2, values: [], error: decoder_error}]
+    end
+
+    test "return an error if subsequent decoder returns an error" do
+      decoder_error = {:data_type, <<4, 5>>, :details}
+      assert decode(@bytes, [&decode_ok/1, &decode_error/1]) == error :value_length_list, @bytes, [:list, %{length: 2, values: [3], error: decoder_error}]
     end
   end
 
+
   def encode_ok(value),    do: ok <<value>>
-  def encode_error(value), do: error(:test, value, nil)
+  def encode_error(value), do: error :data_type, value, :details
 
   describe "encode should" do
     test "encode an empty list of values" do
@@ -47,7 +54,7 @@ defmodule MMS.ValueLengthListTest do
     end
 
     test "return an error if any encoder returns an error" do
-      assert encode([3, 4, 5], [&encode_ok/1, &encode_error/1, &encode_ok/1]) == error [<<3>>, error(:test, 4, nil)]
+      assert encode([3, 4, 5], [&encode_ok/1, &encode_error/1, &encode_ok/1]) == error [<<3>>, error(:data_type, 4, :details)]
     end
   end
 end

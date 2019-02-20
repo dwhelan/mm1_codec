@@ -27,7 +27,7 @@ defmodule MMS.TextValue do
   end
 
   defp do_decode(bytes) when is_binary(bytes) do
-    IO.inspect error :first_byte_must_be_no_value_or_quote_or_char
+    error :first_byte_must_be_no_value_or_quote_or_char
   end
 
   def encode(:no_value) do
