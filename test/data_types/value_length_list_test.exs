@@ -36,7 +36,6 @@ defmodule MMS.ValueLengthListTest do
     end
   end
 
-
   def encode_ok(value),    do: ok <<value>>
   def encode_error(value), do: error :data_type, value, :details
 
@@ -54,7 +53,7 @@ defmodule MMS.ValueLengthListTest do
     end
 
     test "return an error if any encoder returns an error" do
-      assert encode([3, 4, 5], [&encode_ok/1, &encode_error/1, &encode_ok/1]) == error [<<3>>, error(:data_type, 4, :details)]
+      assert encode([3, 4, 5], [&encode_ok/1, &encode_error/1, &encode_ok/1]) == error :list, [3, 4, 5], %{error: {:data_type, 4, :details}}
     end
   end
 end

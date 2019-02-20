@@ -26,6 +26,7 @@ defmodule MMS.List do
     values
     |> Enum.zip(functions)
     |> do_encode([])
+    ~>> fn error -> error values, error end
   end
 
   defp do_encode [], bytes_list do
@@ -35,7 +36,7 @@ defmodule MMS.List do
   defp do_encode [{value, f} | value_pairs], bytes_list do
     case value |> f.() do
       {:ok, bytes} -> do_encode value_pairs, [bytes | bytes_list]
-      error        -> [error | bytes_list] |> Enum.reverse |> error
+      {:error, error} -> error %{error: error }
     end
   end
 end
