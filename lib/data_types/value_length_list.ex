@@ -6,28 +6,22 @@ defmodule MMS.ValueLengthList do
   def decode(bytes, functions) when is_binary(bytes) and is_list(functions) do
     bytes
     |> ValueLength.decode
-    ~> fn result -> result |> decode_values(functions, bytes) end
+    ~> fn result -> result |> do_decode(functions, bytes) end
   end
 
-  defp decode_values {length, value_bytes}, functions, bytes do
+  defp do_decode {length, value_bytes}, functions, bytes do
     value_bytes
     |> List.decode(functions)
-    ~>> fn {data_type, b, details} -> error bytes, [data_type, Map.merge(details, %{length: length})] end
-    ~> fn {values, rest} -> check_value_bytes_used(length, value_bytes, values, rest, bytes) end
+    ~>> fn {data_type, _, details} -> error bytes, [data_type, Map.merge(details, %{length: length})] end
+    ~> fn {values, rest} -> ensure_correct_length(length, value_bytes, values, rest, bytes) end
   end
 
-  defp length_details length, bytes, values, value_bytes do
-    length_bytes_used = byte_size(bytes) - byte_size(value_bytes)
-    %{length: length, values: values}
-  end
-
-  defp check_value_bytes_used(length, value_bytes, values, rest, _bytes) when length == byte_size(value_bytes) - byte_size(rest) do
+  defp ensure_correct_length(length, value_bytes, values, rest, _bytes) when length == byte_size(value_bytes) - byte_size(rest) do
     ok values, rest
   end
 
-  defp check_value_bytes_used(length, value_bytes, values, rest, bytes) do
-    bytes_used    = byte_size(value_bytes) - byte_size(rest)
-    error_details = length_details(length, bytes, values, value_bytes) |> Map.put(:bytes_used, bytes_used)
+  defp ensure_correct_length(length, value_bytes, values, rest, bytes) do
+    bytes_used = byte_size(value_bytes) - byte_size(rest)
     error bytes, %{length: length, bytes_used: bytes_used, values: values}
   end
 
