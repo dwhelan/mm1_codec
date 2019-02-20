@@ -4,7 +4,7 @@ defmodule MMS.List do
   def decode(bytes, functions) when is_binary(bytes) and is_list(functions) do
     bytes
     |> do_decode(functions, [])
-    ~>> fn error -> error bytes, error end
+    ~>> fn error -> decode_error bytes, error end
   end
 
   defp do_decode bytes, [f | functions], values do
@@ -30,7 +30,10 @@ defmodule MMS.List do
   end
 
   defp do_encode [], bytes_list do
-    ok bytes_list |> Enum.reverse |> Enum.join
+    bytes_list
+    |> Enum.reverse
+    |> Enum.join
+    |> ok
   end
 
   defp do_encode [{value, f} | value_pairs], bytes_list do

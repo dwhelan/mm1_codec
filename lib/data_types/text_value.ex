@@ -11,7 +11,7 @@ defmodule MMS.TextValue do
   def decode(bytes) when is_binary(bytes) do
     bytes
     |> do_decode
-    ~>> fn error -> error bytes, error end
+    ~>> fn error -> decode_error bytes, error end
   end
 
   defp do_decode(bytes = <<0, _::binary>>) do

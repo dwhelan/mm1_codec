@@ -6,7 +6,7 @@ defmodule MMS.QValue do
   def decode bytes do
     bytes
     |> Uint32.decode
-    ~>> fn error -> error bytes, error end
+    ~>> fn error -> decode_error bytes, error end
     ~> fn result -> to_q_string(result, bytes) end
   end
 

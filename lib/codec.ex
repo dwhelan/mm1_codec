@@ -9,15 +9,15 @@ defmodule MMS.Codec2 do
     error {code, input, details}
   end
 
-  def accumulate_error({data_type, _, error}) when is_list(error) do
+  def nest_decode_error({data_type, _, error}) when is_list(error) do
     [data_type | error]
   end
 
-  def accumulate_error {data_type, _, error} do
+  def nest_decode_error {data_type, _, error} do
     [data_type, error]
   end
 
-  def accumulate_error reason do
+  def nest_decode_error reason do
     reason
   end
 
@@ -35,7 +35,15 @@ defmodule MMS.Codec2 do
       end
 
       defp error input, details do
-        error error_name(), input, accumulate_error(details)
+        error error_name(), input, nest_decode_error(details)
+      end
+
+      defp decode_error input, details do
+        error error_name(), input, nest_decode_error(details)
+      end
+
+      defp encode_error input, details do
+        error error_name(), input, details
       end
     end
   end
