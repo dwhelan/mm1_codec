@@ -110,6 +110,6 @@ defmodule MMS.WellKnownMedia do
     value
     |> map(@inverse)
     ~> Integer.encode
-    ~>> fn _ -> error value, :unknown end
+    ~>> fn _ -> encode_error value, :unknown end
   end
 end

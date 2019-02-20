@@ -44,7 +44,7 @@ defmodule MMS.Codec2 do
       end
 
       defp encode_error input, details do
-        error error_name(), input, details
+        error error_name(), input, nest_decode_error(details)
       end
     end
   end

@@ -20,7 +20,7 @@ defmodule MMS.Integer do
   def encode(value) when is_integer(value) do
     value
     |> do_encode
-    ~>> fn details -> error value, details end
+    ~>> fn details -> encode_error value, details end
   end
 
   def encode value do

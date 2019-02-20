@@ -23,6 +23,6 @@ defmodule MMS.Media do
     string
     |> WellKnownMedia.encode
     ~>> fn _ -> string |> Text.encode end
-    ~>> fn details -> error string, details end
+    ~>> fn details -> encode_error string, details end
   end
 end

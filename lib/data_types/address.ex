@@ -26,8 +26,8 @@ defmodule MMS.Address do
   def decode bytes do
     bytes
     |> Text.decode
-    ~> fn {text, rest} -> text |> String.split("/TYPE=") |> do_decode(rest) end
-    ~>> fn details -> decode_error bytes, details end
+    ~>  fn {text, rest} -> text |> String.split("/TYPE=") |> do_decode(rest) end
+    ~>> fn details      -> decode_error bytes, details end
   end
 
   defp do_decode [email], rest do
@@ -48,7 +48,7 @@ defmodule MMS.Address do
     ipv4_string
     |> to_charlist
     |> :inet.parse_ipv4strict_address
-    ~> fn ipv4 -> ok ipv4, rest end
+    ~>  fn ipv4   -> ok ipv4, rest end
     ~>> fn _error -> error :ipv4_address end
   end
 
@@ -57,7 +57,7 @@ defmodule MMS.Address do
     |> String.replace(":", "::")
     |> to_charlist
     |> :inet.parse_ipv6strict_address
-    ~> fn ipv6 -> ok ipv6, rest end
+    ~>  fn ipv6   -> ok ipv6, rest end
     ~>> fn _error -> error :ipv6_address end
   end
 
@@ -68,27 +68,27 @@ defmodule MMS.Address do
   def encode(address) when is_binary(address) do
     address
     |> check_address
-    ~> fn string -> string |> Text.encode end
-    ~>> fn details -> error address, details end
+    ~>  fn string  -> string |> Text.encode end
+    ~>> fn details -> encode_error address, details end
   end
 
   def encode(ipv4) when is_tuple(ipv4) and tuple_size(ipv4) == 4 do
     ipv4
     |> :inet.ntoa
     |> OkError.return
-    ~>> fn _error -> error :ipv4_address end
-    ~> fn charlist -> Text.encode to_string(charlist) <> "/TYPE=IPv4" end
-    ~>> fn details -> error ipv4, details end
+    ~>> fn _error   -> error :ipv4_address end
+    ~>  fn charlist -> Text.encode to_string(charlist) <> "/TYPE=IPv4" end
+    ~>> fn details -> encode_error ipv4, details end
   end
 
   def encode(ipv6) when is_tuple(ipv6) and tuple_size(ipv6) == 8 do
     ipv6
     |> :inet.ntoa
     |> OkError.return
-    ~> fn charlist -> charlist |> to_string |> String.replace("::", ":") end
-    ~>> fn _error -> error :ipv6_address end
-    ~> fn charlist -> Text.encode to_string(charlist) <> "/TYPE=IPv6" end
-    ~>> fn details -> error ipv6, details end
+    ~>  fn charlist -> charlist |> to_string |> String.replace("::", ":") end
+    ~>> fn _error   -> error :ipv6_address end
+    ~>  fn charlist -> Text.encode to_string(charlist) <> "/TYPE=IPv6" end
+    ~>> fn details -> encode_error ipv6, details end
   end
 
   def encode({address, type}) when is_binary(address) and type not in ["IPv4", "IPv6", "PLMN"] do

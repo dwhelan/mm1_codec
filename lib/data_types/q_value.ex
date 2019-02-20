@@ -32,7 +32,7 @@ defmodule MMS.QValue do
     |> pure
     ~> fn integer -> to_q_value integer, byte_size string end
     ~> Uint32.encode
-    ~>> fn _ -> error string, :must_be_string_of_2_or_3_digits end
+    ~>> fn _ -> encode_error string, :must_be_string_of_2_or_3_digits end
   end
 
   defp pure({integer, ""}), do: ok integer

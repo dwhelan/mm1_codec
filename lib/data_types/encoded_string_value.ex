@@ -32,13 +32,13 @@ defmodule MMS.EncodedStringValue do
   def encode(text) when is_binary(text) do
     text
     |> TextString.encode
-    ~>> fn details -> error text, details end
+    ~>> fn details -> encode_error text, details end
   end
 
   def encode({text, charset}) when is_binary(text) do
     {text, charset}
     |> TextStringWithCharset.encode
-    ~>> fn details -> error {text, charset}, details end
+    ~>> fn details -> encode_error {text, charset}, details end
   end
 
   defmodule TextStringWithCharset do

@@ -23,10 +23,10 @@ defmodule MMS.QuotedString do
   def encode string = << ~s("), _::binary >> do
     string
     |> Text.encode
-    ~>> fn error -> error string, error end
+    ~>> fn error -> encode_error string, error end
   end
 
   def encode(string) when is_binary(string) do
-    error string, :must_start_with_a_quote
+    encode_error string, :must_start_with_a_quote
   end
 end

@@ -19,6 +19,6 @@ defmodule MMS.Length do
     value
     |> Uint32.encode
     ~> fn bytes -> <<@length_quote>> <> bytes end
-    ~>> fn details -> error value, details end
+    ~>> fn details -> encode_error value, details end
   end
 end

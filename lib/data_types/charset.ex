@@ -286,6 +286,6 @@ defmodule MMS.Charset do
     charset
     |> map(@inverse)
     ~> Integer.encode
-    ~>> fn details -> error charset, details end
+    ~>> fn details -> encode_error charset, details end
   end
 end
