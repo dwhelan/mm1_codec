@@ -55,11 +55,11 @@ defmodule MMS.ListTest do
     end
 
     test "return an error if it occurs on first function" do
-      assert encode([1,2], [&encode_error/1, &encode_ok/1]) == error :list, [1,2], %{error: {:test, 1, :error_reason}}
+      assert encode([1,2], [&encode_error/1, &encode_ok/1]) == error :list, [1,2], {:test, 1, :error_reason}
     end
 
     test "return an error if it occurs on subsequent functions" do
-      assert encode([1,2], [&encode_ok/1, &encode_error/1]) == error :list, [1, 2], %{error: {:test, 2, :error_reason}}
+      assert encode([1,2], [&encode_ok/1, &encode_error/1]) == error :list, [1, 2], {:test, 2, :error_reason}
     end
   end
 end
