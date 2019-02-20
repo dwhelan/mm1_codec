@@ -77,7 +77,7 @@ defmodule MMS.Address do
     |> :inet.ntoa
     |> OkError.return
     ~>> fn _error   -> error :ipv4_address end
-    ~>  fn charlist -> Text.encode to_string(charlist) <> "/TYPE=IPv4" end
+    ~>  fn charlist -> charlist |> to_string |> do_encode("IPv4") end
     ~>> fn details -> encode_error ipv4, details end
   end
 
@@ -85,15 +85,17 @@ defmodule MMS.Address do
     ipv6
     |> :inet.ntoa
     |> OkError.return
-    ~>  fn charlist -> charlist |> to_string |> String.replace("::", ":") end
+    ~>  fn charlist -> charlist |> to_string |> String.replace("::", ":") |> do_encode("IPv6") end
     ~>> fn _error   -> error :ipv6_address end
-    ~>  fn charlist -> Text.encode to_string(charlist) <> "/TYPE=IPv6" end
     ~>> fn details -> encode_error ipv6, details end
   end
 
   def encode({address, type}) when is_binary(address) and type not in ["IPv4", "IPv6", "PLMN"] do
-    address <> "/TYPE=#{type}"
-    |> Text.encode
+    address |> do_encode(type)
+  end
+
+  defp do_encode address, type do
+    "#{address}/TYPE=#{type}" |> Text.encode
   end
 
   defp check_address string do
