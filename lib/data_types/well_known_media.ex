@@ -100,7 +100,7 @@ defmodule MMS.WellKnownMedia do
   def decode(bytes) when is_binary(bytes) do
     bytes
     |> Integer.decode
-    ~> fn result -> result |> map(@map) end
+    ~> fn  result -> result |> map(@map) end
     ~>> fn reason -> decode_error bytes, reason end
   end
 

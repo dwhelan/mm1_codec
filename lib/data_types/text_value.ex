@@ -44,7 +44,7 @@ defmodule MMS.TextValue do
     ~>> fn error -> encode_error string, error end
   end
 
-  defp do_encode(quoted_string = << ~s("), _::binary >>) do
+  defp do_encode(quoted_string = << quote, _::binary >>) when is_quote(quote) do
     quoted_string
     |> QuotedString.encode
   end

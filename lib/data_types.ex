@@ -11,6 +11,10 @@ defmodule MMS.DataTypes do
     quote do unquote(value) == 0 end
   end
 
+  defmacro is_quote(value) do
+    quote do unquote(value) == 34 end
+  end
+
   defmacro is_text(value) do
     quote do is_end_of_string(unquote value) or is_char(unquote value) end
   end
