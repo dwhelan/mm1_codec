@@ -8,10 +8,10 @@ defmodule MMS.List do
   end
 
   defp do_decode bytes, [f | functions], values do
-    case bytes |> f.() do
-      {:ok, {value, rest}} -> do_decode rest, functions, [value | values]
-      {:error, error}      -> error %{error: error , values: Enum.reverse(values)}
-    end
+    bytes
+    |> f.()
+    ~>> fn error        -> error %{error: error, values: Enum.reverse(values)} end
+    ~> fn {value, rest} -> do_decode rest, functions, [value | values] end
   end
 
   defp do_decode rest, [], values do
