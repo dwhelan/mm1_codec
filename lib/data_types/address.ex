@@ -30,41 +30,12 @@ defmodule MMS.Address do
       text
       |> String.split("/TYPE=")
       |> do_decode
-      ~> fn address -> ok address, rest end end
+      |> ok(rest) end
     ~>> fn details -> decode_error bytes, details end
   end
 
-  defmodule Phone do
-    def decode [phone, "PLMN"] do
-      if valid?(phone), do: ok(phone, :phone), else: error(:invalid_phone_number)
-    end
-
-    def encode phone do
-      if valid?(phone), do: ok("#{phone}/TYPE=PLMN"), else: error(:invalid_phone_number)
-    end
-
-    defp valid? phone do
-      String.match? phone, ~r/^\+?[\d\-\.]+$/
-    end
-  end
-
-  defmodule Email do
-    def decode [phone] do
-      ok phone
-    end
-
-    def encode phone do
-      ok phone
-    end
-  end
-
-  defp do_decode([email]),        do: do_decode [email], valid_email?(email)
-  defp do_decode([email], true),  do: ok email
-  defp do_decode([email], false), do: error :invalid_email_address
-
-  defp do_decode [phone, "PLMN"] do
-    Phone.decode [phone, "PLMN"]
-  end
+  defp do_decode([email]),         do: email
+  defp do_decode([phone, "PLMN"]), do: {phone, :phone}
 
   defp do_decode [ipv4_string, "IPv4"] do
     ipv4_string
@@ -90,20 +61,12 @@ defmodule MMS.Address do
   def encode(address) do
     address
     |> do_encode
-    ~> Text.encode
-    |> IO.inspect
+    |> Text.encode
     ~>> fn details -> encode_error address, details end
   end
 
-  def do_encode(address) when is_binary(address) do
-    address
-    |> Email.encode
-  end
-
-  def do_encode({address, :phone}) when is_binary(address) do
-    address
-    |> Phone.encode
-  end
+  def do_encode(email) when is_binary(email),           do: email
+  def do_encode({phone, :phone}) when is_binary(phone), do: "#{phone}/TYPE=PLMN"
 
   def do_encode(ipv4) when is_tuple(ipv4) and tuple_size(ipv4) == 4 do
     ipv4
