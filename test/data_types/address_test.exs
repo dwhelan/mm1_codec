@@ -14,8 +14,8 @@ defmodule MMS.AddressTest do
 
       decode_errors: [
         { << "x" >>,                   {:address, "x",                    [:text, :missing_end_of_string_0_byte]} },
-        { << "x\0" >>,                 {:address, "x\0",                 :email_address}        },
-        { << "!/TYPE=PLMN\0" >>,       {:address, "!/TYPE=PLMN\0",       :phone_number }        },
+        { << "x\0" >>,                 {:address, "x\0",                 :invalid_email_address}        },
+        { << "!/TYPE=PLMN\0" >>,       {:address, "!/TYPE=PLMN\0",       :invalid_phone_number }        },
         { << "x.0.0.0/TYPE=IPv4\0" >>, {:address, "x.0.0.0/TYPE=IPv4\0", :ipv4_address }        },
         { << "::x/TYPE=IPv6\0" >>,     {:address, "::x/TYPE=IPv6\0",     :ipv6_address }        },
           ]    ,
