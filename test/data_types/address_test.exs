@@ -23,6 +23,7 @@ defmodule MMS.AddressTest do
         { "email@address\0",      {:address, "email@address\0",      [:text, :contains_end_of_string_0]} },
         { {"x", "PLMN"},          {:address, {"x", "PLMN"},          :encode_phone_numbers_without_type} },
         { {"x", "IPv4"},          {:address, {"x", "IPv4"},          :encode_ipv4_address_with_atom} },
+        { {"x", "IPv6"},          {:address, {"x", "IPv6"},          :encode_ipv6_address_with_atom} },
 #        { {"x", 0, 0, 0},             {:address, {"x", 0, 0, 0},             :ipv4_address}     },
 #        { {"x", 0, 0, 0, 0, 0, 0, 0}, {:address, {"x", 0, 0, 0, 0, 0, 0, 0}, :ipv6_address}     },
       ]
