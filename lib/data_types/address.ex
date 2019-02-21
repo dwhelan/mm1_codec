@@ -52,5 +52,6 @@ defmodule MMS.Address do
   def do_encode({ipv4, :ipv4})   when is_binary(ipv4),  do: ok "#{ipv4}/TYPE=IPv4"
   def do_encode({ipv6, :ipv6})   when is_binary(ipv6),  do: ok "#{ipv6}/TYPE=IPv6"
   def do_encode({address, "PLMN"}) when is_binary(address),  do: error :encode_phone_numbers_without_type
+  def do_encode({address, "IPv4"}) when is_binary(address),  do: error :encode_ipv4_address_with_atom
   def do_encode({address, type}) when is_binary(address) and is_binary(type),  do: ok "#{address}/TYPE=#{type}"
 end
