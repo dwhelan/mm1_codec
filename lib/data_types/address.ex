@@ -35,31 +35,36 @@ defmodule MMS.Address do
   end
 
   defmodule Phone do
-    def decode phone do
-      if valid_phone?(phone), do: ok(phone), else: error(:invalid_phone_number)
-    end
-
-    defp valid_phone? phone_number do
-      String.match? phone_number, ~r/^\+?[\d\-\.]+$/
+    def decode [phone, "PLMN"] do
+      if valid?(phone), do: ok(phone, :phone), else: error(:invalid_phone_number)
     end
 
     def encode phone do
+      if valid?(phone), do: ok("#{phone}/TYPE=PLMN"), else: error(:invalid_phone_number)
+    end
 
+    defp valid? phone do
+      String.match? phone, ~r/^\+?[\d\-\.]+$/
     end
   end
 
   defmodule Email do
-    
+    def decode [phone] do
+      ok phone
+    end
+
+    def encode phone do
+      ok phone
+    end
   end
+
   defp do_decode([email]),        do: do_decode [email], valid_email?(email)
   defp do_decode([email], true),  do: ok email
   defp do_decode([email], false), do: error :invalid_email_address
 
   defp do_decode [phone, "PLMN"] do
-    Phone.decode(phone)
+    Phone.decode [phone, "PLMN"]
   end
-  defp do_decode([phone, "PLMN"], true),  do: ok phone
-  defp do_decode([phone, "PLMN"], false), do: error :invalid_phone_number
 
   defp do_decode [ipv4_string, "IPv4"] do
     ipv4_string
@@ -82,16 +87,25 @@ defmodule MMS.Address do
     ok {address, type}
   end
 
-  def encode(address) when is_binary(address) do
+  def encode(address) do
     address
-    |> check_address
-    ~> fn string ->
-      string
-      |> Text.encode end
+    |> do_encode
+    ~> Text.encode
+    |> IO.inspect
     ~>> fn details -> encode_error address, details end
   end
 
-  def encode(ipv4) when is_tuple(ipv4) and tuple_size(ipv4) == 4 do
+  def do_encode(address) when is_binary(address) do
+    address
+    |> Email.encode
+  end
+
+  def do_encode({address, :phone}) when is_binary(address) do
+    address
+    |> Phone.encode
+  end
+
+  def do_encode(ipv4) when is_tuple(ipv4) and tuple_size(ipv4) == 4 do
     ipv4
     |> :inet.ntoa
     |> OkError.return
@@ -103,7 +117,7 @@ defmodule MMS.Address do
     ~>> fn details -> encode_error ipv4, details end
   end
 
-  def encode(ipv6) when is_tuple(ipv6) and tuple_size(ipv6) == 8 do
+  def do_encode(ipv6) when is_tuple(ipv6) and tuple_size(ipv6) == 8 do
     ipv6
     |> :inet.ntoa
     |> OkError.return
@@ -116,7 +130,7 @@ defmodule MMS.Address do
     ~>> fn details -> encode_error ipv6, details end
   end
 
-  def encode({address, type}) when is_binary(address) and type not in ["IPv4", "IPv6", "PLMN"] do
+  def do_encode({address, type}) when is_binary(address) and type not in ["IPv4", "IPv6", "PLMN"] do
     address
     |> do_encode(type)
   end
