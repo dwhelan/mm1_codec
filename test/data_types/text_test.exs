@@ -11,7 +11,7 @@ defmodule MMS.TextTest do
 
       decode_errors: [
         {<<1, 0>>,     {:text, <<1, 0>>, :first_byte_must_be_a_char}       },
-        {<<"string">>, {:text, "string", :missing_end_of_string_0_byte} },
+        {<<"string">>, {:text, "string", :missing_end_of_string_0} },
       ],
 
       encode_errors: [

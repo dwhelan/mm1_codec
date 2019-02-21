@@ -8,12 +8,12 @@ defmodule MMS.AddressTest do
         { "email@address\0",         "email@address"          },
         { "1234567890/TYPE=PLMN\0",  {"1234567890", :phone}             },
         { "0.0.0.0/TYPE=IPv4\0",     {"0.0.0.0", :ipv4}             },
-#        { ":/TYPE=IPv6\0",           {0, 0, 0, 0, 0, 0, 0, 0} },
-#        { "address/TYPE=other\0",    {"address", "other"}     },
+        { ":/TYPE=IPv6\0",           {":", :ipv6} },
+        { "address/TYPE=other\0",    {"address", "other"}     },
       ],
 
       decode_errors: [
-#        { << "x" >>,                   {:address, "x",                    [:text, :missing_end_of_string_0_byte]} },
+        { << "x" >>,                   {:address, "x",                    [:text, :missing_end_of_string_0]} },
 #        { << "x\0" >>,                 {:address, "x\0",                 :invalid_email_address}        },
 #        { << "x.0.0.0/TYPE=IPv4\0" >>, {:address, "x.0.0.0/TYPE=IPv4\0", :ipv4_address }        },
 #        { << "::x/TYPE=IPv6\0" >>,     {:address, "::x/TYPE=IPv6\0",     :ipv6_address }        },

@@ -11,7 +11,7 @@ defmodule MMS.QuotedStringTest do
 
       decode_errors: [
         { <<1>>,       {:quoted_string, <<1>>,       :must_start_with_a_quote}         },
-        { ~s("string), {:quoted_string, ~s("string), [:text, :missing_end_of_string_0_byte]} },
+        { ~s("string), {:quoted_string, ~s("string), [:text, :missing_end_of_string_0]} },
       ],
 
       encode_errors: [

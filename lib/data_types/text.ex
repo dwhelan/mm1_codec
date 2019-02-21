@@ -22,7 +22,7 @@ defmodule MMS.Text do
   end
 
   defp decode_parts [string | []] do
-    error string, :missing_end_of_string_0_byte
+    error string, :missing_end_of_string_0
   end
 
   def encode(<<byte, _::binary>> = string) when is_char(byte) do
