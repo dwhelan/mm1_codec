@@ -43,13 +43,14 @@ defmodule MMS.Address do
   def encode(address) do
     address
     |> do_encode
-    |> Text.encode
+    ~> Text.encode
     ~>> fn details -> encode_error address, details end
   end
 
-  def do_encode({email, :email}) when is_binary(email), do: email
-  def do_encode(phone)           when is_binary(phone), do: "#{phone}/TYPE=PLMN"
-  def do_encode({ipv4, :ipv4})   when is_binary(ipv4),  do: "#{ipv4}/TYPE=IPv4"
-  def do_encode({ipv6, :ipv6})   when is_binary(ipv6),  do: "#{ipv6}/TYPE=IPv6"
-  def do_encode({address, type}) when is_binary(address) and is_binary(type),  do: "#{address}/TYPE=#{type}"
+  def do_encode({email, :email}) when is_binary(email), do: ok email
+  def do_encode(phone)           when is_binary(phone), do: ok "#{phone}/TYPE=PLMN"
+  def do_encode({ipv4, :ipv4})   when is_binary(ipv4),  do: ok "#{ipv4}/TYPE=IPv4"
+  def do_encode({ipv6, :ipv6})   when is_binary(ipv6),  do: ok "#{ipv6}/TYPE=IPv6"
+  def do_encode({address, "PLMN"}) when is_binary(address),  do: error :encode_phone_numbers_without_type
+  def do_encode({address, type}) when is_binary(address) and is_binary(type),  do: ok "#{address}/TYPE=#{type}"
 end
