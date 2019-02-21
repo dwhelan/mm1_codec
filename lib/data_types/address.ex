@@ -36,14 +36,7 @@ defmodule MMS.Address do
 
   defp do_decode([email]),         do: email
   defp do_decode([phone, "PLMN"]), do: {phone, :phone}
-
-  defp do_decode [ipv4_string, "IPv4"] do
-    ipv4_string
-    |> to_charlist
-    |> :inet.parse_ipv4strict_address
-    ~> fn ipv4 -> ok ipv4 end
-    ~>> fn _error -> error :ipv4_address end
-  end
+  defp do_decode([ipv4, "IPv4"]), do: {ipv4, :ipv4}
 
   defp do_decode [ipv6_string, "IPv6"] do
     ipv6_string
@@ -65,20 +58,9 @@ defmodule MMS.Address do
     ~>> fn details -> encode_error address, details end
   end
 
-  def do_encode(email) when is_binary(email),           do: email
+  def do_encode(email)           when is_binary(email), do: email
   def do_encode({phone, :phone}) when is_binary(phone), do: "#{phone}/TYPE=PLMN"
-
-  def do_encode(ipv4) when is_tuple(ipv4) and tuple_size(ipv4) == 4 do
-    ipv4
-    |> :inet.ntoa
-    |> OkError.return
-    ~>> fn _error -> error :ipv4_address end
-    ~> fn charlist ->
-      charlist
-      |> to_string
-      |> do_encode("IPv4") end
-    ~>> fn details -> encode_error ipv4, details end
-  end
+  def do_encode({ipv4, :ipv4})   when is_binary(ipv4),  do: "#{ipv4}/TYPE=IPv4"
 
   def do_encode(ipv6) when is_tuple(ipv6) and tuple_size(ipv6) == 8 do
     ipv6

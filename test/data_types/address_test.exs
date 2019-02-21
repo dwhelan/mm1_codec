@@ -7,7 +7,7 @@ defmodule MMS.AddressTest do
       examples: [
         { "email@address\0",         "email@address"          },
         { "1234567890/TYPE=PLMN\0",  {"1234567890", :phone}             },
-#        { "0.0.0.0/TYPE=IPv4\0",     {0, 0, 0, 0}             },
+        { "0.0.0.0/TYPE=IPv4\0",     {"0.0.0.0", :ipv4}             },
 #        { ":/TYPE=IPv6\0",           {0, 0, 0, 0, 0, 0, 0, 0} },
 #        { "address/TYPE=other\0",    {"address", "other"}     },
       ],
