@@ -5,8 +5,8 @@ defmodule MMS.AddressTest do
       codec: MMS.Address,
 
       examples: [
-        { "email@address\0",         "email@address"          },
-        { "1234567890/TYPE=PLMN\0",  {"1234567890", :phone}             },
+        { "email@address\0",         {"email@address", :email}          },
+        { "1234567890/TYPE=PLMN\0",  "1234567890"             },
         { "0.0.0.0/TYPE=IPv4\0",     {"0.0.0.0", :ipv4}             },
         { ":/TYPE=IPv6\0",           {":", :ipv6} },
         { "address/TYPE=other\0",    {"address", "other"}     },

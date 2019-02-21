@@ -34,8 +34,8 @@ defmodule MMS.Address do
     ~>> fn details -> decode_error bytes, details end
   end
 
-  defp do_decode([email]),         do: email
-  defp do_decode([phone, "PLMN"]), do: {phone, :phone}
+  defp do_decode([email]),         do: {email, :email}
+  defp do_decode([phone, "PLMN"]), do: phone
   defp do_decode([ipv4, "IPv4"]),  do: {ipv4, :ipv4}
   defp do_decode([ipv6, "IPv6"]),  do: {ipv6, :ipv6}
   defp do_decode([other, type]),   do: {other, type}
@@ -47,8 +47,8 @@ defmodule MMS.Address do
     ~>> fn details -> encode_error address, details end
   end
 
-  def do_encode(email)           when is_binary(email), do: email
-  def do_encode({phone, :phone}) when is_binary(phone), do: "#{phone}/TYPE=PLMN"
+  def do_encode({email, :email}) when is_binary(email), do: email
+  def do_encode(phone)           when is_binary(phone), do: "#{phone}/TYPE=PLMN"
   def do_encode({ipv4, :ipv4})   when is_binary(ipv4),  do: "#{ipv4}/TYPE=IPv4"
   def do_encode({ipv6, :ipv6})   when is_binary(ipv6),  do: "#{ipv6}/TYPE=IPv6"
   def do_encode({address, type}) when is_binary(address) and is_binary(type),  do: "#{address}/TYPE=#{type}"

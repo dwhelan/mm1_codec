@@ -8,17 +8,17 @@ defmodule MMS.HeadersTest do
   use MMS.TestExamples,
       codec: Headers,
       examples: [
-        { << s(1),  "@\0"               >>, bcc:                     "@"                 },
-        { << s(2),  "@\0"               >>, cc:                      "@"                 },
+        { << s(1),  "@\0"               >>, bcc:                     {"@", :email}       },
+        { << s(2),  "@\0"               >>, cc:                      {"@", :email}       },
         { << s(3),  "x\0"               >>, content_location:        "x"                 },
         { << s(4),  s(0)                >>, content_type:            "*/*"               },
         { << s(5),  l(1), 0             >>, date:                    date_time_zero      },
         { << s(6),  s(0)                >>, delivery_report:         true                },
         { << s(7),  l(3), s(0), l(1), 0 >>, delivery_time:           date_time_zero      },
         { << s(8),  l(3), s(0), l(1), 0 >>, expiry:                  date_time_zero      },
-        { << s(9),  l(3), s(0), "@\0"   >>, from:                    "@"                 },
+        { << s(9),  l(3), s(0), "@\0"   >>, from:                    {"@", :email}       },
         { << s(10), s(0)                >>, message_class:           :personal           },
-        { << s(11), "@\0"               >>, message_id:              "@"                 },
+        { << s(11), "x\0"               >>, message_id:              "x"                 },
         { << s(12), s(0)                >>, message_type:            :m_send_conf        },
         { << s(13), 0b10000000          >>, version:                 {0, 0}              },
         { << s(14), l(1), 0             >>, message_size:            0                   },
@@ -39,11 +39,11 @@ defmodule MMS.HeadersTest do
         { << s(29), l(3), s(0), l(1), 0 >>, reply_charging_deadline: date_time_zero      },
         { << s(30), "x\0"               >>, reply_charging_id:       "x"                 },
         { << s(31), l(1), 0             >>, reply_charging_size:     0                   },
-        { << s(32), l(3), s(2), "@\0"   >>, previously_sent_by:      {"@", 2}            },
+        { << s(32), l(3), s(2), "@\0"   >>, previously_sent_by:      {{"@", :email}, 2}  },
         { << s(33), l(3), s(2), l(1), 0 >>, previously_sent_date:    {date_time_zero, 2} },
 
         # Multiple headers
-        {<< s(1), "@bcc\0", s(2), "@cc\0" >>, bcc: "@bcc", cc: "@cc"},
+        {<< s(1), "@bcc\0", s(2), "@cc\0" >>, bcc: {"@bcc", :email}, cc: {"@cc", :email}},
       ],
 
       encode_errors: [
