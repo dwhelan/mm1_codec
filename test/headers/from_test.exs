@@ -5,7 +5,7 @@ defmodule MMS.FromTest do
       codec: MMS.From,
 
       examples: [
-        { << l(3), s(0), "@\0" >>, {"@", :email}         },
+        { << l(3), s(0), "@\0" >>, {"@", ""}         },
         { << l(1), s(1)        >>, :insert_address_token },
       ],
 

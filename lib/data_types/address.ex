@@ -34,20 +34,13 @@ defmodule MMS.Address do
     ~>> fn details -> decode_error bytes, details end
   end
 
-  defp do_decode([ipv4,  "IPv4"]), do: {ipv4, :ipv4}
-  defp do_decode([ipv6,  "IPv6"]), do: {ipv6, :ipv6}
-  defp do_decode([phone, "PLMN"]), do: {phone, "PLMN"}
-  defp do_decode([email]),         do: {email, :email}
   defp do_decode([other, type]),   do: {other, type}
+  defp do_decode([email]),         do: {email, ""}
 
   def encode(phone) when is_binary(phone) do
     phone
     |> proceed
   end
-
-#  def encode(reserved = {string, type}) when is_binary(string) and type in ["IPv4", "IPv6", "PLMN"] do
-#    encode_error reserved, :reserved_type
-#  end
 
   def encode(special = {string, type}) when is_binary(string) and type in [:ipv4, :ipv6, :email] do
     special
@@ -66,9 +59,6 @@ defmodule MMS.Address do
     ~>> fn details -> encode_error address, details end
   end
 
-  def do_encode(phone, "PLMN")  ,  do: ok "#{phone}/TYPE=PLMN"
-  def do_encode({ipv4, :ipv4})  ,  do: ok "#{ipv4}/TYPE=IPv4"
-  def do_encode({ipv6, :ipv6})  ,  do: ok "#{ipv6}/TYPE=IPv6"
-  def do_encode({email, :email}), do: ok email
+  def do_encode({email, ""}), do: ok email
   def do_encode({string, type}), do: ok "#{string}/TYPE=#{type}"
 end

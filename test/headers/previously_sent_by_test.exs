@@ -5,8 +5,8 @@ defmodule MMS.PreviouslySentByTest do
       codec: MMS.PreviouslySentBy,
 
       examples: [
-        { << l(3), s(1), "@\0" >>,       {{"@", :email}, 1  } }, # short count
-        { << l(5), l(2), 1, 0, "@\0" >>, {{"@", :email}, 256} }, # long count
+        { << l(3), s(1), "@\0" >>,       {{"@", ""}, 1  } }, # short count
+        { << l(5), l(2), 1, 0, "@\0" >>, {{"@", ""}, 256} }, # long count
       ],
 
       decode_errors: [
