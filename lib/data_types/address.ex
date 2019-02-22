@@ -40,19 +40,32 @@ defmodule MMS.Address do
   defp do_decode([ipv6, "IPv6"]),  do: {ipv6, :ipv6}
   defp do_decode([other, type]),   do: {other, type}
 
-  def encode(address) do
+  def encode(address = {string, type}) when is_binary(string) and type in ["PLMN", "IPv4", "IPv6"] do
+    encode_error address, :reserved_type
+  end
+
+  def encode(address = {string, type}) when is_binary(string) and type in [:email, :ipv4, :ipv6] do
     address
     |> do_encode
     ~> Text.encode
-    ~>> fn details -> encode_error address, details end
+    ~>> fn details -> encode_error string, details end
   end
 
-  def do_encode({email, :email}) when is_binary(email), do: ok email
-  def do_encode(phone)           when is_binary(phone), do: ok "#{phone}/TYPE=PLMN"
-  def do_encode({ipv4, :ipv4})   when is_binary(ipv4),  do: ok "#{ipv4}/TYPE=IPv4"
-  def do_encode({ipv6, :ipv6})   when is_binary(ipv6),  do: ok "#{ipv6}/TYPE=IPv6"
-  def do_encode({address, "PLMN"}) when is_binary(address),  do: error :encode_phone_numbers_without_type
-  def do_encode({address, "IPv4"}) when is_binary(address),  do: error :encode_ipv4_address_with_atom
-  def do_encode({address, "IPv6"}) when is_binary(address),  do: error :encode_ipv6_address_with_atom
-  def do_encode({address, type}) when is_binary(address) and is_binary(type),  do: ok "#{address}/TYPE=#{type}"
+  def encode(address = {string, type}) when is_binary(string) and is_binary(type) do
+    address
+    |> do_encode
+    ~> Text.encode
+    ~>> fn details -> encode_error string, details end
+  end
+
+  def encode(phone) when is_binary(phone) do
+    "#{phone}/TYPE=PLMN"
+    |> Text.encode
+    ~>> fn details -> encode_error phone, details end
+  end
+
+  def do_encode({email, :email}), do: ok email
+  def do_encode({ipv4, :ipv4})  ,  do: ok "#{ipv4}/TYPE=IPv4"
+  def do_encode({ipv6, :ipv6})  ,  do: ok "#{ipv6}/TYPE=IPv6"
+#  def do_encode({address, type}) when is_binary(address) and is_binary(type),  do: ok "#{address}/TYPE=#{type}"
 end

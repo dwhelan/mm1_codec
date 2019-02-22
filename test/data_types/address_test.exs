@@ -21,9 +21,9 @@ defmodule MMS.AddressTest do
 
       encode_errors: [
         { "email@address\0",      {:address, "email@address\0",      [:text, :contains_end_of_string_0]} },
-        { {"x", "PLMN"},          {:address, {"x", "PLMN"},          :encode_phone_numbers_without_type} },
-        { {"x", "IPv4"},          {:address, {"x", "IPv4"},          :encode_ipv4_address_with_atom} },
-        { {"x", "IPv6"},          {:address, {"x", "IPv6"},          :encode_ipv6_address_with_atom} },
+        { {"x", "PLMN"},          {:address, {"x", "PLMN"},          :reserved_type} },
+        { {"x", "IPv4"},          {:address, {"x", "IPv4"},          :reserved_type} },
+        { {"x", "IPv6"},          {:address, {"x", "IPv6"},          :reserved_type} },
 #        { {"x", 0, 0, 0},             {:address, {"x", 0, 0, 0},             :ipv4_address}     },
 #        { {"x", 0, 0, 0, 0, 0, 0, 0}, {:address, {"x", 0, 0, 0, 0, 0, 0, 0}, :ipv6_address}     },
       ]
