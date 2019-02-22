@@ -28,13 +28,15 @@ defmodule MMS.Address do
     |> Text.decode
     ~> fn {text, rest} ->
       text
-      |> String.split("/TYPE=")
+      |> split
       |> to_tuple
       |> ok(rest) end
     ~>> fn details -> decode_error bytes, details end
   end
 
-  defp to_tuple([string, type]), do: {string, type}
+  defp split(text), do: String.split(text, "/TYPE=")
+
+  defp to_tuple([device, type]), do: {device, type}
   defp to_tuple([email]),        do: {email,  ""  }
 
   def encode(address = {string, type}) when is_binary(string) and is_binary(type) do
@@ -45,5 +47,5 @@ defmodule MMS.Address do
   end
 
   defp to_text({email,  ""  }), do: email
-  defp to_text({string, type}), do: "#{string}/TYPE=#{type}"
+  defp to_text({device, type}), do: "#{device}/TYPE=#{type}"
 end
