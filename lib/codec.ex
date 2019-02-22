@@ -21,6 +21,13 @@ defmodule MMS.Codec2 do
     reason
   end
 
+  defp decode_with bytes, codec do
+    bytes
+    |> codec.decode
+    ~>> fn details -> decode_error bytes, details end
+  end
+
+
   defmacro __using__ (_ \\ []) do
     quote do
       import MMS.DataTypes
