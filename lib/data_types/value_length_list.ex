@@ -3,12 +3,12 @@ defmodule MMS.ValueLengthList do
 
   alias MMS.{List, ValueLength}
 
-  def decode(bytes, functions) when is_binary(bytes) and is_list(functions) do
+  def decode(bytes, codecs) when is_binary(bytes) and is_list(codecs) do
     bytes
     |> ValueLength.decode
     ~> fn {length, value_bytes} ->
          value_bytes
-         |> List.decode(functions)
+         |> List.decode2(codecs)
          ~>> fn {data_type, _, details} -> decode_error bytes, [data_type, Map.merge(details, %{length: length})] end
          ~> fn {values, rest} -> ensure_correct_length(length, value_bytes, values, rest, bytes) end
        end
@@ -22,9 +22,9 @@ defmodule MMS.ValueLengthList do
     decode_error bytes, %{length: length, bytes_used: byte_size(value_bytes) - byte_size(rest), values: values}
   end
 
-  def encode(values, functions) when is_list(values) and is_list(functions) do
+  def encode(values, codecs) when is_list(values) and is_list(codecs) do
     values
-    |> List.encode(functions)
+    |> List.encode2(codecs)
     ~> fn value_bytes ->
          value_bytes
          |> byte_size

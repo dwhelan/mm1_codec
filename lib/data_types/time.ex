@@ -11,9 +11,9 @@ defmodule MMS.Time do
 
   def decode(bytes) do
     bytes
-    |> ValueLengthList.decode([&Short.decode/1, &Long.decode/1])
+    |> ValueLengthList.decode([Short, Long])
     ~> fn {result, rest} -> ok to_time(result), rest end
-    ~>> fn details -> decode_error bytes, details end
+    ~>> fn details -> decode_error(bytes, details) end
   end
 
   defp to_time [@absolute, seconds] do
@@ -41,6 +41,6 @@ defmodule MMS.Time do
 
   defp do_encode seconds, time_type do
     [time_type, seconds]
-    |> ValueLengthList.encode([&Short.encode/1, &Long.encode/1])
+    |> ValueLengthList.encode([Short, Long])
   end
 end

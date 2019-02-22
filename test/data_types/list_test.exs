@@ -3,63 +3,67 @@ defmodule MMS.ListTest do
 
   import MMS.List
 
-  def decode_ok(<<value , rest::binary>>), do: ok  value, rest
-  def decode_error(bytes),                 do: error :test, bytes, :error_reason
-
   @bytes <<1, 2, "rest">>
 
-  describe "decode should" do
+  defmodule Ok do
+    def decode(<<byte , rest::binary>>), do: ok(byte, rest)
+    def encode(value),                   do: ok <<value>>
+  end
+
+  defmodule Error do
+    def decode(bytes), do: error(:data_type, bytes, :reason)
+    def encode(value), do: error(:data_type, value, :reason)
+  end
+
+  describe "decode2 should" do
     test "return an empty list with no function" do
-      assert decode(@bytes, []) == ok [], @bytes
+      assert decode2(@bytes, []) == ok [], @bytes
     end
 
     test "return a single item list with one function" do
-      assert decode(@bytes, [&decode_ok/1]) == ok [1], <<2, "rest">>
+      assert decode2(@bytes, [Ok]) == ok [1], <<2, "rest">>
     end
 
     test "return a multi-item list with multiple functions" do
-      assert decode(@bytes, [&decode_ok/1, &decode_ok/1]) == ok [1, 2], <<"rest">>
+      assert decode2(@bytes, [Ok, Ok]) == ok [1, 2], <<"rest">>
     end
 
     test "return an error if it occurs on first function" do
-      assert decode(@bytes, [&decode_error/1, &decode_ok/1]) == error :list, @bytes, %{error: {:test, @bytes, :error_reason}, values: []}
+      assert decode2(@bytes, [Error, Ok]) == error :list, @bytes, %{error: {:data_type, @bytes, :reason}, values: []}
     end
 
     test "return an error if it occurs on subsequent functions" do
-      assert decode(@bytes, [&decode_ok/1, &decode_error/1]) == error :list, @bytes, %{error: {:test, <<2, "rest">>, :error_reason}, values: [1]}
+      assert decode2(@bytes, [Ok, Error]) == error :list, @bytes, %{error: {:data_type, <<2, "rest">>, :reason}, values: [1]}
     end
   end
 
-  def encode_ok(value),    do: ok <<value>>
-  def encode_error(value), do: error(:test, value, :error_reason)
-
-  describe "encode should" do
+  describe "encode2 should" do
     test "encode an empty list of values" do
-      assert encode([], [&encode_ok/1]) == ok <<>>
+      assert encode2([], []) == ok <<>>
     end
 
     test "encode a single value and function" do
-      assert encode([1], [&encode_ok/1]) == ok <<1>>
+      assert encode2([1], [Ok]) == ok <<1>>
     end
 
     test "encode multiple values" do
-      assert encode([1, 2], [&encode_ok/1, &encode_ok/1]) == ok <<1, 2>>
+      assert encode2([1, 2], [Ok, Ok]) == ok <<1, 2>>
     end
 
     test "ignore extra values" do
-      assert encode([1, 2], [&encode_ok/1]) == ok <<1>>
+      assert encode2([1, 2], [Ok]) == ok <<1>>
     end
 
     test "ignore extra functions" do
-      assert encode([1], [&encode_ok/1, &encode_ok/1]) == ok <<1>>
+      assert encode2([1], [Ok, Ok]) == ok <<1>>
     end
 
     test "return an error if it occurs on first function" do
-      assert encode([1,2], [&encode_error/1, &encode_ok/1]) == error :list, [1,2], {:test, 1, :error_reason}
+      assert encode2([1,2], [Error, Ok]) == error :list, [1,2], {:data_type, 1, :reason}
     end
 
     test "return an error if it occurs on subsequent functions" do
-      assert encode([1,2], [&encode_ok/1, &encode_error/1]) == error :list, [1, 2], {:test, 2, :error_reason}
+      assert encode2([1,2], [Ok, Error]) == error :list, [1, 2], {:data_type, 2, :reason}
     end
   end
 end

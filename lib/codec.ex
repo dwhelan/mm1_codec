@@ -23,7 +23,7 @@ defmodule MMS.Codec2 do
     reason
   end
 
-  defp apply codec, f_name, input, caller do
+  def apply codec, f_name, input, caller do
     data_type = error_name(caller)
     quote do
       Kernel.apply(unquote(codec), unquote(f_name), [unquote(input)])
