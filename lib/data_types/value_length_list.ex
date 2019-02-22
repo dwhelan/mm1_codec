@@ -24,7 +24,7 @@ defmodule MMS.ValueLengthList do
 
   def encode(values, codecs) when is_list(values) and is_list(codecs) do
     values
-    |> List.encode2(codecs)
+    |> List.encode(codecs)
     ~> fn value_bytes ->
          value_bytes
          |> byte_size

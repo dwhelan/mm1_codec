@@ -37,33 +37,33 @@ defmodule MMS.ListTest do
     end
   end
 
-  describe "encode2 should" do
+  describe "encode should" do
     test "encode an empty list of values" do
-      assert encode2([], []) == ok <<>>
+      assert encode([], []) == ok <<>>
     end
 
     test "encode a single value and function" do
-      assert encode2([1], [Ok]) == ok <<1>>
+      assert encode([1], [Ok]) == ok <<1>>
     end
 
     test "encode multiple values" do
-      assert encode2([1, 2], [Ok, Ok]) == ok <<1, 2>>
+      assert encode([1, 2], [Ok, Ok]) == ok <<1, 2>>
     end
 
     test "ignore extra values" do
-      assert encode2([1, 2], [Ok]) == ok <<1>>
+      assert encode([1, 2], [Ok]) == ok <<1>>
     end
 
     test "ignore extra functions" do
-      assert encode2([1], [Ok, Ok]) == ok <<1>>
+      assert encode([1], [Ok, Ok]) == ok <<1>>
     end
 
     test "return an error if it occurs on first function" do
-      assert encode2([1,2], [Error, Ok]) == error :list, [1,2], {:data_type, 1, :reason}
+      assert encode([1,2], [Error, Ok]) == error :list, [1,2], {:data_type, 1, :reason}
     end
 
     test "return an error if it occurs on subsequent functions" do
-      assert encode2([1,2], [Ok, Error]) == error :list, [1, 2], {:data_type, 2, :reason}
+      assert encode([1,2], [Ok, Error]) == error :list, [1, 2], {:data_type, 2, :reason}
     end
   end
 end
