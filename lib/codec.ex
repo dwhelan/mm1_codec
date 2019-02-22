@@ -1,7 +1,7 @@
 defmodule MMS.Codec2 do
   import OkError
   import CodecError
-      import OkError.Operators
+  import OkError.Operators
 
   def ok value, rest do
     ok {value, rest}

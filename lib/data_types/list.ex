@@ -1,39 +1,22 @@
 defmodule MMS.List do
   use MMS.Codec2
 
-  def decode_with(bytes, codecs) when is_binary(bytes) and is_list(codecs) do
+  def decode(bytes, codecs) when is_binary(bytes) and is_list(codecs) do
     bytes
-    |> do_decode_with(codecs, [])
+    |> do_decode(codecs, [])
     ~>> fn error -> decode_error bytes, error end
   end
 
-  defp do_decode_with bytes, [codec | codecs], values do
+  defp do_decode bytes, [codec | codecs], values do
     bytes
     |> codec.decode
     ~>> fn error         -> error %{error: error, values: Enum.reverse(values)} end
-    ~>  fn {value, rest} -> do_decode_with rest, codecs, [value | values] end
+    ~>  fn {value, rest} -> do_decode rest, codecs, [value | values] end
   end
 
-  defp do_decode_with rest, [], values do
+  defp do_decode rest, [], values do
     ok Enum.reverse(values), rest
   end
-
-#  def decode(bytes, functions) when is_binary(bytes) and is_list(functions) do
-#    bytes
-#    |> do_decode(functions, [])
-#    ~>> fn error -> decode_error bytes, error end
-#  end
-#
-#  defp do_decode bytes, [f | functions], values do
-#    bytes
-#    |> f.()
-#    ~>> fn error         -> error %{error: error, values: Enum.reverse(values)} end
-#    ~>  fn {value, rest} -> do_decode rest, functions, [value | values] end
-#  end
-#
-#  defp do_decode rest, [], values do
-#    ok Enum.reverse(values), rest
-#  end
 
   def encode2 [], _  do
     ok <<>>

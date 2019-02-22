@@ -15,25 +15,25 @@ defmodule MMS.ListTest do
     def encode(value), do: error(:data_type, value, :reason)
   end
 
-  describe "decode_with should" do
+  describe "decode should" do
     test "return an empty list with no function" do
-      assert decode_with(@bytes, []) == ok [], @bytes
+      assert decode(@bytes, []) == ok [], @bytes
     end
 
     test "return a single item list with one function" do
-      assert decode_with(@bytes, [Ok]) == ok [1], <<2, "rest">>
+      assert decode(@bytes, [Ok]) == ok [1], <<2, "rest">>
     end
 
     test "return a multi-item list with multiple functions" do
-      assert decode_with(@bytes, [Ok, Ok]) == ok [1, 2], <<"rest">>
+      assert decode(@bytes, [Ok, Ok]) == ok [1, 2], <<"rest">>
     end
 
     test "return an error if it occurs on first function" do
-      assert decode_with(@bytes, [Error, Ok]) == error :list, @bytes, %{error: {:data_type, @bytes, :reason}, values: []}
+      assert decode(@bytes, [Error, Ok]) == error :list, @bytes, %{error: {:data_type, @bytes, :reason}, values: []}
     end
 
     test "return an error if it occurs on subsequent functions" do
-      assert decode_with(@bytes, [Ok, Error]) == error :list, @bytes, %{error: {:data_type, <<2, "rest">>, :reason}, values: [1]}
+      assert decode(@bytes, [Ok, Error]) == error :list, @bytes, %{error: {:data_type, <<2, "rest">>, :reason}, values: [1]}
     end
   end
 
