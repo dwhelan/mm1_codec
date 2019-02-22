@@ -18,14 +18,9 @@ defmodule MMS.DateValue do
     date_time
     |> DateTime.to_unix
     |> do_encode
-    ~>> fn details -> encode_error date_time, details end  end
-
-  def do_encode(seconds) when seconds >= 0 do
-    seconds
-    |> Long.encode
+    ~>> fn details -> encode_error date_time, details end
   end
 
-  def do_encode _ do
-    error :cannot_be_before_1970
-  end
+  def do_encode(seconds) when seconds >= 0, do: seconds |> Long.encode
+  def do_encode(_),                         do: error :cannot_be_before_1970
 end
