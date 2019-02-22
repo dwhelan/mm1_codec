@@ -1,20 +1,20 @@
 defmodule MMS.List do
   use MMS.Codec2
 
-  def decode2(bytes, codecs) when is_binary(bytes) and is_list(codecs) do
+  def decode_with(bytes, codecs) when is_binary(bytes) and is_list(codecs) do
     bytes
-    |> do_decode2(codecs, [])
+    |> do_decode_with(codecs, [])
     ~>> fn error -> decode_error bytes, error end
   end
 
-  defp do_decode2 bytes, [codec | codecs], values do
+  defp do_decode_with bytes, [codec | codecs], values do
     bytes
     |> codec.decode
     ~>> fn error         -> error %{error: error, values: Enum.reverse(values)} end
-    ~>  fn {value, rest} -> do_decode2 rest, codecs, [value | values] end
+    ~>  fn {value, rest} -> do_decode_with rest, codecs, [value | values] end
   end
 
-  defp do_decode2 rest, [], values do
+  defp do_decode_with rest, [], values do
     ok Enum.reverse(values), rest
   end
 
