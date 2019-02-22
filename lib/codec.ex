@@ -1,5 +1,7 @@
 defmodule MMS.Codec2 do
   import OkError
+  import CodecError
+      import OkError.Operators
 
   def ok value, rest do
     ok {value, rest}
@@ -21,12 +23,23 @@ defmodule MMS.Codec2 do
     reason
   end
 
-  defp decode_with bytes, codec do
-    bytes
-    |> codec.decode
-    ~>> fn details -> decode_error bytes, details end
+  defp apply bytes, codec, f_name, caller do
+    data_type = error_name(caller)
+    quote do
+      Kernel.apply(unquote(codec), unquote(f_name), [unquote(bytes)])
+      ~>> fn details -> error unquote(data_type), unquote(bytes), nest_decode_error(details) end
+    end
   end
 
+  defmacro decode_with bytes, codec do
+    bytes
+    |> apply(codec, :decode, __CALLER__.module)
+  end
+
+  defmacro encode_with value, codec do
+    value
+    |> apply(codec, :encode, __CALLER__.module)
+  end
 
   defmacro __using__ (_ \\ []) do
     quote do

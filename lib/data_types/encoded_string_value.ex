@@ -27,22 +27,14 @@ defmodule MMS.EncodedStringValue do
     |> decode_with(TextStringWithCharset)
   end
 
-  defp decode_with bytes, codec do
-    bytes
-    |> codec.decode
-    ~>> fn details -> decode_error bytes, details end
-  end
-
   def encode(text) when is_binary(text) do
     text
-    |> TextString.encode
-    ~>> fn details -> encode_error text, details end
+    |> encode_with(TextString)
   end
 
   def encode({text, charset}) when is_binary(text) do
     {text, charset}
-    |> TextStringWithCharset.encode
-    ~>> fn details -> encode_error {text, charset}, details end
+    |> encode_with(TextStringWithCharset)
   end
 
   defmodule TextStringWithCharset do
