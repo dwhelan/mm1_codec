@@ -6,23 +6,49 @@ defmodule Codec.Map do
   def get(value, map), do: Map.get map, value
 
   def with_index list do
-    list |> Enum.with_index |> Enum.reduce(%{}, fn {v, i}, map -> map |> Map.put(i, v) end)
+    list
+    |> Enum.with_index
+    |> Enum.reduce(
+         %{},
+         fn {v, i}, map ->
+           map
+           |> Map.put(i, v)
+         end
+       )
   end
 
   def invert map do
-    map |> Enum.reduce(%{}, fn {k, v}, inverse -> inverse |> Map.put(v, k) end)
+    map
+    |> Enum.reduce(
+         %{},
+         fn {k, v}, inverse ->
+           inverse
+           |> Map.put(v, k)
+         end
+       )
   end
 
-  def map {value, rest}, map do
+  def decode_map(value, map) when is_map(map) do
     case Map.get(map, value) do
-      nil    -> error %{out_of_range: value}
+      nil -> error %{out_of_range: value}
+      result -> ok result
+    end
+  end
+
+  def decode_map(value, f) when is_function(f) do
+    f.(value)
+  end
+
+  def map({value, rest}, map) when is_map(map) do
+    case Map.get(map, value) do
+      nil -> error %{out_of_range: value}
       result -> ok {result, rest}
     end
   end
 
   def map value, map do
     case Map.get(map, value) do
-      nil    -> error :out_of_range
+      nil -> error :out_of_range
       result -> ok result
     end
   end
@@ -32,7 +58,11 @@ defmodule Codec.Map do
     quote do
       unquote(bytes)
       |> unquote(codec).decode
-      ~>  fn result  -> result |> map(unquote map) end
+      ~> fn {value, rest} ->
+        value
+        |> decode_map(unquote map)
+        ~> fn result -> ok result, rest end
+         end
       ~>> fn details -> error unquote(data_type), unquote(bytes), nest_decode_error(details) end
     end
   end
@@ -43,7 +73,10 @@ defmodule Codec.Map do
       inverse_map = invert unquote(map)
       unquote(value)
       |> map(invert unquote(map))
-      ~>  fn result  -> result |> unquote(codec).encode end
+      ~> fn result ->
+        result
+        |> unquote(codec).encode
+         end
       ~>> fn details -> error unquote(data_type), unquote(value), nest_decode_error(details) end
     end
   end
