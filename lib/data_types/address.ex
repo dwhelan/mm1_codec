@@ -25,8 +25,7 @@ defmodule MMS.Address do
   alias MMS.Text
 
   def decode bytes do
-    bytes
-    |> decode_map(Text, &to_tuple/1)
+    bytes |> decode_map(Text, &to_tuple/1)
   end
 
   defp to_tuple([device, type]), do: {device, type}
@@ -36,8 +35,7 @@ defmodule MMS.Address do
   defp split(text), do: text |> String.split("/TYPE=")
 
   def encode(address = {string, type}) when is_binary(string) and is_binary(type) do
-    address
-    |> map_encode(&to_text/1, Text)
+    address |> map_encode(&to_text/1, Text)
   end
 
   defp to_text({email,  ""  }), do: email

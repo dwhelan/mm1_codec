@@ -274,12 +274,10 @@ defmodule MMS.Charset do
   }
 
   def decode bytes do
-    bytes
-    |> decode_map(Integer, @map)
+    bytes |> decode_map(Integer, @map)
   end
 
   def encode(charset) when is_atom(charset) do
-    charset
-    |> map_encode(@map, Integer)
+    charset |> map_encode(@map, Integer)
   end
 end

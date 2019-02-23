@@ -4,13 +4,11 @@ defmodule MMS.Integer do
   alias MMS.{Short, Long}
 
   def decode bytes = <<1::1, _::7, _::binary>> do
-    bytes
-    |> decode_with(Short)
+    bytes |> decode_with(Short)
   end
 
   def decode(bytes) when is_binary(bytes) do
-    bytes
-    |> decode_with(Long)
+    bytes |> decode_with(Long)
   end
 
   def encode(value) when is_short(value) do
