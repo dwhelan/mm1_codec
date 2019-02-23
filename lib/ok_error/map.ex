@@ -1,5 +1,7 @@
 defmodule Codec.Map do
   import OkError
+  import CodecError
+  import MMS.Codec2
 
   def get(value, map), do: Map.get map, value
 
@@ -22,6 +24,26 @@ defmodule Codec.Map do
     case Map.get(map, value) do
       nil    -> error :out_of_range
       result -> ok result
+    end
+  end
+
+  defmacro decode_map bytes, codec, map do
+    data_type = error_name(__CALLER__.module)
+    quote do
+      unquote(bytes)
+      |> unquote(codec).decode
+      ~>  fn result  -> result |> map(unquote map) end
+      ~>> fn details -> error unquote(data_type), unquote(bytes), nest_decode_error(details) end
+    end
+  end
+
+  defmacro map_encode value, map, codec do
+    data_type = error_name(__CALLER__.module)
+    quote do
+      unquote(value)
+      |> map(invert unquote(map))
+      ~>  fn result  -> result |> unquote(codec).encode end
+      ~>> fn details -> error unquote(data_type), unquote(value), nest_decode_error(details) end
     end
   end
 end

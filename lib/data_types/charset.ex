@@ -275,17 +275,11 @@ defmodule MMS.Charset do
 
   def decode bytes do
     bytes
-    |> Integer.decode
-    ~> fn result -> map result, @map end
-    ~>> fn details -> decode_error bytes, details end
+    |> decode_map(Integer, @map)
   end
-
-  @inverse invert @map
 
   def encode(charset) when is_atom(charset) do
     charset
-    |> map(@inverse)
-    ~> Integer.encode
-    ~>> fn details -> encode_error charset, details end
+    |> map_encode(@map, Integer)
   end
 end
