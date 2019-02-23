@@ -19,6 +19,9 @@ defmodule MMS.DataTypes do
     quote do is_end_of_string(unquote value) or is_char(unquote value) end
   end
 
+  defmacro is_2_digit_q_value(value), do: value |> in_range?(1..100)
+  defmacro is_3_digit_q_value(value), do: value |> in_range?(101..1099)
+
   def max_short_length, do: 30
   def max_uint32,       do: 0xffffffff
   def max_uint32_bytes, do: <<143, 255, 255, 255, 127>>

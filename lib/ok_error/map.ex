@@ -53,34 +53,39 @@ defmodule Codec.Map do
     f.(value)
   end
 
-  defmacro map_encode value, map, codec do
-    data_type = data_type(__CALLER__.module)
+  defmacro map_encode(value, map = {atom, _, _}, codec) when atom in [:fn, :&] do
+    do_map_encode value, map, codec, __CALLER__.module
+  end
+
+  defmacro map_encode(value, map, codec)  do
+    inverted_map =
+      map
+      |> Macro.expand(__CALLER__)
+      |> invert_map_ast
+
+    f = quote do
+      fn value ->
+        case Map.get(unquote(inverted_map), value) do
+          nil -> error :out_of_range
+          result -> ok result
+        end
+      end
+    end
+
+    do_map_encode value, f, codec, __CALLER__.module
+  end
+
+  defp invert_map_ast {:%{}, context, pairs} do
+    {:%{}, context, pairs |> Enum.map(fn {k, v} -> {v, k} end)}
+  end
+
+  defp do_map_encode(value, f, codec, module) do
+    data_type = data_type(module)
     quote do
       unquote(value)
-      |> map_encoded_value(invert unquote(map))
+      |> unquote(f).()
       ~> fn result -> unquote(codec).encode(result)end
       ~>> fn details -> error unquote(data_type), unquote(value), nest_decode_error(details) end
     end
-  end
-
-  defmacro map_encode2 value, map, codec do
-    data_type = data_type(__CALLER__.module)
-    quote do
-      unquote(value)
-      |> map_encoded_value(unquote(map))
-      ~> fn result -> unquote(codec).encode(result)end
-      ~>> fn details -> error unquote(data_type), unquote(value), nest_decode_error(details) end
-    end
-  end
-
-  def map_encoded_value(value, map) when is_map(map) do
-    case Map.get(map, value) do
-      nil -> error :out_of_range
-      result -> ok result
-    end
-  end
-
-  def map_encoded_value(value, f) when is_function(f) do
-    f.(value)
   end
 end

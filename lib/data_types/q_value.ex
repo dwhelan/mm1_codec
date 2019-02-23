@@ -9,9 +9,9 @@ defmodule MMS.QValue do
     |> decode_map(Uint32, &to_q_string/1)
   end
 
-  defp to_q_string(value) when value > 0   and value <= 100, do: format (value - 1), 2
-  defp to_q_string(value) when value > 100 and value < 1100, do: format (value - 100), 3
-  defp to_q_string(value),                                   do: error %{out_of_range: value}
+  defp to_q_string(uint32) when is_2_digit_q_value(uint32), do: format((uint32 - 1), 2)
+  defp to_q_string(uint32) when is_3_digit_q_value(uint32), do: format((uint32 - 100), 3)
+  defp to_q_string(uint32),                                 do: error %{out_of_range: uint32}
 
   defp format value, digits do
     value
@@ -22,24 +22,17 @@ defmodule MMS.QValue do
 
   def encode(string) when is_binary(string) do
     string
-    |> map_encode2(&to_q/1, Uint32)
+    |> map_encode(&parse/1, Uint32)
+#    |> map_encode2(fn x -> parse x end, Uint32)
   end
 
-  defp to_q string do
+  defp parse string do
     string
     |> Integer.parse
     |> fn result -> to_q_value(result, byte_size(string)) end.()
   end
 
-  defp to_q_value {integer, ""}, 2 do
-    ok integer + 1
-  end
-
-  defp to_q_value {integer, ""}, 3 do
-    ok integer + 100
-  end
-
-  defp to_q_value _, _ do
-    error :must_be_string_of_2_or_3_digits
-  end
+  defp to_q_value({integer, ""}, 2), do: ok(integer + 1)
+  defp to_q_value({integer, ""}, 3), do: ok(integer + 100)
+  defp to_q_value(_, _),             do: error :must_be_string_of_2_or_3_digits
 end
