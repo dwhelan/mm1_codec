@@ -36,7 +36,7 @@ defmodule Codec.Map do
       ~> fn {value, rest} ->
         value
         |> map_decoded_value(unquote mapper)
-        ~> fn result -> ok result, rest end
+        ~> fn result -> {result, rest} end
          end
       ~>> fn details -> error unquote(data_type), unquote(bytes), nest_decode_error(details) end
     end
@@ -72,6 +72,7 @@ defmodule Codec.Map do
 
   defp do_map_encode(value, mapper, codec, module) do
     data_type = data_type(module)
+
     quote do
       unquote(value)
       |> map_value_to_encode(unquote mapper)
@@ -83,7 +84,7 @@ defmodule Codec.Map do
   def map_value_to_encode(value, inverted_map) when is_map(inverted_map) do
     case Map.get(inverted_map, value) do
       nil -> error :out_of_range
-      result -> ok result
+      value_to_encode -> value_to_encode
     end
   end
 
