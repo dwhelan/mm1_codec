@@ -39,13 +39,6 @@ defmodule Codec.Map do
     f.(value)
   end
 
-  def map({value, rest}, map) when is_map(map) do
-    case Map.get(map, value) do
-      nil -> error %{out_of_range: value}
-      result -> ok {result, rest}
-    end
-  end
-
   def map value, map do
     case Map.get(map, value) do
       nil -> error :out_of_range
