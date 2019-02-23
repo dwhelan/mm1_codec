@@ -3,35 +3,21 @@ defmodule MMS.Integer do
 
   alias MMS.{Short, Long}
 
+  def decode bytes = <<1::1, _::7, _::binary>> do
+    bytes
+    |> decode_with(Short)
+  end
+
   def decode(bytes) when is_binary(bytes) do
     bytes
-    |> do_decode
-    ~>> fn details -> decode_error bytes, details end
+    |> decode_with(Long)
   end
 
-  defp do_decode bytes = <<1::1, _::7, _::binary>> do
-    bytes |> Short.decode
-  end
-
-  defp do_decode bytes do
-    bytes |> Long.decode
+  def encode(value) when is_short(value) do
+    value |> encode_with(Short)
   end
 
   def encode(value) when is_integer(value) do
-    value
-    |> do_encode
-    ~>> fn details -> encode_error value, details end
-  end
-
-  def encode value do
-    error value, :integer
-  end
-
-  def do_encode(value) when is_short(value) do
-    value |> Short.encode
-  end
-
-  def do_encode value do
-    value |> Long.encode
+    value |> encode_with(Long)
   end
 end
