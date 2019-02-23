@@ -43,12 +43,14 @@ defmodule MMS.EncodedStringValue do
     alias MMS.{ValueLengthList, Charset}
 
     def decode bytes do
-      ValueLengthList.decode(bytes, [Charset, TextString])
+      bytes
+      |> ValueLengthList.decode([Charset, TextString])
       ~> fn {[charset, text], rest} -> ok {text, charset}, rest end
     end
 
     def encode {text, charset} do
-      ValueLengthList.encode([charset, text], [Charset, TextString])
+      [charset, text]
+      |> ValueLengthList.encode([Charset, TextString])
     end
   end
 end
