@@ -20,30 +20,24 @@ defmodule MMS.Address do
   ipv6 = 4HEXDIG 7( ":" 4HEXDIG ) ; IPv6 address per RFC 2373
   """
   use MMS.Codec2
+  import Codec.Map
 
   alias MMS.Text
 
   def decode bytes do
     bytes
-    |> Text.decode
-    ~> fn {text, rest} ->
-      text
-      |> split
-      |> to_tuple
-      |> ok(rest) end
-    ~>> fn details -> decode_error bytes, details end
+    |> decode_map(Text, &to_tuple/1)
   end
-
-  defp split(text), do: String.split(text, "/TYPE=")
 
   defp to_tuple([device, type]), do: {device, type}
   defp to_tuple([email]),        do: {email,  ""  }
+  defp to_tuple(text),           do: text |> split |> to_tuple
+
+  defp split(text), do: text |> String.split("/TYPE=")
 
   def encode(address = {string, type}) when is_binary(string) and is_binary(type) do
     address
-    |> to_text
-    |> Text.encode
-    ~>> fn details -> encode_error address, details end
+    |> map_encode(&to_text/1, Text)
   end
 
   defp to_text({email,  ""  }), do: email
