@@ -13,7 +13,7 @@ defmodule CodecError do
 
   defmacro data_type module \\ __CALLER__.module do
     quote do
-      CodecError.name unquote(module)
+      name unquote(module)
     end
   end
 
