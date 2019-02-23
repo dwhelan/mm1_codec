@@ -28,24 +28,6 @@ defmodule Codec.Map do
        )
   end
 
-  def map_decoded_value(value, map) when is_map(map) do
-    case Map.get(map, value) do
-      nil -> error %{out_of_range: value}
-      result -> ok result
-    end
-  end
-
-  def map_decoded_value(value, f) when is_function(f) do
-    f.(value)
-  end
-
-  def map value, map do
-    case Map.get(map, value) do
-      nil -> error :out_of_range
-      result -> ok result
-    end
-  end
-
   defmacro decode_map bytes, codec, map do
     data_type = data_type(__CALLER__.module)
     quote location: :keep do
@@ -60,13 +42,45 @@ defmodule Codec.Map do
     end
   end
 
+  def map_decoded_value(value, map) when is_map(map) do
+    case Map.get(map, value) do
+      nil -> error %{out_of_range: value}
+      result -> ok result
+    end
+  end
+
+  def map_decoded_value(value, f) when is_function(f) do
+    f.(value)
+  end
+
   defmacro map_encode value, map, codec do
     data_type = data_type(__CALLER__.module)
     quote do
       unquote(value)
-      |> map(invert unquote(map))
+      |> map_encoded_value(invert unquote(map))
       ~> fn result -> unquote(codec).encode(result)end
       ~>> fn details -> error unquote(data_type), unquote(value), nest_decode_error(details) end
     end
+  end
+
+  defmacro map_encode2 value, map, codec do
+    data_type = data_type(__CALLER__.module)
+    quote do
+      unquote(value)
+      |> map_encoded_value(unquote(map))
+      ~> fn result -> unquote(codec).encode(result)end
+      ~>> fn details -> error unquote(data_type), unquote(value), nest_decode_error(details) end
+    end
+  end
+
+  def map_encoded_value(value, map) when is_map(map) do
+    case Map.get(map, value) do
+      nil -> error :out_of_range
+      result -> ok result
+    end
+  end
+
+  def map_encoded_value(value, f) when is_function(f) do
+    f.(value)
   end
 end
