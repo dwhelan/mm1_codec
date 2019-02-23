@@ -1,5 +1,6 @@
 defmodule Codec.Map do
   import OkError
+  import OkError.Operators
   import CodecError
   import MMS.Codec2
 
@@ -43,10 +44,9 @@ defmodule Codec.Map do
   end
 
   def map_decoded_value(value, map) when is_map(map) do
-    case Map.get(map, value) do
-      nil -> error %{out_of_range: value}
-      result -> ok result
-    end
+    map
+    |> Map.get(value)
+    ~>> fn _ -> error %{out_of_range: value} end
   end
 
   def map_decoded_value(value, f) when is_function(f) do
