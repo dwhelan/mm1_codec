@@ -1,26 +1,16 @@
 defmodule MMS.DateValue do
   use MMS.Codec2
+  import Codec.Map
 
   alias MMS.Long
 
   def decode bytes do
     bytes
-    |> Long.decode
-    ~> fn {seconds, rest} ->
-        seconds
-        |> DateTime.from_unix
-        ~> fn date_time -> ok date_time, rest end
-       end
-    ~>> fn details -> decode_error bytes, details end
+    |> decode_map(Long, &DateTime.from_unix/1)
   end
 
   def encode date_time = %DateTime{} do
     date_time
-    |> DateTime.to_unix
-    |> do_encode
-    ~>> fn details -> encode_error date_time, details end
+    |> map_encode(&DateTime.to_unix/1, Long)
   end
-
-  def do_encode(seconds) when seconds >= 0, do: seconds |> Long.encode
-  def do_encode(_),                         do: error :cannot_be_before_1970
 end
