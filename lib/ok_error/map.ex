@@ -28,7 +28,7 @@ defmodule Codec.Map do
   end
 
   defmacro decode_map bytes, codec, map do
-    data_type = error_name(__CALLER__.module)
+    data_type = data_type(__CALLER__.module)
     quote do
       unquote(bytes)
       |> unquote(codec).decode
@@ -38,8 +38,9 @@ defmodule Codec.Map do
   end
 
   defmacro map_encode value, map, codec do
-    data_type = error_name(__CALLER__.module)
+    data_type = data_type(__CALLER__.module)
     quote do
+      inverse_map = invert unquote(map)
       unquote(value)
       |> map(invert unquote(map))
       ~>  fn result  -> result |> unquote(codec).encode end

@@ -24,7 +24,7 @@ defmodule MMS.Codec2 do
   end
 
   def apply codec, f_name, input, caller do
-    data_type = error_name(caller)
+    data_type = data_type(caller)
     quote do
       Kernel.apply(unquote(codec), unquote(f_name), [unquote(input)])
       ~>> fn details -> error unquote(data_type), unquote(input), nest_decode_error(details) end
@@ -49,20 +49,20 @@ defmodule MMS.Codec2 do
       import CodecError
 
       def decode <<>> do
-        error {error_name(), <<>>, :no_bytes}
+        error {data_type(), <<>>, :no_bytes}
       end
 
       @deprecate "Use decode_error/2 or encode_error/2"
       defp error input, details do
-        error error_name(), input, nest_decode_error(details)
+        error data_type(), input, nest_decode_error(details)
       end
 
       defp decode_error input, details do
-        error error_name(), input, nest_decode_error(details)
+        error data_type(), input, nest_decode_error(details)
       end
 
       defp encode_error input, details do
-        error error_name(), input, nest_decode_error(details)
+        error data_type(), input, nest_decode_error(details)
       end
     end
   end
@@ -77,7 +77,7 @@ defmodule MMS.Codec do
     quote do
       require CodecError
 
-      unquote(input) |> maybe_create_codec_error(error_name())
+      unquote(input) |> maybe_create_codec_error(data_type())
     end
   end
 
@@ -105,15 +105,15 @@ defmodule MMS.Codec do
 
       unquote(input)
       ~> fn {value, rest} -> value |> unquote(fun) ~> ok(rest) end.()
-      |> MMS.Codec.maybe_create_codec_error(error_name())
+      |> MMS.Codec.maybe_create_codec_error(data_type())
     end
   end
 
-  def maybe_create_codec_error result, error_name do
+  def maybe_create_codec_error result, data_type do
     case result |> wrap do
-      {:error, nil}               -> error error_name, []
-      {:error, {reason, history}} -> error error_name, [reason | history]
-      {:error, reason}            -> error error_name, [reason]
+      {:error, nil}               -> error data_type, []
+      {:error, {reason, history}} -> error data_type, [reason | history]
+      {:error, reason}            -> error data_type, [reason]
       ok                          -> ok
     end
   end

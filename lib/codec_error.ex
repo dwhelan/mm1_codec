@@ -11,13 +11,13 @@ defmodule CodecError do
     |> String.to_atom
   end
 
-  defmacro error_name module \\ __CALLER__.module do
+  defmacro data_type module \\ __CALLER__.module do
     quote do
       CodecError.name unquote(module)
     end
   end
 
   defmacro module_error _reason \\ nil do
-    __CALLER__.module |> error_name |> error
+    __CALLER__.module |> data_type |> error
   end
 end

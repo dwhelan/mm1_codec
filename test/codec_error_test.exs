@@ -5,11 +5,11 @@ defmodule CodecErrorTest do
 
   describe "error name(module) macro should" do
     test "prepend 'invalid_' to module name" do
-      assert error_name(ABC) == :abc
+      assert data_type(ABC) == :abc
     end
 
     test "default to caller module" do
-      assert error_name() == :codec_error_test
+      assert data_type() == :codec_error_test
     end
   end
 

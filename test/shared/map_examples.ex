@@ -10,7 +10,7 @@ defmodule MMS.MapExamples do
       require CodecError
 
       @mapper        opts[:mapper]       || __MODULE__
-      @reason        opts[:error]        || CodecError.error_name @mapper
+      @reason        opts[:error]        || CodecError.data_type @mapper
       examples     = opts[:examples]     || []
       map_errors   = opts[:map_errors]   || []
       unmap_errors = opts[:unmap_errors] || []

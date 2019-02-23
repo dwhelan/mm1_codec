@@ -26,7 +26,7 @@ defmodule MMS.List do
     values
     |> Enum.zip(codecs)
     |> do_encode([])
-    ~>> fn error -> error error_name(), values, error end
+    ~>> fn error -> error data_type(), values, error end
   end
 
   defp do_encode [], bytes_list do
