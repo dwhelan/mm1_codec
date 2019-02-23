@@ -28,14 +28,14 @@ defmodule Codec.Map do
        )
   end
 
-  def decode_map(value, map) when is_map(map) do
+  def map_decoded_value(value, map) when is_map(map) do
     case Map.get(map, value) do
       nil -> error %{out_of_range: value}
       result -> ok result
     end
   end
 
-  def decode_map(value, f) when is_function(f) do
+  def map_decoded_value(value, f) when is_function(f) do
     f.(value)
   end
 
@@ -55,12 +55,12 @@ defmodule Codec.Map do
 
   defmacro decode_map bytes, codec, map do
     data_type = data_type(__CALLER__.module)
-    quote do
+    quote location: :keep do
       unquote(bytes)
       |> unquote(codec).decode
       ~> fn {value, rest} ->
         value
-        |> decode_map(unquote map)
+        |> map_decoded_value(unquote map)
         ~> fn result -> ok result, rest end
          end
       ~>> fn details -> error unquote(data_type), unquote(bytes), nest_decode_error(details) end
@@ -70,13 +70,9 @@ defmodule Codec.Map do
   defmacro map_encode value, map, codec do
     data_type = data_type(__CALLER__.module)
     quote do
-      inverse_map = invert unquote(map)
       unquote(value)
       |> map(invert unquote(map))
-      ~> fn result ->
-        result
-        |> unquote(codec).encode
-         end
+      ~> fn result -> unquote(codec).encode(result)end
       ~>> fn details -> error unquote(data_type), unquote(value), nest_decode_error(details) end
     end
   end

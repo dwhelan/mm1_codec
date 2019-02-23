@@ -102,6 +102,6 @@ defmodule MMS.WellKnownMediaTest do
       ],
 
       encode_errors: [
-        { "bad media", {:well_known_media, "bad media", :unknown}}
+        { "bad media", {:well_known_media, "bad media", :out_of_range}}
       ]
 end

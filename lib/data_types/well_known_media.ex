@@ -99,17 +99,11 @@ defmodule MMS.WellKnownMedia do
 
   def decode(bytes) when is_binary(bytes) do
     bytes
-    |> Integer.decode
-    ~> fn  result -> result |> map(@map) end
-    ~>> fn reason -> decode_error bytes, reason end
+    |> decode_map(Integer, @map)
   end
-
-  @inverse invert @map
 
   def encode(value) when is_binary(value) do
     value
-    |> map(@inverse)
-    ~> Integer.encode
-    ~>> fn _ -> encode_error value, :unknown end
+    |> map_encode(@map, Integer)
   end
 end
