@@ -4,6 +4,7 @@ defmodule MMS.PreviouslySentDateTest do
   alias MMS.PreviouslySentDate
 
   time_zero = DateTime.from_unix! 0
+  negative_time = DateTime.from_unix! -1
 
   use MMS.TestExamples,
       codec: PreviouslySentDate,
@@ -22,7 +23,7 @@ defmodule MMS.PreviouslySentDateTest do
       ],
 
       encode_errors: [
-        {{DateTime.from_unix!(-1), 1}},
-        {{time_zero, -1}            },
+        {{negative_time, 1}, {:list, [1, negative_time], {:date_value, negative_time, [:long, :out_of_range]}}},
+        {{time_zero, -1}, {:list, [-1, time_zero], {:integer, -1, [:long, :out_of_range]}}},
       ]
 end

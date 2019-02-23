@@ -98,12 +98,10 @@ defmodule MMS.WellKnownMedia do
   ]
 
   def decode(bytes) when is_binary(bytes) do
-    bytes
-    |> decode_map(Integer, @map)
+    bytes |> decode_map(Integer, @map)
   end
 
   def encode(value) when is_binary(value) do
-    value
-    |> map_encode(@map, Integer)
+    value |> map_encode(@map, Integer)
   end
 end
