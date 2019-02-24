@@ -25,27 +25,18 @@ defmodule MMS.TextValue do
   end
 
   def encode :no_value do
-    :no_value
-    |> NoValue.encode
+    :no_value |> encode_with(NoValue)
+  end
+
+  def encode(quoted_string = << quote, _::binary >>) when is_quote(quote) do
+    quoted_string |> encode_with(QuotedString)
+  end
+
+  def encode(text = <<char, _::binary>>) when is_char(char) do
+    text |> encode_with(Text)
   end
 
   def encode(string) when is_binary(string) do
-    string
-    |> do_encode
-    ~>> fn error -> encode_error string, error end
-  end
-
-  defp do_encode(quoted_string = << quote, _::binary >>) when is_quote(quote) do
-    quoted_string
-    |> QuotedString.encode
-  end
-
-  defp do_encode(text = <<byte, _::binary>>) when is_char(byte) do
-    text
-    |> Text.encode
-  end
-
-  defp do_encode(string) when is_binary(string) do
-    error :first_byte_must_be_no_value_or_quote_or_char
+    string |> error(:first_byte_must_be_no_value_or_quote_or_char)
   end
 end
