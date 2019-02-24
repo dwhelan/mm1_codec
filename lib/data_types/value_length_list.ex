@@ -29,7 +29,7 @@ defmodule MMS.ValueLengthList do
          value_bytes
          |> byte_size
          |> ValueLength.encode
-         ~> fn length_bytes -> ok length_bytes <> value_bytes end
+         ~> & &1 <> value_bytes
        end
   end
 end
