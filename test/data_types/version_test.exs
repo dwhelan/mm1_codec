@@ -5,15 +5,13 @@ defmodule MMS.VersionTest do
       codec: MMS.Version,
 
       examples: [
-        #     _ '1' indicates short byte
-        #      ___ major - 3 bits
-        #         ____ minor - 4 bits - all ones means major only
         { <<0b10000000>>, {0, 0}   },
+        { <<0b11111111>>, 7   },
         { "beta 1\0",     "beta 1" },
       ],
 
       decode_errors: [
-        { "no terminator", :version},
+        { "no end of string", {:version, "no end of string", [:text, :missing_end_of_string]}},
       ],
 
       encode_errors: [
@@ -37,8 +35,8 @@ defmodule MMS.VersionIntegerTest do
       ],
 
       decode_errors: [
-        { <<0>>,   {:version_integer, <<0>>, %{out_of_range: 0}}   },
-        { <<127>>, {:version_integer, <<0>>, %{out_of_range: 127}} },
+        { <<0>>,   {:version_integer, <<0>>,   %{out_of_range: 0}}   },
+        { <<127>>, {:version_integer, <<127>>, %{out_of_range: 127}} },
       ],
 
       encode_errors: [
