@@ -6,7 +6,7 @@ defmodule MMS.Byte do
   end
 
   def encode(byte) when is_byte(byte) do
-    ok <<byte>>
+    <<byte>> |> ok
   end
 
   def encode value do

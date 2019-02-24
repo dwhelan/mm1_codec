@@ -10,14 +10,14 @@ defmodule MMS.Boolean do
   end
 
   def decode bytes = <<value, _::binary>> do
-    decode_error bytes, %{out_of_range: value}
+    bytes |> decode_error(%{out_of_range: value})
   end
 
   def encode true do
-    ok <<128>>
+    <<128>> |> ok
   end
 
   def encode false do
-    ok <<129>>
+    <<129>> |> ok
   end
 end
