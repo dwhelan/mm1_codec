@@ -1,8 +1,8 @@
-defmodule MMS.ShortTest do
+defmodule MMS.ShortIntegerTest do
   use MMS.CodecTest
 
   use MMS.TestExamples,
-      codec: MMS.Short,
+      codec: MMS.ShortInteger,
 
       examples: [
         {<<128>>,   0},
@@ -10,7 +10,7 @@ defmodule MMS.ShortTest do
       ],
 
       decode_errors: [
-        {<<127>>, {:short, <<127>>, [out_of_range: 127]}},
+        {<<127>>, {:short_integer, <<127>>, [out_of_range: 127]}},
       ]
 end
 

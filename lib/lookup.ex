@@ -15,7 +15,7 @@ defmodule MMS.Lookup do
       use MMS.Codec
       import Codec.Map
 
-      @codec   opts[:codec] || MMS.Short
+      @codec   opts[:codec] || MMS.ShortInteger
       @map     opts[:map]   || with_index opts[:values]
       @inverse invert @map
 

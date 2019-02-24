@@ -42,7 +42,7 @@ defmodule MMS.Either do
 
 
           defmodule MyCodec do
-            use MMS.Either, [MMS.Byte. MMS.Short]
+            use MMS.Either, [MMS.Byte. MMS.ShortInteger]
           end
         """
     end

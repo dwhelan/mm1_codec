@@ -1,7 +1,7 @@
 defmodule MMS.PrefixTest do
   use MMS.CodecTest
 
-  use MMS.Prefix, prefix: 42, codec: MMS.Short
+  use MMS.Prefix, prefix: 42, codec: MMS.ShortInteger
 
   use MMS.TestExamples,
     examples: [

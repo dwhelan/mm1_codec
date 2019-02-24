@@ -2,8 +2,8 @@ defmodule MMS.Long do
   @moduledoc """
     Specification: WAP-230-WSP-20010705-a, 8.4.2.1 Basic rules
 
-    Long-integer = Short-length Multi-octet-integer
-    The Short-length indicates the length of the Multi-octet-integer
+    Long-integer = ShortInteger-length Multi-octet-integer
+    The ShortInteger-length indicates the length of the Multi-octet-integer
   """
   use MMS.Codec2
 

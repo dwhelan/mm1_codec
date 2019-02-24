@@ -1,7 +1,7 @@
 defmodule MMS.KnownParameter do
   # Based on WAP-230-WSP-20010705-a: Table 38. Well-Known Parameter Assignments
 
-  alias MMS.{Charset, DateValue, Integer, Media, NoValue, QValue, Short, TextString, TextValue, Version}
+  alias MMS.{Charset, DateValue, Integer, Media, NoValue, QValue, ShortInteger, TextString, TextValue, Version}
 
   alias Media,      as: ConstrainedEncoding
   alias Integer,    as: DeltaSecondsValue
@@ -17,7 +17,7 @@ defmodule MMS.KnownParameter do
         name_deprecated:       TextString,
         file_name_deprecated:  TextString,
         differences:           FieldName,
-        padding:               Short,
+        padding:               ShortInteger,
         type_multipart:        ConstrainedEncoding,
         start_deprecated:      TextString,
         start_info_deprecated: TextString,
@@ -26,7 +26,7 @@ defmodule MMS.KnownParameter do
         max_age:               DeltaSecondsValue,
         path_deprecated:       TextString,
         secure:                NoValue,
-        sec:                   Short,
+        sec:                   ShortInteger,
         mac:                   TextValue,
         creation_date:         DateValue,
         modification_date:     DateValue,

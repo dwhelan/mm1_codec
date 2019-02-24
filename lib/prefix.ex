@@ -29,7 +29,7 @@ defmodule MMS.Prefix do
 
 
         defmodule MyCodec do
-          use MMS.Prefix, prefix: 42, codec: MMS.Short
+          use MMS.Prefix, prefix: 42, codec: MMS.ShortInteger
         end
       """
   end
