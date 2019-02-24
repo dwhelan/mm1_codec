@@ -14,7 +14,7 @@ defmodule MMS.TextString do
 
   @quote 127
 
-  def decode(<<@quote, byte, _::binary>> = bytes) when byte >= 128 do
+  def decode(<<@quote, short, _::binary>> = bytes) when is_short_byte(short) do
     bytes
     |> Text.decode
     ~> fn {text_string, rest} -> ok String.slice(text_string, 1..-1), rest end
@@ -35,7 +35,7 @@ defmodule MMS.TextString do
     decode_error bytes, :first_byte_must_be_a_char_or_quote
   end
 
-  def encode(<<byte, _::binary>> = string) when byte >= 128 do
+  def encode(<<short, _::binary>> = string) when is_short_byte(short) do
     (<<@quote>> <> string)
     |> Text.encode
   end
