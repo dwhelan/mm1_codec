@@ -15,7 +15,7 @@ defmodule MMS.List do
   end
 
   defp do_decode rest, [], values do
-    ok Enum.reverse(values), rest
+    Enum.reverse(values) |> decode_ok(rest)
   end
 
   def encode [], _  do

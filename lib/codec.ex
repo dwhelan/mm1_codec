@@ -7,10 +7,6 @@ defmodule MMS.Codec2 do
     ok {value, rest}
   end
 
-  def ok value, rest do
-    ok {value, rest}
-  end
-
   def error code, input, details do
     error {code, input, details}
   end

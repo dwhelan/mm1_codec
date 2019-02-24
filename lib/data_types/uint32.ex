@@ -31,7 +31,7 @@ defmodule MMS.Uint32 do
   end
 
   defp ensure_uint32(value, rest) when is_uint32(value) do
-    ok value, rest
+    value |> decode_ok(rest)
   end
 
   defp ensure_uint32(value, _rest) do

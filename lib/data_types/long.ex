@@ -43,6 +43,7 @@ defmodule MMS.Long do
     """
     use MMS.Codec2
 
+    @doc "Assumes sufficient bytes"
     def decode({0, bytes}) when is_binary(bytes) do
       bytes |> error(:must_have_at_least_one_data_byte)
     end
@@ -50,7 +51,7 @@ defmodule MMS.Long do
     def decode({length, bytes}) when is_short_length(length) do
       bytes
       |> String.split_at(length)
-      ~> fn {integer_bytes, rest} -> ok :binary.decode_unsigned(integer_bytes), rest end
+      ~> fn {integer_bytes, rest} -> integer_bytes |> :binary.decode_unsigned |> decode_ok(rest) end
     end
 
     def encode(value) when is_long(value) do

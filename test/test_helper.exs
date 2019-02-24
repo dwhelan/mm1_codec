@@ -5,7 +5,7 @@ ExUnit.start exclude: [:skip], include: [
 
 
 defmodule MMS.CodecTest do
-  import MMS.Codec2
+  import OkError
 
   def s(short),  do: short + 128
   def l(length), do: length
@@ -13,6 +13,10 @@ defmodule MMS.CodecTest do
 
   def invalid_uint32 do
     <<128>>
+  end
+
+  def ok value, rest do
+    ok {value, rest}
   end
 
   def assert_code_raise code do

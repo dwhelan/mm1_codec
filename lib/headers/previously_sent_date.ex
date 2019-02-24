@@ -6,7 +6,7 @@ defmodule MMS.PreviouslySentDate do
   def decode(bytes) do
     bytes
     |> ValueLengthList.decode([Integer, DateValue])
-    ~> fn {[count, date], rest} -> ok {date, count}, rest end
+    ~> fn {[count, date], rest} ->  {date, count} |> decode_ok(rest) end
   end
 
   def encode({date = %DateTime{}, count}) when is_integer(count) do
