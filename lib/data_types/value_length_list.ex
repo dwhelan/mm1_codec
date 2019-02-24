@@ -19,7 +19,7 @@ defmodule MMS.ValueLengthList do
   end
 
   defp ensure_correct_length(length, value_bytes, values, rest, bytes) do
-    decode_error bytes, %{length: length, bytes_used: byte_size(value_bytes) - byte_size(rest), values: values}
+    bytes |> decode_error(%{length: length, bytes_used: byte_size(value_bytes) - byte_size(rest), values: values})
   end
 
   def encode(values, codecs) when is_list(values) and is_list(codecs) do
