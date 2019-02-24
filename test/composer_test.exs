@@ -31,11 +31,11 @@ defmodule MMS.ComposerTest do
     end
 
     test "error with first value" do
-      assert decode(<<l(1), 0>>, [Short]) == error :short
+      assert decode(<<l(1), 0>>, [Short]) == error {:short, <<0>>, [out_of_range: 0]}
     end
 
     test "error with subsequent values" do
-      assert decode(<<l(2), 0, 0>>, [Byte, Short]) == error :short
+      assert decode(<<l(2), 0, 0>>, [Byte, Short]) == error {:short, <<0>>, [out_of_range: 0]}
     end
   end
 

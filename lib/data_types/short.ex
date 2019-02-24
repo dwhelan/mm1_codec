@@ -14,8 +14,8 @@ defmodule MMS.Short do
     ok value, rest
   end
 
-  def decode(bytes) when is_binary(bytes) do
-    error :short
+  def decode(bytes = <<value, _::binary>>) do
+    bytes |> decode_error(out_of_range: value)
   end
 
   def encode(value) when is_short(value) do
@@ -23,6 +23,6 @@ defmodule MMS.Short do
   end
 
   def encode value do
-    error value, :out_of_range
+    value |> encode_error(:out_of_range)
   end
 end
