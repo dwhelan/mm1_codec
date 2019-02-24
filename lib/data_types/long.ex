@@ -34,10 +34,14 @@ defmodule MMS.Long do
   end
 
   def encode(value) when is_long(value) do
-    value |> :binary.encode_unsigned |> ShortLength.prepend_length
+    value |> :binary.encode_unsigned |> prepend_length
   end
 
   def encode value do
-    error :long, value, :out_of_range
+    value |> encode_error(:out_of_range)
+  end
+
+  defp prepend_length bytes do
+    ok <<byte_size bytes>> <> bytes
   end
 end
