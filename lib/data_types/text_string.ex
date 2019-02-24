@@ -9,23 +9,21 @@ defmodule MMS.TextString do
   Quote = <Octet 127>
   """
   use MMS.Codec2
+  import Codec.Map
 
   alias MMS.Text
 
   @quote 127
 
   def decode(<<@quote, short, _::binary>> = bytes) when is_short_byte(short) do
-    bytes
-    |> Text.decode
-    ~> fn {text_string, rest} -> ok String.slice(text_string, 1..-1), rest end
-    ~>> fn error -> decode_error bytes, error end
+    bytes |> decode_map(Text, & String.slice(&1, 1..-1))
   end
 
   def decode(bytes = <<@quote, _::binary>>) do
     bytes |> decode_error(:byte_following_quote_must_be_greater_than_127)
   end
 
-  def decode(<<text, _::binary>> = bytes) when is_text(text) and text != @quote do
+  def decode(bytes = <<text, _::binary>>) when is_text(text) and text != @quote do
     bytes |> decode_with(Text)
   end
 
@@ -33,7 +31,7 @@ defmodule MMS.TextString do
     bytes |> decode_error(:first_byte_must_be_a_char_or_quote)
   end
 
-  def encode(<<short, _::binary>> = string) when is_short_byte(short) do
+  def encode(string = <<short, _::binary>>) when is_short_byte(short) do
     (<<@quote>> <> string) |> encode_with(Text)
   end
 
