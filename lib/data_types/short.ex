@@ -19,7 +19,7 @@ defmodule MMS.Short do
   end
 
   def encode(value) when is_short(value) do
-    ok <<1::1, value::7>>
+    <<1::1, value::7>> |> ok
   end
 
   def encode value do

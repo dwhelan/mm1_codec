@@ -2,7 +2,7 @@ defmodule MMS.NoValue do
   use MMS.Codec2
 
   def decode(<<byte, rest::binary>>) when is_no_value_byte(byte) do
-    decode_ok no_value(), rest
+    no_value() |> decode_ok(rest)
   end
 
   def decode bytes = <<value, _::binary>> do
@@ -10,6 +10,6 @@ defmodule MMS.NoValue do
   end
 
   def encode(no_value) when is_no_value(no_value) do
-    ok <<no_value_byte()>>
+    <<no_value_byte()>> |> ok
   end
 end

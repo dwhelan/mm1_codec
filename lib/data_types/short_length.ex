@@ -14,7 +14,7 @@ defmodule MMS.ShortLength do
   end
 
   def encode(value) when is_short_length(value) do
-    ok <<value>>
+    <<value>> |> ok
   end
 
   def encode(value) when is_integer(value) do

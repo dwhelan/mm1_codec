@@ -38,15 +38,15 @@ defmodule MMS.Uint32 do
     error %{out_of_range: value}
   end
 
-  def encode(value) when is_uint32(value) do
-    value
+  def encode(uint32) when is_uint32(uint32) do
+    uint32
     |> shift7
-    |> do_encode(value |> encode_lsb7(0))
+    |> do_encode(encode_lsb7(uint32, 0))
     |> ok
   end
 
   def encode(value) when is_integer(value) do
-    encode_error value, :out_of_range
+    value |> encode_error(:out_of_range)
   end
 
   defp do_encode 0, bytes do
