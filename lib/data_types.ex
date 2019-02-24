@@ -23,6 +23,20 @@ defmodule MMS.DataTypes do
   defmacro is_2_digit_q_value(value), do: value |> in_range?(1..100)
   defmacro is_3_digit_q_value(value), do: value |> in_range?(101..1099)
 
+  def no_value_byte, do: 0
+  def no_value,      do: :no_value
+
+  defmacro is_no_value_byte(byte) do
+    quote do
+      unquote(byte) == 0
+    end
+  end
+
+  defmacro is_no_value(value) do
+    quote do
+      unquote(value) == :no_value
+    end
+  end
   def max_short_length, do: 30
   def max_uint32,       do: 0xffffffff
   def max_uint32_bytes, do: <<143, 255, 255, 255, 127>>

@@ -8,11 +8,11 @@ defmodule MMS.TextValue do
 
   alias MMS.{NoValue, QuotedString, Text}
 
-  def decode(no_value = <<0, _::binary>>) do
+  def decode(no_value = <<byte, _::binary>>) when is_no_value_byte(byte) do
     no_value |> decode_with(NoValue)
   end
 
-  def decode(quoted_string = << ~s("), _::binary>>) do
+  def decode(quoted_string = <<quote, _::binary >>) when is_quote(quote) do
     quoted_string |> decode_with(QuotedString)
   end
 
@@ -24,8 +24,8 @@ defmodule MMS.TextValue do
     bytes |> error(:first_byte_must_be_no_value_or_quote_or_char)
   end
 
-  def encode :no_value do
-    :no_value |> encode_with(NoValue)
+  def encode(no_value) when is_no_value(no_value) do
+    no_value |> encode_with(NoValue)
   end
 
   def encode(quoted_string = << quote, _::binary >>) when is_quote(quote) do
