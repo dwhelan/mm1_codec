@@ -21,26 +21,23 @@ defmodule MMS.TextString do
     ~>> fn error -> decode_error bytes, error end
   end
 
-  def decode(<<@quote, _::binary>> = bytes) do
-    decode_error bytes, :byte_following_quote_must_be_greater_than_127
+  def decode(bytes = <<@quote, _::binary>>) do
+    bytes |> decode_error(:byte_following_quote_must_be_greater_than_127)
   end
 
-  def decode(<<byte, _::binary>> = bytes) when is_text(byte) and byte != @quote do
-    bytes
-    |> Text.decode
-    ~>> fn error -> decode_error bytes, error end
+  def decode(<<text, _::binary>> = bytes) when is_text(text) and text != @quote do
+    bytes |> decode_with(Text)
   end
 
   def decode(bytes) when is_binary(bytes) do
-    decode_error bytes, :first_byte_must_be_a_char_or_quote
+    bytes |> decode_error(:first_byte_must_be_a_char_or_quote)
   end
 
   def encode(<<short, _::binary>> = string) when is_short_byte(short) do
-    (<<@quote>> <> string)
-    |> Text.encode
+    (<<@quote>> <> string) |> encode_with(Text)
   end
 
   def encode(string) when is_binary(string) do
-    string |> Text.encode
+    string |> encode_with(Text)
   end
 end

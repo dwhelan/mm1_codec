@@ -28,8 +28,8 @@ defmodule MMS.EncodedStringValueTest do
       ],
 
       encode_errors: [
-        { "x\0",            {:encoded_string_value, "x\0", [:text, :contains_end_of_string]} },
-        { {"x\0", :csUTF8}, {:encoded_string_value, {"x\0", :csUTF8}, [:list, {:text, "x\0", :contains_end_of_string}]} },
+        { "x\0",            {:encoded_string_value, "x\0",            [:text_string, :text, :contains_end_of_string]} },
+        { {"x\0", :csUTF8}, {:encoded_string_value, {"x\0", :csUTF8}, [:list, {:text_string, "x\0", [:text, :contains_end_of_string]}]} },
       ]
 end
 
