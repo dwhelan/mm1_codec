@@ -23,13 +23,13 @@ defmodule MMS.EncodedStringValueTest do
       ],
 
       decode_errors: [
-        { <<"x">>,               {:encoded_string_value, "x",                   [:text_string, :text, :missing_end_of_string_0]} },
-        { <<l(2), s(106), "x">>, {:encoded_string_value, <<l(2), s(106), "x">>, [:value_length_list, :list, %{error: {:text_string, "x", [:text, :missing_end_of_string_0]}, length: 2, values: [:csUTF8]}] }},
+        { <<"x">>,               {:encoded_string_value, "x",                   [:text_string, :text, :missing_end_of_string]} },
+        { <<l(2), s(106), "x">>, {:encoded_string_value, <<l(2), s(106), "x">>, [:value_length_list, :list, %{error: {:text_string, "x", [:text, :missing_end_of_string]}, length: 2, values: [:csUTF8]}] }},
       ],
 
       encode_errors: [
-        { "x\0",            {:encoded_string_value, "x\0", [:text, :contains_end_of_string_0]} },
-        { {"x\0", :csUTF8}, {:encoded_string_value, {"x\0", :csUTF8}, [:list, {:text, "x\0", :contains_end_of_string_0}]} },
+        { "x\0",            {:encoded_string_value, "x\0", [:text, :contains_end_of_string]} },
+        { {"x\0", :csUTF8}, {:encoded_string_value, {"x\0", :csUTF8}, [:list, {:text, "x\0", :contains_end_of_string}]} },
       ]
 end
 

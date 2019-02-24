@@ -18,10 +18,10 @@ defmodule MMS.MediaTest do
       decode_errors: [
         { <<1>>,  {:media, <<1>>,  [:well_known_media, :integer, :long, :short_length, %{available_bytes: 0, length: 1}]} },
         { <<31>>, {:media, <<31>>, [:well_known_media, :integer, :long, :short_length, %{out_of_range: 31}]}              },
-        { "x",    {:media, "x",    [:text, :missing_end_of_string_0]} },
+        { "x",    {:media, "x",    [:text, :missing_end_of_string]} },
       ],
 
       encode_errors: [
-        { "x\0", {:media, "x\0", [:text, :contains_end_of_string_0]} },
+        { "x\0", {:media, "x\0", [:text, :contains_end_of_string]} },
       ]
 end

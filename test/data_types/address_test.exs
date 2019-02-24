@@ -13,11 +13,11 @@ defmodule MMS.AddressTest do
       ],
 
       decode_errors: [
-        { << "a" >>, {:address, "a", [:text, :missing_end_of_string_0]} },
+        { << "a" >>, {:address, "a", [:text, :missing_end_of_string]} },
       ],
 
       encode_errors: [
-        { {"a\0", ""},   {:address, {"a\0", ""},   [:text, :contains_end_of_string_0]} },
-        { {"a",   "\0"}, {:address, {"a",   "\0"}, [:text, :contains_end_of_string_0]} },
+        { {"a\0", ""},   {:address, {"a\0", ""},   [:text, :contains_end_of_string]} },
+        { {"a",   "\0"}, {:address, {"a",   "\0"}, [:text, :contains_end_of_string]} },
       ]
 end

@@ -7,37 +7,46 @@ defmodule MMS.Text do
 
   End-of-string = <Octet 0>
   """
+
+  @end_of_string <<0>>
+
   use MMS.Codec2
 
-  def decode(<<byte, _::binary>> = bytes) when is_text(byte) do
-    bytes |> String.split(<<0>>, parts: 2) |> decode_parts
+  def decode(bytes = <<byte, _::binary>>) when is_text(byte) do
+    bytes
+    |> String.split(@end_of_string, parts: 2)
+    |> do_decode
   end
 
   def decode(bytes) when is_binary(bytes) do
-    decode_error bytes, :first_byte_must_be_a_char
+    bytes |> decode_error(:first_byte_must_be_a_zero_or_a_char)
   end
 
-  defp decode_parts [string | [rest]] do
+  defp do_decode [string | [rest]] do
     ok string, rest
   end
 
-  defp decode_parts [string | []] do
-    error string, :missing_end_of_string_0
+  defp do_decode [string | []] do
+    string |> decode_error(:missing_end_of_string)
   end
 
-  def encode(<<byte, _::binary>> = string) when is_char(byte) do
-    if string |> String.contains?("\0") do
-      error string, :contains_end_of_string_0
-    else
-      ok string <> <<0>>
-    end
+  def encode(string = <<char, _::binary>>) when is_char(char) do
+    string |> do_encode(String.contains?(string, @end_of_string))
   end
 
-  def encode "" do
-    ok <<0>>
+  def encode string = "" do
+    string |> do_encode(false)
   end
 
   def encode(string) when is_binary(string) do
-    error string, :first_byte_must_be_a_char
+    string |> encode_error(:first_byte_must_be_a_zero_or_a_char)
+  end
+
+  defp do_encode string, _end_of_string = true do
+    string |> encode_error(:contains_end_of_string)
+  end
+
+  defp do_encode string, _end_of_string = false do
+    ok string <> @end_of_string
   end
 end

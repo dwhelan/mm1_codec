@@ -14,7 +14,7 @@ defmodule MMS.TextStringTest do
 
       decode_errors: [
         { <<@quote, 127, "x\0">>, {:text_string, <<@quote, 127, "x\0">>, :byte_following_quote_must_be_greater_than_127} },
-        { <<"string">>,           {:text_string, <<"string">>,           [:text, :missing_end_of_string_0]} },
+        { <<"string">>,           {:text_string, <<"string">>,           [:text, :missing_end_of_string]} },
         { <<1>>,                  {:text_string, <<1>>,                  :first_byte_must_be_a_char_or_quote}            },
       ],
 
