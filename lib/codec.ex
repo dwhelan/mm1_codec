@@ -11,15 +11,15 @@ defmodule MMS.Codec2 do
     error {data_type, input, details}
   end
 
-  def nest_decode_error({data_type, _, error}) when is_list(error) do
+  def nest_error({data_type, _, error}) when is_list(error) do
     [data_type | error]
   end
 
-  def nest_decode_error {data_type, _, error} do
+  def nest_error {data_type, _, error} do
     [data_type, error]
   end
 
-  def nest_decode_error reason do
+  def nest_error reason do
     reason
   end
 
@@ -27,7 +27,7 @@ defmodule MMS.Codec2 do
     data_type = data_type( __CALLER__.module)
     quote do
       Kernel.apply(unquote(codec), :decode, [unquote(bytes)])
-      ~>> fn details -> error unquote(data_type), unquote(bytes), nest_decode_error(details) end
+      ~>> fn details -> error unquote(data_type), unquote(bytes), nest_error(details) end
     end
   end
 
@@ -35,7 +35,7 @@ defmodule MMS.Codec2 do
     data_type = data_type( __CALLER__.module)
     quote do
       Kernel.apply(unquote(codec), :encode, [unquote(value)])
-      ~>> fn details -> error unquote(data_type), unquote(value), nest_decode_error(details) end
+      ~>> fn details -> error unquote(data_type), unquote(value), nest_error(details) end
     end
   end
 
@@ -54,15 +54,15 @@ defmodule MMS.Codec2 do
 
       @deprecate "Use decode_error/2 or encode_error/2"
       defp error input, details do
-        error data_type(), input, nest_decode_error(details)
+        error data_type(), input, nest_error(details)
       end
 
       defp decode_error input, details do
-        error data_type(), input, nest_decode_error(details)
+        error data_type(), input, nest_error(details)
       end
 
       defp encode_error input, details do
-        error data_type(), input, nest_decode_error(details)
+        error data_type(), input, nest_error(details)
       end
     end
   end

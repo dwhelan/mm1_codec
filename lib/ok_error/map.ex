@@ -39,7 +39,7 @@ defmodule Codec.Map do
         |> map_decoded_value(unquote mapper)
         ~> fn result -> {result, rest} end
          end
-      ~>> fn details -> error unquote(data_type), unquote(bytes), nest_decode_error(details) end
+      ~>> fn details -> error unquote(data_type), unquote(bytes), nest_error(details) end
     end
   end
 
@@ -77,7 +77,7 @@ defmodule Codec.Map do
       unquote(value)
       |> map_value_to_encode(unquote mapper)
       ~> fn result -> unquote(codec).encode(result)end
-      ~>> fn details -> error unquote(data_type), unquote(value), nest_decode_error(details) end
+      ~>> fn details -> error unquote(data_type), unquote(value), nest_error(details) end
     end
   end
 
