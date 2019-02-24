@@ -11,22 +11,18 @@ defmodule MMS.QuotedString do
   alias MMS.Text
 
   def decode(bytes = << quote, _::binary >>) when is_quote(quote) do
-    bytes
-    |> Text.decode
-    ~>> fn error -> decode_error bytes, error end
+    bytes |> decode_with(Text)
   end
 
   def decode(bytes) when is_binary(bytes) do
-    decode_error bytes, :must_start_with_a_quote
+    bytes |> decode_error(:must_start_with_a_quote)
   end
 
   def encode(string = << quote, _::binary >>) when is_quote(quote) do
-    string
-    |> Text.encode
-    ~>> fn error -> encode_error string, error end
+    string |> encode_with(Text)
   end
 
   def encode(string) when is_binary(string) do
-    encode_error string, :must_start_with_a_quote
+    string |> encode_error(:must_start_with_a_quote)
   end
 end

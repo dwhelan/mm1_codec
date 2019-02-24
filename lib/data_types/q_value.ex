@@ -5,8 +5,7 @@ defmodule MMS.QValue do
   import Codec.Map
 
   def decode(bytes) when is_binary(bytes) do
-    bytes
-    |> decode_map(Uint32, &to_q_string/1)
+    bytes |> decode_map(Uint32, &to_q_string/1)
   end
 
   defp to_q_string(uint32) when is_2_digit_q_value(uint32), do: format(uint32 - 1,   2)
@@ -20,8 +19,7 @@ defmodule MMS.QValue do
   end
 
   def encode(string) when is_binary(string) do
-    string
-    |> map_encode(&parse/1, Uint32)
+    string |> map_encode(&parse/1, Uint32)
   end
 
   defp parse string do
