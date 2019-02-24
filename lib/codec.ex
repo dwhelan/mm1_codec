@@ -7,8 +7,8 @@ defmodule MMS.Codec2 do
     ok {value, rest}
   end
 
-  def error code, input, details do
-    error {code, input, details}
+  def error data_type, input, details do
+    error {data_type, input, details}
   end
 
   def nest_decode_error({data_type, _, error}) when is_list(error) do
