@@ -2,7 +2,7 @@ defmodule MMS.ShortLength do
   use MMS.Codec2
 
   def decode(<<length, rest::binary>>) when is_short_length(length) and length <= byte_size(rest) do
-    ok length, rest
+    length |> decode_ok(rest)
   end
 
   def decode(bytes = <<length, rest::binary>>) when is_short_length(length) do

@@ -3,6 +3,10 @@ defmodule MMS.Codec2 do
   import CodecError
   import OkError.Operators
 
+  def decode_ok value, rest do
+    ok {value, rest}
+  end
+
   def ok value, rest do
     ok {value, rest}
   end

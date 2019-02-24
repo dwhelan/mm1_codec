@@ -5,6 +5,8 @@ ExUnit.start exclude: [:skip], include: [
 
 
 defmodule MMS.CodecTest do
+  import MMS.Codec2
+
   def s(short),  do: short + 128
   def l(length), do: length
   def u(value),  do: value |> MMS.Uint32.encode |> elem(1)
@@ -27,4 +29,14 @@ defmodule MMS.CodecTest do
       import MMS.CodecTest
     end
   end
+
+#  defmodule Ok do
+#    def decode(<<byte , rest::binary>>), do: ok(byte, rest)
+#    def encode(value),                   do: ok <<value>>
+#  end
+#
+#  defmodule Error do
+#    def decode(bytes), do: error(:data_type, bytes, :reason)
+#    def encode(value), do: error(:data_type, value, :reason)
+#  end
 end

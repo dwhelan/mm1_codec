@@ -4,13 +4,13 @@ defmodule MMS.List do
   def decode(bytes, codecs) when is_binary(bytes) and is_list(codecs) do
     bytes
     |> do_decode(codecs, [])
-    ~>> fn error -> decode_error bytes, error end
+    ~>> & bytes |> decode_error(&1)
   end
 
   defp do_decode bytes, [codec | codecs], values do
     bytes
     |> codec.decode
-    ~>> fn details         -> error %{error: details, values: Enum.reverse(values)} end
+    ~>> fn details       -> error %{error: details, values: Enum.reverse(values)} end
     ~>  fn {value, rest} -> do_decode rest, codecs, [value | values] end
   end
 

@@ -11,7 +11,7 @@ defmodule MMS.Short do
   use MMS.Codec2
 
   def decode <<1::1, value::7, rest::binary>> do
-    ok value, rest
+    value |> decode_ok(rest)
   end
 
   def decode(bytes = <<value, _::binary>>) do

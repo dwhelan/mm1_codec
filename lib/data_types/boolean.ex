@@ -2,11 +2,11 @@ defmodule MMS.Boolean do
   use MMS.Codec2
 
   def decode <<128, rest::binary>> do
-    ok true, rest
+    true |> decode_ok(rest)
   end
 
   def decode <<129, rest::binary>> do
-    ok false, rest
+    false |> decode_ok(rest)
   end
 
   def decode bytes = <<value, _::binary>> do

@@ -2,7 +2,7 @@ defmodule MMS.Byte do
   use MMS.Codec2
 
   def decode <<byte, rest::binary>> do
-    ok byte, rest
+    byte |> decode_ok(rest)
   end
 
   def encode(byte) when is_byte(byte) do
@@ -10,6 +10,6 @@ defmodule MMS.Byte do
   end
 
   def encode value do
-    encode_error value, :out_of_range
+    value |> encode_error(:out_of_range)
   end
 end

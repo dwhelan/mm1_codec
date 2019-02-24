@@ -23,7 +23,7 @@ defmodule MMS.Text do
   end
 
   defp do_decode [string | [rest]] do
-    ok string, rest
+    string |> decode_ok(rest)
   end
 
   defp do_decode [string | []] do
