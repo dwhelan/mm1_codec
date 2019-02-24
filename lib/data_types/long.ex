@@ -17,21 +17,16 @@ defmodule MMS.Long do
   def decode bytes do
     bytes
     |> ShortLength.decode
-    ~> check_length
     ~> to_unsigned
     ~>> fn details -> decode_error bytes, details end
   end
 
-  defp check_length {0, _bytes} do
+  defp to_unsigned {0, _bytes} do
     error :must_have_at_least_one_data_byte
   end
 
-  defp check_length {length, bytes} do
-    ok length, bytes
-  end
-
-  defp to_unsigned {length, bytes} do
-    bytes |> String.split_at(length) |> decode_long
+  defp to_unsigned {length, rest} do
+    rest |> String.split_at(length) |> decode_long
   end
 
   defp decode_long {long_bytes, rest} do
