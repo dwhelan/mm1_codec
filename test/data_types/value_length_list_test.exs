@@ -1,17 +1,8 @@
 defmodule MMS.ValueLengthListTest do
   use MMS.CodecTest
+  alias MMS.CodecTest.{Ok, Error}
 
   import MMS.ValueLengthList
-
-  defmodule Ok do
-    def decode(<<byte , rest::binary>>), do: ok(byte, rest)
-    def encode(value),                   do: ok <<value>>
-  end
-
-  defmodule Error do
-    def decode(bytes), do: error(:data_type, bytes, :reason)
-    def encode(value), do: error(:data_type, value, :reason)
-  end
 
   @bytes <<l(2), 3, 4, 5>>
 

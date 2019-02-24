@@ -1,19 +1,10 @@
 defmodule MMS.ListTest do
   use MMS.CodecTest
+  alias MMS.CodecTest.{Ok, Error}
 
   import MMS.List
 
   @bytes <<1, 2, "rest">>
-
-  defmodule Ok do
-    def decode(<<byte , rest::binary>>), do: ok(byte, rest)
-    def encode(value),                   do: ok <<value>>
-  end
-
-  defmodule Error do
-    def decode(bytes), do: error(:data_type, bytes, :reason)
-    def encode(value), do: error(:data_type, value, :reason)
-  end
 
   describe "decode should" do
     test "return an empty list with no function" do
