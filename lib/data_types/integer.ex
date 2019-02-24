@@ -11,7 +11,7 @@ defmodule MMS.Integer do
     bytes |> decode_with(Long)
   end
 
-  def encode(value) when is_short(value) do
+  def encode(value) when is_short_integer(value) do
     value |> encode_with(ShortInteger)
   end
 

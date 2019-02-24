@@ -18,7 +18,7 @@ defmodule MMS.ShortInteger do
     bytes |> decode_error(out_of_range: value)
   end
 
-  def encode(value) when is_short(value) do
+  def encode(value) when is_short_integer(value) do
     <<1::1, value::7>> |> ok
   end
 

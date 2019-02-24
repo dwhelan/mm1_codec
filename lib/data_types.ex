@@ -1,7 +1,7 @@
 defmodule MMS.DataTypes do
 
   defmacro is_byte(value),          do: value |> in_range?(0..255)
-  defmacro is_short(value),         do: value |> in_range?(0..127)
+  defmacro is_short_integer(value), do: value |> in_range?(0..127)
   defmacro is_short_byte(byte),     do: byte |> in_range?(128..255)
   defmacro is_char(value),          do: value |> in_range?(32..127)
   defmacro is_short_length(value),  do: value |> in_range?(0..max_short_length())
