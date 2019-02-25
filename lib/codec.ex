@@ -23,12 +23,27 @@ defmodule MMS.Codec2 do
     reason
   end
 
-  defmacro decode_with bytes, codec do
-    data_type = data_type( __CALLER__.module)
-    quote do
-      Kernel.apply(unquote(codec), :decode, [unquote(bytes)])
-      ~>> fn details -> error unquote(data_type), unquote(bytes), nest_error(details) end
+  defmacro decode_with bytes, codec, opts \\ [] do
+    ok = opts[:ok] || identity()
+    error = case opts[:nest_errors] do
+      false -> identity()
+      _     -> nested_error(__CALLER__.module, bytes)
     end
+
+    quote do
+      unquote(bytes)
+      |> unquote(codec).decode
+      ~> unquote(ok)
+      ~>> unquote(error)
+    end
+  end
+
+  defp identity do
+    quote do & &1 end
+  end
+
+  defp nested_error codec, input do
+    quote do & error data_type(unquote codec), unquote(input), nest_error(&1) end
   end
 
   defmacro encode_with value, codec do
