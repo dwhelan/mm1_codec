@@ -34,7 +34,7 @@ defmodule MMS.Address do
 
   defp split(text), do: text |> String.split("/TYPE=")
 
-  def encode(address = {string, type}) when is_binary(string) and is_binary(type) do
+  def encode(address = {string, type}) when is_address(address) do
     address |> map_encode(&to_text/1, Text)
   end
 

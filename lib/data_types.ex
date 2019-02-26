@@ -7,6 +7,8 @@ defmodule MMS.DataTypes do
   defmacro is_short_length(value),      do: value |> in_range?(0..max_short_length())
   defmacro is_uint32(value),            do: value |> in_range?(0..max_uint32())
   defmacro is_long(value),              do: value |> in_range?(0..max_long())
+  defmacro is_2_digit_q_value(value),   do: value |> in_range?(1..100)
+  defmacro is_3_digit_q_value(value),   do: value |> in_range?(101..1099)
 
   defmacro is_end_of_string(value) do
     quote do unquote(value) == 0 end
@@ -20,21 +22,18 @@ defmodule MMS.DataTypes do
     quote do is_end_of_string(unquote value) or is_char(unquote value) end
   end
 
-  defmacro is_2_digit_q_value(value), do: value |> in_range?(1..100)
-  defmacro is_3_digit_q_value(value), do: value |> in_range?(101..1099)
 
   defmacro is_no_value_byte(byte) do
-    quote do
-      unquote(byte) == 0
-    end
+    quote do unquote(byte) == 0 end
   end
 
   defmacro is_no_value(value) do
-    quote do
-      unquote(value) == :no_value
-    end
+    quote do unquote(value) == :no_value end
   end
 
+  defmacro is_address(value) do
+    quote do is_tuple(unquote value) and tuple_size(unquote value) == 2 and is_binary(elem unquote(value), 0) and is_binary(elem unquote(value), 1) end
+  end
 
   def max_short_length, do: 30
   def max_uint32,       do: 0xffffffff
