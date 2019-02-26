@@ -23,9 +23,6 @@ defmodule MMS.DataTypes do
   defmacro is_2_digit_q_value(value), do: value |> in_range?(1..100)
   defmacro is_3_digit_q_value(value), do: value |> in_range?(101..1099)
 
-  def no_value_byte, do: 0
-  def no_value,      do: :no_value
-
   defmacro is_no_value_byte(byte) do
     quote do
       unquote(byte) == 0
@@ -37,11 +34,15 @@ defmodule MMS.DataTypes do
       unquote(value) == :no_value
     end
   end
+
+
   def max_short_length, do: 30
   def max_uint32,       do: 0xffffffff
   def max_uint32_bytes, do: <<143, 255, 255, 255, 127>>
   def max_long,         do: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff # 30 0xffs
   def max_long_bytes,   do: <<max_short_length(), max_long()::240>>
+  def no_value_byte,    do: 0
+  def no_value,         do: :no_value
 
   defp in_range? value, range do
     quote do unquote(value) in unquote(Macro.escape range) end

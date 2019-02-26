@@ -2,7 +2,7 @@ defmodule Codec.Map do
   import OkError
   import OkError.Operators
   import CodecError
-  import MMS.Codec2
+  use MMS.Codec2
 
   def get(value, map), do: Map.get map, value
 
@@ -34,23 +34,37 @@ defmodule Codec.Map do
     quote location: :keep do
       unquote(bytes)
       |> unquote(codec).decode
-      ~> fn {value, rest} ->
-        value
-        |> map_decoded_value(unquote mapper)
-        ~> fn result -> {result, rest} end
-         end
+      ~> fn result -> result |> map_decoded_value(unquote mapper) end
       ~>> fn details -> error unquote(data_type), unquote(bytes), nest_error(details) end
     end
   end
 
-  def map_decoded_value(value, map) when is_map(map) do
-    map
-    |> Map.get(value)
-    ~>> fn _ -> error %{out_of_range: value} end
+  def map_decoded_value({value, rest}, f) when is_function(f) do
+    case f.(value) do
+      {:ok, result}       -> decode_ok result, rest
+      error = {:error, _} -> error
+      result              -> decode_ok result, rest
+    end
   end
 
-  def map_decoded_value(value, f) when is_function(f) do
-    f.(value)
+  def map_decoded_value({value, rest}, map) when is_map(map) do
+    result = Map.get(map, value)
+
+    cond do
+      is_nil(result)     -> error %{out_of_range: value}
+      is_module?(result) -> rest |> result.decode
+      true               -> decode_ok result, rest
+    end
+  end
+
+  defp is_module?(atom) when is_atom(atom) do
+    atom
+    |> to_string
+    |> String.starts_with?("Elixir.")
+  end
+
+  defp is_module? other do
+    false
   end
 
   defmacro map_encode(value, map = {atom, _, _}, codec) when atom in [:fn, :&] do

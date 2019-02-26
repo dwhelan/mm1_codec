@@ -20,25 +20,24 @@ defmodule MMS.From do
   defmodule FromAddress do
     use MMS.Codec2
 
-    alias MMS.{Address}
+    import Codec.Map
+
+    alias MMS.{Address, ShortInteger}
+
+    @map %{
+      0 => Address,
+      1 => :insert_address_token,
+    }
 
     @address_present_token 128
     @insert_address_token  129
 
-    def decode(<<@address_present_token, rest::binary>>) do
-      rest |> decode_with(Address)
-    end
-
-    def decode(<<@insert_address_token, rest::binary>>) do
-      :insert_address_token |> decode_ok(rest)
-    end
-
-    def decode(bytes) when is_binary(bytes) do
-      bytes |> decode_error(:foo)
+    def decode bytes do
+      bytes |> decode_map(ShortInteger, @map)
     end
 
     def encode :insert_address_token do
-      <<@insert_address_token>> |> ok
+      :insert_address_token |> map_encode(@map, ShortInteger)
     end
 
     def encode string do
