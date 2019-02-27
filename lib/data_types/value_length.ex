@@ -27,10 +27,18 @@ defmodule MMS.ValueLength do
   def decode(bytes, codec) when is_binary(bytes) do
     bytes
     |>  __MODULE__.decode
-    ~> fn {_length, rest} ->
-        rest
+    ~> fn {value_length, value_bytes} ->
+        value_bytes
         |> codec.decode
         ~>> fn {data_type, _, reason} -> error data_type, bytes, reason end
+        ~> fn {value, rest} ->
+            bytes_used = byte_size(value_bytes) - byte_size(rest)
+            if bytes_used == value_length do
+              decode_ok value, rest
+            else
+              error bytes, %{bytes_used: bytes_used, value_length: value_length, value: value}
+            end
+           end
        end
   end
 

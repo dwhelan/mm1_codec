@@ -46,8 +46,8 @@ defmodule MMS.ValueLengthTest do
       assert decode(<<1, 42>>, Error) == error :data_type, <<1, 42>>, :reason
     end
 
-    test "with a short length insufficient bytes" do
-      assert decode(<<1, 42>>, Error) == error :data_type, <<1, 42>>, :reason
+    test "when incorrect number of bytes consumed" do
+      assert decode(<<0, 42>>, Ok) == error :value_length, <<0, 42>>, %{value_length: 0, bytes_used: 1, value: 42}
     end
   end
 
