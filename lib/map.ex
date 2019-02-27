@@ -73,38 +73,36 @@ defmodule Codec.Map do
   defmacro map_encode(value, {map, codec}, map_codec)  do
     map = invert_map(map, __CALLER__)
     codec = Macro.expand(codec, __CALLER__)
+    map_codec = Macro.expand(map_codec, __CALLER__)
 
     quote bind_quoted: [value: value, map: map, codec: codec, map_codec: map_codec, module: __CALLER__.module] do
-      case Map.get(map, value) do
-        nil -> Map.get(map, codec)
-               ~> fn map_value ->
-                    map_value
-                    |> map_codec.encode
-                    ~> fn map_bytes ->
-                        value
-                        |> codec.encode
-                        ~> fn value_bytes -> map_bytes <> value_bytes end
-                       end
-                  end
+      case value |> map_value_to_encode(map) do
+        {:error, _} -> Map.get(map, codec)
+                       ~> fn map_value ->
+                            map_value
+                            |> map_codec.encode
+                            ~> fn map_bytes ->
+                                value
+                                |> codec.encode
+                                ~> fn value_bytes -> map_bytes <> value_bytes end
+                               end
+                          end
         map_value -> map_value |> map_codec.encode
       end
       ~>> fn details -> error data_type(module), value, nest_error(details) end
     end
   end
 
-  defmacro map_encode(value, map, codec)  do
-    inverted_map = invert_map(map, __CALLER__)
-    do_map_encode value, inverted_map, codec, __CALLER__
+  defmacro map_encode(value, map, map_codec)  do
+    map = invert_map(map, __CALLER__)
+    map_codec = Macro.expand(map_codec, __CALLER__)
 
-    data_type = data_type(__CALLER__.module)
-
-    quote do
-      Map.get(unquote(map), unquote(value))
-      ~> unquote(codec).encode(&1)
-      ~>> fn details -> error unquote(data_type), unquote(value), nest_error(details) end
+    quote bind_quoted: [value: value, map: map, map_codec: map_codec, module: __CALLER__.module] do
+      value
+      |> map_value_to_encode(map)
+      ~> fn map_value -> map_value |> map_codec.encode end
+      ~>> fn details -> error data_type(module), value, nest_error(details) end
     end
-
-    do_map_encode value, inverted_map, codec, __CALLER__
   end
 
   defp invert_map map, env do
@@ -112,33 +110,10 @@ defmodule Codec.Map do
     {:%{}, context, pairs |> Enum.map(fn {k, v} -> {v, k} end)}
   end
 
-  defp do_map_encode(value, mapper, codec, env) do
-    data_type = data_type(env.module)
-
-    quote do
-      unquote(value)
-      |> map_value_to_encode(unquote mapper)
-      ~> fn mapped_value -> unquote(codec).encode(mapped_value) end
-      ~>> fn details -> error unquote(data_type), unquote(value), nest_error(details) end
-    end
-  end
-
-  def map_value_to_encode(value, {inverted_map, bar}) when is_map(inverted_map) do
-    IO.inspect  {inverted_map, bar, Map.get(inverted_map, value), value |> bar.encode}
-    case Map.get(inverted_map, value) do
-      nil -> Map.get(inverted_map, bar)
-      value_to_encode -> value_to_encode
-    end
-  end
-
   def map_value_to_encode(value, inverted_map) when is_map(inverted_map) do
     case Map.get(inverted_map, value) do
       nil -> error :out_of_range
       value_to_encode -> value_to_encode
     end
-  end
-
-  def map_value_to_encode(value, f) when is_function(f) do
-    f.(value)
   end
 end
