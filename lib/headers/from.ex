@@ -29,21 +29,12 @@ defmodule MMS.From do
       1 => :insert_address_token,
     }
 
-    @address_present_token 128
-    @insert_address_token  129
-
     def decode bytes do
       bytes |> decode_map(ShortInteger, @map)
     end
 
-    def encode :insert_address_token do
-      :insert_address_token |> map_encode(@map, ShortInteger)
-    end
-
-    def encode string do
-      string
-      |> encode_with(Address)
-      ~> & <<@address_present_token>> <> &1
+    def encode address do
+      address |> map_encode({@map, Address}, ShortInteger)
     end
   end
 end

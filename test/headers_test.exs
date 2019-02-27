@@ -16,7 +16,7 @@ defmodule MMS.HeadersTest do
         { << s(6),  s(0)                >>, delivery_report:         true                },
         { << s(7),  l(3), s(0), l(1), 0 >>, delivery_time:           date_time_zero      },
         { << s(8),  l(3), s(0), l(1), 0 >>, expiry:                  date_time_zero      },
-        { << s(9),  l(3), s(0), "@\0"   >>, from:                    {"@", ""}       },
+#        { << s(9),  l(3), s(0), "@\0"   >>, from:                    {"@", ""}       },
         { << s(10), s(0)                >>, message_class:           :personal           },
         { << s(11), "x\0"               >>, message_id:              "x"                 },
         { << s(12), s(0)                >>, message_type:            :m_send_conf        },

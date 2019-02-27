@@ -28,13 +28,13 @@ defmodule MMS.Address do
     bytes |> decode_map(Text, &to_tuple/1)
   end
 
-  defp to_tuple([device, type]), do: {device, type}
+# TODO: remove 'def to_tuple([email]' by having caller use ValueLength.decode rather than ValueLengthList.decode
   defp to_tuple([email]),        do: {email,  ""  }
   defp to_tuple(text),           do: text |> split |> to_tuple
 
   defp split(text), do: text |> String.split("/TYPE=")
 
-  def encode(address = {string, type}) when is_address(address) do
+  def encode(address) when is_address(address) do
     address |> map_encode(&to_text/1, Text)
   end
 
