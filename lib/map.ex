@@ -57,15 +57,8 @@ defmodule Codec.Map do
     end
   end
 
-  defp is_module?(atom) when is_atom(atom) do
-    atom
-    |> to_string
-    |> String.starts_with?("Elixir.")
-  end
-
-  defp is_module? other do
-    false
-  end
+  defp is_module?(atom) when is_atom(atom), do: atom |> to_string |> String.starts_with?("Elixir.")
+  defp is_module?(_),                       do: false
 
   defmacro map_encode(value, f = {atom, _, _}, codec) when atom in [:fn, :&] do
     data_type = data_type(__CALLER__.module)
@@ -96,13 +89,6 @@ defmodule Codec.Map do
         map_value -> map_value |> map_codec.encode
       end
       ~>> fn details -> error data_type(module), value, nest_error(details) end
-    end
-  end
-
-  def map_value_to_encode(value, inverted_map) when is_map(inverted_map) do
-    case Map.get(inverted_map, value) do
-      nil -> error :out_of_range
-      value_to_encode -> value_to_encode
     end
   end
 
@@ -143,12 +129,6 @@ defmodule Codec.Map do
       nil -> Map.get(inverted_map, bar)
       value_to_encode -> value_to_encode
     end
-  end
-
-  defp encode_with_prefix value, codec, prefix do
-    value
-    |> codec.encode
-    ~> fn bytes -> <<prefix>> <> bytes end
   end
 
   def map_value_to_encode(value, inverted_map) when is_map(inverted_map) do
