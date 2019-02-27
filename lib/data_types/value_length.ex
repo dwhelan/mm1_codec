@@ -24,6 +24,16 @@ defmodule MMS.ValueLength do
     length |> ok
   end
 
+  def decode(bytes, codec) when is_binary(bytes) do
+    bytes
+    |>  __MODULE__.decode
+    ~> fn {_length, rest} ->
+        rest
+        |> codec.decode
+        ~>> fn {data_type, _, reason} -> error data_type, bytes, reason end
+       end
+  end
+
   def encode(value) when is_short_length(value) do
     value |> encode_with(ShortLength)
   end

@@ -8,7 +8,7 @@ defmodule MMS.ValueLengthTest do
   @thirty_chars     String.duplicate("a", 30)
   @thirty_one_chars String.duplicate("a", 31)
 
-  describe "decode" do
+  describe "decode/1" do
     test "with a short length" do
       assert decode(<<0>>)                 == ok 0,  <<>>
       assert decode(<<30, @thirty_chars>>) == ok 30, <<@thirty_chars>>
@@ -32,6 +32,22 @@ defmodule MMS.ValueLengthTest do
 
     test "with an invalid length" do
       assert decode(<<@length_quote, 128>>) == error :value_length, <<@length_quote, 128>>, [:length, :uint32, :first_byte_cannot_be_128]
+    end
+  end
+
+  alias MMS.CodecTest.{Ok, Error}
+
+  describe "decode/2 with a codec" do
+    test "when codec return ok" do
+      assert decode(<<1, 42>>, Ok)    == ok 42,  <<>>
+    end
+
+    test "codec returns an error" do
+      assert decode(<<1, 42>>, Error) == error :data_type, <<1, 42>>, :reason
+    end
+
+    test "with a short length insufficient bytes" do
+      assert decode(<<1, 42>>, Error) == error :data_type, <<1, 42>>, :reason
     end
   end
 
