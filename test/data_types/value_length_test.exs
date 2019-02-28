@@ -1,9 +1,10 @@
 defmodule MMS.ValueLengthTest do
   use MMS.CodecTest
-
-  @length_quote 31
+  alias MMS.CodecTest.{Ok, Error}
 
   import MMS.ValueLength
+
+  @length_quote 31
 
   @thirty_chars     String.duplicate("a", 30)
   @thirty_one_chars String.duplicate("a", 31)
@@ -35,11 +36,9 @@ defmodule MMS.ValueLengthTest do
     end
   end
 
-  alias MMS.CodecTest.{Ok, Error}
-
   describe "decode/2 with a codec" do
     test "when codec return ok" do
-      assert decode(<<1, 42>>, Ok)    == ok 42,  <<>>
+      assert decode(<<1, 42>>, Ok) == ok 42,  <<>>
     end
 
     test "codec returns an error" do
