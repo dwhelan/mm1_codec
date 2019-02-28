@@ -4,17 +4,21 @@ defmodule MMS.ValueLengthTest do
 
   import MMS.ValueLength
 
-  @thirty_chars     String.duplicate("a", max_short_length())
-  @thirty_one_chars String.duplicate("a", 31)
+  def max_short_length_value, do: String.duplicate("a", max_short_length())
+  def max_short_length_bytes, do: <<max_short_length()>> <> max_short_length_value()
+
+  def min_uint32_length,       do: max_short_length() + 1
+  def min_uint32_length_value, do: String.duplicate("a", min_uint32_length())
+  def min_uint32_length_bytes, do: <<min_uint32_length()>> <> min_uint32_length_value()
 
   describe "decode/1" do
     test "with a short length" do
-      assert decode(<<0>>)                 == ok 0,  <<>>
-      assert decode(<<max_short_length(), @thirty_chars>>) == ok max_short_length(), <<@thirty_chars>>
+      assert decode(<<0>>) == ok 0, <<>>
+      assert decode(max_short_length_bytes()) == ok max_short_length(), max_short_length_value()
     end
-
     test "with a length quote and valid length" do
-      assert decode(<<length_quote(), 31, @thirty_one_chars>>) == ok 31, <<@thirty_one_chars>>
+
+      assert decode(<<length_quote()>> <> min_uint32_length_bytes) == ok min_uint32_length(), min_uint32_length_value
     end
 
     test "with no bytes" do
