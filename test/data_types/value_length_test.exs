@@ -38,12 +38,12 @@ defmodule MMS.ValueLengthTest do
     end
   end
 
-  describe "decode/2 with a function" do
-    test "when codec return ok" do
+  describe "decode/2" do
+    test "when function returns ok" do
       assert decode(<<1, 42>>, &Ok.decode/1) == ok 42, <<>>
     end
 
-    test "codec returns an error" do
+    test "function returns an error" do
       assert decode(<<1, 42>>, &Error.decode/1) == error :data_type, <<1, 42>>, :reason
     end
 
@@ -73,9 +73,12 @@ defmodule MMS.ValueLengthTest do
   end
 
   describe "encode/2" do
-    test "when codec return ok" do
-      assert encode(42, &Ok.encode/1) == ok <<1, 42>>
+    test "when function return ok" do
+      assert encode(0, &Ok.encode/1) == ok <<1, 0>>
+    end
+
+    test "function returns an error" do
+      assert encode(0, &Error.encode/1) == error :data_type, 0, :reason
     end
   end
-
 end
