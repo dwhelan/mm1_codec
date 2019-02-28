@@ -14,7 +14,7 @@ defmodule MMS.LongTest do
 
       decode_errors: [
         { <<0>>,  {:long, <<0>>,  [:multi_octet_integer, :must_have_at_least_one_data_byte]}},
-        { <<1>>,  {:long, <<1>>,  [:short_length, %{length: 1, available_bytes: 0}]} },
+        { <<1>>,  {:long, <<1>>,  [:short_length, %{short_length: 1, available_bytes: 0}]} },
         { <<31>>, {:long, <<31>>, [:short_length, %{out_of_range: 31}]} },
       ],
 

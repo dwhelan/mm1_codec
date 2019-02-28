@@ -16,7 +16,7 @@ defmodule MMS.MediaTest do
       ],
 
       decode_errors: [
-        { <<1>>,  {:media, <<1>>,  [:well_known_media, :integer, :long, :short_length, %{available_bytes: 0, length: 1}]} },
+        { <<1>>,  {:media, <<1>>,  [:well_known_media, :integer, :long, :short_length, %{available_bytes: 0, short_length: 1}]} },
         { <<31>>, {:media, <<31>>, [:well_known_media, :integer, :long, :short_length, %{out_of_range: 31}]}              },
         { "x",    {:media, "x",    [:text, :missing_end_of_string]} },
       ],
