@@ -23,18 +23,18 @@ defmodule MMS.ShortLengthTest do
     end
 
     test "decode a non short length" do
-      assert decode(<<31, "rest">>) == error :short_length, <<31, "rest">>, %{out_of_range: 31}
+      assert decode(<<invalid_short_length()>>) == error :short_length, <<invalid_short_length()>>, %{out_of_range: invalid_short_length()}
     end
   end
 
   describe "encode" do
     test "encode a short length" do
-      assert encode(1)  == ok <<1>>
-      assert encode(30) == ok <<30>>
+      assert encode(0) == ok <<0>>
+      assert encode(max_short_length()) == ok <<max_short_length()>>
     end
 
     test "encode a non short length" do
-      assert encode(31) == error :short_length, 31, :out_of_range
+      assert encode(invalid_short_length()) == error :short_length, invalid_short_length(), :out_of_range
     end
   end
 end

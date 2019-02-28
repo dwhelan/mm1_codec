@@ -4,13 +4,13 @@ defmodule MMS.ValueLengthTest do
 
   import MMS.ValueLength
 
-  @thirty_chars     String.duplicate("a", 30)
+  @thirty_chars     String.duplicate("a", max_short_length())
   @thirty_one_chars String.duplicate("a", 31)
 
   describe "decode/1" do
     test "with a short length" do
       assert decode(<<0>>)                 == ok 0,  <<>>
-      assert decode(<<30, @thirty_chars>>) == ok 30, <<@thirty_chars>>
+      assert decode(<<max_short_length(), @thirty_chars>>) == ok max_short_length(), <<@thirty_chars>>
     end
 
     test "with a length quote and valid length" do
@@ -22,7 +22,7 @@ defmodule MMS.ValueLengthTest do
     end
 
     test "with an unnecessary length quote" do
-      assert decode(<<length_quote(), 30>>) == error :value_length, <<length_quote(), 30>>, :should_be_encoded_as_a_short_length
+      assert decode(<<length_quote(), max_short_length()>>) == error :value_length, <<length_quote(), max_short_length()>>, :should_be_encoded_as_a_short_length
     end
 
     test "with no short length or length quote" do
