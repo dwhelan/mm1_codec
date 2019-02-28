@@ -10,7 +10,7 @@ defmodule MMS.ValueLength do
     ~>> fn {_, _, reason} -> error bytes, reason end
   end
 
-  def decode bytes = <<31, _::binary>> do
+  def decode(bytes = <<length_quote, _::binary>>) when is_length_quote(length_quote) do
     bytes |> decode_map(Length, &ensure_minimal_encoding/1)
   end
 

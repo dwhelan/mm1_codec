@@ -9,7 +9,7 @@ defmodule MMS.DataTypes do
   defmacro is_long(value),              do: value |> in_range?(0..max_long())
   defmacro is_2_digit_q_value(value),   do: value |> in_range?(1..100)
   defmacro is_3_digit_q_value(value),   do: value |> in_range?(101..1099)
-
+  defmacro is_length_quote(value),      do: value |> is_equal_to?(31)
   defmacro is_end_of_string(value) do
     quote do unquote(value) == 0 end
   end
@@ -45,5 +45,9 @@ defmodule MMS.DataTypes do
 
   defp in_range? value, range do
     quote do unquote(value) in unquote(Macro.escape range) end
+  end
+
+  defp is_equal_to? value, expected do
+    quote do unquote(value) == unquote(expected) end
   end
 end
