@@ -5,6 +5,7 @@ defmodule MMS.Length do
 
   alias MMS.Uint32
 
+  # TODO: return error if insufficient bytes
   def decode bytes = <<@length_quote, rest::binary>> do
     rest
     |> Uint32.decode
