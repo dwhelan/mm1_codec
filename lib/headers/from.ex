@@ -1,13 +1,18 @@
 defmodule MMS.From do
   use MMS.Codec2
+  import Codec.Map
 
   alias MMS.From.FromAddress
-  alias MMS.{ValueLength, ValueLengthList}
+  alias MMS.{ValueLength, Address, ShortInteger, ValueLengthList}
+
+  @map %{
+    0 => Address,
+    1 => :insert_address_token,
+  }
 
   def decode(bytes) when is_binary(bytes) do
     bytes
-    |> ValueLength.decode(FromAddress)
-    ~>> & bytes |> decode_error(&1)
+    |> ValueLength.decode(& decode_map &1, ShortInteger, @map )
   end
 
   def encode(from) do
