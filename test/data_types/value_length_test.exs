@@ -4,8 +4,6 @@ defmodule MMS.ValueLengthTest do
 
   import MMS.ValueLength
 
-  @length_quote 31
-
   @thirty_chars     String.duplicate("a", 30)
   @thirty_one_chars String.duplicate("a", 31)
 
@@ -16,7 +14,7 @@ defmodule MMS.ValueLengthTest do
     end
 
     test "with a length quote and valid length" do
-      assert decode(<<@length_quote, 31, @thirty_one_chars>>) == ok 31, <<@thirty_one_chars>>
+      assert decode(<<length_quote(), 31, @thirty_one_chars>>) == ok 31, <<@thirty_one_chars>>
     end
 
     test "with no bytes" do
@@ -24,7 +22,7 @@ defmodule MMS.ValueLengthTest do
     end
 
     test "with an unnecessary length quote" do
-      assert decode(<<@length_quote, 30>>) == error :value_length, <<@length_quote, 30>>, :should_be_encoded_as_a_short_length
+      assert decode(<<length_quote(), 30>>) == error :value_length, <<length_quote(), 30>>, :should_be_encoded_as_a_short_length
     end
 
     test "with no short length or length quote" do
@@ -32,7 +30,7 @@ defmodule MMS.ValueLengthTest do
     end
 
     test "with an invalid length" do
-      assert decode(<<@length_quote, 128>>) == error :value_length, <<@length_quote, 128>>, [:length, :uint32, :first_byte_cannot_be_128]
+      assert decode(<<length_quote(), 128>>) == error :value_length, <<length_quote(), 128>>, [:length, :uint32, :first_byte_cannot_be_128]
     end
   end
 
@@ -61,8 +59,8 @@ defmodule MMS.ValueLengthTest do
     end
 
     test "with a uint32 length" do
-      assert encode(max_short_length() + 1) == ok <<@length_quote, max_short_length() + 1>>
-      assert encode(max_uint32())           == ok <<@length_quote>> <> max_uint32_bytes()
+      assert encode(max_short_length() + 1) == ok <<length_quote(), max_short_length() + 1>>
+      assert encode(max_uint32())           == ok <<length_quote()>> <> max_uint32_bytes()
     end
 
     test "with an invalid integer" do
