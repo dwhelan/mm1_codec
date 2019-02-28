@@ -2,12 +2,11 @@ defmodule MMS.From do
   use MMS.Codec2
 
   alias MMS.From.FromAddress
-  alias MMS.{ValueLengthList}
+  alias MMS.{ValueLength, ValueLengthList}
 
   def decode(bytes) when is_binary(bytes) do
     bytes
-    |> ValueLengthList.decode([FromAddress])
-    ~> fn {[address], rest} -> decode_ok address, rest end
+    |> ValueLength.decode(FromAddress)
     ~>> & bytes |> decode_error(&1)
   end
 

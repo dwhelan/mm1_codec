@@ -18,7 +18,7 @@ defmodule MMS.ValueLengthTest do
     end
     test "with a length quote and valid length" do
 
-      assert decode(<<length_quote()>> <> min_uint32_length_bytes) == ok min_uint32_length(), min_uint32_length_value
+      assert decode(<<length_quote()>> <> min_uint32_length_bytes()) == ok min_uint32_length(), min_uint32_length_value()
     end
 
     test "with no bytes" do
