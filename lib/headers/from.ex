@@ -12,7 +12,7 @@ defmodule MMS.From do
   def decode(bytes) when is_binary(bytes) do
     bytes
     |> ValueLength.decode(
-         fn value_bytes -> value_bytes |> decode_map(ShortInteger, @map) end
+         fn value_bytes -> value_bytes |> decode(ShortInteger, @map) end
        )
   end
 

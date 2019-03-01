@@ -274,7 +274,7 @@ defmodule MMS.Charset do
   }
 
   def decode bytes do
-    bytes |> decode_map(Integer, @map)
+    bytes |> decode(Integer, @map)
   end
 
   def encode(charset) when is_atom(charset) do

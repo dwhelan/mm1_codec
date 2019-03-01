@@ -8,9 +8,9 @@ defmodule MMS.CodecMapper do
       import MMS.CodecMapper
       import OldOkError
 
-      @decode_map opts[:map] || with_index(opts[:values])
-      @codec_bytes @decode_map |> Map.keys   |> Enum.reject(& elem(@decode_map[&1], 0) == :_unassigned)
-      @names       @decode_map |> Map.values |> Enum.map(& elem(&1, 0))
+      @decode opts[:map] || with_index(opts[:values])
+      @codec_bytes @decode |> Map.keys   |> Enum.reject(& elem(@decode[&1], 0) == :_unassigned)
+      @names       @decode |> Map.values |> Enum.map(& elem(&1, 0))
 
       @error       opts[:error]
 
@@ -19,7 +19,7 @@ defmodule MMS.CodecMapper do
       end
 
       defp do_decode(<<byte, bytes:: binary>>, codecs) when byte in @codec_bytes do
-        {module, codec} = @decode_map[byte]
+        {module, codec} = @decode[byte]
 
         case codec.decode bytes do
           {:ok,    {value, rest}} -> do_decode rest, [{module, value} | codecs]
@@ -35,7 +35,7 @@ defmodule MMS.CodecMapper do
         do_encode values, []
       end
 
-      @encode_map @decode_map |> Enum.reduce(%{}, fn {byte, {module, codec}}, map -> Map.put(map, module, {byte, codec}) end)
+      @encode_map @decode |> Enum.reduce(%{}, fn {byte, {module, codec}}, map -> Map.put(map, module, {byte, codec}) end)
 
       defp do_encode([{name, value} | values], results) when name in @names do
         {byte, codec} = @encode_map[name]

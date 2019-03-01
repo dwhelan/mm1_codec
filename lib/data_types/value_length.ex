@@ -11,7 +11,7 @@ defmodule MMS.ValueLength do
   end
 
   def decode(bytes = <<length_quote, _::binary>>) when is_length_quote(length_quote) do
-    bytes |> decode_map(Length, &ensure_minimal_encoding/1)
+    bytes |> decode(Length, &ensure_minimal_encoding/1)
   end
 
   def decode(bytes) when is_binary(bytes) do

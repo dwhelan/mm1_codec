@@ -29,7 +29,7 @@ defmodule Codec.Map do
        )
   end
 
-  defmacro decode_map bytes, codec, mapper do
+  defmacro decode bytes, codec, mapper do
     data_type = data_type(__CALLER__.module)
     quote location: :keep do
       unquote(bytes)
