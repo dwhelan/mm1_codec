@@ -11,11 +11,15 @@ defmodule MMS.From do
 
   def decode(bytes) when is_binary(bytes) do
     bytes
-    |> ValueLength.decode(& decode_map &1, ShortInteger, @map)
+    |> ValueLength.decode(
+         fn value_bytes -> value_bytes |> decode_map(ShortInteger, @map) end
+       )
   end
 
-  def encode(from) do
+  def encode(from) when is_address(from) or from == :insert_address_token do
     from
-    |> ValueLength.encode(& map_encode &1, ShortInteger, @map, Address)
+    |> ValueLength.encode(
+         fn value -> value |> map_encode(ShortInteger, @map, Address) end
+       )
   end
 end
