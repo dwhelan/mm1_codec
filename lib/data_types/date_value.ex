@@ -9,6 +9,6 @@ defmodule MMS.DateValue do
   end
 
   def encode date_time = %DateTime{} do
-    date_time |> map_encode(&DateTime.to_unix/1, Long)
+    date_time |> encode(&DateTime.to_unix/1, Long)
   end
 end

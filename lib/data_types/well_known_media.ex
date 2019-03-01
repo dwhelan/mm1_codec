@@ -102,6 +102,6 @@ defmodule MMS.WellKnownMedia do
   end
 
   def encode(value) when is_binary(value) do
-    value |> map_encode(Integer, @map)
+    value |> encode(Integer, @map)
   end
 end

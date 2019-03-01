@@ -60,7 +60,7 @@ defmodule Codec.Map do
   defp is_module?(atom) when is_atom(atom), do: atom |> to_string |> String.starts_with?("Elixir.")
   defp is_module?(_),                       do: false
 
-  defmacro map_encode(value, f = {atom, _, _}, codec) when atom in [:fn, :&] do
+  defmacro encode(value, f = {atom, _, _}, codec) when atom in [:fn, :&] do
     data_type = data_type(__CALLER__.module)
 
     quote do
@@ -70,7 +70,7 @@ defmodule Codec.Map do
     end
   end
 
-  defmacro map_encode(value, map_codec, map)  do
+  defmacro encode(value, map_codec, map)  do
     map = invert_map(map, __CALLER__)
     map_codec = Macro.expand(map_codec, __CALLER__)
 
@@ -82,7 +82,7 @@ defmodule Codec.Map do
     end
   end
 
-  defmacro map_encode(value, map_codec, map, codec)  do
+  defmacro encode(value, map_codec, map, codec)  do
     map = invert_map(map, __CALLER__)
     codec = Macro.expand(codec, __CALLER__)
     map_codec = Macro.expand(map_codec, __CALLER__)

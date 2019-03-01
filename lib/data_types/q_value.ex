@@ -19,7 +19,7 @@ defmodule MMS.QValue do
   end
 
   def encode(string) when is_binary(string) do
-    string |> map_encode(&parse/1, Uint32)
+    string |> encode(&parse/1, Uint32)
   end
 
   defp parse string do
