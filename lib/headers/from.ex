@@ -16,6 +16,6 @@ defmodule MMS.From do
 
   def encode(from) do
     from
-    |> ValueLength.encode(& map_encode &1, {@map, Address}, ShortInteger )
+    |> ValueLength.encode(& map_encode &1, ShortInteger, {@map, Address} )
   end
 end
