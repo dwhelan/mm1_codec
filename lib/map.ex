@@ -31,11 +31,11 @@ defmodule Codec.Map do
 
   defmacro decode bytes, codec, mapper do
     data_type = data_type(__CALLER__.module)
-    quote location: :keep do
-      unquote(bytes)
-      |> unquote(codec).decode
-      ~> fn result -> result |> map_decoded_value(unquote mapper) end
-      ~>> fn details -> error unquote(data_type), unquote(bytes), nest_error(details) end
+    quote bind_quoted: [bytes: bytes, mapper: mapper, codec: codec, module: __CALLER__.module] do
+      bytes
+      |> codec.decode
+      ~> fn result -> result |> map_decoded_value(mapper) end
+      ~>> fn details -> error data_type(module), bytes, nest_error(details) end
     end
   end
 
