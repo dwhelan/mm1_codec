@@ -4,10 +4,10 @@ defmodule MMS.MessageTypeTest do
   use MMS.TestExamples,
       codec: MMS.MessageType,
       examples: [
-        {<<128>>, :m_send_conf       },
-        {<<129>>, :m_notification_ind},
-        {<<130>>, :m_notifyresp_ind  },
-        {<<131>>, :m_send_req        },
+        {<<128>>, :m_send_req        },
+        {<<129>>, :m_send_conf       },
+        {<<130>>, :m_notification_ind},
+        {<<131>>, :m_notifyresp_ind  },
         {<<132>>, :m_retrieve_conf   },
         {<<133>>, :m_acknowledge_ind },
         {<<134>>, :m_delivery_ind    },
@@ -18,6 +18,6 @@ defmodule MMS.MessageTypeTest do
       ],
 
       decode_errors: [
-        { <<139>>, :message_type },
+        { <<139>>, {:message_type, <<139>>, %{out_of_range: 11}} },
       ]
 end

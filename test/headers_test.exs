@@ -19,7 +19,7 @@ defmodule MMS.HeadersTest do
 #        { << s(9),  l(3), s(0), "@\0"   >>, from:                    {"@", ""}       },
         { << s(10), s(0)                >>, message_class:           :personal           },
         { << s(11), "x\0"               >>, message_id:              "x"                 },
-        { << s(12), s(0)                >>, message_type:            :m_send_conf        },
+        { << s(12), s(0)                >>, message_type:            :m_send_req         },
         { << s(13), 0b10000000          >>, version:                 {0, 0}              },
         { << s(14), l(1), 0             >>, message_size:            0                   },
         { << s(15), s(0)                >>, priority:                :low                },
