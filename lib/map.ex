@@ -70,6 +70,18 @@ defmodule Codec.Map do
     end
   end
 
+  defmacro map_encode(value, map_codec, map)  do
+    map = invert_map(map, __CALLER__)
+    map_codec = Macro.expand(map_codec, __CALLER__)
+
+    quote bind_quoted: [value: value, map: map, map_codec: map_codec, module: __CALLER__.module] do
+      value
+      |> map_value_to_encode(map)
+      ~> fn map_value -> map_value |> map_codec.encode end
+      ~>> fn details -> error data_type(module), value, nest_error(details) end
+    end
+  end
+
   defmacro map_encode(value, map_codec, map, codec)  do
     map = invert_map(map, __CALLER__)
     codec = Macro.expand(codec, __CALLER__)
@@ -89,18 +101,6 @@ defmodule Codec.Map do
                           end
         map_value -> map_value |> map_codec.encode
       end
-      ~>> fn details -> error data_type(module), value, nest_error(details) end
-    end
-  end
-
-  defmacro map_encode(value, map, map_codec)  do
-    map = invert_map(map, __CALLER__)
-    map_codec = Macro.expand(map_codec, __CALLER__)
-
-    quote bind_quoted: [value: value, map: map, map_codec: map_codec, module: __CALLER__.module] do
-      value
-      |> map_value_to_encode(map)
-      ~> fn map_value -> map_value |> map_codec.encode end
       ~>> fn details -> error data_type(module), value, nest_error(details) end
     end
   end
