@@ -60,31 +60,32 @@ defmodule Codec.Map do
   defp is_module?(_),                       do: false
 
   defmacro encode(value, f = {atom, _, _}, codec) when atom in [:fn, :&] do
-    data_type = data_type(__CALLER__.module)
-
-    quote do
-      unquote(f).(unquote(value))
-      ~> fn mapped_value -> unquote(codec).encode(mapped_value) end
-      ~>> fn details -> error unquote(data_type), unquote(value), nest_error(details) end
-    end
+    do_encode value, f, codec, __CALLER__
   end
 
   defmacro encode(value, map_codec, map)  do
     map = invert_map(map, __CALLER__)
-    map_codec = Macro.expand(map_codec, __CALLER__)
-
-    quote bind_quoted: [value: value, map: map, map_codec: map_codec, module: __CALLER__.module] do
-      Map.get(map, value)
-      ~>> fn _ -> error :out_of_range end
-      ~> fn map_value -> map_value |> map_codec.encode end
-      ~>> fn details -> error data_type(module), value, nest_error(details) end
+    f = quote bind_quoted: [value: value, map: map, map_codec: map_codec, module: __CALLER__.module] do
+      fn value ->
+        Map.get(map, value)
+        ~>> fn nil -> error :out_of_range end
+      end
     end
+    do_encode value, f, map_codec, __CALLER__
   end
 
   defmacro encode(value, map_codec, map, codec)  do
     map = invert_map(map, __CALLER__)
     codec = Macro.expand(codec, __CALLER__)
     map_codec = Macro.expand(map_codec, __CALLER__)
+
+    f = quote bind_quoted: [value: value, map: map, map_codec: map_codec, module: __CALLER__.module] do
+      fn value ->
+        Map.get(map, value)
+        ~>> fn nil -> error :out_of_range end
+      end
+    end
+    do_encode value, f, map_codec, __CALLER__
 
     quote bind_quoted: [value: value, map: map, codec: codec, map_codec: map_codec, module: __CALLER__.module] do
       Map.get(map, value)
@@ -101,6 +102,14 @@ defmodule Codec.Map do
                      end
                end
           end
+      ~>> fn details -> error data_type(module), value, nest_error(details) end
+    end
+  end
+
+  defp do_encode(value, f, map_codec, caller) do
+    quote bind_quoted: [value: value, f: f, map_codec: map_codec, module: caller.module] do
+      f.(value)
+      ~> fn mapped_value -> mapped_value |> map_codec.encode end
       ~>> fn details -> error data_type(module), value, nest_error(details) end
     end
   end
