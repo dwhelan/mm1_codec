@@ -11,11 +11,11 @@ defmodule MMS.From do
 
   def decode(bytes) when is_binary(bytes) do
     bytes
-    |> ValueLength.decode(& decode_map &1, ShortInteger, @map )
+    |> ValueLength.decode(& decode_map &1, ShortInteger, @map)
   end
 
   def encode(from) do
     from
-    |> ValueLength.encode(& map_encode &1, ShortInteger, {@map, Address} )
+    |> ValueLength.encode(& map_encode &1, ShortInteger, @map, Address)
   end
 end

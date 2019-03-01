@@ -70,7 +70,7 @@ defmodule Codec.Map do
     end
   end
 
-  defmacro map_encode(value, map_codec, {map, codec})  do
+  defmacro map_encode(value, map_codec, map, codec)  do
     map = invert_map(map, __CALLER__)
     codec = Macro.expand(codec, __CALLER__)
     map_codec = Macro.expand(map_codec, __CALLER__)
