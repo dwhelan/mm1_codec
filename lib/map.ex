@@ -10,13 +10,7 @@ defmodule Codec.Map do
   def with_index list do
     list
     |> Enum.with_index
-    |> Enum.reduce(
-         %{},
-         fn {v, i}, map ->
-           map
-           |> Map.put(i, v)
-         end
-       )
+    |> Enum.reduce(%{}, fn {v, i}, map -> map |> Map.put(i, v) end)
   end
 
   def invert map do

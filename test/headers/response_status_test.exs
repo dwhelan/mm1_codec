@@ -31,11 +31,11 @@ defmodule MMS.ResponseStatusTest do
       ],
 
       decode_errors: [
-        { << s(-1) >>,  :response_status},
-        { << s(106) >>, :response_status},
+        { << s(-1) >>,  {:response_status, <<s(-1)>>, [:short_integer, {:out_of_range, 127}]}},
+        { << s(106) >>, {:response_status, <<s(106)>>, %{out_of_range: 106}}},
       ],
 
       encode_errors: [
-        { :not_a_response_status, :response_status},
+        { :not_a_response_status, {:response_status, :not_a_response_status, :out_of_range}},
       ]
 end
