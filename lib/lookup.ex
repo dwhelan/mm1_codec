@@ -17,7 +17,7 @@ defmodule MMS.Lookup do
 
       @codec   opts[:codec] || MMS.ShortInteger
       @map     opts[:map]   || with_index opts[:values]
-      @inverse invert @map
+      @inverse invert_map @map
 
       def decode bytes do
         bytes |> @codec.decode <~> get(@map) ~>> module_error

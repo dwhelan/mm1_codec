@@ -13,7 +13,7 @@ defmodule Codec.Map do
     |> Enum.reduce(%{}, fn {v, i}, map -> map |> Map.put(i, v) end)
   end
 
-  def invert map do
+  def invert_map map do
     map
     |> Enum.reduce(
          %{},
@@ -58,8 +58,13 @@ defmodule Codec.Map do
     do_encode f, value, codec, __CALLER__
   end
 
-  defmacro encode(value, map_codec, map)  do
-    map = map |> invert(__CALLER__)
+  defmacro encode(value, map_codec, map_or_list)  do
+    map_or_list = Macro.expand(map_or_list, __CALLER__)
+    IO.inspect [map: map_or_list]
+
+    map = case map_or_list do
+      {:%{}, _, _} -> invert(map_or_list)
+    end
 
     f = quote do
       fn value ->
@@ -75,7 +80,7 @@ defmodule Codec.Map do
   defmacro encode(value, map_codec, map, codec)  do
     map_codec = Macro.expand(map_codec, __CALLER__)
     codec = Macro.expand(codec, __CALLER__)
-    map = invert(map, __CALLER__)
+    map = map |> Macro.expand(__CALLER__) |> invert
 
     quote bind_quoted: [value: value, map: map, codec: codec, map_codec: map_codec, module: __CALLER__.module] do
       Map.get(map, value)
@@ -107,8 +112,7 @@ defmodule Codec.Map do
     end
   end
 
-  defp invert map, env do
-    {:%{}, context, pairs} = Macro.expand(map, env)
+  defp invert {:%{}, context, pairs} do
     {:%{}, context, pairs |> Enum.map(fn {k, v} -> {v, k} end)}
   end
 end

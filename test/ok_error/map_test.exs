@@ -4,7 +4,7 @@ defmodule OldOkError.MapTest do
   import Codec.Map
 
   test "invert" do
-    assert invert(%{a: 0, b: 1}) == %{0 => :a, 1 => :b}
+    assert invert_map(%{a: 0, b: 1}) == %{0 => :a, 1 => :b}
   end
 
   test "with_index" do
