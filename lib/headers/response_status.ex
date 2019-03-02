@@ -5,6 +5,8 @@ defmodule MMS.ResponseStatus do
 
   @map %{
     128 => :ok,
+
+    # Obsolete failure
     129 => {:obsolete, :unspecified},
     130 => {:obsolete, :service_denied},
     131 => {:obsolete, :message_format_corrupt},
@@ -12,11 +14,16 @@ defmodule MMS.ResponseStatus do
     133 => {:obsolete, :message_not_found},
     134 => {:obsolete, :network_problem},
     135 => {:obsolete, :content_not_accepted},
+
     136 => :unsupported_message,
+
+    # Transient failures
     192 => :transient_failure,
     193 => {:transient_failure, :sending_address_unresolved},
     194 => {:transient_failure, :message_not_found},
     195 => {:transient_failure, :network_problem},
+
+    # The values 196 through 223 are reserved for future use to indicate other transient failures.
     196 => {:transient_failure, 196},
     197 => {:transient_failure, 197},
     198 => {:transient_failure, 198},
@@ -45,6 +52,8 @@ defmodule MMS.ResponseStatus do
     221 => {:transient_failure, 221},
     222 => {:transient_failure, 222},
     223 => {:transient_failure, 223},
+
+    # Permanent failures
     224 => :permanent_failure,
     225 => {:permanent_failure, :service_denied},
     226 => {:permanent_failure, :message_format_corrupt},
@@ -55,6 +64,9 @@ defmodule MMS.ResponseStatus do
     231 => {:permanent_failure, :reply_charging_request_not_accepted},
     232 => {:permanent_failure, :reply_charging_forwarding_denied},
     233 => {:permanent_failure, :reply_charging_not_supported},
+
+    # The values 234 through 255 are reserved for future use to indicate other permanent failures.
+    # An MMS Client MUST react the same to a value in range 234 to 255 as it does to the value 224 (Error-permanent-failure).
     234 => {:permanent_failure, 234},
     235 => {:permanent_failure, 235},
     236 => {:permanent_failure, 236},
