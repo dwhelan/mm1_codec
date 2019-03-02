@@ -4,6 +4,7 @@ defmodule Codec.Map do
   import CodecError
   use MMS.Codec2
 
+  # TODO Remove once Lookup is dead
   def get(value, map), do: Map.get map, value
 
   def with_index list do
@@ -60,36 +61,27 @@ defmodule Codec.Map do
   defp is_module?(_),                       do: false
 
   defmacro encode(value, f = {atom, _, _}, codec) when atom in [:fn, :&] do
-    do_encode value, f, codec, __CALLER__
+    do_encode f, value, codec, __CALLER__
   end
 
   defmacro encode(value, map_codec, map)  do
-    map = invert_map(map, __CALLER__)
-    f = quote bind_quoted: [value: value, map: map, map_codec: map_codec, module: __CALLER__.module] do
-      fn value ->
-        Map.get(map, value)
-        ~>> fn nil -> error :out_of_range end
-      end
-    end
-    do_encode value, f, map_codec, __CALLER__
+    map
+    |> invert(__CALLER__)
+    |> encode_get
+    |> do_encode(value, map_codec, __CALLER__)
   end
 
   defmacro encode(value, map_codec, map, codec)  do
-    map = invert_map(map, __CALLER__)
-    codec = Macro.expand(codec, __CALLER__)
     map_codec = Macro.expand(map_codec, __CALLER__)
-
-    f = quote bind_quoted: [value: value, map: map, map_codec: map_codec, module: __CALLER__.module] do
-      fn value ->
-        Map.get(map, value)
-        ~>> fn nil -> error :out_of_range end
-      end
-    end
-    do_encode value, f, map_codec, __CALLER__
+    codec = Macro.expand(codec, __CALLER__)
+    map = invert(map, __CALLER__)
 
     quote bind_quoted: [value: value, map: map, codec: codec, map_codec: map_codec, module: __CALLER__.module] do
       Map.get(map, value)
-      ~> fn mapped_value -> mapped_value |> map_codec.encode end
+      ~> fn map_value ->
+           map_value
+           |> map_codec.encode
+         end
       ~>> fn _ ->
             Map.get(map, codec)
             ~> fn map_value ->
@@ -106,7 +98,17 @@ defmodule Codec.Map do
     end
   end
 
-  defp do_encode(value, f, map_codec, caller) do
+  defp encode_get map do
+    quote do
+      fn value ->
+        Map.get(unquote(map), value)
+        ~>> fn nil   -> error :out_of_range end
+        ~>  fn value -> ok value end
+      end
+    end
+  end
+
+  defp do_encode(f, value, map_codec, caller) do
     quote bind_quoted: [value: value, f: f, map_codec: map_codec, module: caller.module] do
       f.(value)
       ~> fn mapped_value -> mapped_value |> map_codec.encode end
@@ -114,7 +116,7 @@ defmodule Codec.Map do
     end
   end
 
-  defp invert_map map, env do
+  defp invert map, env do
     {:%{}, context, pairs} = Macro.expand(map, env)
     {:%{}, context, pairs |> Enum.map(fn {k, v} -> {v, k} end)}
   end
