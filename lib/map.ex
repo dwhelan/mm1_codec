@@ -60,15 +60,22 @@ defmodule Codec.Map do
   defp is_module?(atom) when is_atom(atom), do: atom |> to_string |> String.starts_with?("Elixir.")
   defp is_module?(_),                       do: false
 
-  defmacro encode(value, f = {atom, _, _}, codec) when atom in [:fn, :&] do
+  defmacro encode(value, codec, f = {atom, _, _}) when atom in [:fn, :&] do
     do_encode f, value, codec, __CALLER__
   end
 
   defmacro encode(value, map_codec, map)  do
-    map
-    |> invert(__CALLER__)
-    |> encode_get
-    |> do_encode(value, map_codec, __CALLER__)
+    map = map |> invert(__CALLER__)
+
+    f = quote do
+      fn value ->
+        Map.get(unquote(map), value)
+        ~>> fn nil   -> error :out_of_range end
+        ~>  fn value -> ok value end
+      end
+    end
+
+    do_encode(f, value, map_codec, __CALLER__)
   end
 
   defmacro encode(value, map_codec, map, codec)  do
@@ -98,21 +105,11 @@ defmodule Codec.Map do
     end
   end
 
-  defp encode_get map do
-    quote do
-      fn value ->
-        Map.get(unquote(map), value)
-        ~>> fn nil   -> error :out_of_range end
-        ~>  fn value -> ok value end
-      end
-    end
-  end
-
   defp do_encode(f, value, map_codec, caller) do
     quote bind_quoted: [value: value, f: f, map_codec: map_codec, module: caller.module] do
       f.(value)
-      ~> fn mapped_value -> mapped_value |> map_codec.encode end
-      ~>> fn details -> error data_type(module), value, nest_error(details) end
+      ~>  fn map_value -> map_value |> map_codec.encode end
+      ~>> fn details   -> error data_type(module), value, nest_error(details) end
     end
   end
 
