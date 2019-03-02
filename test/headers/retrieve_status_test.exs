@@ -16,7 +16,7 @@ defmodule MMS.RetrieveStatusTest do
       ],
 
       decode_errors: [
-        { << s(-1) >>,  :retrieve_status },
-        { << s(100) >>, :retrieve_status },
+        { << s(-1) >>,  {:retrieve_status, <<s(-1)>>,  [:short_integer, {:out_of_range, 127}]} },
+        { << s(100) >>, {:retrieve_status, <<s(100)>>, %{out_of_range: 100}} },
       ]
 end
