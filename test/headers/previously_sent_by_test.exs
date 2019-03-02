@@ -12,10 +12,10 @@ defmodule MMS.PreviouslySentByTest do
       decode_errors: [
         { << 32 >>,                    {:value_length, << 32 >>, :does_not_start_with_a_short_length_or_length_quote}  },
         { << 2, 32 >>,                 {:value_length, <<2, 32>>, %{available_bytes: 1, short_length: 2}} },
-        { << l(4), l(2), 1, 0, "@" >>, {:address,      "@",       [:text, :missing_end_of_string]} },
+        { << l(4), l(2), 1, 0, "@" >>, {:value_length_list, <<4, 2, 1, 0, 64>>, [:list, %{error: {:address, "@", [:text, :missing_end_of_string]}, length: 4, values: [256]}]} },
       ],
 
       encode_errors: [
-        { {"@", -1}, {:integer, -1, [:long, :out_of_range]} },
+        { {"@", -1}, {:list, [-1, "@"], {:integer, -1, [:long, :out_of_range]}} },
       ]
 end
