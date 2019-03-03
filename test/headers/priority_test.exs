@@ -10,8 +10,8 @@ defmodule MMS.PriorityTest do
       ],
 
       decode_errors: [
-        { <<127>>, {:priority, <<127>>, [:short_integer, {:out_of_range, 127}] } },
-        { <<131>>, {:priority, <<131>>, %{out_of_range: 3}} },
+        { <<127>>, {:priority, <<127>>, %{out_of_range: 127}} },
+        { <<131>>, {:priority, <<131>>, %{out_of_range: 131}} },
       ]
 end
 

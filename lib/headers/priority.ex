@@ -8,19 +8,19 @@ defmodule MMS.Priority do
   """
   use MMS.Codec2
   import Codec.Map
-  alias MMS.ShortInteger
+  alias MMS.Byte
 
-  @values [
-    :low,
-    :normal,
-    :high,
-  ]
+  @values %{
+    128 => :low,
+    129 => :normal,
+    130 => :high,
+  }
 
   def decode(bytes) when is_binary(bytes) do
-    bytes |> decode(ShortInteger, @values)
+    bytes |> decode(Byte, @values)
   end
 
   def encode(value) when is_atom(value) do
-    value |> encode(ShortInteger, @values)
+    value |> encode(Byte, @values)
   end
 end
