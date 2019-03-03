@@ -6,12 +6,12 @@ defmodule MMS.ReadStatusTest do
 
       examples: [
         { <<128>>, :read    },
-        { <<129>>, :deleted },
+        { <<129>>, :deleted_without_being_read },
       ],
 
       decode_errors: [
-        { <<127>>, :read_status },
-        { <<130>>, :read_status },
+        { <<127>>, {:read_status, <<127>>, %{out_of_range: 127}} },
+        { <<130>>, {:read_status, <<130>>, %{out_of_range: 130}} },
       ]
 end
 

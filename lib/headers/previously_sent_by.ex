@@ -1,5 +1,4 @@
 defmodule MMS.PreviouslySentBy do
-
   use MMS.Codec2
 
   alias MMS.{ValueLengthList, Integer, Address}
