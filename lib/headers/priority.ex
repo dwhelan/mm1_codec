@@ -10,17 +10,17 @@ defmodule MMS.Priority do
   import Codec.Map
   alias MMS.Byte
 
-  @values %{
+  @map %{
     128 => :low,
     129 => :normal,
     130 => :high,
   }
 
   def decode(bytes) when is_binary(bytes) do
-    bytes |> decode(Byte, @values)
+    bytes |> decode(Byte, @map)
   end
 
   def encode(value) when is_atom(value) do
-    value |> encode(Byte, @values)
+    value |> encode(Byte, @map)
   end
 end

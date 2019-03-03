@@ -10,16 +10,16 @@ defmodule MMS.ReadStatus do
   import Codec.Map
   alias MMS.Byte
 
-  @values %{
+  @map %{
     128 => :read,
     129 => :deleted_without_being_read,
   }
 
   def decode(bytes) when is_binary(bytes) do
-    bytes |> decode(Byte, @values)
+    bytes |> decode(Byte, @map)
   end
 
   def encode(value) when is_atom(value) do
-    value |> encode(Byte, @values)
+    value |> encode(Byte, @map)
   end
 end
