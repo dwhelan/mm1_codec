@@ -39,9 +39,10 @@ defmodule Codec.Map do
             value
             |> f.()
             ~> fn mapped_value ->
-                 cond do
-                   is_module?(mapped_value) -> rest |> mapped_value.decode
-                   true -> decode_ok mapped_value, rest
+                 if is_module?(mapped_value) do
+                   rest |> mapped_value.decode
+                 else
+                   mapped_value |> decode_ok rest
                  end
                end
          end
