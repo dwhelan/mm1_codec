@@ -21,20 +21,6 @@ defmodule MMS.MessageType do
   import Codec.Map
   alias MMS.ShortInteger
 
-  @map with_index [
-    :m_send_req,
-    :m_send_conf,
-    :m_notification_ind,
-    :m_notifyresp_ind,
-    :m_retrieve_conf,
-    :m_acknowledge_ind,
-    :m_delivery_ind,
-    :m_read_rec_ind,
-    :m_read_orig_ind,
-    :m_forward_ind,
-    :m_forward_conf,
-  ]
-
   @values [
     :m_send_req,
     :m_send_conf,
@@ -50,7 +36,7 @@ defmodule MMS.MessageType do
   ]
 
   def decode(bytes) when is_binary(bytes) do
-    bytes |> decode(ShortInteger, @map)
+    bytes |> decode(ShortInteger, @values)
   end
 
   def encode(value) when is_atom(value) do

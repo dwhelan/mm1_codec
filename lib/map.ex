@@ -31,25 +31,6 @@ defmodule Codec.Map do
     |> do_decode(bytes, codec, __CALLER__)
   end
 
-  defp do_decode f, bytes, codec, caller do
-    quote bind_quoted: [f: f, bytes: bytes, codec: codec, module: caller.module] do
-      bytes
-      |> codec.decode
-      ~> fn {value, rest} ->
-            value
-            |> f.()
-            ~> fn result ->
-                 if is_module?(result) do
-                   rest |> result.decode
-                 else
-                   result |> decode_ok rest
-                 end
-               end
-         end
-      ~>> fn details -> error data_type(module), bytes, nest_error(details) end
-    end
-  end
-
   defp to_decode_mapper(f = {atom, _, _}) when atom in [:fn, :&] do
     f
   end
@@ -72,6 +53,25 @@ defmodule Codec.Map do
         ~>> fn nil   -> error %{out_of_range: value} end
         ~>  fn value -> ok value end
       end
+    end
+  end
+
+  defp do_decode f, bytes, codec, caller do
+    quote bind_quoted: [f: f, bytes: bytes, codec: codec, module: caller.module] do
+      bytes
+      |> codec.decode
+      ~> fn {value, rest} ->
+            value
+            |> f.()
+            ~> fn result ->
+                 if is_module?(result) do
+                   rest |> result.decode
+                 else
+                   result |> decode_ok rest
+                 end
+               end
+         end
+      ~>> fn details -> error data_type(module), bytes, nest_error(details) end
     end
   end
 
