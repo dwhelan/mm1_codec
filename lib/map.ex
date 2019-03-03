@@ -54,27 +54,42 @@ defmodule Codec.Map do
   defp is_module?(atom) when is_atom(atom), do: atom |> to_string |> String.starts_with?("Elixir.")
   defp is_module?(_),                       do: false
 
-  defmacro encode(value, codec, f = {atom, _, _}) when atom in [:fn, :&] do
-    do_encode f, value, codec, __CALLER__
+  defmacro encode_function(x) do
+    x
+    |> Macro.expand(__CALLER__)
+    |> to_encode_mapper
   end
 
-  defmacro encode(value, map_codec, map_or_list)  do
-    map_or_list = Macro.expand(map_or_list, __CALLER__)
-    IO.inspect [map: map_or_list]
+  defmacro encode(value, codec, mapper)  do
+    mapper
+    |> Macro.expand(__CALLER__)
+    |> to_encode_mapper
+    |> do_encode value, codec, __CALLER__
+  end
 
-    map = case map_or_list do
-      {:%{}, _, _} -> invert(map_or_list)
-    end
+  defp to_encode_mapper(f = {atom, _, _}) when atom in [:fn, :&] do
+    f
+  end
 
-    f = quote do
+  defp to_encode_mapper(map = {:%{}, _, _}) do
+    map
+    |> invert
+    |> to_function
+  end
+
+  defp to_encode_mapper(list) when is_list(list) do
+    {:%{}, [], Enum.with_index(list)}
+    |> to_function
+  end
+
+  defp to_function map do
+    quote do
       fn value ->
         Map.get(unquote(map), value)
         ~>> fn nil   -> error :out_of_range end
         ~>  fn value -> ok value end
       end
     end
-
-    do_encode(f, value, map_codec, __CALLER__)
   end
 
   defmacro encode(value, map_codec, map, codec)  do
