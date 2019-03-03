@@ -5,13 +5,13 @@ defmodule MMS.SenderVisibilityTest do
       codec: MMS.SenderVisibility,
 
       examples: [
-        { << s(0) >>, :hide },
-        { << s(1) >>, :show },
+        {<<128>>, :hide},
+        {<<129>>, :show},
       ],
 
       decode_errors: [
-        { << s(-1)>>, :sender_visibility },
-        { << s(2)>>,  :sender_visibility },
+        {<<127>>, {:sender_visibility, <<127>>, %{out_of_range: 127}}},
+        {<<130>>, {:sender_visibility, <<130>>, %{out_of_range: 130}}},
       ]
 end
 

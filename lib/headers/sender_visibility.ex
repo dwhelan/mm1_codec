@@ -1,7 +1,21 @@
 defmodule MMS.SenderVisibility do
-  use MMS.Lookup,
-      values: [
-        :hide,
-        :show,
-      ]
+  @moduledoc """
+  OMA-WAP-MMS-ENC-V1_1-20040715-A; 7.2.31 X-Mms-Sender-Visibility field
+  """
+  use MMS.Codec2
+  import Codec.Map
+  alias MMS.Byte
+
+  @map %{
+    128 => :hide,
+    129 => :show,
+  }
+
+  def decode(bytes) when is_binary(bytes) do
+    bytes |> decode(Byte, @map)
+  end
+
+  def encode(value) when is_atom(value) do
+    value |> encode(Byte, @map)
+  end
 end

@@ -1,13 +1,6 @@
 defmodule MMS.ReplyCharging do
   @moduledoc """
   OMA-WAP-MMS-ENC-V1_1-20040715-A; 7.2.22 X-Mms-Reply-Charging field
-
-  Reply-charging-value = Requested | Requested text only | Accepted | Accepted text only
-
-  Requested           = <Octet 128>
-  Requested text only = <Octet 129>
-  Accepted            = <Octet 130>
-  Accepted text only  = <Octet 131>
   """
   use MMS.Codec2
   import Codec.Map
