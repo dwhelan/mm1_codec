@@ -19,7 +19,7 @@ defmodule MMS.ResponseStatusTest do
         {<<136>>, :unsupported_message},
 
         # Transient failures
-        {<<192>>, :transient_failure},
+        {<<192>>, {:transient_failure, :generic}},
         {<<193>>, {:transient_failure, :sending_address_unresolved}},
         {<<194>>, {:transient_failure, :message_not_found}},
         {<<195>>, {:transient_failure, :network_problem}},
