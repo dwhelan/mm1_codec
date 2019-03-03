@@ -5,18 +5,18 @@ defmodule MMS.RetrieveStatusTest do
       codec: MMS.RetrieveStatus,
 
       examples: [
-        { << s( 0) >>, :ok                          },
-        { << s(64) >>, :transient_failure           },
-        { << s(65) >>, :transient_message_not_found },
-        { << s(66) >>, :transient_network_problem   },
-        { << s(96) >>, :permanent_failure           },
-        { << s(97) >>, :permanent_service_denied    },
-        { << s(98) >>, :permanent_message_not_found },
-        { << s(99) >>, :content_unsupported         },
+        { << 128 >>, :ok                          },
+        { << 192 >>, :transient_failure           },
+        { << 193 >>, :transient_message_not_found },
+        { << 194 >>, :transient_network_problem   },
+        { << 224 >>, :permanent_failure           },
+        { << 225 >>, :permanent_service_denied    },
+        { << 226 >>, :permanent_message_not_found },
+        { << 227 >>, :content_unsupported         },
       ],
 
       decode_errors: [
-        { << s(-1) >>,  {:retrieve_status, <<s(-1)>>,  [:short_integer, {:out_of_range, 127}]} },
-        { << s(100) >>, {:retrieve_status, <<s(100)>>, %{out_of_range: 100}} },
+        { << 127 >>, {:retrieve_status, <<127>>, %{out_of_range: 127}} },
+        { << 228 >>, {:retrieve_status, <<228>>, %{out_of_range: 228}} },
       ]
 end
