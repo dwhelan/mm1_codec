@@ -8,15 +8,15 @@ defmodule MMS.ResponseStatusTest do
         {<<128>>, :ok},
 
         # Obsolete failures
-        {<<129>>, {:obsolete, :unspecified}},
-        {<<130>>, {:obsolete, :service_denied}},
-        {<<131>>, {:obsolete, :message_format_corrupt}},
-        {<<132>>, {:obsolete, :sending_address_unresolved}},
-        {<<133>>, {:obsolete, :message_not_found}},
-        {<<134>>, {:obsolete, :network_problem}},
-        {<<135>>, {:obsolete, :content_not_accepted}},
+        {<<129>>, {:permanent_failure, :obsolete_unspecified}},
+        {<<130>>, {:permanent_failure, :obsolete_service_denied}},
+        {<<131>>, {:permanent_failure, :obsolete_message_format_corrupt}},
+        {<<132>>, {:permanent_failure, :obsolete_sending_address_unresolved}},
+        {<<133>>, {:transient_failure, :obsolete_message_not_found}},
+        {<<134>>, {:transient_failure, :obsolete_network_problem}},
+        {<<135>>, {:permanent_failure, :obsolete_content_not_accepted}},
 
-        {<<136>>, :unsupported_message},
+        {<<136>>, {:permanent_failure, :unsupported_message}},
 
         # Transient failures
         {<<192>>, {:transient_failure, :unspecified}},
