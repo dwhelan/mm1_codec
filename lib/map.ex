@@ -54,17 +54,11 @@ defmodule Codec.Map do
   defp is_module?(atom) when is_atom(atom), do: atom |> to_string |> String.starts_with?("Elixir.")
   defp is_module?(_),                       do: false
 
-  defmacro encode_function(x) do
-    x
-    |> Macro.expand(__CALLER__)
-    |> to_encode_mapper
-  end
-
   defmacro encode(value, codec, mapper)  do
     mapper
     |> Macro.expand(__CALLER__)
     |> to_encode_mapper
-    |> do_encode value, codec, __CALLER__
+    |> do_encode(value, codec, __CALLER__)
   end
 
   defp to_encode_mapper(f = {atom, _, _}) when atom in [:fn, :&] do
@@ -74,15 +68,15 @@ defmodule Codec.Map do
   defp to_encode_mapper(map = {:%{}, _, _}) do
     map
     |> invert
-    |> to_function
+    |> get_function
   end
 
   defp to_encode_mapper(list) when is_list(list) do
     {:%{}, [], Enum.with_index(list)}
-    |> to_function
+    |> get_function
   end
 
-  defp to_function map do
+  defp get_function map do
     quote do
       fn value ->
         Map.get(unquote(map), value)

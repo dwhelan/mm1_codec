@@ -35,7 +35,7 @@ defmodule MMS.MessageType do
     :m_forward_conf,
   ]
 
-  @list [
+  @values [
     :m_send_req,
     :m_send_conf,
     :m_notification_ind,
@@ -54,6 +54,6 @@ defmodule MMS.MessageType do
   end
 
   def encode(value) when is_atom(value) do
-    value |> encode(ShortInteger, @map)
+    value |> encode(ShortInteger, @values)
   end
 end
