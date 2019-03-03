@@ -42,7 +42,7 @@ defmodule MMS.RetrieveStatusTest do
         {<<223>>, {:transient_failure, 223}},
 
         # Permanent failures
-        {<<224>>, :permanent_failure},
+        {<<224>>, {:permanent_failure, :generic}},
         {<<225>>, {:permanent_failure, :service_denied}},
         {<<226>>, {:permanent_failure, :message_not_found}},
         {<<227>>, {:permanent_failure, :content_unsupported}},

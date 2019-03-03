@@ -24,7 +24,7 @@ defmodule MMS.RetrieveStatus do
 
     # The values 195 through 223 are reserved for future use to indicate other transient failures.
 
-    224 => :permanent_failure,
+    224 => {:permanent_failure, :generic},
     225 => {:permanent_failure, :service_denied},
     226 => {:permanent_failure, :message_not_found},
     227 => {:permanent_failure, :content_unsupported},
