@@ -41,7 +41,8 @@ defmodule Codec.Map do
   end
 
   defp to_decode_mapper(list) when is_list(list) do
-    {:%{}, [], Enum.with_index(list)}
+    list
+    |> to_map
     |> invert
     |> decode_get
   end
@@ -67,7 +68,7 @@ defmodule Codec.Map do
                  if is_module?(result) do
                    rest |> result.decode
                  else
-                   result |> decode_ok rest
+                   result |> decode_ok(rest)
                  end
                end
          end
@@ -96,7 +97,8 @@ defmodule Codec.Map do
   end
 
   defp to_encode_mapper(list) when is_list(list) do
-    {:%{}, [], Enum.with_index(list)}
+    list
+    |> to_map
     |> encode_get
   end
 
@@ -139,7 +141,8 @@ defmodule Codec.Map do
 
   defp do_encode(f, value, map_codec, caller) do
     quote bind_quoted: [value: value, f: f, map_codec: map_codec, module: caller.module] do
-      f.(value)
+      value
+      |> f.()
       ~>  fn map_value -> map_value |> map_codec.encode end
       ~>> fn details   -> error data_type(module), value, nest_error(details) end
     end
@@ -147,5 +150,9 @@ defmodule Codec.Map do
 
   defp invert {:%{}, context, pairs} do
     {:%{}, context, pairs |> Enum.map(fn {k, v} -> {v, k} end)}
+  end
+
+  defp to_map list do
+    {:%{}, [], Enum.with_index(list)}
   end
 end
