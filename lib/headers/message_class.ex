@@ -1,11 +1,7 @@
 defmodule MMS.MessageClass do
-  use MMS.Either, [MMS.KnownMessageClass, MMS.Text]
-end
-
-defmodule MMS.KnownMessageClass do
   use MMS.Codec2
   import Codec.Map
-  alias MMS.Byte
+  alias MMS.{Byte, Text}
 
   @map %{
     128 => :personal,
@@ -14,11 +10,19 @@ defmodule MMS.KnownMessageClass do
     131 => :auto
   }
 
+  def decode(text = <<char, _::binary>>) when is_char(char) do
+    text |> decode_with(Text)
+  end
+
   def decode(bytes) when is_binary(bytes) do
     bytes |> decode(Byte, @map)
   end
 
-  def encode value do
+  def encode(value) when is_binary(value) do
+    value |> encode_with(Text)
+  end
+
+  def encode(value) when is_atom(value) do
     value |> encode(Byte, @map)
   end
 end

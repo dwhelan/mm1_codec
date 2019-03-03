@@ -13,7 +13,7 @@ defmodule MMS.MessageClassTest do
       ],
 
       decode_errors: [
-        { <<132>>, :message_class },
+        { <<132>>, {:message_class, <<132>>, %{out_of_range: 132}} },
       ]
 end
 
