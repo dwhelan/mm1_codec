@@ -25,34 +25,57 @@ defmodule Codec.Map do
   end
 
   defmacro decode bytes, codec, mapper do
-    quote bind_quoted: [bytes: bytes, mapper: mapper, codec: codec, module: __CALLER__.module] do
+    mapper
+    |> Macro.expand(__CALLER__)
+    |> to_decode_mapper
+    |> do_decode(bytes, codec, __CALLER__)
+  end
+
+  defp do_decode f, bytes, codec, caller do
+    quote bind_quoted: [f: f, bytes: bytes, codec: codec, module: caller.module] do
       bytes
       |> codec.decode
-      ~> fn result -> result |> map_decoded_value(mapper) end
+      ~> fn {value, rest} ->
+            value
+            |> f.()
+            ~> fn mapped_value ->
+                 cond do
+                   is_module?(mapped_value) -> rest |> mapped_value.decode
+                   true -> decode_ok mapped_value, rest
+                 end
+               end
+         end
       ~>> fn details -> error data_type(module), bytes, nest_error(details) end
     end
   end
 
-  def map_decoded_value({value, rest}, f) when is_function(f) do
-    case f.(value) do
-      {:ok, result}       -> decode_ok result, rest
-      error = {:error, _} -> error
-      result              -> decode_ok result, rest
+  defp to_decode_mapper(f = {atom, _, _}) when atom in [:fn, :&] do
+    f
+  end
+
+  defp to_decode_mapper(map = {:%{}, _, _}) do
+    map
+    |> decode_get
+  end
+
+  defp to_decode_mapper(list) when is_list(list) do
+    {:%{}, [], Enum.with_index(list)}
+    |> invert
+    |> decode_get
+  end
+
+  defp decode_get map do
+    quote do
+      fn value ->
+        Map.get(unquote(map), value)
+        ~>> fn nil   -> error %{out_of_range: value} end
+        ~>  fn value -> ok value end
+      end
     end
   end
 
-  def map_decoded_value({value, rest}, map) when is_map(map) do
-    result = Map.get(map, value)
-
-    cond do
-      is_nil(result)     -> error %{out_of_range: value}
-      is_module?(result) -> rest |> result.decode
-      true               -> decode_ok result, rest
-    end
-  end
-
-  defp is_module?(atom) when is_atom(atom), do: atom |> to_string |> String.starts_with?("Elixir.")
-  defp is_module?(_),                       do: false
+  def is_module?(atom) when is_atom(atom), do: atom |> to_string |> String.starts_with?("Elixir.")
+  def is_module?(_),                       do: false
 
   defmacro encode(value, codec, mapper)  do
     mapper
@@ -68,15 +91,15 @@ defmodule Codec.Map do
   defp to_encode_mapper(map = {:%{}, _, _}) do
     map
     |> invert
-    |> get_function
+    |> encode_get
   end
 
   defp to_encode_mapper(list) when is_list(list) do
     {:%{}, [], Enum.with_index(list)}
-    |> get_function
+    |> encode_get
   end
 
-  defp get_function map do
+  defp encode_get map do
     quote do
       fn value ->
         Map.get(unquote(map), value)
