@@ -5,21 +5,21 @@ defmodule MMS.StatusTest do
       codec: MMS.Status,
 
       examples: [
-        { << s(0) >>, :expired       },
-        { << s(1) >>, :retrieved     },
-        { << s(2) >>, :rejected      },
-        { << s(3) >>, :deferred      },
-        { << s(4) >>, :unrecognized  },
-        { << s(5) >>, :indeterminate },
-        { << s(6) >>, :forwarded     },
+        {<<128>>, :expired},
+        {<<129>>, :retrieved},
+        {<<130>>, :rejected},
+        {<<131>>, :deferred},
+        {<<132>>, :unrecognized},
+        {<<133>>, :indeterminate},
+        {<<134>>, :forwarded},
       ],
 
       decode_errors: [
-        { << s(-1) >>, :status },
-        { << s(7)  >>, :status },
+        {<<127>>, {:status, <<127>>, %{out_of_range: 127}}},
+        {<<135>>, {:status, <<135>>, %{out_of_range: 135}}},
       ],
 
       encode_errors: [
-        { :x, :status},
+        {:x, {:status, :x, :out_of_range}},
       ]
 end
