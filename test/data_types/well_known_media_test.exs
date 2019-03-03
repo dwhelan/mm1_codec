@@ -97,7 +97,7 @@ defmodule MMS.WellKnownMediaTest do
       ],
 
       decode_errors: [
-        {<< s(-1) >>, {:well_known_media, << s(-1) >>, [:integer, :long, :short_length, %{out_of_range: 127}]}},
+        {<< s(-1) >>, {:well_known_media, << s(-1) >>, [:short_integer, {:out_of_range, 127}]}},
         {<< s(89) >>, {:well_known_media, << s(89) >>, %{out_of_range: 89}}},
       ],
 
