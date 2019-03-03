@@ -18,48 +18,27 @@ defmodule MMS.RetrieveStatus do
     128 => :ok,
 
     # Transient failures
-    192 => {:transient_failure, :generic},
+    192 => {:transient_failure, :unspecified},
     193 => {:transient_failure, :message_not_found},
     194 => {:transient_failure, :network_problem},
 
     # The values 195 through 223 are reserved for future use to indicate other transient failures.
 
-    224 => {:permanent_failure, :generic},
+    # Permanent failures
+    224 => {:permanent_failure, :unspecified},
     225 => {:permanent_failure, :service_denied},
     226 => {:permanent_failure, :message_not_found},
     227 => {:permanent_failure, :content_unsupported},
-    228 => {:permanent_failure, 228},
-    229 => {:permanent_failure, 229},
-    230 => {:permanent_failure, 230},
-    231 => {:permanent_failure, 231},
-    232 => {:permanent_failure, 232},
-    233 => {:permanent_failure, 233},
-    234 => {:permanent_failure, 234},
-    235 => {:permanent_failure, 235},
-    236 => {:permanent_failure, 236},
-    237 => {:permanent_failure, 237},
-    238 => {:permanent_failure, 238},
-    239 => {:permanent_failure, 239},
-    240 => {:permanent_failure, 240},
-    241 => {:permanent_failure, 241},
-    242 => {:permanent_failure, 242},
-    243 => {:permanent_failure, 243},
-    244 => {:permanent_failure, 244},
-    245 => {:permanent_failure, 245},
-    246 => {:permanent_failure, 246},
-    247 => {:permanent_failure, 247},
-    248 => {:permanent_failure, 248},
-    249 => {:permanent_failure, 249},
-    250 => {:permanent_failure, 250},
-    251 => {:permanent_failure, 251},
-    252 => {:permanent_failure, 252},
-    253 => {:permanent_failure, 253},
-    254 => {:permanent_failure, 254},
-    255 => {:permanent_failure, 255},
+
+    # The values 228 through 255 are reserved for future use to indicate other permanent failures.
   }
 
   def decode(<<status, rest::binary>>) when status in 195..223 do
     decode_ok {:transient_failure, status}, rest
+  end
+
+  def decode(<<status, rest::binary>>) when status in 228..255 do
+    decode_ok {:permanent_failure, status}, rest
   end
 
   def decode bytes do
@@ -67,6 +46,10 @@ defmodule MMS.RetrieveStatus do
   end
 
     def encode({:transient_failure, status}) when status in 195..223 do
+    ok <<status>>
+  end
+
+  def encode({:permanent_failure, status}) when status in 228..255 do
     ok <<status>>
   end
 

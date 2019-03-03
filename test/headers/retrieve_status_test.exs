@@ -8,7 +8,7 @@ defmodule MMS.RetrieveStatusTest do
         {<<128>>, :ok},
 
         # Transient failures
-        {<<192>>, {:transient_failure, :generic}},
+        {<<192>>, {:transient_failure, :unspecified}},
         {<<193>>, {:transient_failure, :message_not_found}},
         {<<194>>, {:transient_failure, :network_problem}},
         {<<195>>, {:transient_failure, 195}},
@@ -42,7 +42,7 @@ defmodule MMS.RetrieveStatusTest do
         {<<223>>, {:transient_failure, 223}},
 
         # Permanent failures
-        {<<224>>, {:permanent_failure, :generic}},
+        {<<224>>, {:permanent_failure, :unspecified}},
         {<<225>>, {:permanent_failure, :service_denied}},
         {<<226>>, {:permanent_failure, :message_not_found}},
         {<<227>>, {:permanent_failure, :content_unsupported}},

@@ -18,7 +18,7 @@ defmodule MMS.ResponseStatus do
     136 => :unsupported_message,
 
     # Transient failures
-    192 => {:transient_failure, :generic},
+    192 => {:transient_failure, :unspecified},
     193 => {:transient_failure, :sending_address_unresolved},
     194 => {:transient_failure, :message_not_found},
     195 => {:transient_failure, :network_problem},
@@ -26,7 +26,7 @@ defmodule MMS.ResponseStatus do
     # The values 196 through 223 are reserved for future use to indicate other transient failures.
 
     # Permanent failures
-    224 => {:permanent_failure, :generic},
+    224 => {:permanent_failure, :unspecified},
     225 => {:permanent_failure, :service_denied},
     226 => {:permanent_failure, :message_format_corrupt},
     227 => {:permanent_failure, :sending_address_unresolved},
