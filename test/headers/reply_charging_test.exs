@@ -12,7 +12,7 @@ defmodule MMS.ReplyChargingTest do
       ],
 
       decode_errors: [
-        { <<127>>, :reply_charging },
-        { <<132>>, :reply_charging },
+        { <<127>>, {:reply_charging, <<127>>, %{out_of_range: 127}} },
+        { <<132>>, {:reply_charging, <<132>>, %{out_of_range: 132}} },
       ]
 end
