@@ -1,5 +1,5 @@
 defmodule MMS.List do
-  use MMS.Codec2
+  use MMS.Codec
 
   def decode(bytes, codecs) when is_binary(bytes) and is_list(codecs) do
     bytes

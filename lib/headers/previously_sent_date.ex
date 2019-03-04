@@ -1,5 +1,5 @@
 defmodule MMS.PreviouslySentDate do
-  use MMS.Codec2
+  use MMS.Codec
 
   alias MMS.{ValueLengthList, Integer, DateValue}
 

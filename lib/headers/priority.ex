@@ -6,7 +6,7 @@ defmodule MMS.Priority do
   Normal = <Octet 129>
   High   = <Octet 130>
   """
-  use MMS.Codec2
+  use MMS.Codec
   import Codec.Map
   alias MMS.Byte
 

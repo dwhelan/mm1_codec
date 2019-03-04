@@ -1,5 +1,5 @@
 defmodule MMS.Media do
-  use MMS.Codec2
+  use MMS.Codec
 
   alias MMS.{Text, WellKnownMedia}
 

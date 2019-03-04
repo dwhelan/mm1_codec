@@ -12,7 +12,7 @@ defmodule MMS.EncodedStringValue do
   [RFC2047] encoding for UTF-8 character- set encoding MAY be supported in the MMS Client and/or MMS Proxy-Relay.
   """
 
-  use MMS.Codec2
+  use MMS.Codec
 
   alias MMS.EncodedStringValue.TextStringWithCharset
   alias MMS.TextString
@@ -34,7 +34,7 @@ defmodule MMS.EncodedStringValue do
   end
 
   defmodule TextStringWithCharset do
-    use MMS.Codec2
+    use MMS.Codec
 
     alias MMS.{ValueLengthList, Charset}
 

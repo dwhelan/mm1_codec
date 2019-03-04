@@ -1,5 +1,5 @@
 defmodule MMS.ValueLength do
-  use MMS.Codec2
+  use MMS.Codec
   import Codec.Map
 
   alias MMS.{ShortLength, Length}

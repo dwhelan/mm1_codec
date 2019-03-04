@@ -6,7 +6,7 @@ defmodule MMS.QuotedString do
 
   <Octet 34> = "
   """
-  use MMS.Codec2
+  use MMS.Codec
 
   alias MMS.Text
 

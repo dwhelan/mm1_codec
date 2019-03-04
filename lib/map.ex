@@ -2,7 +2,7 @@ defmodule Codec.Map do
   import OkError
   import OkError.Operators
   import CodecError
-  use MMS.Codec2
+  use MMS.Codec
 
   defmacro decode bytes, codec, mapper do
     mapper

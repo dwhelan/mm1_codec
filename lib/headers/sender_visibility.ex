@@ -2,7 +2,7 @@ defmodule MMS.SenderVisibility do
   @moduledoc """
   OMA-WAP-MMS-ENC-V1_1-20040715-A; 7.2.31 X-Mms-Sender-Visibility field
   """
-  use MMS.Codec2
+  use MMS.Codec
   import Codec.Map
   alias MMS.Byte
 

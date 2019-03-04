@@ -1,5 +1,5 @@
 defmodule MMS.MessageClass do
-  use MMS.Codec2
+  use MMS.Codec
   import Codec.Map
   alias MMS.{Byte, Text}
 

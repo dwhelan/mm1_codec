@@ -5,7 +5,7 @@ defmodule MMS.Long do
     Long-integer = ShortInteger-length Multi-octet-integer
     The ShortInteger-length indicates the length of the Multi-octet-integer
   """
-  use MMS.Codec2
+  use MMS.Codec
 
   alias MMS.ShortLength
   alias MMS.Long.MultiOctetInteger
@@ -41,7 +41,7 @@ defmodule MMS.Long do
       encoded first (big-endian representation).
       The minimum number of octets must be used to encode the value.
     """
-    use MMS.Codec2
+    use MMS.Codec
 
     @doc "Assumes sufficient bytes"
     def decode({0, bytes}) when is_binary(bytes) do

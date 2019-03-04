@@ -1,5 +1,5 @@
 defmodule MMS.QValue do
-  use MMS.Codec2, error: :q_value
+  use MMS.Codec, error: :q_value
 
   alias MMS.Uint32
   import Codec.Map

@@ -1,5 +1,5 @@
 defmodule MMS.Length do
-  use MMS.Codec2
+  use MMS.Codec
 
   alias MMS.Uint32
 

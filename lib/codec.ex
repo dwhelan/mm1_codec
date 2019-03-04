@@ -1,4 +1,4 @@
-defmodule MMS.Codec2 do
+defmodule MMS.Codec do
   import OkError
   import CodecError
   import OkError.Operators
@@ -60,7 +60,7 @@ defmodule MMS.Codec2 do
       import Monad.Operators
       import OkError
       import OkError.Operators
-      import MMS.Codec2
+      import MMS.Codec
       import CodecError
 
       def decode <<>> do

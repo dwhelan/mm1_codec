@@ -10,7 +10,7 @@ defmodule MMS.RetrieveStatus do
   Accepted text only  = <Octet 131>
   """
 
-  use MMS.Codec2
+  use MMS.Codec
   import Codec.Map
   alias MMS.{Byte}
 

@@ -6,7 +6,7 @@ defmodule MMS.ReadStatus do
   Deleted without being read = <Octet 129>
   """
 
-  use MMS.Codec2
+  use MMS.Codec
   import Codec.Map
   alias MMS.Byte
 

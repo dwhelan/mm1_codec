@@ -1,5 +1,5 @@
 defmodule MMS.Boolean do
-  use MMS.Codec2
+  use MMS.Codec
 
   def decode <<128, rest::binary>> do
     true |> decode_ok(rest)

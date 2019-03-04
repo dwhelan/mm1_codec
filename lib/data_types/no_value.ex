@@ -1,5 +1,5 @@
 defmodule MMS.NoValue do
-  use MMS.Codec2
+  use MMS.Codec
 
   def decode(<<byte, rest::binary>>) when is_no_value_byte(byte) do
     no_value() |> decode_ok(rest)

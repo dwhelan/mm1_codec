@@ -12,7 +12,7 @@ defmodule MMS.VersionInteger do
   If there is only a major version number, this is encoded by placing the value 15 in the four least significant bits.
   If the version to be encoded fits these constraints, a ShortInteger-integer must be used, otherwise a Text-string shall be used.
   """
-  use MMS.Codec2
+  use MMS.Codec
 
   @major_range 0..7
   @minor_range 0..14

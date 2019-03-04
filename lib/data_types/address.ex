@@ -19,7 +19,7 @@ defmodule MMS.Address do
   ipv4 = 1*3DIGIT 3( "." 1*3DIGIT ) ; IPv4 address value
   ipv6 = 4HEXDIG 7( ":" 4HEXDIG ) ; IPv6 address per RFC 2373
   """
-  use MMS.Codec2
+  use MMS.Codec
   import Codec.Map
 
   alias MMS.Text

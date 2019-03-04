@@ -2,7 +2,7 @@ defmodule MMS.ReplyCharging do
   @moduledoc """
   OMA-WAP-MMS-ENC-V1_1-20040715-A; 7.2.22 X-Mms-Reply-Charging field
   """
-  use MMS.Codec2
+  use MMS.Codec
   import Codec.Map
   alias MMS.Byte
 

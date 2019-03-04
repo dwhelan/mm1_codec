@@ -1,5 +1,5 @@
 defmodule MMS.Integer do
-  use MMS.Codec2
+  use MMS.Codec
 
   alias MMS.{ShortInteger, Long}
 

@@ -4,7 +4,7 @@ defmodule MMS.TextValue do
 
   Note: we use Text as for our purposes it is equivalent to Token-text
   """
-  use MMS.Codec2
+  use MMS.Codec
 
   alias MMS.{NoValue, QuotedString, Text}
 

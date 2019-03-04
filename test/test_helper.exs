@@ -32,7 +32,7 @@ defmodule MMS.CodecTest do
 
       import MMS.DataTypes
       import OkError
-      import MMS.Codec2
+      import MMS.Codec
       import MMS.CodecTest
     end
   end

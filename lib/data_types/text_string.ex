@@ -8,7 +8,7 @@ defmodule MMS.TextString do
 
   Quote = <Octet 127>
   """
-  use MMS.Codec2
+  use MMS.Codec
   import Codec.Map
 
   alias MMS.Text

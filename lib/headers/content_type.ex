@@ -1,5 +1,5 @@
 defmodule MMS.ContentType do
-  use MMS.Codec2
+  use MMS.Codec
 
   alias MMS.{ValueLength, Media}
 

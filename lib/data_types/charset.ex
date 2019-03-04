@@ -4,7 +4,7 @@ defmodule MMS.Charset do
 
   The Char-set values are registered by IANA as MIBEnum values.
   """
-  use MMS.Codec2
+  use MMS.Codec
 
   import Codec.Map
   alias MMS.Integer

@@ -10,7 +10,7 @@ defmodule MMS.Text do
 
   @end_of_string <<0>>
 
-  use MMS.Codec2
+  use MMS.Codec
 
   def decode(bytes = <<byte, _::binary>>) when is_text(byte) do
     bytes
