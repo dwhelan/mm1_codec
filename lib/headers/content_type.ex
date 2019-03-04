@@ -4,31 +4,24 @@ defmodule MMS.ContentType do
   alias MMS.{ValueLength, Media}
 
   def decode(bytes = <<media, _::binary>>) when is_short_integer_byte(media) or is_char(media) do
-    bytes |> decode_with(Media)
+    bytes
+    |> decode_with(Media)
   end
 
   def decode(bytes) when is_binary(bytes) do
     bytes
-    |> ValueLength.decode(
-         fn value_bytes ->
-           value_bytes
-           |> Media.decode
-           ~> fn {media, rest} -> ok {{media}, rest} end
-         end
-       )
+    |> ValueLength.decode(Media)
+    ~> fn {media, rest} -> ok {{media}, rest} end
   end
 
   def encode({media}) do
     media
-    |> ValueLength.encode(
-         fn value ->
-           value |> Media.encode
-         end
-       )
+    |> ValueLength.encode(Media)
   end
 
   def encode(media) do
-    media |> encode_with(Media)
+    media
+    |> encode_with(Media)
   end
 end
 

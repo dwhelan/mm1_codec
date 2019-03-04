@@ -26,6 +26,10 @@ defmodule MMS.ValueLength do
     length |> ok
   end
 
+  def decode(bytes, codec) when is_binary(bytes) and is_atom(codec) do
+    bytes |>  __MODULE__.decode(& codec.encode &1)
+  end
+
   def decode(bytes, f) when is_binary(bytes) and is_function(f) do
     bytes
     |>  __MODULE__.decode
@@ -50,6 +54,10 @@ defmodule MMS.ValueLength do
 
   def encode(value) when is_integer(value) do
     value |> encode_with(Length)
+  end
+
+  def encode(value, codec) when is_atom(codec) do
+    value |> encode(& codec.encode &1)
   end
 
   def encode(value, f) when is_function(f) do
