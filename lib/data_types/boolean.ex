@@ -1,23 +1,18 @@
 defmodule MMS.Boolean do
   use MMS.Codec
+  import Codec.Map
+  alias MMS.Byte
 
-  def decode <<128, rest::binary>> do
-    true |> decode_ok(rest)
+  @map %{
+    128 => true,
+    129 => false,
+  }
+
+  def decode bytes do
+    bytes |> decode(Byte, @map)
   end
 
-  def decode <<129, rest::binary>> do
-    false |> decode_ok(rest)
-  end
-
-  def decode bytes = <<value, _::binary>> do
-    bytes |> decode_error(%{out_of_range: value})
-  end
-
-  def encode true do
-    <<128>> |> ok
-  end
-
-  def encode false do
-    <<129>> |> ok
+  def encode value do
+    value |> encode(Byte, @map)
   end
 end
