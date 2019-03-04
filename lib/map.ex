@@ -4,17 +4,6 @@ defmodule Codec.Map do
   import CodecError
   use MMS.Codec2
 
-  def invert_map map do
-    map
-    |> Enum.reduce(
-         %{},
-         fn {k, v}, inverse ->
-           inverse
-           |> Map.put(v, k)
-         end
-       )
-  end
-
   defmacro decode bytes, codec, mapper do
     mapper
     |> Macro.expand(__CALLER__)
@@ -139,8 +128,8 @@ defmodule Codec.Map do
     end
   end
 
-  defp invert {:%{}, context, pairs} do
-    {:%{}, context, pairs |> Enum.map(fn {k, v} -> {v, k} end)}
+  defp invert {:%{}, context, kv_pairs} do
+    {:%{}, context, kv_pairs |> Enum.map(fn {k, v} -> {v, k} end)}
   end
 
   defp to_map list do

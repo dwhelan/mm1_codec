@@ -24,4 +24,3 @@ defmodule MMS.ContentType do
     |> encode_with(Media)
   end
 end
-
