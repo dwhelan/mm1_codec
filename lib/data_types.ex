@@ -16,7 +16,7 @@ defmodule MMS.DataTypes do
   defmacro is_3_digit_q_value(value),   do: value |> in_range?(101..1099)
 
   defmacro is_text(value) do
-    quote do is_end_of_string(unquote value) or is_char(unquote value) end
+    quote do is_char(unquote value) or is_end_of_string(unquote value) end
   end
 
   defmacro is_address(value) do
