@@ -5,7 +5,7 @@ defmodule MMS.WellKnownMedia do
   import Codec.Map
   alias MMS.ShortInteger
 
-  @map with_index [
+  @map [
     "*/*",
     "text/*",
     "text/html",
