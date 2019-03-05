@@ -26,6 +26,8 @@ defmodule MMS.CodecTest do
     ExUnit.Assertions.assert_raise ArgumentError, fn -> Code.eval_string(code) end
   end
 
+  def date_time_0, do: DateTime.from_unix!(0)
+
   defmacro __using__ _ do
     quote do
       use ExUnit.Case

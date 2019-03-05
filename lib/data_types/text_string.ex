@@ -13,27 +13,42 @@ defmodule MMS.TextString do
 
   @quote 127
 
-  def decode(<<@quote, short, _::binary>> = bytes) when is_short_integer_byte(short) do
-    bytes |> decode_as(Text, & String.slice(&1, 1..-1))
+  def decode(bytes = <<@quote, char, _::binary>>) when is_short_integer_byte(char) do
+    bytes
+    |> decode_as(Text, &remove_quote/1)
   end
 
   def decode(bytes = <<@quote, _::binary>>) do
-    bytes |> decode_error(:byte_following_quote_must_be_greater_than_127)
+    bytes
+    |> decode_error(:byte_following_quote_must_be_greater_than_127)
   end
 
   def decode(bytes = <<text, _::binary>>) when is_text(text) and text != @quote do
-    bytes |> decode_as(Text)
+    bytes
+    |> decode_as(Text)
   end
 
-  def decode(bytes) when is_binary(bytes) do
-    bytes |> decode_error(:first_byte_must_be_a_char_or_quote)
+  def decode bytes do
+    bytes
+    |> decode_error(:first_byte_must_be_a_char_or_quote)
   end
 
   def encode(string = <<short, _::binary>>) when is_short_integer_byte(short) do
-    (<<@quote>> <> string) |> encode_as(Text)
+    string
+    |> insert_quote
+    |> encode_as(Text)
   end
 
   def encode(string) when is_binary(string) do
-    string |> encode_as(Text)
+    string
+    |> encode_as(Text)
+  end
+
+  defp remove_quote string do
+    string |> String.slice(1..-1)
+  end
+
+  defp insert_quote string do
+    <<@quote>> <> string
   end
 end

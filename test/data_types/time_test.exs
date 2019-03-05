@@ -8,7 +8,7 @@ defmodule MMS.TimeTest do
       codec: MMS.Time,
 
       examples: [
-        { << l(3), abs, l(1), 0 >>, DateTime.from_unix!(0) }, # short length, absolute
+        { << l(3), abs, l(1), 0 >>, date_time_0() }, # short length, absolute
         { << l(3), rel, l(1), 0 >>, 0                      }, # short length, relative
 
         { <<length_quote(), l(32), rel>> <> max_long_bytes(), max_long() }, # uint32 length, relative
@@ -23,5 +23,6 @@ defmodule MMS.TimeTest do
       ],
 
       encode_errors: [
+#        { },
       ]
 end

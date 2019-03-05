@@ -12,7 +12,11 @@ defmodule MMS.Time do
   def decode(bytes) do
     bytes
     |> ValueLengthList.decode([ShortInteger, Long])
-    ~> fn {result, rest} -> result |> to_time |> decode_ok(rest) end
+    ~> fn {result, rest} ->
+         result
+         |> to_time
+         |> decode_ok(rest)
+       end
     ~>> & bytes |> decode_error(&1)
   end
 
