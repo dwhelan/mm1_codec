@@ -20,7 +20,6 @@ defmodule MMS.Address do
   ipv6 = 4HEXDIG 7( ":" 4HEXDIG ) ; IPv6 address per RFC 2373
   """
   use MMS.Codec
-
   alias MMS.Text
 
   def decode bytes do
@@ -28,8 +27,8 @@ defmodule MMS.Address do
   end
 
 # TODO: remove 'def to_tuple([email]' by having caller use ValueLength.decode rather than ValueLengthList.decode
-  defp to_tuple([email]),        do: {email,  ""  }
-  defp to_tuple(text),           do: text |> split |> to_tuple
+  defp to_tuple([email]), do: {email,  ""  }
+  defp to_tuple(text),    do: text |> split |> to_tuple
 
   defp split(text), do: text |> String.split("/TYPE=")
 
