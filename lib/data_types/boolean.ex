@@ -1,6 +1,5 @@
 defmodule MMS.Boolean do
   use MMS.Codec
-  import Codec.Map
   alias MMS.Byte
 
   @map %{

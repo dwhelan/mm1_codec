@@ -20,7 +20,6 @@ defmodule MMS.Address do
   ipv6 = 4HEXDIG 7( ":" 4HEXDIG ) ; IPv6 address per RFC 2373
   """
   use MMS.Codec
-  import Codec.Map
 
   alias MMS.Text
 

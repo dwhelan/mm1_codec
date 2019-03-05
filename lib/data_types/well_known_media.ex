@@ -1,8 +1,6 @@
 # http://www.openmobilealliance.org/wp/OMNA/wsp/wsp_content_type_codes.html
 defmodule MMS.WellKnownMedia do
   use MMS.Codec
-
-  import Codec.Map
   alias MMS.ShortInteger
 
   @map [

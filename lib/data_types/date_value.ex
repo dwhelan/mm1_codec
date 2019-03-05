@@ -1,7 +1,5 @@
 defmodule MMS.DateValue do
   use MMS.Codec
-  import Codec.Map
-
   alias MMS.Long
 
   def decode bytes do

@@ -1,7 +1,5 @@
 defmodule MMS.ValueLength do
   use MMS.Codec
-  import Codec.Map
-
   alias MMS.{ShortLength, Length}
 
   def decode(bytes = <<short_length, _::binary>>) when is_short_length(short_length) do

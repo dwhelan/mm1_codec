@@ -1,6 +1,5 @@
 defmodule MMS.ResponseStatus do
   use MMS.Codec
-  import Codec.Map
   alias MMS.{Byte}
 
   @map %{

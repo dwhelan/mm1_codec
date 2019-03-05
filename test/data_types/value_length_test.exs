@@ -2,7 +2,8 @@ defmodule MMS.ValueLengthTest do
   use MMS.CodecTest
   alias MMS.CodecTest.{Ok, Error}
 
-  import MMS.ValueLength
+  alias MMS.ValueLength
+  import ValueLength
 
   def max_short_length_value, do: String.duplicate("a", max_short_length())
   def max_short_length_bytes, do: <<max_short_length()>> <> max_short_length_value()
@@ -40,19 +41,19 @@ defmodule MMS.ValueLengthTest do
 
   describe "decode/2" do
     test "when function returns ok" do
-      assert decode(<<1, 42>>, &Ok.decode/1) == ok 42, <<>>
+      assert ValueLength.decode(<<1, 42>>, &Ok.decode/1) == ok 42, <<>>
     end
 
     test "function returns an error" do
-      assert decode(<<1, 42>>, &Error.decode/1) == error :data_type, <<1, 42>>, :reason
+      assert ValueLength.decode(<<1, 42>>, &Error.decode/1) == error :data_type, <<1, 42>>, :reason
     end
 
     test "when incorrect number of bytes consumed" do
-      assert decode(<<0, 42>>, &Ok.decode/1) == error :value_length, <<0, 42>>, %{value_length: 0, bytes_used: 1, value: 42}
+      assert ValueLength.decode(<<0, 42>>, &Ok.decode/1) == error :value_length, <<0, 42>>, %{value_length: 0, bytes_used: 1, value: 42}
     end
 
     test "when insufficient bytes" do
-      assert decode(<<1>>, &Ok.decode/1) == error :value_length, <<1>>, %{available_bytes: 0, short_length: 1}
+      assert ValueLength.decode(<<1>>, &Ok.decode/1) == error :value_length, <<1>>, %{available_bytes: 0, short_length: 1}
     end
   end
 

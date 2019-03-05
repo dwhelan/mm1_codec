@@ -2,7 +2,6 @@ defmodule MMS.QValue do
   use MMS.Codec, error: :q_value
 
   alias MMS.Uint32
-  import Codec.Map
 
   def decode(bytes) when is_binary(bytes) do
     bytes |> decode(Uint32, &to_q_string/1)

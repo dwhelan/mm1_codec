@@ -18,7 +18,6 @@ defmodule MMS.MessageType do
   m-forward-conf     = <Octet 138>
   """
   use MMS.Codec
-  import Codec.Map
   alias MMS.Byte
 
   @map %{

@@ -1,7 +1,5 @@
 defmodule MMS.From do
   use MMS.Codec
-  import Codec.Map
-
   alias MMS.{ValueLength, ShortInteger, Address}
 
   @map %{
