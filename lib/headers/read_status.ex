@@ -14,11 +14,13 @@ defmodule MMS.ReadStatus do
     129 => :deleted_without_being_read,
   }
 
-  def decode(bytes) when is_binary(bytes) do
-    bytes |> decode(Byte, @map)
+  def decode bytes do
+    bytes
+    |> decode_with(Byte, @map)
   end
 
   def encode(value) when is_atom(value) do
-    value |> encode(Byte, @map)
+    value
+    |> encode_with(Byte, @map)
   end
 end

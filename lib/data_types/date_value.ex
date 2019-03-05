@@ -3,10 +3,12 @@ defmodule MMS.DateValue do
   alias MMS.Long
 
   def decode bytes do
-    bytes |> decode(Long, &DateTime.from_unix/1)
+    bytes
+    |> decode_with(Long, &DateTime.from_unix/1)
   end
 
   def encode date_time = %DateTime{} do
-    date_time |> encode(Long, &DateTime.to_unix/1)
+    date_time
+    |> encode_with(Long, &DateTime.to_unix/1)
   end
 end

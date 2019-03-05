@@ -9,7 +9,7 @@ defmodule MMS.ValueLength do
   end
 
   def decode(bytes = <<length_quote, _::binary>>) when is_length_quote(length_quote) do
-    bytes |> decode(Length, &ensure_minimal_encoding/1)
+    bytes |> decode_with(Length, &ensure_minimal_encoding/1)
   end
 
   def decode(bytes) when is_binary(bytes) do
@@ -22,6 +22,14 @@ defmodule MMS.ValueLength do
 
   defp ensure_minimal_encoding length do
     length |> ok
+  end
+
+  def encode(value) when is_short_length(value) do
+    value |> encode_with(ShortLength)
+  end
+
+  def encode(value) when is_integer(value) do
+    value |> encode_with(Length)
   end
 
   def decode(bytes, f) when is_binary(bytes) and is_function(f) do
@@ -42,21 +50,13 @@ defmodule MMS.ValueLength do
        end
   end
 
-  def encode(value) when is_short_length(value) do
-    value |> encode_with(ShortLength)
-  end
-
-  def encode(value) when is_integer(value) do
-    value |> encode_with(Length)
-  end
-
   def encode(value, codec) when is_atom(codec) do
     value |> encode(& codec.encode &1)
   end
 
-  def encode(value, f) when is_function(f) do
+  def encode(value, encoder) when is_function(encoder) do
     value
-    |> f.()
+    |> encoder.()
     ~> fn value_bytes ->
         value_bytes
         |> byte_size

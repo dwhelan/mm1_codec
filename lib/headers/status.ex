@@ -16,10 +16,10 @@ defmodule MMS.Status do
   }
 
   def decode(bytes) when is_binary(bytes) do
-    bytes |> decode(Byte, @map)
+    bytes |> decode_with(Byte, @map)
   end
 
   def encode(value) when is_atom(value) do
-    value |> encode(Byte, @map)
+    value |> encode_with(Byte, @map)
   end
 end

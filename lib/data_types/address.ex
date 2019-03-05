@@ -23,7 +23,7 @@ defmodule MMS.Address do
   alias MMS.Text
 
   def decode bytes do
-    bytes |> decode(Text, &to_tuple/1)
+    bytes |> decode_with(Text, &to_tuple/1)
   end
 
 # TODO: remove 'def to_tuple([email]' by having caller use ValueLength.decode rather than ValueLengthList.decode
@@ -33,7 +33,7 @@ defmodule MMS.Address do
   defp split(text), do: text |> String.split("/TYPE=")
 
   def encode(address) when is_address(address) do
-    address |> encode(Text, &to_text/1)
+    address |> encode_with(Text, &to_text/1)
   end
 
   defp to_text({email,  ""  }), do: email
