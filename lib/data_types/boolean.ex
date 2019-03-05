@@ -12,6 +12,6 @@ defmodule MMS.Boolean do
   end
 
   def encode value do
-    value |> encode_with(Byte, @map)
+    value |> encode_as(Byte, @map)
   end
 end

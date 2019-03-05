@@ -25,15 +25,15 @@ defmodule MMS.TextValue do
   end
 
   def encode(no_value) when is_no_value(no_value) do
-    no_value |> encode_with(NoValue)
+    no_value |> encode_as(NoValue)
   end
 
   def encode(quoted_string = << quote, _::binary >>) when is_quote(quote) do
-    quoted_string |> encode_with(QuotedString)
+    quoted_string |> encode_as(QuotedString)
   end
 
   def encode(text = <<char, _::binary>>) when is_char(char) do
-    text |> encode_with(Text)
+    text |> encode_as(Text)
   end
 
   def encode(string) when is_binary(string) do

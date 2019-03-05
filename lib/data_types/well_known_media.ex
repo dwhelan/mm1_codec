@@ -102,6 +102,6 @@ defmodule MMS.WellKnownMedia do
 
   def encode(value) when is_binary(value) do
     value
-    |> encode_with(ShortInteger, @map)
+    |> encode_as(ShortInteger, @map)
   end
 end

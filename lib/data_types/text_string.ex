@@ -30,10 +30,10 @@ defmodule MMS.TextString do
   end
 
   def encode(string = <<short, _::binary>>) when is_short_integer_byte(short) do
-    (<<@quote>> <> string) |> encode_with(Text)
+    (<<@quote>> <> string) |> encode_as(Text)
   end
 
   def encode(string) when is_binary(string) do
-    string |> encode_with(Text)
+    string |> encode_as(Text)
   end
 end

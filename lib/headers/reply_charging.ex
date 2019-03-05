@@ -19,6 +19,6 @@ defmodule MMS.ReplyCharging do
 
   def encode(value) when is_atom(value) do
     value
-    |> encode_with(Byte, @map)
+    |> encode_as(Byte, @map)
   end
 end

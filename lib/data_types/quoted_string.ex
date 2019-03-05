@@ -19,7 +19,7 @@ defmodule MMS.QuotedString do
   end
 
   def encode(string = << quote, _::binary >>) when is_quote(quote) do
-    string |> encode_with(Text)
+    string |> encode_as(Text)
   end
 
   def encode(string) when is_binary(string) do

@@ -17,7 +17,7 @@ defmodule MMS.From do
   def encode(from) when is_address(from) or from == :insert_address_token do
     from
     |> ValueLength.encode(
-         fn value -> value |> encode_with(ShortInteger, @map, Address) |> IO.inspect end
+         fn value -> value |> encode_as(ShortInteger, @map, Address) |> IO.inspect end
        )
   end
 end

@@ -65,7 +65,7 @@ defmodule MMS.Codec do
   def is_module?(atom) when is_atom(atom), do: atom |> to_string |> String.starts_with?("Elixir.")
   def is_module?(_),                       do: false
 
-  defmacro encode_with(value, codec, mapper)  do
+  defmacro encode_as(value, codec, mapper)  do
     mapper
     |> Macro.expand(__CALLER__)
     |> to_encode_mapper
@@ -98,7 +98,7 @@ defmodule MMS.Codec do
     end
   end
 
-  defmacro encode_with(value, map_codec, map, codec)  do
+  defmacro encode_as(value, map_codec, map, codec)  do
     map_codec = Macro.expand(map_codec, __CALLER__)
     codec = Macro.expand(codec, __CALLER__)
     map = map |> Macro.expand(__CALLER__) |> invert
@@ -185,7 +185,7 @@ defmodule MMS.Codec do
     quote do & error data_type(unquote codec), unquote(input), nest_error(&1) end
   end
 
-  defmacro encode_with value, codec do
+  defmacro encode_as value, codec do
     data_type = data_type( __CALLER__.module)
     quote do
       Kernel.apply(unquote(codec), :encode, [unquote(value)])

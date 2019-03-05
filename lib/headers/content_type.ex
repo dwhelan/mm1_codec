@@ -21,6 +21,6 @@ defmodule MMS.ContentType do
 
   def encode(media) do
     media
-    |> encode_with(Media)
+    |> encode_as(Media)
   end
 end

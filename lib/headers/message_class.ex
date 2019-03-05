@@ -18,10 +18,10 @@ defmodule MMS.MessageClass do
   end
 
   def encode(value) when is_binary(value) do
-    value |> encode_with(Text)
+    value |> encode_as(Text)
   end
 
   def encode(value) when is_atom(value) do
-    value |> encode_with(Byte, @map)
+    value |> encode_as(Byte, @map)
   end
 end

@@ -19,10 +19,10 @@ defmodule MMS.Version do
   end
 
   def encode(string) when is_binary(string) do
-    string |> encode_with(Text)
+    string |> encode_as(Text)
   end
 
   def encode(value) do
-    value |> encode_with(VersionInteger)
+    value |> encode_as(VersionInteger)
   end
 end

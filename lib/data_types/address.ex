@@ -33,7 +33,7 @@ defmodule MMS.Address do
   defp split(text), do: text |> String.split("/TYPE=")
 
   def encode(address) when is_address(address) do
-    address |> encode_with(Text, &to_text/1)
+    address |> encode_as(Text, &to_text/1)
   end
 
   defp to_text({email,  ""  }), do: email

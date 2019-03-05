@@ -26,11 +26,11 @@ defmodule MMS.EncodedStringValue do
   end
 
   def encode(text) when is_binary(text) do
-    text |> encode_with(TextString)
+    text |> encode_as(TextString)
   end
 
   def encode({text, charset}) when is_binary(text) do
-    {text, charset} |> encode_with(TextStringWithCharset)
+    {text, charset} |> encode_as(TextStringWithCharset)
   end
 
   defmodule TextStringWithCharset do

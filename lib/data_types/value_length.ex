@@ -25,11 +25,11 @@ defmodule MMS.ValueLength do
   end
 
   def encode(value) when is_short_length(value) do
-    value |> encode_with(ShortLength)
+    value |> encode_as(ShortLength)
   end
 
   def encode(value) when is_integer(value) do
-    value |> encode_with(Length)
+    value |> encode_as(Length)
   end
 
   def decode(bytes, f) when is_binary(bytes) and is_function(f) do

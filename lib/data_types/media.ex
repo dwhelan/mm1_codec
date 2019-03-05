@@ -13,7 +13,7 @@ defmodule MMS.Media do
 
   def encode(string) when is_binary(string) do
     string
-    |> encode_with(WellKnownMedia)
-    ~>> fn _ -> string |> encode_with(Text) end
+    |> encode_as(WellKnownMedia)
+    ~>> fn _ -> string |> encode_as(Text) end
   end
 end

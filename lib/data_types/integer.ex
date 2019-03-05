@@ -12,10 +12,10 @@ defmodule MMS.Integer do
   end
 
   def encode(value) when is_short_integer(value) do
-    value |> encode_with(ShortInteger)
+    value |> encode_as(ShortInteger)
   end
 
   def encode(value) when is_integer(value) do
-    value |> encode_with(Long)
+    value |> encode_as(Long)
   end
 end
