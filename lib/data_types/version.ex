@@ -11,11 +11,11 @@ defmodule MMS.Version do
   alias MMS.{VersionInteger, Text}
 
   def decode(bytes = <<char, _::binary>>) when is_char(char) do
-    bytes |> decode_with(Text)
+    bytes |> decode_as(Text)
   end
 
   def decode(bytes) when is_binary(bytes) do
-    bytes |> decode_with(VersionInteger)
+    bytes |> decode_as(VersionInteger)
   end
 
   def encode(string) when is_binary(string) do

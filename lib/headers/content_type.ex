@@ -5,7 +5,7 @@ defmodule MMS.ContentType do
 
   def decode(bytes = <<media, _::binary>>) when is_short_integer_byte(media) or is_char(media) do
     bytes
-    |> decode_with(Media)
+    |> decode_as(Media)
   end
 
   def decode(bytes) when is_binary(bytes) do

@@ -10,11 +10,11 @@ defmodule MMS.MessageClass do
   }
 
   def decode(text = <<char, _::binary>>) when is_char(char) do
-    text |> decode_with(Text)
+    text |> decode_as(Text)
   end
 
   def decode(bytes) when is_binary(bytes) do
-    bytes |> decode_with(Byte, @map)
+    bytes |> decode_as(Byte, @map)
   end
 
   def encode(value) when is_binary(value) do

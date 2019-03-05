@@ -11,7 +11,7 @@ defmodule MMS.SenderVisibility do
   }
 
   def decode(bytes) when is_binary(bytes) do
-    bytes |> decode_with(Byte, @map)
+    bytes |> decode_as(Byte, @map)
   end
 
   def encode(value) when is_atom(value) do

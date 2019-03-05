@@ -11,7 +11,7 @@ defmodule MMS.QuotedString do
   alias MMS.Text
 
   def decode(bytes = << quote, _::binary >>) when is_quote(quote) do
-    bytes |> decode_with(Text)
+    bytes |> decode_as(Text)
   end
 
   def decode(bytes) when is_binary(bytes) do

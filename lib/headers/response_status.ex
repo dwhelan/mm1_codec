@@ -48,7 +48,7 @@ defmodule MMS.ResponseStatus do
   end
 
   def decode bytes do
-    bytes |> decode_with(Byte, @map)
+    bytes |> decode_as(Byte, @map)
   end
 
   def encode({:transient_failure, status}) when status in 196..223 do

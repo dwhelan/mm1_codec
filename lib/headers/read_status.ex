@@ -16,7 +16,7 @@ defmodule MMS.ReadStatus do
 
   def decode bytes do
     bytes
-    |> decode_with(Byte, @map)
+    |> decode_as(Byte, @map)
   end
 
   def encode(value) when is_atom(value) do

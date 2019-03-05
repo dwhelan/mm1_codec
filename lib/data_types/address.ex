@@ -23,7 +23,7 @@ defmodule MMS.Address do
   alias MMS.Text
 
   def decode bytes do
-    bytes |> decode_with(Text, &to_tuple/1)
+    bytes |> decode_as(Text, &to_tuple/1)
   end
 
 # TODO: remove 'def to_tuple([email]' by having caller use ValueLength.decode rather than ValueLengthList.decode

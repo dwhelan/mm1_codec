@@ -6,11 +6,11 @@ defmodule MMS.Codec do
     quote do & &1 end
   end
 
-  defmacro decode_with bytes, codec do
+  defmacro decode_as bytes, codec do
     do_decode identity(), bytes, codec, __CALLER__
   end
 
-  defmacro decode_with bytes, codec, mapper do
+  defmacro decode_as bytes, codec, mapper do
     mapper
     |> Macro.expand(__CALLER__)
     |> to_decode_mapper
@@ -162,7 +162,7 @@ defmodule MMS.Codec do
     reason
   end
 
-  defmacro decode_with bytes, codec, opts \\ [] do
+  defmacro decode_as bytes, codec, opts \\ [] do
     ok = opts[:ok] || identity()
     error = case opts[:nest_errors] do
       false -> identity()

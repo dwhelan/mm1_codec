@@ -14,7 +14,7 @@ defmodule MMS.TextString do
   @quote 127
 
   def decode(<<@quote, short, _::binary>> = bytes) when is_short_integer_byte(short) do
-    bytes |> decode_with(Text, & String.slice(&1, 1..-1))
+    bytes |> decode_as(Text, & String.slice(&1, 1..-1))
   end
 
   def decode(bytes = <<@quote, _::binary>>) do
@@ -22,7 +22,7 @@ defmodule MMS.TextString do
   end
 
   def decode(bytes = <<text, _::binary>>) when is_text(text) and text != @quote do
-    bytes |> decode_with(Text)
+    bytes |> decode_as(Text)
   end
 
   def decode(bytes) when is_binary(bytes) do

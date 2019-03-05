@@ -8,7 +8,7 @@ defmodule MMS.Boolean do
   }
 
   def decode bytes do
-    bytes |> decode_with(Byte, @map)
+    bytes |> decode_as(Byte, @map)
   end
 
   def encode value do

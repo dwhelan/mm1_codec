@@ -9,15 +9,15 @@ defmodule MMS.TextValue do
   alias MMS.{NoValue, QuotedString, Text}
 
   def decode(no_value = <<byte, _::binary>>) when is_no_value_byte(byte) do
-    no_value |> decode_with(NoValue)
+    no_value |> decode_as(NoValue)
   end
 
   def decode(quoted_string = <<quote, _::binary >>) when is_quote(quote) do
-    quoted_string |> decode_with(QuotedString)
+    quoted_string |> decode_as(QuotedString)
   end
 
   def decode(text = <<char, _::binary>>) when is_char(char) do
-    text |> decode_with(Text)
+    text |> decode_as(Text)
   end
 
   def decode(bytes) when is_binary(bytes) do
