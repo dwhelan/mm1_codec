@@ -14,39 +14,28 @@ defmodule MMS.EncodedStringValue do
 
   use MMS.Codec
 
-  alias MMS.EncodedStringValue.TextStringWithCharset
-  alias MMS.TextString
+  alias MMS.{TextString, Charset, ValueLengthList}
 
   def decode(<<byte, _::binary>> = bytes) when is_text(byte) do
-    bytes |> decode_as(TextString)
+    bytes
+    |> decode_as(TextString)
   end
 
   def decode(bytes) when is_binary(bytes) do
-    bytes |> decode_as(TextStringWithCharset)
+    bytes
+    |> ValueLengthList.decode([Charset, TextString])
+    ~> fn {[charset, text], rest} -> {text, charset} |> decode_ok(rest) end
+    ~>> & decode_error(bytes, &1)
   end
 
   def encode(text) when is_binary(text) do
-    text |> encode_as(TextString)
+    text
+    |> encode_as(TextString)
   end
 
   def encode({text, charset}) when is_binary(text) do
-    {text, charset} |> encode_as(TextStringWithCharset)
-  end
-
-  defmodule TextStringWithCharset do
-    use MMS.Codec
-
-    alias MMS.{ValueLengthList, Charset}
-
-    def decode bytes do
-      bytes
-      |> ValueLengthList.decode([Charset, TextString])
-      ~> fn {[charset, text], rest} -> {text, charset} |> decode_ok(rest) end
-    end
-
-    def encode {text, charset} do
-      [charset, text] |> ValueLengthList.encode([Charset, TextString])
-    end
+    [charset, text]
+    |> ValueLengthList.encode([Charset, TextString])
+    ~>> & decode_error({text, charset}, &1)
   end
 end
-
