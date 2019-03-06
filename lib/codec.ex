@@ -17,6 +17,21 @@ defmodule MMS.Codec do
     |> do_decode(bytes, codec, __CALLER__)
   end
 
+  defmacro decode_as bytes, codec, opts \\ [] do
+    ok = opts[:ok] || identity()
+    error = case opts[:nest_errors] do
+      false -> identity()
+      _     -> nested_error(__CALLER__.module, bytes)
+    end
+
+    quote do
+      unquote(bytes)
+      |> unquote(codec).decode
+      ~> unquote(ok)
+      ~>> unquote(error)
+    end
+  end
+
   defp to_decode_mapper(f = {atom, _, _}) when atom in [:fn, :&] do
     f
   end
@@ -36,7 +51,7 @@ defmodule MMS.Codec do
   defp decode_get map do
     quote do
       fn value ->
-        Map.get(unquote(map), value)
+        unquote(map)[value]
         ~>> fn nil   -> error %{out_of_range: value} end
         ~>  fn value -> ok value end
       end
@@ -160,21 +175,6 @@ defmodule MMS.Codec do
 
   def nest_error reason do
     reason
-  end
-
-  defmacro decode_as bytes, codec, opts \\ [] do
-    ok = opts[:ok] || identity()
-    error = case opts[:nest_errors] do
-      false -> identity()
-      _     -> nested_error(__CALLER__.module, bytes)
-    end
-
-    quote do
-      unquote(bytes)
-      |> unquote(codec).decode
-      ~> unquote(ok)
-      ~>> unquote(error)
-    end
   end
 
   defp identity do

@@ -1,5 +1,38 @@
+Why Phases?
+ - provides focus with a target date
+ - to address top risks
+ - which allows us" to build, learn and adapt
+ - which allows us to defer design decisions
 
-Phase 0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Phase 0 ~ March
 A functional MM1/MO "shock absorber" working in a development environment.
 
 Our goals are:
@@ -11,7 +44,29 @@ Our goals are:
  - solidify a backlog for staging and production phases
 
 
-Phase 1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Phase 1 ~ April
 A functional MM1/MO "shock absorber" working in a staging environment.
 
 Our goals are:
@@ -23,7 +78,29 @@ Our goals are:
  - security
 
 
-Phase 2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Phase 2 ~ May
 A functional MM1/MO "shock absorber" working in a production environment.
 
 Our goals are:
@@ -32,5 +109,26 @@ Outcome
  - shock absorber released to production as a canary release with controlled volumes from < 1% to 100% of MO traffic
  - learn how to deploy an event bus in production
  - learn how to operationalize an event based system
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
