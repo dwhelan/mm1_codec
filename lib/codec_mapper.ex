@@ -15,7 +15,8 @@ defmodule MMS.CodecMapper do
       @error       opts[:error]
 
       def decode bytes do
-        do_decode bytes, []
+        bytes
+        |> do_decode([])
       end
 
       defp do_decode(<<byte, bytes:: binary>>, codecs) when byte in @codec_bytes do
@@ -34,7 +35,8 @@ defmodule MMS.CodecMapper do
       end
 
       def encode values do
-        do_encode values, []
+        values
+        |> do_encode([])
       end
 
       @encode_map @decode |> Enum.reduce(%{}, fn {byte, {module, codec}}, map -> Map.put(map, module, {byte, codec}) end)
