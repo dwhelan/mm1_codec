@@ -5,8 +5,8 @@ defmodule MMS.BooleanTest do
       codec: MMS.Boolean,
 
       examples: [
-        { << s(0) >>, true  },
-        { << s(1) >>, false },
+        { << 128 >>, true  },
+        { << 129 >>, false },
       ],
 
       decode_errors: [

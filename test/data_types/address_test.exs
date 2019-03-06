@@ -4,7 +4,7 @@ defmodule MMS.AddressTest do
     use MMS.TestExamples,
       codec: MMS.Address,
 
-      eaamples: [
+      examples: [
         { "email@address\0",             {"email@address", ""} },
         { "1234567890/TYPE=PLMN\0",      {"1234567890",    "PLMN"} },
         { "0.0.0.0/TYPE=IPv4\0",         {"0.0.0.0",       "IPv4"} },

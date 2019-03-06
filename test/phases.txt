@@ -1,0 +1,36 @@
+
+Phase 0
+A functional MM1/MO "shock absorber" working in a development environment.
+
+Our goals are:
+ - to build a functional tap with a Kafka message bus to absorb peaks in load.
+ - to build effective tests for the system
+ - to gain insights into how to build and test event-based systems
+ - to build a CI pipeline
+ - to share learnings across UC
+ - solidify a backlog for staging and production phases
+
+
+Phase 1
+A functional MM1/MO "shock absorber" working in a staging environment.
+
+Our goals are:
+ - build and deploy a working shock absorber into a production like environment
+ - extend CI pipeline to be a CI/CD pipeline
+ - use Docker containers for ease of build and deployment
+ - health monitoring
+ - support functionality (logs)
+ - security
+
+
+Phase 2
+A functional MM1/MO "shock absorber" working in a production environment.
+
+Our goals are:
+
+Outcome
+ - shock absorber released to production as a canary release with controlled volumes from < 1% to 100% of MO traffic
+ - learn how to deploy an event bus in production
+ - learn how to operationalize an event based system
+
+

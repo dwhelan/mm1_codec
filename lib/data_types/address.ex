@@ -23,17 +23,22 @@ defmodule MMS.Address do
   alias MMS.Text
 
   def decode bytes do
-    bytes |> decode_as(Text, &to_tuple/1)
+    bytes
+    |> decode_as(Text, &parse/1)
   end
 
-# TODO: remove 'def to_tuple([email]' by having caller use ValueLength.decode rather than ValueLengthList.decode
-  defp to_tuple([email]), do: {email,  ""  }
-  defp to_tuple(text),    do: text |> split |> to_tuple
+  defp parse(text) do
+    text
+    |> String.split("/TYPE=")
+    |> to_tuple
+  end
 
-  defp split(text), do: text |> String.split("/TYPE=")
+  defp to_tuple([email]),        do: {email,  ""   }
+  defp to_tuple([device, type]), do: {device, type }
 
   def encode(address) when is_address(address) do
-    address |> encode_as(Text, &to_text/1)
+    address
+    |> encode_as(Text, &to_text/1)
   end
 
   defp to_text({email,  ""  }), do: email
