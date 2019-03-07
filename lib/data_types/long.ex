@@ -45,7 +45,7 @@ defmodule MMS.Long do
 
     @doc "Assumes sufficient bytes"
     def decode({0, bytes}) when is_binary(bytes) do
-      bytes |> error(:must_have_at_least_one_data_byte)
+      bytes |> decode_error(:must_have_at_least_one_data_byte)
     end
 
     def decode({length, bytes}) when is_short_length(length) do

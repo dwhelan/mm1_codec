@@ -184,11 +184,6 @@ defmodule MMS.Codec do
         error {data_type(), <<>>, :no_bytes}
       end
 
-      @deprecate "Use decode_error/2 or encode_error/2"
-      defp error input, details do
-        error data_type(), input, nest_error(details)
-      end
-
       defp decode_error input, details do
         error data_type(), input, nest_error(details)
       end

@@ -5,7 +5,7 @@ defmodule MMS.ValueLength do
   def decode(bytes = <<short_length, _::binary>>) when is_short_length(short_length) do
     bytes
     |> ShortLength.decode
-    ~>> fn {_, _, reason} -> error bytes, reason end
+    ~>> fn {_, _, reason} -> decode_error bytes, reason end
   end
 
   def decode(bytes = <<length_quote, _::binary>>) when is_length_quote(length_quote) do
@@ -44,7 +44,7 @@ defmodule MMS.ValueLength do
             if bytes_used == value_length do
               decode_ok value, rest
             else
-              error bytes, %{bytes_used: bytes_used, value_length: value_length, value: value}
+              decode_error bytes, %{bytes_used: bytes_used, value_length: value_length, value: value}
             end
            end
        end
