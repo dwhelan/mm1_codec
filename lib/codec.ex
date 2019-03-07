@@ -2,9 +2,6 @@ defmodule MMS.Codec do
   import OkError
   import CodecError
   import OkError.Operators
-  defp identity do
-    quote do & &1 end
-  end
 
   defmacro decode_as bytes, codec do
     do_decode identity(), bytes, codec, __CALLER__
@@ -15,21 +12,6 @@ defmodule MMS.Codec do
     |> Macro.expand(__CALLER__)
     |> to_decode_mapper
     |> do_decode(bytes, codec, __CALLER__)
-  end
-
-  defmacro decode_as bytes, codec, opts \\ [] do
-    ok = opts[:ok] || identity()
-    error = case opts[:nest_errors] do
-      false -> identity()
-      _     -> nested_error(__CALLER__.module, bytes)
-    end
-
-    quote do
-      unquote(bytes)
-      |> unquote(codec).decode
-      ~> unquote(ok)
-      ~>> unquote(error)
-    end
   end
 
   defp to_decode_mapper(f = {atom, _, _}) when atom in [:fn, :&] do
@@ -179,10 +161,6 @@ defmodule MMS.Codec do
 
   defp identity do
     quote do & &1 end
-  end
-
-  defp nested_error codec, input do
-    quote do & error data_type(unquote codec), unquote(input), nest_error(&1) end
   end
 
   defmacro encode_as value, codec do

@@ -3,7 +3,7 @@ defmodule MMS.WellKnownMedia do
   use MMS.Codec
   alias MMS.ShortInteger
 
-  @map [
+  @values [
     "*/*",
     "text/*",
     "text/html",
@@ -97,11 +97,11 @@ defmodule MMS.WellKnownMedia do
 
   def decode(bytes) when is_binary(bytes) do
     bytes
-    |> decode_as(ShortInteger, @map)
+    |> decode_as(ShortInteger, @values)
   end
 
   def encode(value) when is_binary(value) do
     value
-    |> encode_as(ShortInteger, @map)
+    |> encode_as(ShortInteger, @values)
   end
 end

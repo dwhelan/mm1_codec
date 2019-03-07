@@ -2,6 +2,10 @@ defmodule MMS.Boolean do
   use MMS.Codec
   alias MMS.Byte
 
+  [
+    { 128, true},
+    { 129, false}
+  ]
   @map %{
     128 => true,
     129 => false,
