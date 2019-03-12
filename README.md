@@ -16,7 +16,6 @@ end
 
 # Specifications
 
-
 # Codec functions
 
 ## decode
@@ -39,13 +38,13 @@ If the input cannot be decoded:
 
 ## encode(Result) -> binary
 
-# Base decoder     
-If you `use MM1.Base` in your    module many of the responsibilites of the Codec functions will be provided:
-- your module's `decode/1` function is guaranteed to be passed a non-zero length `binary`.
-
 # Documentation
 
 Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
 be found at [https://hexdocs.pm/mm1_codec](https://hexdocs.pm/mm1_codec).
 
+# To do
+- implement Token-text as per RFC2616
+- refactor CodecMapper to use core decode functions
+- consolidate CoderError into Codec
