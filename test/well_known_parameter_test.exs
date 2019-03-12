@@ -1,10 +1,10 @@
 defmodule MMS.KnownParameterTest do
   use MMS.CodecTest
 
-  alias MMS.KnownParameter
+  alias MMS.WellKnownParameter
 
   use MMS.TestExamples,
-      codec: KnownParameter,
+      codec: WellKnownParameter,
       examples: [
         # Input bytes              Parameter              Value
         { << s(0),  1          >>, q:                     "00"          },
@@ -46,6 +46,6 @@ defmodule MMS.KnownParameterTest do
       ]
 
   test "decode should terminate when an unmapped parameter byte is found" do
-    assert KnownParameter.decode(<<"rest">>) == {:ok, {[], "rest"}}
+    assert WellKnownParameter.decode(<<"rest">>) == {:ok, {[], "rest"}}
   end
 end
