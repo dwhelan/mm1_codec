@@ -1,4 +1,4 @@
-defmodule MMS.WellKnownParameter do
+defmodule MMS.TypedParameter do
   # Based on WAP-230-WSP-20010705-a: Table 38. Well-Known Parameter Assignments
 
   alias MMS.{Charset, DateValue, Integer, Media, NoValue, QValue, ShortInteger, TextString, TextValue, Version}
