@@ -19,6 +19,10 @@ defmodule MMS.ListTest do
       assert List.decode(@bytes, [Ok, Ok]) == ok [1, 2], <<"rest">>
     end
 
+    test "return a tuple if codecs are a tuple" do
+      assert List.decode(@bytes, {Ok, Ok}) == ok {1, 2}, <<"rest">>
+    end
+
     test "return an error if it occurs on first function" do
       assert List.decode(@bytes, [Error, Ok]) == error :list, @bytes, %{error: {:data_type, @bytes, :reason}, values: []}
     end
