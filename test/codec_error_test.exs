@@ -3,14 +3,21 @@ defmodule CodecErrorTest do
 
   import CodecError
 
-  describe "error name(module) macro should" do
-    test "prepend 'invalid_' to module name" do
-      assert data_type(ABC) == :abc
+  describe "data_type/1 should" do
+    test "convert all upper case letters to lower case" do
+      assert data_type(A)     == :a
+      assert data_type(AB)    == :ab
+      assert data_type(ABC)   == :abc
     end
 
-    test "default to caller module" do
-      assert data_type() == :codec_error_test
+    test "should combine an uppercase with following characters until the next uppercase is found" do
+      assert data_type(Ab1C2) == :ab1_c2
+      assert data_type(AB1C2) == :ab1_c2
     end
+  end
+
+  test "data_type/0 should use caller module" do
+    assert data_type() == :codec_error_test
   end
 
   describe "module_error/0" do
