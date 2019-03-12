@@ -6,6 +6,7 @@ defmodule MMS.UntypedParameterTest do
 
       examples: [
         {<<"name\0", "value\0">>, {"name", "value"}},
+        {<<"name\0", s(0)>>,      {"name", 0      }},
       ],
 
       decode_errors: [

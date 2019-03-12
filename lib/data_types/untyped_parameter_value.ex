@@ -7,11 +7,11 @@ defmodule MMS.UntypedParameter do
 
   use MMS.Codec
 
-  alias MMS.{TextString, List}
+  alias MMS.{TextString, List, UntypedValue}
 
   def decode(bytes) do
     bytes
-    |> List.decode([TextString, TextString])
+    |> List.decode([TextString, UntypedValue])
     ~> fn {[name, value], rest} ->
         decode_ok {name, value}, rest
        end
@@ -19,6 +19,6 @@ defmodule MMS.UntypedParameter do
 
   def encode({name, value}) do
     [name, value]
-    |> List.encode([TextString, TextString])
+    |> List.encode([TextString, UntypedValue])
   end
 end
