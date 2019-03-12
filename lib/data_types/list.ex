@@ -28,6 +28,14 @@ defmodule MMS.List do
     ok <<>>
   end
 
+  def encode(values, codecs) when is_tuple(values) and is_tuple(codecs) do
+    values
+    |> Tuple.to_list
+    |> Enum.zip(Tuple.to_list codecs)
+    |> do_encode([])
+    ~>> fn details -> error data_type(), values, details end
+  end
+
   def encode(values, codecs) when is_list(values) and is_list(codecs) do
     values
     |> Enum.zip(codecs)
