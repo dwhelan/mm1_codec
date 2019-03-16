@@ -1,5 +1,6 @@
 defmodule MMS.EncodedStringValue do
   @moduledoc """
+  Specification: OMA-WAP-MMS-ENC-V1_1-20040715-A, OMA-WAP-MMS-ENC-V1_1-20040715-A
 
   Encoded-string-value = Text-string | Value-length Char-set Text-string
 
