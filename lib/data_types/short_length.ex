@@ -1,4 +1,9 @@
 defmodule MMS.ShortLength do
+  @moduledoc """
+  8.4.2.2 Length
+
+  Short-length = <Any octet 0-30>
+  """
   use MMS.Codec
 
   def decode(<<length, rest::binary>>) when is_short_length(length) and length <= byte_size(rest) do

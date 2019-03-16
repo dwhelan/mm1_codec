@@ -5,11 +5,15 @@ defmodule MMS.LongInteger do
   Long-integer = Short-length Multi-octet-integer
 
   The Short-length indicates the length of the Multi-octet-integer
+
+  Multi-octet-integer = 1*30 OCTET
+  The content octets shall be an unsigned integer value with the most significant octet
+  encoded first (big-endian representation).
+  The minimum number of octets must be used to encode the value.
   """
   use MMS.Codec
 
   alias MMS.ShortLength
-  alias MMS.LongInteger.MultiOctetInteger
 
   def decode(bytes) when is_binary(bytes) do
     bytes
@@ -33,7 +37,7 @@ defmodule MMS.LongInteger do
 
   def encode(value) when is_long(value) do
     value
-    |> MultiOctetInteger.encode
+    |> :binary.encode_unsigned
     ~> fn value_bytes ->
          value_bytes
          |> byte_size
@@ -43,37 +47,7 @@ defmodule MMS.LongInteger do
   end
 
   def encode value do
-    value |> encode_error(:out_of_range)
-  end
-
-  defmodule MultiOctetInteger do
-    @moduledoc """
-      Specification: WAP-230-WSP-20010705-a, 8.4.2.1 Basic rules
-
-      Multi-octet-integer = 1*30 OCTET
-      The content octets shall be an unsigned integer value with the most significant octet
-      encoded first (big-endian representation).
-      The minimum number of octets must be used to encode the value.
-    """
-    use MMS.Codec
-
-    @doc "Assumes sufficient bytes"
-    def decode({0, bytes}) when is_binary(bytes) do
-      bytes |> decode_error(:must_have_at_least_one_data_byte)
-    end
-
-    def decode({length, bytes}) when is_short_length(length) do
-      bytes
-      |> String.split_at(length)
-      ~> fn {integer_bytes, rest} -> integer_bytes |> :binary.decode_unsigned |> decode_ok(rest) end
-    end
-
-    def encode(value) when is_long(value) do
-      value |> :binary.encode_unsigned
-    end
-
-    def encode value do
-      value |> encode_error(:out_of_range)
-    end
+    value
+    |> encode_error(:out_of_range)
   end
 end
