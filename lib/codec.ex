@@ -164,18 +164,18 @@ defmodule MMS.Codec do
   end
 
   defmacro encode_as value, codec, module do
-    data_type = data_type(module)
-    quote do
-      Kernel.apply(unquote(codec), :encode, [unquote(value)])
-      ~>> fn details -> error unquote(data_type), unquote(value), nest_error(details) end
-    end
+    do_encode_as value, codec, module
   end
 
   defmacro encode_as value, codec do
-    data_type = data_type( __CALLER__.module)
-    quote do
-      Kernel.apply(unquote(codec), :encode, [unquote(value)])
-      ~>> fn details -> error unquote(data_type), unquote(value), nest_error(details) end
+    do_encode_as value, codec, __CALLER__.module
+  end
+
+  def do_encode_as value, codec, module do
+    quote bind_quoted: [value: value, codec: codec, data_type: data_type(module)] do
+      value
+      |> codec.encode
+      ~>> fn details -> error data_type, value, nest_error(details) end
     end
   end
 
