@@ -6,16 +6,17 @@ defmodule MMS.Tuple do
     |> MMS.List.decode(Tuple.to_list codecs)
     ~> fn {values, rest} -> decode_ok List.to_tuple(values), rest end
   end
+
+  def encode(values, codecs) when is_tuple(values) and is_tuple(codecs) do
+    values
+    |> Tuple.to_list
+    |> MMS.List.encode(Tuple.to_list codecs)
+    ~>> fn {_, _, reason} -> error data_type(), values, reason end
+  end
 end
 
 defmodule MMS.List do
   use MMS.Codec
-
-  def decode(bytes, codecs) when is_binary(bytes) and is_tuple(codecs) do
-    bytes
-    |> decode(Tuple.to_list codecs)
-    ~> fn {values, rest} -> decode_ok List.to_tuple(values), rest end
-  end
 
   def decode(bytes, codecs) when is_binary(bytes) and is_list(codecs) do
     bytes

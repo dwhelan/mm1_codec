@@ -41,10 +41,6 @@ defmodule MMS.ListTest do
       assert List.encode([1, 2], [Ok, Ok]) == ok <<1, 2>>
     end
 
-    test "List.encode multiple values when a tuple" do
-      assert List.encode({1, 2}, {Ok, Ok}) == ok <<1, 2>>
-    end
-
     test "ignore extra values" do
       assert List.encode([1, 2], [Ok]) == ok <<1>>
     end
