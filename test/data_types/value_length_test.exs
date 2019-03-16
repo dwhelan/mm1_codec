@@ -69,7 +69,7 @@ defmodule MMS.ValueLengthTest do
     end
 
     test "with an invalid integer" do
-      assert encode(-1) == error :value_length, -1, [:length, :uint32, :out_of_range]
+      assert encode(-1) == error :value_length, -1, [:value_length, :uint32, :out_of_range]
     end
   end
 

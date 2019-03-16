@@ -32,7 +32,14 @@ defmodule MMS.ValueLength do
 
   def encode(value) when is_integer(value) do
     value
-    |> encode_as(Length)
+    |> encode_with_prefix(Uint32, length_quote())
+  end
+
+  def encode_with_prefix value, codec, prefix do
+    value
+    |> encode_as(codec)
+    ~> fn bytes -> <<prefix>> <> bytes end
+    ~>> fn details ->  encode_error value, details end
   end
 
   def decode(bytes, f) when is_binary(bytes) and is_function(f) do
