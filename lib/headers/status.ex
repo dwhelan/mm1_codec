@@ -3,7 +3,7 @@ defmodule MMS.Status do
   OMA-WAP-MMS-ENC-V1_1-20040715-A; 7.2.32 X-Mms-Status field
   """
   use MMS.Codec
-  alias MMS.Byte
+  alias MMS.Octet
 
   @map %{
     128 => :expired,
@@ -16,10 +16,10 @@ defmodule MMS.Status do
   }
 
   def decode(bytes) when is_binary(bytes) do
-    bytes |> decode_as(Byte, @map)
+    bytes |> decode_as(Octet, @map)
   end
 
   def encode(value) when is_atom(value) do
-    value |> encode_as(Byte, @map)
+    value |> encode_as(Octet, @map)
   end
 end

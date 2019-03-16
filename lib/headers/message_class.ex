@@ -1,6 +1,6 @@
 defmodule MMS.MessageClass do
   use MMS.Codec
-  alias MMS.{Byte, Text}
+  alias MMS.{Octet, Text}
 
   @map %{
     128 => :personal,
@@ -14,7 +14,7 @@ defmodule MMS.MessageClass do
   end
 
   def decode(bytes) when is_binary(bytes) do
-    bytes |> decode_as(Byte, @map)
+    bytes |> decode_as(Octet, @map)
   end
 
   def encode(value) when is_binary(value) do
@@ -22,6 +22,6 @@ defmodule MMS.MessageClass do
   end
 
   def encode(value) when is_atom(value) do
-    value |> encode_as(Byte, @map)
+    value |> encode_as(Octet, @map)
   end
 end

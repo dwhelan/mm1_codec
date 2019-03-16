@@ -11,7 +11,7 @@ defmodule MMS.RetrieveStatus do
   """
 
   use MMS.Codec
-  alias MMS.{Byte}
+  alias MMS.{Octet}
 
   @map %{
     128 => :ok,
@@ -41,7 +41,7 @@ defmodule MMS.RetrieveStatus do
   end
 
   def decode bytes do
-    bytes |> decode_as(Byte, @map)
+    bytes |> decode_as(Octet, @map)
   end
 
     def encode({:transient_failure, status}) when status in 195..223 do
@@ -53,6 +53,6 @@ defmodule MMS.RetrieveStatus do
   end
 
   def encode(value) do
-    value |> encode_as(Byte, @map)
+    value |> encode_as(Octet, @map)
   end
 end

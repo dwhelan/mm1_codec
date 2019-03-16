@@ -7,7 +7,7 @@ defmodule MMS.ReadStatus do
   """
 
   use MMS.Codec
-  alias MMS.Byte
+  alias MMS.Octet
 
   @map %{
     128 => :read,
@@ -16,11 +16,11 @@ defmodule MMS.ReadStatus do
 
   def decode bytes do
     bytes
-    |> decode_as(Byte, @map)
+    |> decode_as(Octet, @map)
   end
 
   def encode(value) when is_atom(value) do
     value
-    |> encode_as(Byte, @map)
+    |> encode_as(Octet, @map)
   end
 end

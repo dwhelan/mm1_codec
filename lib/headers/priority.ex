@@ -7,7 +7,7 @@ defmodule MMS.Priority do
   High   = <Octet 130>
   """
   use MMS.Codec
-  alias MMS.Byte
+  alias MMS.Octet
 
   @map %{
     128 => :low,
@@ -16,10 +16,10 @@ defmodule MMS.Priority do
   }
 
   def decode(bytes) when is_binary(bytes) do
-    bytes |> decode_as(Byte, @map)
+    bytes |> decode_as(Octet, @map)
   end
 
   def encode(value) when is_atom(value) do
-    value |> encode_as(Byte, @map)
+    value |> encode_as(Octet, @map)
   end
 end

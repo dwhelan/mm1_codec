@@ -20,7 +20,7 @@ defmodule MMS.TextString do
 
   def decode(bytes = <<@quote, _::binary>>) do
     bytes
-    |> decode_error(:byte_following_quote_must_be_greater_than_127)
+    |> decode_error(:octet_following_quote_must_be_greater_than_127)
   end
 
   def decode(bytes = <<text, _::binary>>) when is_text(text) and text != @quote do

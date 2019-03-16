@@ -3,7 +3,7 @@ defmodule MMS.ReplyCharging do
   OMA-WAP-MMS-ENC-V1_1-20040715-A; 7.2.22 X-Mms-Reply-Charging field
   """
   use MMS.Codec
-  alias MMS.Byte
+  alias MMS.Octet
 
   @map %{
     128 => :requested,
@@ -14,11 +14,11 @@ defmodule MMS.ReplyCharging do
 
   def decode(bytes) when is_binary(bytes) do
     bytes
-    |> decode_as(Byte, @map)
+    |> decode_as(Octet, @map)
   end
 
   def encode(value) when is_atom(value) do
     value
-    |> encode_as(Byte, @map)
+    |> encode_as(Octet, @map)
   end
 end

@@ -1,4 +1,4 @@
-defmodule MMS.Byte do
+defmodule MMS.Octet do
   use MMS.Codec
 
   def decode <<byte, rest::binary>> do
