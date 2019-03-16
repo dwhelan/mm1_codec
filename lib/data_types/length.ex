@@ -1,4 +1,11 @@
 defmodule MMS.Length do
+  @moduledoc """
+  Specification: WAP-230230-WSP-20010705-a, 8.4.2.2 Length
+The following rules are used to encode length indicators.
+Value-length = Short-length | (Length-quote Length)
+; Value length is used to indicate the length of the value to follow
+Short-length = <Any octet 0-30> Length-quote = <Octet 31> Length = Uintvar-integer
+  """
   use MMS.Codec
 
   alias MMS.Uint32
