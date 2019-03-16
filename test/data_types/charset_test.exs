@@ -1,8 +1,8 @@
-defmodule MMS.CharsetTest do
+defmodule MMS.CharSetTest do
   use MMS.CodecTest
 
   use MMS.TestExamples,
-      codec: MMS.Charset,
+      codec: MMS.CharSet,
 
       examples: [
         { << s(0) >>,           :any       },
@@ -11,12 +11,12 @@ defmodule MMS.CharsetTest do
       ],
 
       decode_errors: [
-        { << 0 >>,              {:charset, << 0 >>,            [:integer, :long, :multi_octet_integer, :must_have_at_least_one_data_byte]} },
-        { << s(120) >>,         {:charset, <<s(120)>>,         %{out_of_range: 120}}  },
-        { << l(2), 9999::16 >>, {:charset, <<l(2), 9999::16>>, %{out_of_range: 9999}} },
+        { << 0 >>,              {:char_set, << 0 >>,            [:integer, :long, :multi_octet_integer, :must_have_at_least_one_data_byte]} },
+        { << s(120) >>,         {:char_set, <<s(120)>>,         %{out_of_range: 120}}  },
+        { << l(2), 9999::16 >>, {:char_set, <<l(2), 9999::16>>, %{out_of_range: 9999}} },
       ],
 
       encode_errors: [
-        { :unknown_charset, {:charset, :unknown_charset, :out_of_range} },
+        { :unknown_charset, {:char_set, :unknown_charset, :out_of_range} },
       ]
 end

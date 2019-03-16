@@ -1,7 +1,7 @@
 defmodule MMS.TypedParameter do
   # Based on WAP-230-WSP-20010705-a: Table 38. Well-Known Parameter Assignments
 
-  alias MMS.{Charset, DateValue, Integer, Media, NoValue, QValue, ShortInteger, TextString, TextValue, Version}
+  alias MMS.{CharSet, DateValue, Integer, Media, NoValue, QValue, ShortInteger, TextString, TextValue, Version}
 
   alias Media,      as: ConstrainedEncoding
   alias Integer,    as: DeltaSecondsValue
@@ -10,7 +10,7 @@ defmodule MMS.TypedParameter do
   use MMS.CodecMapper,
       values: [
         q:                     QValue,
-        charset:               Charset,
+        charset:               CharSet,
         level:                 Version,
         type:                  Integer,
         _unassigned:           nil,
