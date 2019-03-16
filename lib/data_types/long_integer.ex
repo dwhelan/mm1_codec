@@ -1,14 +1,14 @@
-defmodule MMS.Long do
+defmodule MMS.LongInteger do
   @moduledoc """
     Specification: WAP-230-WSP-20010705-a, 8.4.2.1 Basic rules
 
-    Long-integer = ShortInteger-length Multi-octet-integer
+    LongInteger-integer = ShortInteger-length Multi-octet-integer
     The ShortInteger-length indicates the length of the Multi-octet-integer
   """
   use MMS.Codec
 
   alias MMS.ShortLength
-  alias MMS.Long.MultiOctetInteger
+  alias MMS.LongInteger.MultiOctetInteger
 
   def decode(bytes) when is_binary(bytes) do
     bytes

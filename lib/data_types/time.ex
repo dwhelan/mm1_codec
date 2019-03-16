@@ -7,11 +7,11 @@ defmodule MMS.Time do
   @absolute 0
   @relative 1
 
-  alias MMS.{ValueLengthList, ShortInteger, Long}
+  alias MMS.{ValueLengthList, ShortInteger, LongInteger}
 
   def decode(bytes) do
     bytes
-    |> ValueLengthList.decode([ShortInteger, Long])
+    |> ValueLengthList.decode([ShortInteger, LongInteger])
     ~> fn {result, rest} ->
          result
          |> to_time
@@ -45,6 +45,6 @@ defmodule MMS.Time do
 
   defp do_encode seconds, time_type do
     [time_type, seconds]
-    |> ValueLengthList.encode([ShortInteger, Long])
+    |> ValueLengthList.encode([ShortInteger, LongInteger])
   end
 end

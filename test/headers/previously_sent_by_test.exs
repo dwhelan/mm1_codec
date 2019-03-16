@@ -16,6 +16,6 @@ defmodule MMS.PreviouslySentByTest do
       ],
 
       encode_errors: [
-        { {"@", -1}, {:list, [-1, "@"], {:integer, -1, [:long, :out_of_range]}} },
+        { {"@", -1}, {:list, [-1, "@"], {:integer, -1, [:long_integer, :out_of_range]}} },
       ]
 end

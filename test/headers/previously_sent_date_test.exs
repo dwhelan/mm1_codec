@@ -23,7 +23,7 @@ defmodule MMS.PreviouslySentDateTest do
       ],
 
       encode_errors: [
-        {{negative_time, 1}, {:list, [1, negative_time], {:date_value, negative_time, [:long, :out_of_range]}}},
-        {{time_zero, -1},    {:list, [-1, time_zero], {:integer, -1, [:long, :out_of_range]}}},
+        {{negative_time, 1}, {:list, [1, negative_time], {:date_value, negative_time, [:long_integer, :out_of_range]}}},
+        {{time_zero, -1},    {:list, [-1, time_zero], {:integer, -1, [:long_integer, :out_of_range]}}},
       ]
 end

@@ -1,14 +1,14 @@
 defmodule MMS.Integer do
   use MMS.Codec
 
-  alias MMS.{ShortInteger, Long}
+  alias MMS.{ShortInteger, LongInteger}
 
   def decode(bytes = <<byte, _::binary>>) when is_short_integer_byte(byte) do
     bytes |> decode_as(ShortInteger)
   end
 
   def decode(bytes) when is_binary(bytes) do
-    bytes |> decode_as(Long)
+    bytes |> decode_as(LongInteger)
   end
 
   def encode(value) when is_short_integer(value) do
@@ -16,6 +16,6 @@ defmodule MMS.Integer do
   end
 
   def encode(value) when is_integer(value) do
-    value |> encode_as(Long)
+    value |> encode_as(LongInteger)
   end
 end
