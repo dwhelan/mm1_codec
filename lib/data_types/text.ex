@@ -1,8 +1,10 @@
 defmodule MMS.Text do
   @moduledoc """
+  8.4.2.1 Basic rules
+
   Text = Char *TEXT End-of-string
 
-  This is a convenience codec that handles text.
+  This is a convenience codec that handles null terminated text strings.
   Text is any sequence of bytes starting with a "char" and terminated with a "\0".
 
   End-of-string = <Octet 0>
