@@ -1,5 +1,19 @@
+defmodule MMS.Prefix do
+  use MMS.Codec
+
+  defmacro encode_with_prefix value, codec, prefix do
+    data_type = data_type( __CALLER__.module)
+    quote do
+      Kernel.apply(unquote(codec), :encode, [unquote(value)])
+      ~> fn bytes -> <<unquote(prefix)>> <> bytes end
+      ~>> fn details -> error unquote(data_type), unquote(value), nest_error(details) end
+    end
+  end
+end
+
 defmodule MMS.ValueLength do
   use MMS.Codec
+  import MMS.Prefix
   alias MMS.{ShortLength, Length, Uint32}
 
   def decode(bytes = <<short_length, _::binary>>) when is_short_length(short_length) do
@@ -35,12 +49,12 @@ defmodule MMS.ValueLength do
     |> encode_with_prefix(Uint32, length_quote())
   end
 
-  def encode_with_prefix value, codec, prefix do
-    value
-    |> encode_as(codec)
-    ~> fn bytes -> <<prefix>> <> bytes end
-    ~>> fn details ->  encode_error value, details end
-  end
+#  def encode_with_prefix value, codec, prefix do
+#    value
+#    |> encode_as(codec)
+#    ~> fn bytes -> <<prefix>> <> bytes end
+#    ~>> fn details ->  encode_error value, details end
+#  end
 
   def decode(bytes, f) when is_binary(bytes) and is_function(f) do
     bytes
