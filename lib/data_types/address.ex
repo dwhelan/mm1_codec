@@ -1,5 +1,7 @@
 defmodule MMS.Address do
   @moduledoc """
+  Specification: OMA-WAP-MMS-ENC-V1_1-20040715-A 8. MMS Addressing Model
+
   address = ( e-mail / device-address )
   e-mail = "Joe User <joe@user.org>" ; corresponding syntax defined in RFC822 per header field
   device-address = ( global-phone-number "/TYPE=PLMN" )
