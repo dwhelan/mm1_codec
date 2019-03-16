@@ -2,11 +2,11 @@ defmodule MMS.Prefix do
   use MMS.Codec
 
   defmacro encode_with_prefix value, codec, prefix do
-    data_type = data_type( __CALLER__.module)
-    quote do
-      Kernel.apply(unquote(codec), :encode, [unquote(value)])
-      ~> fn bytes -> <<unquote(prefix)>> <> bytes end
-      ~>> fn details -> error unquote(data_type), unquote(value), nest_error(details) end
+    quote bind_quoted: [value: value, codec: codec, prefix: prefix, data_type: data_type( __CALLER__.module)] do
+      value
+      |> codec.encode
+      ~> fn bytes -> <<prefix>> <> bytes end
+      ~>> fn details -> error data_type, value, nest_error(details) end
     end
   end
 end
