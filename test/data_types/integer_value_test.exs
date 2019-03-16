@@ -12,7 +12,7 @@ defmodule MMS.IntegerTest do
       ],
 
       decode_errors: [
-        { <<0>>, {:integer_value, <<0>>, [:long_integer, :multi_octet_integer, :must_have_at_least_one_data_byte]} },
+        { <<0>>, {:integer_value, <<0>>, [:long_integer, :must_have_at_least_one_data_byte]} },
       ],
 
       encode_errors: [

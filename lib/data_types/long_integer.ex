@@ -1,9 +1,10 @@
 defmodule MMS.LongInteger do
   @moduledoc """
-    Specification: WAP-230-WSP-20010705-a, 8.4.2.1 Basic rules
+  8.4.2.1 Basic rules
 
-    Long-integer = Short-length Multi-octet-integer
-    The Short-length indicates the length of the Multi-octet-integer
+  Long-integer = Short-length Multi-octet-integer
+
+  The Short-length indicates the length of the Multi-octet-integer
   """
   use MMS.Codec
 
@@ -13,8 +14,21 @@ defmodule MMS.LongInteger do
   def decode(bytes) when is_binary(bytes) do
     bytes
     |> ShortLength.decode
-    ~> MultiOctetInteger.decode
+    ~> decode_multi_octet_integer
     ~>> & decode_error bytes, &1
+  end
+
+  defp decode_multi_octet_integer {0, _bytes} do
+    error :must_have_at_least_one_data_byte
+  end
+
+  defp decode_multi_octet_integer {length, bytes} do
+    bytes
+    |> String.split_at(length)
+    ~> fn {integer_bytes, rest} ->
+         integer_bytes
+         |> :binary.decode_unsigned
+         |> decode_ok(rest) end
   end
 
   def encode(value) when is_long(value) do
