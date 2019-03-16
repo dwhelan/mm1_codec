@@ -1,10 +1,10 @@
 defmodule MMS.DateValue do
   @moduledoc """
-  Specification: OMA-WAP-MMS-ENC-V1_1-20040715-A 7.2.5 Date field
+  8.4.2.3 Parameter Values
 
   Date-value = Long-integer
 
-  In seconds from 1970-01-01, 00:00:00 GMT
+  The encoding of dates shall be done in number of seconds from 1970-01-01, 00:00:00 GMT.
   """
   use MMS.Codec
   alias MMS.LongInteger
