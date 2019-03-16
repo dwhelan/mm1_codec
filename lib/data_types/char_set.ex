@@ -1,6 +1,6 @@
 defmodule MMS.CharSet do
   @moduledoc """
-  Specification: WAP-230230-WSP-20010705-a,       8.4.2.8 Accept charset Field
+  8.4.2.8 Accept charset Field
 
   The Char-set values are registered by IANA as MIBEnum values.
   """
