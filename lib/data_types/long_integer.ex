@@ -22,7 +22,7 @@ defmodule MMS.LongInteger do
     ~>> & decode_error bytes, &1
   end
 
-  defp decode_multi_octet_integer {0, _bytes} do
+  defp decode_multi_octet_integer {_length = 0, _bytes} do
     error :must_have_at_least_one_data_byte
   end
 
