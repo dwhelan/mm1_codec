@@ -1,30 +1,31 @@
-defmodule MMS.ListTest do
+defmodule MMS.TupleTest do
   use MMS.CodecTest
   alias MMS.CodecTest.{Ok, Error}
 
   alias MMS.List
+  alias MMS.Tuple
 
   @bytes <<1, 2, "rest">>
 
   describe "decode should" do
-    test "return an empty list with no functions" do
-      assert List.decode(@bytes, []) == ok [], @bytes
+    test "return an empty tuple with no functions" do
+      assert Tuple.decode(@bytes, {}) == ok {}, @bytes
     end
 
-    test "return a single item list with one function" do
-      assert List.decode(@bytes, [Ok]) == ok [1], <<2, "rest">>
+    test "return a single item tuple with one function" do
+      assert Tuple.decode(@bytes, {Ok}) == ok {1}, <<2, "rest">>
     end
 
-    test "return a multi-item list with multiple functions" do
-      assert List.decode(@bytes, [Ok, Ok]) == ok [1, 2], <<"rest">>
+    test "return a multi-item tuple with multiple functions" do
+      assert Tuple.decode(@bytes, {Ok, Ok}) == ok {1, 2}, <<"rest">>
     end
 
     test "return an error if it occurs on first function" do
-      assert List.decode(@bytes, [Error, Ok]) == error :list, @bytes, %{error: {:data_type, @bytes, :reason}, values: []}
+      assert Tuple.decode(@bytes, {Error, Ok}) == error :list, @bytes, %{error: {:data_type, @bytes, :reason}, values: []}
     end
 
     test "return an error if it occurs on subsequent functions" do
-      assert List.decode(@bytes, [Ok, Error]) == error :list, @bytes, %{error: {:data_type, <<2, "rest">>, :reason}, values: [1]}
+      assert Tuple.decode(@bytes, {Ok, Error}) == error :list, @bytes, %{error: {:data_type, <<2, "rest">>, :reason}, values: [1]}
     end
   end
 

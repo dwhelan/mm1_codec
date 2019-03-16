@@ -1,3 +1,13 @@
+defmodule MMS.Tuple do
+  use MMS.Codec
+
+  def decode(bytes, codecs) when is_binary(bytes) and is_tuple(codecs) do
+    bytes
+    |> MMS.List.decode(Tuple.to_list codecs)
+    ~> fn {values, rest} -> decode_ok List.to_tuple(values), rest end
+  end
+end
+
 defmodule MMS.List do
   use MMS.Codec
 
