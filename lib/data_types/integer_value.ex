@@ -9,18 +9,22 @@ defmodule MMS.IntegerValue do
   alias MMS.{ShortInteger, LongInteger}
 
   def decode(bytes = <<byte, _::binary>>) when is_short_integer_byte(byte) do
-    bytes |> decode_as(ShortInteger)
+    bytes
+    |> decode_as(ShortInteger)
   end
 
   def decode(bytes) when is_binary(bytes) do
-    bytes |> decode_as(LongInteger)
+    bytes
+    |> decode_as(LongInteger)
   end
 
   def encode(value) when is_short_integer(value) do
-    value |> encode_as(ShortInteger)
+    value
+    |> encode_as(ShortInteger)
   end
 
   def encode(value) when is_integer(value) do
-    value |> encode_as(LongInteger)
+    value
+    |> encode_as(LongInteger)
   end
 end
