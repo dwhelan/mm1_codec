@@ -1,4 +1,9 @@
-defmodule MMS.Integer do
+defmodule MMS.IntegerValue do
+  @moduledoc """
+  Specification: WAP-230230-WSP-20010705-a, 8.4.2.3 Parameter Values
+
+  Integer-Value = Short-integer | Long-integer
+  """
   use MMS.Codec
 
   alias MMS.{ShortInteger, LongInteger}

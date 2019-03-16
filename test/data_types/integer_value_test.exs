@@ -2,7 +2,7 @@ defmodule MMS.IntegerTest do
   use MMS.CodecTest
 
   use MMS.TestExamples,
-      codec: MMS.Integer,
+      codec: MMS.IntegerValue,
 
       examples: [
         { << s(0) >>,           0      },
@@ -12,11 +12,11 @@ defmodule MMS.IntegerTest do
       ],
 
       decode_errors: [
-        { <<0>>, {:integer, <<0>>, [:long_integer, :multi_octet_integer, :must_have_at_least_one_data_byte]} },
+        { <<0>>, {:integer_value, <<0>>, [:long_integer, :multi_octet_integer, :must_have_at_least_one_data_byte]} },
       ],
 
       encode_errors: [
-        { -1, {:integer, -1, [:long_integer, :out_of_range] } },
+        { -1, {:integer_value, -1, [:long_integer, :out_of_range] } },
       ]
 end
 

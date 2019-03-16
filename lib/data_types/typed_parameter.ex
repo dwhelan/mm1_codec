@@ -1,10 +1,10 @@
 defmodule MMS.TypedParameter do
   # Based on WAP-230-WSP-20010705-a: Table 38. Well-Known Parameter Assignments
 
-  alias MMS.{CharSet, DateValue, Integer, Media, NoValue, QValue, ShortInteger, TextString, TextValue, Version}
+  alias MMS.{CharSet, DateValue, IntegerValue, Media, NoValue, QValue, ShortInteger, TextString, TextValue, Version}
 
   alias Media,      as: ConstrainedEncoding
-  alias Integer,    as: DeltaSecondsValue
+  alias IntegerValue,    as: DeltaSecondsValue
   alias TextString, as: FieldName
 
   use MMS.CodecMapper,
@@ -12,7 +12,7 @@ defmodule MMS.TypedParameter do
         q:                     QValue,
         charset:               CharSet,
         level:                 Version,
-        type:                  Integer,
+        type:                  IntegerValue,
         _unassigned:           nil,
         name_deprecated:       TextString,
         file_name_deprecated:  TextString,
@@ -31,7 +31,7 @@ defmodule MMS.TypedParameter do
         creation_date:         DateValue,
         modification_date:     DateValue,
         read_date:             DateValue,
-        size:                  Integer,
+        size:                  IntegerValue,
         name:                  TextValue,
         file_name:             TextValue,
         start:                 TextValue,

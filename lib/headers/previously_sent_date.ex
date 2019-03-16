@@ -1,15 +1,15 @@
 defmodule MMS.PreviouslySentDate do
   use MMS.Codec
 
-  alias MMS.{ValueLengthList, Integer, DateValue}
+  alias MMS.{ValueLengthList, IntegerValue, DateValue}
 
   def decode(bytes) do
     bytes
-    |> ValueLengthList.decode([Integer, DateValue])
+    |> ValueLengthList.decode([IntegerValue, DateValue])
     ~> fn {[count, date], rest} ->  {date, count} |> decode_ok(rest) end
   end
 
   def encode({date = %DateTime{}, count}) when is_integer(count) do
-    [count, date] |> ValueLengthList.encode([Integer, DateValue])
+    [count, date] |> ValueLengthList.encode([IntegerValue, DateValue])
   end
 end

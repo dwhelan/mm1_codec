@@ -2,7 +2,7 @@ defmodule MMS.DateValue do
   @moduledoc """
   Specification: OMA-WAP-MMS-ENC-V1_1-20040715-A 7.2.5 Date field
 
-  Date-value = LongInteger-integer
+  Date-value = Long-integer
 
   In seconds from 1970-01-01, 00:00:00 GMT
   """

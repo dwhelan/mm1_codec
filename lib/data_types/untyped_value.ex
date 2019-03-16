@@ -2,18 +2,18 @@ defmodule MMS.UntypedValue do
   @moduledoc """
   Specification: WAP-230-WSP-20010705-a, 8.4.2.4 Parameter
 
-  Untyped-value = Integer-value | Text-value
+  Untyped-value = IntegerValue-value | Text-value
   """
   use MMS.Codec
 
-  alias MMS.{Integer, Text}
+  alias MMS.{IntegerValue, Text}
 
   def decode(bytes = <<char, _::binary>>) when is_char(char) do
     bytes |> decode_as(Text)
   end
 
   def decode(bytes) when is_binary(bytes) do
-    bytes |> decode_as(Integer)
+    bytes |> decode_as(IntegerValue)
   end
 
   def encode(string) when is_binary(string) do
@@ -21,6 +21,6 @@ defmodule MMS.UntypedValue do
   end
 
   def encode(integer) when is_integer(integer) do
-    integer |> encode_as(Integer)
+    integer |> encode_as(IntegerValue)
   end
 end
