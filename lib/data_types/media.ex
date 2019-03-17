@@ -9,7 +9,8 @@ defmodule MMS.Media do
   end
 
   def decode(<<char, _ :: binary>> = bytes) when is_text(char) do
-    bytes |> decode_as(ExtensionMedia)
+    bytes
+    |> decode_as(ExtensionMedia)
   end
 
   def decode bytes do
@@ -20,6 +21,9 @@ defmodule MMS.Media do
   def encode(string) when is_binary(string) do
     string
     |> encode_as(WellKnownMedia)
-    ~>> fn _ -> string |> encode_as(ExtensionMedia) end
+    ~>> fn _ ->
+          string
+          |> encode_as(ExtensionMedia)
+        end
   end
 end
