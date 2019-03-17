@@ -21,34 +21,42 @@ defmodule MMS.Text do
   end
 
   def decode(bytes) when is_binary(bytes) do
-    bytes |> decode_error(:first_byte_must_be_a_zero_or_a_char)
+    bytes
+    |> decode_error(:first_byte_must_be_a_zero_or_a_char)
   end
 
   defp do_decode [string | [rest]] do
-    string |> decode_ok(rest)
+    string
+    |> decode_ok(rest)
   end
 
   defp do_decode [string | []] do
-    string |> decode_error(:missing_end_of_string)
+    string
+    |> decode_error(:missing_end_of_string)
   end
 
   def encode(string = <<char, _::binary>>) when is_char(char) do
-    string |> do_encode(String.contains?(string, @end_of_string))
+    string
+    |> do_encode(String.contains?(string, @end_of_string))
   end
 
   def encode string = "" do
-    string |> do_encode(false)
+    string
+    |> do_encode(false)
   end
 
   def encode(string) when is_binary(string) do
-    string |> encode_error(:first_byte_must_be_a_zero_or_a_char)
+    string
+    |> encode_error(:first_byte_must_be_a_zero_or_a_char)
   end
 
   defp do_encode string, _end_of_string = true do
-    string |> encode_error(:contains_end_of_string)
+    string
+    |> encode_error(:contains_end_of_string)
   end
 
   defp do_encode string, _end_of_string = false do
-    string <> @end_of_string |> ok
+    string <> @end_of_string
+    |> ok
   end
 end
