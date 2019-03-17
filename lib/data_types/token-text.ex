@@ -21,6 +21,7 @@ defmodule MMS.TokenText do
   @end_of_string <<0>>
 
   use MMS.Codec
+  alias MMS.Text
 
   def decode(bytes = <<@end_of_string, _::binary>>) do
     bytes
@@ -29,32 +30,26 @@ defmodule MMS.TokenText do
 
   def decode(bytes = <<token, _::binary>>) when is_token_char(token) do
     bytes
-    |> decode_as(MMS.Text)
+    |> decode_as(Text)
   end
 
   def decode bytes do
     bytes
-    |> decode_error(:first_byte_must_be_a_token_char)
+    |> decode_error(:first_char_is_not_a_token_char)
   end
 
-  def encode(string = <<char, _::binary>>) when is_char(char) do
-    string |> do_encode(String.contains?(string, @end_of_string))
+  def encode(string = <<token, _::binary>>) when is_token_char(token) do
+    string
+    |> encode_as(Text)
   end
 
   def encode "" do
     ""
-    |> encode_error(:must_have_at_least_one_character)
+    |> encode_error(:must_have_at_least_one_token_char)
   end
 
   def encode(string) when is_binary(string) do
-    string |> encode_error(:first_byte_must_be_a_zero_or_a_char)
-  end
-
-  defp do_encode string, _end_of_string = true do
-    string |> encode_error(:contains_end_of_string)
-  end
-
-  defp do_encode string, _end_of_string = false do
-    string <> @end_of_string |> ok
+    string
+    |> encode_error(:first_char_is_not_a_token_char)
   end
 end
