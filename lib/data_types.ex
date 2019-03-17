@@ -1,9 +1,21 @@
 defmodule MMS.DataTypes do
+  @moduledoc """
+  From RFC 2616 (HTTP/1.1 June 1999):
+
+  CHAR           = <any US-ASCII character (octets 0 - 127)>
+  CTL            = <any US-ASCII control character (octets 0 - 31) and DEL (127)>
+  separators     = "(" | ")" | "<" | ">" | "@"
+                 | "," | ";" | ":" | "\\" | <">
+                 | "/" | "[" | "]" | "?" | "="
+                 | "{" | "}" | SP | HT
+  SP             = <US-ASCII SP, space (32)>
+  HT             = <US-ASCII HT, horizontal-tab (9)>
+  """
 
   @chars      0..127 |> Enum.into([])
   @controls   0..31  |> Enum.into([127])
   @separators ~c|()<>@,;:\\"/[]?={}\s\t|
-  @tokens     @chars -- @controls ++ @separators
+  @tokens     (@chars -- @controls) -- @separators
 
   defmacro is_byte(value),              do: value |> in?(0..255)
   defmacro is_short_integer(value),     do: value |> in?(0..127)
@@ -19,9 +31,9 @@ defmodule MMS.DataTypes do
   defmacro is_no_value(value),          do: value |> is_equal_to?(no_value())
   defmacro is_2_digit_q_value(value),   do: value |> in?(1..100)
   defmacro is_3_digit_q_value(value),   do: value |> in?(101..1099)
-  defmacro is_separator(value),         do: value |> in?(@separators)
-  defmacro is_control(value),           do: value |> in?(@controls)
-  defmacro is_token(value),             do: value |> in?(@tokens)
+  defmacro is_separator_char(value),    do: value |> in?(@separators)
+  defmacro is_control_char(value),      do: value |> in?(@controls)
+  defmacro is_token_char(value),        do: value |> in?(@tokens)
 
   defmacro is_text(value) do
     quote do is_char(unquote value) or is_end_of_string(unquote value) end

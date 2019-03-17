@@ -1,4 +1,4 @@
-defmodule MMS.IntegerTest do
+defmodule MMS.IntegerValueTest do
   use MMS.CodecTest
 
   use MMS.TestExamples,

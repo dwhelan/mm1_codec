@@ -49,9 +49,11 @@ defmodule MMS.Codec do
             |> f.()
             ~> fn result ->
                  if is_module?(result) do
-                   rest |> result.decode
+                   rest
+                   |> result.decode
                  else
-                   result |> decode_ok(rest)
+                   result
+                   |> decode_ok(rest)
                  end
                end
          end

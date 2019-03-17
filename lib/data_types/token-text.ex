@@ -24,26 +24,17 @@ defmodule MMS.TokenText do
 
   def decode(bytes = <<@end_of_string, _::binary>>) do
     bytes
-    |> decode_error(:must_have_at_least_one_character)
+    |> decode_error(:must_have_at_least_one_token_char)
   end
 
-  def decode(bytes = <<byte, _::binary>>) when is_text(byte) do
+  def decode(bytes = <<token, _::binary>>) when is_token_char(token) do
     bytes
-    |> String.split(@end_of_string, parts: 2)
-    |> do_decode
+    |> decode_as(MMS.Text)
   end
 
-  def decode(bytes) when is_binary(bytes) do
+  def decode bytes do
     bytes
-    |> decode_error(:first_byte_must_be_a_zero_or_a_char)
-  end
-
-  defp do_decode [string | [rest]] do
-    string |> decode_ok(rest)
-  end
-
-  defp do_decode [string | []] do
-    string |> decode_error(:missing_end_of_string)
+    |> decode_error(:first_byte_must_be_a_token_char)
   end
 
   def encode(string = <<char, _::binary>>) when is_char(char) do

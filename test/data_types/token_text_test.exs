@@ -9,9 +9,9 @@ defmodule MMS.TokenTextTest do
       ],
 
       decode_errors: [
-        {<<0>>,        {:token_text, <<0>>,    :must_have_at_least_one_character}    },
-        {<<1, 0>>,     {:token_text, <<1, 0>>, :first_byte_must_be_a_zero_or_a_char} },
-        {<<"string">>, {:token_text, "string", :missing_end_of_string}               },
+        {<<0>>,        {:token_text, <<0>>,    :must_have_at_least_one_token_char}    },
+        {<<1, 0>>,     {:token_text, <<1, 0>>, :first_byte_must_be_a_token_char} },
+        {<<"string">>, {:token_text, "string", [:text, :missing_end_of_string]}               },
       ],
 
       encode_errors: [
