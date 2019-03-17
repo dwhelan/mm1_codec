@@ -1,5 +1,7 @@
 defmodule MMS.Time do
   @moduledoc """
+  7.2.7 X-Mms-Delivery-Time field
+
   Delivery-time-value = Value-length (Absolute-token Date-value | Relative-token Delta-seconds-value)
   """
   use MMS.Codec
