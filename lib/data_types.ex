@@ -1,19 +1,27 @@
 defmodule MMS.DataTypes do
 
-  defmacro is_byte(value),              do: value |> in_range?(0..255)
-  defmacro is_short_integer(value),     do: value |> in_range?(0..127)
-  defmacro is_short_integer_byte(byte), do: byte  |> in_range?(128..255)
-  defmacro is_char(value),              do: value |> in_range?(32..127)
-  defmacro is_short_length(value),      do: value |> in_range?(0..max_short_length())
-  defmacro is_uint32(value),            do: value |> in_range?(0..max_uint32())
-  defmacro is_long(value),              do: value |> in_range?(0..max_long())
+  @chars      0..127 |> Enum.into([])
+  @controls   0..31  |> Enum.into([127])
+  @separators ~c|()<>@,;:\\"/[]?={}\s\t|
+  @tokens     @chars -- @controls ++ @separators
+
+  defmacro is_byte(value),              do: value |> in?(0..255)
+  defmacro is_short_integer(value),     do: value |> in?(0..127)
+  defmacro is_short_integer_byte(byte), do: byte  |> in?(128..255)
+  defmacro is_char(value),              do: value |> in?(32..127)
+  defmacro is_short_length(value),      do: value |> in?(0..max_short_length())
+  defmacro is_uint32(value),            do: value |> in?(0..max_uint32())
+  defmacro is_long(value),              do: value |> in?(0..max_long())
   defmacro is_end_of_string(value),     do: value |> is_equal_to?(end_of_string())
   defmacro is_length_quote(value),      do: value |> is_equal_to?(length_quote())
   defmacro is_quote(value),             do: value |> is_equal_to?(quote())
   defmacro is_no_value_byte(byte),      do: byte  |> is_equal_to?(no_value_byte())
   defmacro is_no_value(value),          do: value |> is_equal_to?(no_value())
-  defmacro is_2_digit_q_value(value),   do: value |> in_range?(1..100)
-  defmacro is_3_digit_q_value(value),   do: value |> in_range?(101..1099)
+  defmacro is_2_digit_q_value(value),   do: value |> in?(1..100)
+  defmacro is_3_digit_q_value(value),   do: value |> in?(101..1099)
+  defmacro is_separator(value),         do: value |> in?(@separators)
+  defmacro is_control(value),           do: value |> in?(@controls)
+  defmacro is_token(value),             do: value |> in?(@tokens)
 
   defmacro is_text(value) do
     quote do is_char(unquote value) or is_end_of_string(unquote value) end
@@ -34,7 +42,7 @@ defmodule MMS.DataTypes do
   def no_value_byte,    do: 0
   def no_value,         do: :no_value
 
-  defp in_range? value, range do
+  defp in? value, range do
     quote do unquote(value) in unquote(Macro.escape range) end
   end
 
