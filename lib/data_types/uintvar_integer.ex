@@ -28,7 +28,8 @@ defmodule MMS.UintvarInteger do
   use Bitwise
 
   def decode bytes = <<128, _::binary>> do
-    bytes |> decode_error(:first_byte_cannot_be_128)
+    bytes
+    |> decode_error(:first_byte_cannot_be_128)
   end
 
   def decode(bytes) when is_binary(bytes) do
@@ -43,7 +44,7 @@ defmodule MMS.UintvarInteger do
   end
 
   defp do_decode <<last, rest::binary>>, values do
-    [last |values]
+    [last | values]
     |> sum
     |> ensure_uint32(rest)
   end
@@ -55,7 +56,8 @@ defmodule MMS.UintvarInteger do
   end
 
   defp ensure_uint32(value, rest) when is_uint32(value) do
-    value |> decode_ok(rest)
+    value
+    |> decode_ok(rest)
   end
 
   defp ensure_uint32(value, _rest) do
@@ -63,22 +65,27 @@ defmodule MMS.UintvarInteger do
   end
 
   def encode(uint32) when is_uint32(uint32) do
-    uint32 |> do_encode([]) |> ok
+    uint32
+    |> do_encode([]) |> ok
   end
 
   def encode(value) when is_integer(value) do
-    value |> encode_error(:out_of_range)
+    value
+    |> encode_error(:out_of_range)
   end
 
   defp do_encode value, [] do
-    value >>> 7 |> do_encode([<<0::1, value::7>>])
+    value >>> 7
+    |> do_encode([<<0::1, value::7>>])
   end
 
   defp do_encode 0, byte_list do
-    byte_list |> Enum.join
+    byte_list
+    |> Enum.join
   end
 
   defp do_encode value, byte_list do
-    value >>> 7 |> do_encode([<<1::1, value::7>> | byte_list])
+    value >>> 7
+    |> do_encode([<<1::1, value::7>> | byte_list])
   end
 end
