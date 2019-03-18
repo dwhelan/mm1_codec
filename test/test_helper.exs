@@ -10,7 +10,7 @@ defmodule MMS.CodecTest do
 
   def s(short),  do: short + 128
   def l(length), do: length
-  def u(value),  do: value |> MMS.Uint32.encode |> elem(1)
+  def u(value),  do: value |> MMS.UintvarInteger.encode |> elem(1)
 
   def invalid_uint32 do
     <<128>>

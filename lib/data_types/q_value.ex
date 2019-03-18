@@ -17,11 +17,11 @@ defmodule MMS.QValue do
   """
   use MMS.Codec, error: :q_value
 
-  alias MMS.Uint32
+  alias MMS.UintvarInteger
 
   def decode bytes do
     bytes
-    |> decode_as(Uint32, &to_q_string/1)
+    |> decode_as(UintvarInteger, &to_q_string/1)
   end
 
   defp to_q_string(uint32) when is_2_digit_q_value(uint32), do: format(uint32 - 1,   2)
@@ -36,7 +36,7 @@ defmodule MMS.QValue do
 
   def encode(string) when is_binary(string) do
     string
-    |> encode_as(Uint32, &parse/1)
+    |> encode_as(UintvarInteger, &parse/1)
   end
 
   defp parse string do

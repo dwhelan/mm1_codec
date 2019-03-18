@@ -1,7 +1,7 @@
 defmodule MMS.ValueLength do
   use MMS.Codec
   import MMS.Prefix
-  alias MMS.{ShortLength, Uint32}
+  alias MMS.{ShortLength, UintvarInteger}
 
   def decode(bytes = <<short_length, _::binary>>) when is_short_length(short_length) do
     bytes
@@ -10,7 +10,7 @@ defmodule MMS.ValueLength do
 
   def decode(bytes = <<length_quote, _::binary>>) when is_length_quote(length_quote) do
     bytes
-    |> decode_with_prefix(Uint32, length_quote())
+    |> decode_with_prefix(UintvarInteger, length_quote())
     ~> fn {length, rest} ->
          if is_short_length(length) do
            decode_error bytes, :should_be_encoded_as_a_short_length
@@ -32,7 +32,7 @@ defmodule MMS.ValueLength do
 
   def encode(value) when is_integer(value) do
     value
-    |> encode_with_prefix(Uint32, length_quote())
+    |> encode_with_prefix(UintvarInteger, length_quote())
   end
 
   def decode(bytes, f) when is_binary(bytes) and is_function(f) do
