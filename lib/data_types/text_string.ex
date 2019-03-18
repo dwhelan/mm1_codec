@@ -1,5 +1,7 @@
 defmodule MMS.TextString do
   @moduledoc """
+  8.4.2.1 Basic rules
+
   Text-string = [Quote] *TEXT End-of-string
 
   If the first character in the TEXT is in the range of 128-255, a Quote character must precede it.
