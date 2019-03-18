@@ -1,6 +1,6 @@
 defmodule MMS.UntypedValue do
   @moduledoc """
-  Specification: WAP-230-WSP-20010705-a, 8.4.2.4 Parameter
+  8.4.2.4 Parameter
 
   Untyped-value = IntegerValue-value | Text-value
   """

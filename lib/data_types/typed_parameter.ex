@@ -1,5 +1,13 @@
 defmodule MMS.TypedParameter do
-  # Based on WAP-230-WSP-20010705-a: Table 38. Well-Known Parameter Assignments
+  @moduledoc """
+  8.4.2.4 Parameter
+
+  Typed-parameter = Well-known-parameter-token Typed-value
+
+  The actual expected type of the value is implied by the well-known parameter
+
+  Table 38. Well-Known Parameter Assignments
+  """
 
   alias MMS.{CharSet, DateValue, IntegerValue, Media, NoValue, QValue, ShortInteger, TextString, TextValue, Version}
 

@@ -20,8 +20,6 @@ defmodule MMS.UintvarInteger do
   8.4.2.1 Basic rules
 
   Uintvar-integer = 1*5 OCTET
-
-  The encoding is the same as the one defined for uintvar in Section 8.1.2.
   """
   use MMS.Codec, error: :uintvar_integer
 
