@@ -12,11 +12,11 @@ defmodule MMS.ContentTypeValue do
   """
   use MMS.Codec
 
-  alias MMS.{MediaType, ContentGeneralForm}
+  alias MMS.{ConstrainedMedia, ContentGeneralForm}
 
-  def decode(bytes = <<media, _::binary>>) when is_short_integer_byte(media) or is_char(media) do
+  def decode(bytes = <<media, _::binary>>) when is_short_integer_byte(media) do
     bytes
-    |> decode_as(MediaType)
+    |> decode_as(ConstrainedMedia)
   end
 
   def decode(bytes) when is_binary(bytes) do
@@ -24,9 +24,13 @@ defmodule MMS.ContentTypeValue do
     |> decode_as(ContentGeneralForm)
   end
 
+  def encode(constrained_media) when is_short_integer(constrained_media) do
+    constrained_media
+    |> encode_as(ConstrainedMedia)
+  end
+
   def encode(media) do
     media
-    |> encode_as(MediaType)
-    ~>> fn _ -> media |> encode_as(ContentGeneralForm) end
+    |> encode_as(ContentGeneralForm)
   end
 end

@@ -1,12 +1,12 @@
-defmodule MMS.ContentTypeTest do
+defmodule MMS.ContentTypeValueTest do
   use MMS.CodecTest
 
   use MMS.TestExamples,
       codec: MMS.ContentTypeValue,
 
       examples: [
-        { << s(0) >>,       {"*/*"}   }, # constrained media
-#        { << l(1), s(0) >>, {"*/*"} }, # content general form
+        { << s(0) >>,       0   }, # constrained media
+        { << l(1), s(0) >>, {"*/*"} }, # content general form
       ],
 
       decode_errors: [
