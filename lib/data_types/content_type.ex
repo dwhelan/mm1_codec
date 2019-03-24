@@ -16,7 +16,7 @@ defmodule MMS.ContentType do
   """
   use MMS.Codec
 
-  alias MMS.{ValueLength, MediaType}
+  alias MMS.{ValueLength, MediaType, ContentGeneralForm}
 
   def decode(bytes = <<media, _::binary>>) when is_short_integer_byte(media) or is_char(media) do
     bytes
@@ -25,17 +25,39 @@ defmodule MMS.ContentType do
 
   def decode(bytes) when is_binary(bytes) do
     bytes
-    |> ValueLength.decode(MediaType)
-    ~> fn {media, rest} -> ok {{media}, rest} end
+    |> decode_as(ContentGeneralForm)
   end
 
   def encode({media}) do
     media
-    |> ValueLength.encode(MediaType)
+    |> encode_as(ContentGeneralForm)
   end
 
   def encode(media) do
     media
     |> encode_as(MediaType)
+  end
+end
+
+defmodule MMS.ContentGeneralForm do
+  @moduledoc """
+  8.4.2.24 Content type field
+
+  Content-general-form = Value-length Media-type
+
+  """
+  use MMS.Codec
+
+  alias MMS.{ValueLength, MediaType}
+
+  def decode bytes do
+    bytes
+    |> ValueLength.decode(MediaType)
+    ~> fn {media_type, rest} -> ok {{media_type}, rest} end
+  end
+
+  def encode(media_type) do
+    media_type
+    |> ValueLength.encode(MediaType)
   end
 end
