@@ -1,8 +1,13 @@
-defmodule MMS.CharSet do
+defmodule MMS.WellKnownCharset do
   @moduledoc """
   8.4.2.8 Accept charset Field
 
-  The Char-set values are registered by IANA as MIBEnum values.
+  Well-known-charset = Any-charset | Integer-value
+  Both are encoded using values from Character Set Assignments table in Assigned Numbers.
+  See https://www.iana.org/assignments/character-sets/character-sets.xhtml
+
+  Any-charset = <Octet 128>
+  Equivalent to the special RFC2616 charset value “*”
   """
   use MMS.Codec
   alias MMS.IntegerValue
