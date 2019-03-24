@@ -1,4 +1,4 @@
-defmodule MMS.Version do
+defmodule MMS.VersionValue do
   @moduledoc """
   8.4.2.3 Parameter Values
 

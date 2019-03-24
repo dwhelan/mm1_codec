@@ -1,8 +1,8 @@
-defmodule MMS.VersionTest do
+defmodule MMS.VersionValueTest do
   use MMS.CodecTest
 
   use MMS.TestExamples,
-      codec: MMS.Version,
+      codec: MMS.VersionValue,
 
       examples: [
         { <<0b10000000>>, {0, 0}   },
@@ -11,7 +11,7 @@ defmodule MMS.VersionTest do
       ],
 
       decode_errors: [
-        { "no end of string", {:version, "no end of string", [:text, :missing_end_of_string]}},
+        { "no end of string", {:version_value, "no end of string", [:text, :missing_end_of_string]}},
       ],
 
       encode_errors: [

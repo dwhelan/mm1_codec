@@ -45,7 +45,7 @@ defmodule MMS.TypedParameter do
 
   """
 
-  alias MMS.{WellKnownCharset, DateValue, IntegerValue, MediaType, NoValue, QValue, ShortInteger, TextString, TextValue, Version}
+  alias MMS.{WellKnownCharset, DateValue, IntegerValue, MediaType, NoValue, QValue, ShortInteger, TextString, TextValue, VersionValue}
 
   alias MediaType,      as: ConstrainedEncoding
   alias IntegerValue,    as: DeltaSecondsValue
@@ -55,7 +55,7 @@ defmodule MMS.TypedParameter do
       values: [
         q:                     QValue,
         charset:               WellKnownCharset,
-        level:                 Version,
+        level:                 VersionValue,
         type:                  IntegerValue,
         _unassigned:           nil,
         name_deprecated:       TextString,
