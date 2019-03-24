@@ -13,9 +13,7 @@ defmodule MMS.WellKnownCharset do
   alias MMS.IntegerValue
 
   @map %{
-       0 => :any_charset,
-       1 => :other,
-       2 => :unknown,
+       0 => :AnyCharset,
        3 => :ASCII,
        4 => :ISOLatin1,
        5 => :ISOLatin2,
