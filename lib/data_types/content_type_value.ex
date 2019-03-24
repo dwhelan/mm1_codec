@@ -1,4 +1,4 @@
-defmodule MMS.ContentType do
+defmodule MMS.ContentTypeValue do
   @moduledoc """
   8.4.2.24 Content type field
 

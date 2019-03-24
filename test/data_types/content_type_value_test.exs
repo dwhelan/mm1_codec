@@ -2,7 +2,7 @@ defmodule MMS.ContentTypeTest do
   use MMS.CodecTest
 
   use MMS.TestExamples,
-      codec: MMS.ContentType,
+      codec: MMS.ContentTypeValue,
 
       examples: [
         { << s(0) >>,       {"*/*"}   }, # constrained media
