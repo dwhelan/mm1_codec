@@ -8,15 +8,11 @@ defmodule MMS.ContentType do
   In all other cases the general form MUST be used.
 
   Content-type-value = Constrained-media | Content-general-form
-  Content-general-form = Value-length Media-type
 
-  We simplify this to:
-
-  Content-type-value = Constrained-media | Value-length Media-type
   """
   use MMS.Codec
 
-  alias MMS.{ValueLength, MediaType, ContentGeneralForm}
+  alias MMS.{MediaType, ContentGeneralForm}
 
   def decode(bytes = <<media, _::binary>>) when is_short_integer_byte(media) or is_char(media) do
     bytes
@@ -28,36 +24,9 @@ defmodule MMS.ContentType do
     |> decode_as(ContentGeneralForm)
   end
 
-  def encode({media}) do
-    media
-    |> encode_as(ContentGeneralForm)
-  end
-
   def encode(media) do
     media
     |> encode_as(MediaType)
-  end
-end
-
-defmodule MMS.ContentGeneralForm do
-  @moduledoc """
-  8.4.2.24 Content type field
-
-  Content-general-form = Value-length Media-type
-
-  """
-  use MMS.Codec
-
-  alias MMS.{ValueLength, MediaType}
-
-  def decode bytes do
-    bytes
-    |> ValueLength.decode(MediaType)
-    ~> fn {media_type, rest} -> ok {{media_type}, rest} end
-  end
-
-  def encode(media_type) do
-    media_type
-    |> ValueLength.encode(MediaType)
+    ~>> fn _ -> media |> encode_as(ContentGeneralForm) end
   end
 end

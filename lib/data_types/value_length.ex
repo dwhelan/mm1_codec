@@ -44,6 +44,11 @@ defmodule MMS.ValueLength do
     |> encode_with_prefix(UintvarInteger, length_quote())
   end
 
+  def decode(bytes, codec) when is_binary(bytes) and is_atom(codec) do
+    bytes
+    |> decode(& codec.decode &1)
+  end
+
   def decode(bytes, f) when is_binary(bytes) and is_function(f) do
     bytes
     |>  __MODULE__.decode

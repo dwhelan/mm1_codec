@@ -5,7 +5,7 @@ defmodule MMS.ContentTypeTest do
       codec: MMS.ContentType,
 
       examples: [
-        { << s(0) >>,       "*/*"   }, # constrained media
+        { << s(0) >>,       {"*/*"}   }, # constrained media
 #        { << l(1), s(0) >>, {"*/*"} }, # content general form
       ],
 

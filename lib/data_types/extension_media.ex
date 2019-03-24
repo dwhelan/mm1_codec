@@ -5,6 +5,8 @@ defmodule MMS.ExtensionMedia do
   Extension-media = *TEXT End-of-string
 
   This encoding is used for media values, which have no well-known binary encoding.
+
+  The `MMS.TEXT` module supports `*TEXT End-of-string`
   """
 
   alias MMS.Text

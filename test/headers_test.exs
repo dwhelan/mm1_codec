@@ -11,7 +11,7 @@ defmodule MMS.HeadersTest do
         { << s(1),  "@\0"               >>, bcc:                     {"@", ""}       },
         { << s(2),  "@\0"               >>, cc:                      {"@", ""}       },
         { << s(3),  "x\0"               >>, content_location:        "x"                 },
-        { << s(4),  s(0)                >>, content_type:            "*/*"               },
+        { << s(4),  s(0)                >>, content_type:            {"*/*"}             },
         { << s(5),  l(1), 0             >>, date:                    date_time_zero      },
         { << s(6),  s(0)                >>, delivery_report:         true                },
         { << s(7),  l(3), s(0), l(1), 0 >>, delivery_time:           date_time_zero      },

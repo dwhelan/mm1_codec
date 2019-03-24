@@ -6,13 +6,13 @@ defmodule MMS.MediaTypeTest do
 
       examples: [
         # Well known media
-        { << s(0) >>, "*/*" },
+        { << s(0) >>, {"*/*"} },
 
         # Extension media
-        { << 0 >>,         <<>>          },
-        { << 32, 0 >>,     <<32>>        },
-        { << 0x7f, 0 >>,   <<0x7f>>      },
-        { "other/other\0", "other/other" },
+        { << 0 >>,         {""}          },
+        { << 32, 0 >>,     {" "}        },
+        { << 0x7f, 0 >>,   {<<0x7f>>}      },
+        { "other/other\0", {"other/other"} },
       ],
 
       decode_errors: [
@@ -22,6 +22,6 @@ defmodule MMS.MediaTypeTest do
       ],
 
       encode_errors: [
-        { "x\0", {:media_type, "x\0", [:text, :contains_end_of_string]} },
+        { {"x\0"}, {:media_type, {"x\0"}, [:text, :contains_end_of_string]} },
       ]
 end
