@@ -8,7 +8,7 @@ defmodule MMS.KnownParameterTest do
       examples: [
         # Input bytes              Parameter              Value
         { << s(0),  1          >>, q:                     "00"          },
-        { << s(1),  s(0)       >>, charset:               :any          },
+        { << s(1),  s(0)       >>, charset:               :any_charset          },
         { << s(2),  0b10000000 >>, level:                 {0, 0}        },
         { << s(3),  s(0)       >>, type:                  0             },
         { << s(5),  "x\0"      >>, name_deprecated:       "x"           },
@@ -38,7 +38,7 @@ defmodule MMS.KnownParameterTest do
         { << s(29), "x\0"      >>, path:                  "x"           },
 
         # Multiple parameters
-#        {<<s(0), 1, s(1), s(0)>>, q: "0.00", charset: :any},
+#        {<<s(0), 1, s(1), s(0)>>, q: "0.00", charset: :any_charset},
       ],
 
       encode_errors: [

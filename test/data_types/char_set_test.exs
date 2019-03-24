@@ -5,7 +5,7 @@ defmodule MMS.CharSetTest do
       codec: MMS.CharSet,
 
       examples: [
-        { << s(0) >>,           :any       },
+        { << s(0) >>,           :any_charset       },
         { << s(119) >>,         :csKZ1048  },
         { << l(2), 1000::16 >>, :csUnicode },
       ],

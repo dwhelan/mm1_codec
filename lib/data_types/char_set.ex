@@ -8,7 +8,7 @@ defmodule MMS.CharSet do
   alias MMS.IntegerValue
 
   @map %{
-       0 => :any,
+       0 => :any_charset,
        1 => :other,
        2 => :unknown,
        3 => :csASCII,
@@ -272,10 +272,12 @@ defmodule MMS.CharSet do
   }
 
   def decode bytes do
-    bytes |> decode_as(IntegerValue, @map)
+    bytes
+    |> decode_as(IntegerValue, @map)
   end
 
   def encode(charset) when is_atom(charset) do
-    charset |> encode_as(IntegerValue, @map)
+    charset
+    |> encode_as(IntegerValue, @map)
   end
 end
