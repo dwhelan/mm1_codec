@@ -1,4 +1,4 @@
-defmodule MMS.Media do
+defmodule MMS.MediaType do
   @moduledoc """
   8.4.2.24 Content type field
 

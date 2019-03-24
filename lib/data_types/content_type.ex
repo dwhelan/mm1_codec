@@ -16,26 +16,26 @@ defmodule MMS.ContentType do
   """
   use MMS.Codec
 
-  alias MMS.{ValueLength, Media}
+  alias MMS.{ValueLength, MediaType}
 
   def decode(bytes = <<media, _::binary>>) when is_short_integer_byte(media) or is_char(media) do
     bytes
-    |> decode_as(Media)
+    |> decode_as(MediaType)
   end
 
   def decode(bytes) when is_binary(bytes) do
     bytes
-    |> ValueLength.decode(Media)
+    |> ValueLength.decode(MediaType)
     ~> fn {media, rest} -> ok {{media}, rest} end
   end
 
   def encode({media}) do
     media
-    |> ValueLength.encode(Media)
+    |> ValueLength.encode(MediaType)
   end
 
   def encode(media) do
     media
-    |> encode_as(Media)
+    |> encode_as(MediaType)
   end
 end

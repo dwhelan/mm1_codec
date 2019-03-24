@@ -9,9 +9,9 @@ defmodule MMS.TypedParameter do
   Table 38. Well-Known Parameter Assignments
   """
 
-  alias MMS.{CharSet, DateValue, IntegerValue, Media, NoValue, QValue, ShortInteger, TextString, TextValue, Version}
+  alias MMS.{CharSet, DateValue, IntegerValue, MediaType, NoValue, QValue, ShortInteger, TextString, TextValue, Version}
 
-  alias Media,      as: ConstrainedEncoding
+  alias MediaType,      as: ConstrainedEncoding
   alias IntegerValue,    as: DeltaSecondsValue
   alias TextString, as: FieldName
 
