@@ -18,12 +18,10 @@ defmodule MMS.TokenText do
   HT             = <US-ASCII HT, horizontal-tab (9)>
   """
 
-  @end_of_string <<0>>
-
   use MMS.Codec
   alias MMS.Text
 
-  def decode(bytes = <<@end_of_string, _::binary>>) do
+  def decode(bytes = <<end_of_string, _::binary>>) when is_end_of_string(end_of_string) do
     bytes
     |> decode_error(:must_have_at_least_one_token_char)
   end
@@ -32,15 +30,10 @@ defmodule MMS.TokenText do
     bytes
     |> decode_as(Text)
     ~> fn {text, rest} ->
-          non_token =
-            text
-            |> String.to_charlist
-            |> Enum.find(fn octet -> is_token_char(octet) == false end)
-
-          case non_token do
-            nil -> decode_ok text, rest
-            octet -> decode_error bytes, {:invalid_token_char, octet}
-          end
+          text
+          |> first_non_token_char
+          ~> fn _ -> decode_ok text, rest end
+          ~>> fn reason -> decode_error bytes, reason end
        end
   end
 
@@ -51,16 +44,20 @@ defmodule MMS.TokenText do
 
   def encode(string) when is_binary(string) do
     string
-    ~> fn text ->
-          non_token =
-            text
-            |> String.to_charlist
-            |> Enum.find(fn octet -> is_token_char(octet) == false end)
+    |> first_non_token_char
+    ~> fn _  -> string |> encode_as(Text) end
+    ~>> fn reason -> encode_error string, reason end
+  end
 
-          case non_token do
-            nil -> string |> encode_as(Text)
-            octet -> encode_error string, {:invalid_token_char, octet}
-          end
-       end
+  defp first_non_token_char string do
+    non_token_char =
+      string
+      |> String.to_charlist
+      |> Enum.find(fn char -> is_token_char(char) == false end)
+
+    case non_token_char do
+      nil -> ok string
+      char -> error {:invalid_token_char, char}
+    end
   end
 end
