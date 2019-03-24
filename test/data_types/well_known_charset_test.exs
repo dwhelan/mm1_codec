@@ -6,8 +6,8 @@ defmodule MMS.WellKnownCharsetTest do
 
       examples: [
         { << s(0) >>,           :any_charset       },
-        { << s(119) >>,         :csKZ1048  },
-        { << l(2), 1000::16 >>, :csUnicode },
+        { << s(119) >>,         :KZ1048  },
+        { << l(2), 1000::16 >>, :Unicode },
       ],
 
       decode_errors: [

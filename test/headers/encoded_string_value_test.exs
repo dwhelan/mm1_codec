@@ -14,21 +14,21 @@ defmodule MMS.EncodedStringValueTest do
         { <<"x\0">>, "x" },
 
         # Encoded with short length
-        { << l(3), s(106), "x\0" >>,         {"x", :csUTF8}    }, # short charset
-        { << l(5), l(2), 1000::16, "x\0" >>, {"x", :csUnicode} }, # long charset
+        { << l(3), s(106), "x\0" >>,         {"x", :UTF8}    }, # short charset
+        { << l(5), l(2), 1000::16, "x\0" >>, {"x", :Unicode} }, # long charset
 
         # Encoded with uint32 length
-        { << length_quote(), l(32), s(106) >> <> string30 <> <<0>>, {string30, :csUTF8} },
+        { << length_quote(), l(32), s(106) >> <> string30 <> <<0>>, {string30, :UTF8} },
       ],
 
       decode_errors: [
         { <<"x">>,               {:encoded_string_value, "x",                   [:text_string, :text, :missing_end_of_string]} },
-        { <<l(2), s(106), "x">>, {:encoded_string_value, <<l(2), s(106), "x">>, [:value_length_list, :list, %{error: {:text_string, "x", [:text, :missing_end_of_string]}, length: 2, values: [:csUTF8]}] }},
+        { <<l(2), s(106), "x">>, {:encoded_string_value, <<l(2), s(106), "x">>, [:value_length_list, :list, %{error: {:text_string, "x", [:text, :missing_end_of_string]}, length: 2, values: [:UTF8]}] }},
       ],
 
       encode_errors: [
         { "x\0",            {:encoded_string_value, "x\0",            [:text_string, :text, :contains_end_of_string]} },
-        { {"x\0", :csUTF8}, {:encoded_string_value, {"x\0", :csUTF8}, [:list, {:text_string, "x\0", [:text, :contains_end_of_string]}]} },
+        { {"x\0", :UTF8}, {:encoded_string_value, {"x\0", :UTF8}, [:list, {:text_string, "x\0", [:text, :contains_end_of_string]}]} },
       ]
 end
 
