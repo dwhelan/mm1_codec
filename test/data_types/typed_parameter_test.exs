@@ -15,7 +15,7 @@ defmodule MMS.TypedParameterTest do
         { << s(6),  "x\0"      >>, file_name_deprecated:  "x"          },
         { << s(7),  "x\0"      >>, differences:           "x"          },
         { << s(8),  s(0)       >>, padding:               0            },
-        { << s(9),  s(0)       >>, type_multipart:        {"*/*"}      },
+        { << s(9),  s(0)       >>, type_multipart:        0            },
         { << s(10), "x\0"      >>, start_deprecated:      "x"          },
         { << s(11), "x\0"      >>, start_info_deprecated: "x"          },
         { << s(12), "x\0"      >>, comment_deprecated:    "x"          },

@@ -9,6 +9,7 @@ defmodule MMS.TypedParameter do
 
   Table 38. Well-Known Parameter Assignments
 
+  |-----------------|----------------|--------------------|
   |Token            |Assigned Number |BNF Value Rule      |
   |-----------------|----------------|--------------------|
   |Q                |0x00            |Q-value             |
@@ -40,14 +41,14 @@ defmodule MMS.TypedParameter do
   |Comment          |0x1B            |Text-value          |
   |Domain           |0x1C            |Text-value          |
   |Path             |0x1D            |Text-value          |
+  |-----------------|----------------|--------------------|
 
   Note: * These numbers have been deprecated and should not be used.
 
   """
 
-  alias MMS.{WellKnownCharset, DateValue, IntegerValue, MediaType, NoValue, QValue, ShortInteger, TextString, TextValue, VersionValue}
+  alias MMS.{WellKnownCharset, DateValue, ConstrainedEncoding, IntegerValue, MediaType, NoValue, QValue, ShortInteger, TextString, TextValue, VersionValue}
 
-  alias MediaType,      as: ConstrainedEncoding
   alias IntegerValue,    as: DeltaSecondsValue
   alias TextString, as: FieldName
 
