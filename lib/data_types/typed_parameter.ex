@@ -44,12 +44,11 @@ defmodule MMS.TypedParameter do
   |-----------------|----------------|--------------------|
 
   Note: * These numbers have been deprecated and should not be used.
-
   """
 
-  alias MMS.{WellKnownCharset, DateValue, FieldName, ConstrainedEncoding, IntegerValue, NoValue, QValue, ShortInteger, TextString, TextValue, VersionValue}
-
-  alias IntegerValue,    as: DeltaSecondsValue
+  alias MMS.{QValue, WellKnownCharset, VersionValue, IntegerValue, TextString}
+  alias MMS.{FieldName, ShortInteger, ConstrainedEncoding, DeltaSecondsValue}
+  alias MMS.{NoValue, DateValue, TextValue}
 
   use MMS.CodecMapper,
       values: [
