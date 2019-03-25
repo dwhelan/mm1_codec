@@ -9,12 +9,12 @@ defmodule MMS.UntypedParameter do
 
   alias MMS.{Tuple, TokenText, UntypedValue}
 
-  def decode(bytes) do
+  def decode bytes do
     bytes
     |> Tuple.decode([TokenText, UntypedValue])
   end
 
-  def encode({name, value}) do
+  def encode {name, value} do
     {name, value}
     |> Tuple.encode([TokenText, UntypedValue])
   end
