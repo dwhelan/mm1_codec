@@ -47,10 +47,9 @@ defmodule MMS.TypedParameter do
 
   """
 
-  alias MMS.{WellKnownCharset, DateValue, ConstrainedEncoding, IntegerValue, NoValue, QValue, ShortInteger, TextString, TextValue, VersionValue}
+  alias MMS.{WellKnownCharset, DateValue, FieldName, ConstrainedEncoding, IntegerValue, NoValue, QValue, ShortInteger, TextString, TextValue, VersionValue}
 
   alias IntegerValue,    as: DeltaSecondsValue
-  alias TextString, as: FieldName
 
   use MMS.CodecMapper,
       values: [
