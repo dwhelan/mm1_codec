@@ -45,6 +45,7 @@ and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
 be found at [https://hexdocs.pm/mm1_codec](https://hexdocs.pm/mm1_codec).
 
 # To do
+- consider having decode_as(...) etc, take a `__MODULE__` parameter
 - create decode_as_one_of(...)
 - refactor CodecMapper to use core decode functions
 - consolidate CoderError into Codec

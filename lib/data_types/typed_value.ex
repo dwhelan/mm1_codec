@@ -51,39 +51,6 @@ defmodule MMS.TypedValue do
   """
   use MMS.Codec
 
-#    @map %{
-#    # Assigned Number => {Token                       Codec}
-#    0x00              => {:q,                         QValue},
-#    0x01              => {:charset,                   WellKnownCharset},
-#    0x02              => {:level,                     VersionValue},
-#    0x03              => {:type,                      IntegerValue},
-#    0x05              => {:"name (deprecated)",       TextString},
-#    0x06              => {:"file_name (deprecated)",  TextString},
-#    0x07              => {:differences,               FieldName},
-#    0x08              => {:padding,                   ShortInteger},
-#    0x09              => {:type_multipart,            ConstrainedEncoding},
-#    0x0A              => {:"start (deprecated)",      TextString},
-#    0x0B              => {:"start_info (deprecated)", TextString},
-#    0x0C              => {:"comment (deprecated)",    TextString},
-#    0x0D              => {:"domain (deprecated)",     TextString},
-#    0x0E              => {:max_age,                   DeltaSecondsValue},
-#    0x0F              => {:"path (deprecated)",       TextString},
-#    0x10              => {:secure,                    NoValue},
-#    0x11              => {:sec,                       ShortInteger},
-#    0x12              => {:mac,                       TextValue},
-#    0x13              => {:creation_date,             DateValue},
-#    0x14              => {:modification_date,         DateValue},
-#    0x15              => {:read_date,                 DateValue},
-#    0x16              => {:size,                      IntegerValue},
-#    0x17              => {:name,                      TextValue},
-#    0x18              => {:file_name,                 TextValue},
-#    0x19              => {:start,                     TextValue},
-#    0x1A              => {:start_info,                TextValue},
-#    0x1B              => {:comment,                   TextValue},
-#    0x1C              => {:domain,                    TextValue},
-#    0x1D              => {:path,                      TextValue},
-#  }
-
   alias MMS.{TextValue}
 
   def decode bytes, codec do
