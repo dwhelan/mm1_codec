@@ -101,15 +101,18 @@ defmodule MMS.CompactValue do
   end
 
   def encode {token, value} do
-    value
+    {token, value}
     |> do_encode(Map.get @codecs, token)
   end
 
-  def do_encode value, nil do
+  def do_encode {token, value}, nil do
+    {token, value}
+    |> encode_error(%{invalid_token: token})
   end
 
-  def do_encode value, codec do
+  def do_encode {token, value}, codec do
     value
     |> encode_as(codec)
+    ~>> fn {datatype, _, details} -> error datatype, {token, value}, details end
   end
 end
