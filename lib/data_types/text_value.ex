@@ -43,8 +43,8 @@ defmodule MMS.TextValue do
     |> encode_as(Text)
   end
 
-  def encode(string) when is_binary(string) do
-    string
+  def encode value do
+    value
     |> encode_error(:first_byte_must_be_no_value_or_quote_or_char)
   end
 end

@@ -45,6 +45,6 @@ and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
 be found at [https://hexdocs.pm/mm1_codec](https://hexdocs.pm/mm1_codec).
 
 # To do
-- implement Token-text as per RFC2616
+- create decode_as_one_of(...)
 - refactor CodecMapper to use core decode functions
 - consolidate CoderError into Codec
