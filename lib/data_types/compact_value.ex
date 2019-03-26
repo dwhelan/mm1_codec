@@ -44,6 +44,7 @@ defmodule MMS.CompactValue do
 
   In our case the well-known parameter is represented by a `token` passed as an `atom`
   to `decode/2` and `encode/2`.
+
   Decoding and encoding is the responsibility of the codec associated with the `token`
   so the BNF rules for `Compact-value` are not enforced in this module.
   """
@@ -87,7 +88,7 @@ defmodule MMS.CompactValue do
 
   def decode(bytes, token) when is_binary(bytes) and is_atom(token) do
     bytes
-    |> do_decode(token, Map.get(@codecs, token))
+    |> do_decode(token, codec(token))
   end
 
   defp do_decode bytes, token, nil do
@@ -102,7 +103,7 @@ defmodule MMS.CompactValue do
 
   def encode({token, value}) when is_atom(token) do
     {token, value}
-    |> do_encode(Map.get @codecs, token)
+    |> do_encode(codec token)
   end
 
   def do_encode {token, value}, nil do
@@ -114,5 +115,9 @@ defmodule MMS.CompactValue do
     value
     |> encode_as(codec)
     ~>> fn {datatype, _, details} -> error datatype, {token, value}, details end
+  end
+
+  defp codec(token) do
+    Map.get(@codecs, token)
   end
 end
