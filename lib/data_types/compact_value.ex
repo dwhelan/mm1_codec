@@ -4,7 +4,6 @@ defmodule MMS.CompactValue do
 
   The actual expected type of the value is implied by the well-known parameter.
   In our case the well-known parameter is represented by a `token`.
-  In addition to the expected type, there may be no value.
 
   Compact-value = Integer-value | Date-value | Delta-seconds-value | Q-value | Version-value | Uri-value
 
@@ -44,8 +43,7 @@ defmodule MMS.CompactValue do
   |Path             |Text-value          |
   |-----------------|--------------------|
 
-  Note that the second argument, `codec` to `decode` and `encode`, must be a Codec which can decode and encode
-  values of the expected type. So, we do not need a `MMS.CompactValue` to implement this.
+  Note that the second argument, `codec` to `decode` and `encode`, must be a `token`.
   """
   use MMS.Codec
 
@@ -85,7 +83,7 @@ defmodule MMS.CompactValue do
     :path                      => TextValue,
   }
 
-  def decode bytes, token do
+  def decode(bytes, token) when is_binary(bytes) and is_atom(token) do
     bytes
     |> do_decode(token, Map.get(@codecs, token))
   end
@@ -100,7 +98,7 @@ defmodule MMS.CompactValue do
     |> decode_as(codec, fn value -> {token, value} end)
   end
 
-  def encode {token, value} do
+  def encode({token, value}) when is_atom(token) do
     {token, value}
     |> do_encode(Map.get @codecs, token)
   end
