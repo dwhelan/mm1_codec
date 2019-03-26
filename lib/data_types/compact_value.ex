@@ -42,8 +42,10 @@ defmodule MMS.CompactValue do
   |Path             |Text-value          |
   |-----------------|--------------------|
 
-  In our case, the well-known parameter is represented by a `token` passed as an `atom`
-  to `codec` and `decode/2` and `encode/2`.
+  In our case the well-known parameter is represented by a `token` passed as an `atom`
+  to `decode/2` and `encode/2`.
+  Decoding and encoding is the responsibility of the codec associated with the `token`
+  so the BNF rules for `Compact-value` are not enforced in this module.
   """
   use MMS.Codec
 
