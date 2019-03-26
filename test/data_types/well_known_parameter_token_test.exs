@@ -3,10 +3,6 @@ defmodule MMS.WellKnownParameterTokenTest do
 
   alias MMS.WellKnownParameterToken
 
-  alias MMS.{QValue, WellKnownCharset, VersionValue, IntegerValue, TextString}
-  alias MMS.{FieldName, ShortInteger, ConstrainedEncoding, DeltaSecondsValue}
-  alias MMS.{NoValue, DateValue, TextValue}
-
   use MMS.TestExamples,
       codec: WellKnownParameterToken,
 

@@ -8,7 +8,6 @@ defmodule MMS.WellKnownParameterToken do
 
   Table 38. Well-Known Parameter Assignments (excerpts)
 
-  The table is shown without the `Encoding Version`
   |----------------|-----------------|
   |Assigned Number |Token            |
   |----------------|-----------------|
