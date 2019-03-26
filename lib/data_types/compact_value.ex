@@ -3,7 +3,6 @@ defmodule MMS.CompactValue do
   8.4.2.4 Parameter
 
   The actual expected type of the value is implied by the well-known parameter.
-  In our case the well-known parameter is represented by a `token`.
 
   Compact-value = Integer-value | Date-value | Delta-seconds-value | Q-value | Version-value | Uri-value
 
@@ -43,7 +42,8 @@ defmodule MMS.CompactValue do
   |Path             |Text-value          |
   |-----------------|--------------------|
 
-  Note that the second argument, `codec` to `decode` and `encode`, must be a `token`.
+  In our case, the well-known parameter is represented by a `token` passed as an `atom`
+  to `codec` and `decode/2` and `encode/2`.
   """
   use MMS.Codec
 

@@ -19,24 +19,7 @@ end
 # Codec functions
 
 ## decode
-`decode(input)` must return a `%MMS.Result{}` with:
-- `module` set to the module of the codec, i.e.`__MODULE__`
-- `bytes` set to the bytes consumed by the codec
-- `rest` set to remaining bytes
-- `bytes <> rest` equal to `input`
-
-If the input can be decoded:
-- `value` set to the codec's understanding of the bytes consumed (non `nil`)
-- `err` set to `nil`
-
-If the input cannot be decoded:
-- `value` set to `nil`
-- `err` set to a list of error atoms:
-    - `:must_be_a_binary` if `input` is not a `binary`
-    - `:insufficient_bytes` if `input == <<>>`
-    - or an error specific to the codec
-
-## encode(Result) -> binary
+## encode
 
 # Documentation
 
@@ -46,6 +29,7 @@ be found at [https://hexdocs.pm/mm1_codec](https://hexdocs.pm/mm1_codec).
 
 # To do
 - consider having decode_as(...) etc, take a `__MODULE__` parameter
+- consider macro to decode/encode either 2 or a list of codecs
 - create decode_as_one_of(...)
 - refactor CodecMapper to use core decode functions
 - consolidate CoderError into Codec
