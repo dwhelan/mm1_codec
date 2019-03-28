@@ -28,22 +28,22 @@ and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
 be found at [https://hexdocs.pm/mm1_codec](https://hexdocs.pm/mm1_codec).
 
 # To do
-- consider test macro s
-```elixir
-defmacro test_codec_ok desc, bytes, value do
-end
-
-defmacro test_decode_error desc, bytes, error do
-end
-
-defmacro test_encode_error desc, value, error do
-end
-
-````
-
-- consider decode {:ok, ...} & decode {:error, ...} for codec composition
-- consider having decode_as(...) etc, take a `__MODULE__` parameter
-- consider macro to decode/encode either 2 or a list of codecs
-- create decode_as_one_of(...)
-- refactor CodecMapper to use core decode functions
-- consolidate CoderError into Codec
+- refactoring
+  - test macros
+    ```elixir
+    defmacro test_codec_ok desc, bytes, value do
+    end
+    
+    defmacro test_decode_error desc, bytes, error do
+    end
+    
+    defmacro test_encode_error desc, value, error do
+    end
+    
+    ````
+  - `decode {:ok, ...}` & `decode {:error, ...}` for codec composition
+  - `decode_as(...)` etc, take a `__MODULE__` parameter
+  - macro to decode/encode either 2 or a list of codecs
+- create `decode_(...)` and`decode_as_one_of(...)`
+- refactor `CodecMapper` to use core `Codec` functions
+- consolidate `CoderError` into `Codec`

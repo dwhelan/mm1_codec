@@ -5,7 +5,7 @@ defmodule MMS.ContentGeneralFormTest do
       codec: MMS.ContentGeneralForm,
 
       examples: [
-        { << l(1), s(0) >>, {"*/*"} },
+        { << l(1), s(0) >>, :"*/*" },
       ],
 
       decode_errors: [

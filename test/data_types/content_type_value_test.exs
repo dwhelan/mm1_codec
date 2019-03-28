@@ -10,7 +10,7 @@ sample_content_type = <<0x1f, 0x22, 0xb3, 0x8a, 0x22, 0x3c, 0x73, 0x6d, 0x69, 0x
 
       examples: [
         { << s(0) >>,       0   }, # constrained media
-        { << l(1), s(0) >>, {"*/*"} }, # content general form
+        { << l(1), s(0) >>, :"*/*" }, # content general form
 #        { sample_content_type, {"*/*"} }, # content general form
       ],
 
