@@ -1,48 +1,22 @@
 defmodule MMS.TypedParameterTest do
   use MMS.CodecTest
+  alias MMS.{CompactValue, TextValue}
 
   use MMS.TestExamples,
       codec: MMS.TypedParameter,
 
       examples: [
-#        { << s(0), 1 >>, {:q, "00"} },
+        { << s(0),  1     >>, {:q, "00"} },
+        { << s(29), "a\0" >>, {:path, "a"} },
       ],
-#       examples: [
-#        # Input bytes  {Token,                      Codec}
-#        {<< s(0)  >>, {:q,                         QValue}},
-#        {<< s(1)  >>, {:charset,                   WellKnownCharset}},
-#        {<< s(2)  >>, {:level,                     VersionValue}},
-#        {<< s(3)  >>, {:type,                      IntegerValue}},
-#        {<< s(5)  >>, {:"name (deprecated)",       TextString}},
-#        {<< s(6)  >>, {:"file_name (deprecated)",  TextString}},
-#        {<< s(7)  >>, {:differences,               FieldName}},
-#        {<< s(8)  >>, {:padding,                   ShortInteger}},
-#        {<< s(9)  >>, {:type_multipart,            ConstrainedEncoding}},
-#        {<< s(10) >>, {:"start (deprecated)",      TextString}},
-#        {<< s(11) >>, {:"start_info (deprecated)", TextString}},
-#        {<< s(12) >>, {:"comment (deprecated)",    TextString}},
-#        {<< s(13) >>, {:"domain (deprecated)",     TextString}},
-#        {<< s(14) >>, {:max_age,                   DeltaSecondsValue}},
-#        {<< s(15) >>, {:"path (deprecated)",       TextString}},
-#        {<< s(16) >>, {:secure,                    NoValue}},
-#        {<< s(17) >>, {:sec,                       ShortInteger}},
-#        {<< s(18) >>, {:mac,                       TextValue}},
-#        {<< s(19) >>, {:creation_date,             DateValue}},
-#        {<< s(20) >>, {:modification_date,         DateValue}},
-#        {<< s(21) >>, {:read_date,                 DateValue}},
-#        {<< s(22) >>, {:size,                      IntegerValue }},
-#        {<< s(23) >>, {:name,                      TextValue }},
-#        {<< s(24) >>, {:file_name,                 TextValue }},
-#        {<< s(25) >>, {:start,                     TextValue }},
-#        {<< s(26) >>, {:start_info,                TextValue }},
-#        {<< s(27) >>, {:comment,                   TextValue }},
-#        {<< s(28) >>, {:domain,                    TextValue }},
-#        {<< s(29) >>, {:path,                      TextValue }},
-#      ],
 
       decode_errors: [
+        { << s 30 >>,    {:typed_parameter, << s 30 >>,    [:well_known_parameter_token, %{out_of_range: 30}]} },
+        { << s(8), 1 >>, {:typed_parameter, << s(8), 1 >>, [:typed_value, %{cannot_be_decoded_as: [MMS.CompactValue, MMS.TextValue]}] } },
       ],
 
       encode_errors: [
+        { {:foo, 0},      {:typed_parameter, :foo,           [:well_known_parameter_token, :out_of_range]} },
+        { {:padding, :a}, {:typed_parameter, {:padding, :a}, [:typed_value, %{cannot_be_encoded_as: [MMS.CompactValue, MMS.TextValue]}]} },
       ]
 end
