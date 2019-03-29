@@ -14,6 +14,12 @@ defmodule MMS.Codec do
     ~>> fn details -> error data_type(module), bytes, details end
   end
 
+  defmacro decode_either bytes, codecs do
+    quote do
+      MMS.Codec.decode_either(unquote(bytes), unquote(codecs), unquote(__CALLER__.module))
+    end
+  end
+
   defmacro decode_as bytes, codec do
     do_decode identity(), bytes, codec, __CALLER__
   end
