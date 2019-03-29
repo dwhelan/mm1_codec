@@ -22,7 +22,7 @@ defmodule MMS.MediaTypeTest do
       ],
 
       encode_errors: [
-        { :"bad media", {:media_type, :"bad media", [:well_known_media, :out_of_range]} },
-        { "x\0",        {:media_type, "x\0",        [:text, :contains_end_of_string]} },
+        { :"bad media", {:media_type, :"bad media", [{:text, :invalid_type},           {:well_known_media, :out_of_range}]} },
+        { "x\0",        {:media_type, "x\0",        [{:text, :contains_end_of_string}, {:well_known_media, :out_of_range}]} },
       ]
 end

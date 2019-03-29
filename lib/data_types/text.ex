@@ -50,6 +50,11 @@ defmodule MMS.Text do
     |> encode_error(:first_byte_must_be_a_zero_or_a_char)
   end
 
+  def encode value do
+    value
+    |> encode_error(:invalid_type)
+  end
+
   defp do_encode string, _end_of_string = true do
     string
     |> encode_error(:contains_end_of_string)
