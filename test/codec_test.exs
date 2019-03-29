@@ -17,12 +17,6 @@ defmodule MMS.Codec2Test do
     end
   end
 
-  describe "data_type2" do
-    test "data_type" do
-      assert data_type2() == :codec2_test
-    end
-
-  end
   describe "decode_either should" do
     test "return ok if first codec ok" do
       assert decode_either(<<0>>, [Ok, Error], :codec2_test) == ok(0, "")

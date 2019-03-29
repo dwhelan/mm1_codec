@@ -224,9 +224,6 @@ defmodule MMS.Codec do
       import MMS.Codec
       import CodecError
 
-      def data_type2 do
-        data_type()
-      end
       def decode <<>> do
         error {data_type(), <<>>, :no_bytes}
       end
