@@ -95,13 +95,13 @@ defmodule MMS.WellKnownMedia do
     :"application/vnd.syncml.dm.notification",
   ]
 
-  def decode(bytes) when is_binary(bytes) do
+  def decode bytes do
     bytes
     |> decode_as(ShortInteger, @values)
   end
 
-  def encode(atom) when is_atom(atom) do
-    atom
+  def encode value do
+    value
     |> encode_as(ShortInteger, @values)
   end
 end

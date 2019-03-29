@@ -13,13 +13,8 @@ defmodule MMS.MediaType do
     |> decode_either([WellKnownMedia, ExtensionMedia])
   end
 
-  def encode(atom) when is_atom(atom) do
-    atom
-    |> encode_as(WellKnownMedia)
-  end
-
-  def encode(string) when is_binary(string) do
-    string
-    |> encode_as(ExtensionMedia)
+  def encode value do
+    value
+    |> encode_either([WellKnownMedia, ExtensionMedia])
   end
 end
