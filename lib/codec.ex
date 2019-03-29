@@ -20,6 +20,23 @@ defmodule MMS.Codec do
     end
   end
 
+  def encode_either value, codecs, data_type do
+    Enum.reduce_while(codecs, {:error, []},
+      fn codec, {:error, errors} ->
+        case value |> codec.encode do
+          {:ok, result} -> {:halt, ok(result)}
+          {:error, {data_type, _, details}} -> {:cont, {:error, [{data_type, details} | errors]}}
+        end
+      end)
+    ~>> fn details -> error data_type, value, details end
+  end
+
+  defmacro encode_either value, codecs do
+    quote do
+      MMS.Codec.encode_either(unquote(value), unquote(codecs), unquote(data_type __CALLER__.module))
+    end
+  end
+
   defmacro decode_as bytes, codec do
     do_decode identity(), bytes, codec, __CALLER__
   end
