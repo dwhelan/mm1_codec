@@ -3,6 +3,17 @@ defmodule MMS.Codec do
   import CodecError
   import OkError.Operators
 
+  def decode_either bytes, codecs, module do
+    Enum.reduce_while(codecs, {:error, []},
+      fn codec, {:error, errors} ->
+        case bytes |> codec.decode do
+          {:ok, result} -> {:halt, ok(result)}
+          {:error, {data_type, _, details}} -> {:cont, {:error, [{data_type, details} | errors]}}
+        end
+      end)
+    ~>> fn details -> error data_type(module), bytes, details end
+  end
+
   defmacro decode_as bytes, codec do
     do_decode identity(), bytes, codec, __CALLER__
   end

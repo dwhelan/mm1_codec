@@ -23,12 +23,6 @@ defmodule MMS.MediaType do
     |> decode_error(:must_start_with_a_short_integer_or_char)
   end
 
-  defp do_decode bytes, codec do
-    bytes
-    |> decode_as(codec)
-    ~> fn {media_type, rest} -> decode_ok {media_type}, rest end
-  end
-
   def encode(atom) when is_atom(atom) do
     atom
     |> encode_as(WellKnownMedia)
