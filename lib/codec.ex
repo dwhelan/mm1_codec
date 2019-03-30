@@ -4,14 +4,16 @@ defmodule MMS.Codec do
   import OkError.Operators
 
   def decode_either bytes, codecs, data_type do
-    Enum.reduce_while(codecs, {:error, []},
-      fn codec, {:error, errors} ->
-        case bytes |> codec.decode do
-          {:ok, result} -> {:halt, ok(result)}
-          {:error, {data_type, _, details}} -> {:cont, {:error, [{data_type, details} | errors]}}
-        end
-      end)
-    ~>> fn details -> error data_type, bytes, details end
+    Enum.reduce_while(codecs, {:error, {data_type, bytes, []}}, decode_one)
+  end
+
+  defp decode_one do
+    fn codec, {:error, {data_type, bytes, errors}} ->
+      case codec.decode(bytes) do
+        {:ok, result} -> {:halt, ok(result)}
+        {:error, {dt, _, details}} -> {:cont, {:error, {data_type, bytes, [{dt, details} | errors]}}}
+      end
+    end
   end
 
   defmacro decode_either bytes, codecs do
