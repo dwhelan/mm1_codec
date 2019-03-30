@@ -9,11 +9,15 @@ defmodule MMS.Codec do
 
   defp decode_one do
     fn codec, {:error, {data_type, bytes, errors}} ->
-      case codec.decode(bytes) do
+      case decode_one(codec).(bytes) do
         {:ok, result} -> {:halt, ok(result)}
         {:error, {dt, _, details}} -> {:cont, {:error, {data_type, bytes, [{dt, details} | errors]}}}
       end
     end
+  end
+
+  def decode_one(codec) when is_atom(codec) do
+    &codec.decode/1
   end
 
   defmacro decode_either bytes, codecs do
