@@ -49,6 +49,11 @@ defmodule MMS.TokenText do
     ~>> fn reason -> encode_error string, reason end
   end
 
+  def encode value do
+    value
+    |> encode_error :out_of_range
+  end
+
   defp first_non_token_char string do
     non_token_char =
       string

@@ -11,11 +11,11 @@ defmodule MMS.FieldNameTest do
       ],
 
       decode_errors: [
-        {<< 0 >>, {:field_name, << 0 >>, [out_of_range: 0]}},
+        {<< 0 >>, {:field_name, << 0 >>, [token_text: :must_have_at_least_one_token_char, short_integer: [out_of_range: 0]]}},
       ],
 
       encode_errors: [
-        { -1, {:field_name, -1, :out_of_range}},
+        { -1, {:field_name, -1, [token_text: :out_of_range, short_integer: :out_of_range]}},
       ]
 end
 

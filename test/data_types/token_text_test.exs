@@ -18,5 +18,6 @@ defmodule MMS.TokenTextTest do
         {"",      {:token_text, "",      :must_have_at_least_one_token_char} },
         {"x\0",   {:token_text, "x\0",   {:invalid_token_char, 0}}   },
         {"\u{1}", {:token_text, "\u{1}", {:invalid_token_char, 1}}    },
+        {:bad_value, {:token_text, :bad_value, :out_of_range}    },
       ]
 end
