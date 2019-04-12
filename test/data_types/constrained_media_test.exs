@@ -23,6 +23,6 @@ defmodule MMS.ConstrainedMediaTest do
       ],
 
       encode_errors: [
-        { "x\0", {:constrained_encoding, "x\0", [:text, :contains_end_of_string]} },
+        { "x\0", {:constrained_encoding, "x\0", [{:text, :contains_end_of_string}, {:short_integer, :out_of_range}]} },
       ]
 end
