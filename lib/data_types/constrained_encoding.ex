@@ -21,14 +21,4 @@ defmodule MMS.ConstrainedEncoding do
     value
     |> encode([ExtensionMedia, ShortInteger])
   end
-#
-#  def encode(string) when is_binary(string) do
-#    string
-#    |> encode_as(ExtensionMedia)
-#  end
-#
-#  def encode(short_integer) when is_short_integer(short_integer) do
-#    short_integer
-#    |> encode_as(ShortInteger)
-#  end
 end

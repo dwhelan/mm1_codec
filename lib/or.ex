@@ -9,7 +9,7 @@ defmodule MMS.Or do
   end
 
   def decode(bytes, codecs, data_type) when is_list(codecs) do
-    Enum.reduce_while(codecs, error({data_type, bytes, []}), decode_one)
+    Enum.reduce_while(codecs, error({data_type, bytes, []}), decode_one())
   end
 
   defp decode_one do
@@ -28,7 +28,7 @@ defmodule MMS.Or do
   end
 
   def encode value, codecs, data_type do
-    Enum.reduce_while(codecs, error({data_type, value, []}), encode_one)
+    Enum.reduce_while(codecs, error({data_type, value, []}), encode_one())
   end
 
   defp encode_one do
