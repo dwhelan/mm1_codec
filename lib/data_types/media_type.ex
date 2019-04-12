@@ -5,16 +5,17 @@ defmodule MMS.MediaType do
   Media-type = (Well-known-media | Extension-Media) *(Parameter)
   """
   use MMS.Codec
+  import MMS.Or
 
   alias MMS.{WellKnownMedia, ExtensionMedia}
 
   def decode bytes do
     bytes
-    |> decode_either([WellKnownMedia, ExtensionMedia])
+    |> decode([WellKnownMedia, ExtensionMedia])
   end
 
   def encode value do
     value
-    |> encode_either([WellKnownMedia, ExtensionMedia])
+    |> encode([WellKnownMedia, ExtensionMedia])
   end
 end

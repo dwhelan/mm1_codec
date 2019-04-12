@@ -3,46 +3,6 @@ defmodule MMS.Codec do
   import CodecError
   import OkError.Operators
 
-  def decode_either bytes, codecs, data_type do
-    Enum.reduce_while(codecs, {:error, {data_type, bytes, []}}, decode_one)
-  end
-
-  defp decode_one do
-    fn codec, {:error, {data_type, bytes, errors}} ->
-      case decode_one(codec).(bytes) do
-        {:ok, result} -> {:halt, ok(result)}
-        {:error, {dt, _, details}} -> {:cont, {:error, {data_type, bytes, [{dt, details} | errors]}}}
-      end
-    end
-  end
-
-  def decode_one(codec) when is_atom(codec) do
-    &codec.decode/1
-  end
-
-  defmacro decode_either bytes, codecs do
-    quote do
-      MMS.Codec.decode_either(unquote(bytes), unquote(codecs), unquote(data_type __CALLER__.module))
-    end
-  end
-
-  def encode_either value, codecs, data_type do
-    Enum.reduce_while(codecs, {:error, []},
-      fn codec, {:error, errors} ->
-        case value |> codec.encode do
-          {:ok, result} -> {:halt, ok(result)}
-          {:error, {data_type, _, details}} -> {:cont, {:error, [{data_type, details} | errors]}}
-        end
-      end)
-    ~>> fn details -> error data_type, value, details end
-  end
-
-  defmacro encode_either value, codecs do
-    quote do
-      MMS.Codec.encode_either(unquote(value), unquote(codecs), unquote(data_type __CALLER__.module))
-    end
-  end
-
   defmacro decode_as bytes, codec do
     do_decode identity(), bytes, codec, __CALLER__
   end

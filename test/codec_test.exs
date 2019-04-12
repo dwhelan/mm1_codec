@@ -16,37 +16,4 @@ defmodule MMS.Codec2Test do
       assert nest_error(:reason) == :reason
     end
   end
-
-  describe "decode_either should" do
-    test "return ok if first codec ok" do
-      assert decode_either(<<0>>, [Ok, Error], :codec2_test) == ok(0, "")
-      assert decode_either(<<0>>, [Ok, Error]) == ok(0, "")
-    end
-
-    test "return ok if subsequent codec ok" do
-      assert decode_either(<<0>>, [Error, Ok], :codec2_test) == ok(0, "")
-      assert decode_either(<<0>>, [Error, Ok]) == ok(0, "")
-    end
-
-    test "return error if all codecs fail" do
-      assert decode_either(<<0>>, [Error, Error], :codec2_test) == error(:codec2_test, <<0>>, [data_type: :reason, data_type: :reason])
-      assert decode_either(<<0>>, [Error, Error]) == error(:codec2_test, <<0>>, [data_type: :reason, data_type: :reason])
-    end
-  end
-
-  describe "encode_either should" do
-    test "return ok if first codec ok" do
-      assert encode_either(0, [Ok, Error], :codec2_test) == ok <<0>>
-      assert decode_either(<<0>>, [Ok, Error]) == ok(0, "")
-    end
-
-    test "return ok if subsequent codec ok" do
-      assert encode_either(0, [Error, Ok], :codec2_test) == ok <<0>>
-      assert encode_either(0, [Error, Ok]) == ok <<0>>
-    end
-
-    test "return error if all codecs fail" do
-      assert encode_either(0, [Error, Error], :codec2_test) == error(:codec2_test, 0, [data_type: :reason, data_type: :reason])
-    end
-  end
 end
