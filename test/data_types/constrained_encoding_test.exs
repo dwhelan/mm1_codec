@@ -17,9 +17,9 @@ defmodule MMS.ConstrainedEncodingTest do
       ],
 
       decode_errors: [
-        { "x",                        {:constrained_encoding, "x",       [:text, :missing_end_of_string]} },
-        { <<invalid_short_length()>>, {:constrained_encoding, <<invalid_short_length()>>,     :must_start_with_a_short_integer_or_char} },
-        { <<1>>,                      {:constrained_encoding, <<1>>,     :must_start_with_a_short_integer_or_char} },
+        { "x",                        {:constrained_encoding, "x",       [{:text, :missing_end_of_string}, {:short_integer, [out_of_range: 120]}]} },
+        { <<invalid_short_length()>>, {:constrained_encoding, <<invalid_short_length()>>,     [text: :first_byte_must_be_a_zero_or_a_char, short_integer: [out_of_range: 31]]} },
+        { <<1>>,                      {:constrained_encoding, <<1>>,     [text: :first_byte_must_be_a_zero_or_a_char, short_integer: [out_of_range: 1]]} },
       ],
 
       encode_errors: [

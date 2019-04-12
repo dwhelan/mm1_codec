@@ -1,7 +1,6 @@
 defmodule MMS.Codec2Test do
   use MMS.CodecTest
   use MMS.Codec
-  alias MMS.CodecTest.{Ok, Error}
 
   describe "nest_error" do
     test "should accumulate nested error list" do

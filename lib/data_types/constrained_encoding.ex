@@ -8,22 +8,23 @@ defmodule MMS.ConstrainedEncoding do
   the assigned number of the well-known encoding is small enough to fit into Short-integer.
   """
   use MMS.Codec
+  import MMS.Or
 
   alias MMS.{ExtensionMedia, ShortInteger}
 
-  def decode(<<char, _ :: binary>> = bytes) when is_text(char) do
-    bytes
-    |> decode_as(ExtensionMedia)
-  end
-
-  def decode(bytes = <<well_known_media, _::binary>>) when is_short_integer_byte(well_known_media) do
-    bytes
-    |> decode_as(ShortInteger)
-  end
+#  def decode(<<char, _ :: binary>> = bytes) when is_text(char) do
+#    bytes
+#    |> decode_as(ExtensionMedia)
+#  end
+#
+#  def decode(bytes = <<well_known_media, _::binary>>) when is_short_integer_byte(well_known_media) do
+#    bytes
+#    |> decode_as(ShortInteger)
+#  end
 
   def decode bytes do
     bytes
-    |> decode_error(:must_start_with_a_short_integer_or_char)
+    |> decode([ExtensionMedia, ShortInteger])
   end
 
   def encode(string) when is_binary(string) do
