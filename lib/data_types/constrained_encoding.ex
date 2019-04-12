@@ -10,15 +10,15 @@ defmodule MMS.ConstrainedEncoding do
   use MMS.Codec
   import MMS.Or
 
-  alias MMS.{ExtensionMedia, ShortInteger}
+  @either [MMS.ExtensionMedia, MMS.ShortInteger]
 
   def decode bytes do
     bytes
-    |> decode([ExtensionMedia, ShortInteger])
+    |> decode(@either)
   end
 
   def encode value do
     value
-    |> encode([ExtensionMedia, ShortInteger])
+    |> encode(@either)
   end
 end

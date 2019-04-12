@@ -7,15 +7,15 @@ defmodule MMS.MediaType do
   use MMS.Codec
   import MMS.Or
 
-  alias MMS.{WellKnownMedia, ExtensionMedia}
+  @either [MMS.WellKnownMedia, MMS.ExtensionMedia]
 
   def decode bytes do
     bytes
-    |> decode([WellKnownMedia, ExtensionMedia])
+    |> decode(@either)
   end
 
   def encode value do
     value
-    |> encode([WellKnownMedia, ExtensionMedia])
+    |> encode(@either)
   end
 end

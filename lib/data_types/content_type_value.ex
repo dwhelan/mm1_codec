@@ -11,26 +11,17 @@ defmodule MMS.ContentTypeValue do
 
   """
   use MMS.Codec
+  import MMS.Or
 
-  alias MMS.{ConstrainedMedia, ContentGeneralForm}
+  @either [MMS.ConstrainedMedia, MMS.ContentGeneralForm]
 
-  def decode(bytes = <<media, _::binary>>) when is_short_integer_byte(media) do
+  def decode bytes do
     bytes
-    |> decode_as(ConstrainedMedia)
+    |> decode(@either)
   end
 
-  def decode(bytes) when is_binary(bytes) do
-    bytes
-    |> decode_as(ContentGeneralForm)
-  end
-
-  def encode(constrained_media) when is_short_integer(constrained_media) do
-    constrained_media
-    |> encode_as(ConstrainedMedia)
-  end
-
-  def encode(media) do
-    media
-    |> encode_as(ContentGeneralForm)
+  def encode value do
+    value
+    |> encode(@either)
   end
 end
