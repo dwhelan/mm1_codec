@@ -5,31 +5,17 @@ defmodule MMS.IntegerValue do
   Integer-Value = Short-integer | Long-integer
   """
   use MMS.Codec
+  import MMS.Or
 
-  alias MMS.{ShortInteger, LongInteger}
-
-  def decode(bytes = <<byte, _::binary>>) when is_short_integer_byte(byte) do
-    bytes
-    |> decode_as(ShortInteger)
-  end
+  @either [MMS.ShortInteger, MMS.LongInteger]
 
   def decode bytes do
     bytes
-    |> decode_as(LongInteger)
+    |> decode(@either)
   end
 
-  def encode(value) when is_short_integer(value) do
+  def encode value do
     value
-    |> encode_as(ShortInteger)
-  end
-
-  def encode(value) when is_long(value) do
-    value
-    |> encode_as(LongInteger)
-  end
-
-  def encode(value) when is_integer(value) do
-    value
-    |> encode_error(:out_of_range)
+    |> encode(@either)
   end
 end
