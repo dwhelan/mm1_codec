@@ -12,15 +12,4 @@ defmodule MMS.WellKnownFieldNameTest do
       decode_errors: [
         {<<127>>, {:short_integer, <<127>>, [out_of_range: 127]}},
       ]
-
-  import WellKnownFieldName
-
-  test "decodeable?" do
-    assert decodeable? << s(0) >>
-  end
-
-  test "encodeable?" do
-    assert encodeable? 0
-  end
 end
-
