@@ -53,7 +53,7 @@ defmodule MMS.ValueLengthTest do
     end
 
     test "when insufficient bytes" do
-      assert ValueLength.decode(<<1>>, &Ok.decode/1) == error :value_length, <<1>>, [:short_length, short_length: 1, available_bytes: 0]
+      assert ValueLength.decode(<<1>>, &Ok.decode/1) == error :value_length, <<1>>, [:short_length, required_bytes: 1, available_bytes: 0]
     end
   end
 
