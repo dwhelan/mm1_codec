@@ -34,8 +34,7 @@ defmodule MMS.TextString do
   end
 
   def encode(string = <<short, _::binary>>) when is_short_integer_byte(short) do
-    string
-    |> insert_quote
+    <<@quote>> <> string
     |> encode_as(Text)
   end
 
@@ -45,10 +44,7 @@ defmodule MMS.TextString do
   end
 
   defp remove_quote string do
-    string |> String.slice(1..-1)
-  end
-
-  defp insert_quote string do
-    <<@quote>> <> string
+    string
+    |> String.slice(1..-1)
   end
 end

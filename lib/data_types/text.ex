@@ -55,7 +55,6 @@ defmodule MMS.Text do
   end
 
   defp do_encode string, _end_of_string = false do
-    string <> @end_of_string
-    |> ok
+    ok string <> @end_of_string
   end
 end
