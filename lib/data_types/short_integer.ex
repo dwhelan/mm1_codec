@@ -12,7 +12,7 @@ defmodule MMS.ShortInteger do
 
   def decode <<1::1, value::7, rest::binary>> do
     value
-    |> decode_ok(rest)
+    |> ok(rest)
   end
 
   def decode(bytes = <<value, _::binary>>) do

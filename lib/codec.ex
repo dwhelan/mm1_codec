@@ -52,8 +52,7 @@ defmodule MMS.Codec do
                    rest
                    |> result.decode
                  else
-                   result
-                   |> decode_ok(rest)
+                   ok {result, rest}
                  end
                end
          end
@@ -141,7 +140,11 @@ defmodule MMS.Codec do
     {:%{}, [], Enum.with_index(list)}
   end
 
-  def decode_ok value, rest do
+  def ok value, rest do
+    ok {value, rest}
+  end
+
+  def ok value, rest do
     ok {value, rest}
   end
 

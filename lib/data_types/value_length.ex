@@ -24,7 +24,7 @@ defmodule MMS.ValueLength do
          if is_short_length(length) do
            decode_error bytes, :should_be_encoded_as_a_short_length
          else
-           decode_ok length, rest
+           ok length, rest
          end
        end
   end
@@ -59,7 +59,7 @@ defmodule MMS.ValueLength do
         ~> fn {value, rest} ->
             bytes_used = byte_size(value_bytes) - byte_size(rest)
             if bytes_used == value_length do
-              decode_ok value, rest
+              ok value, rest
             else
               decode_error bytes, %{bytes_used: bytes_used, value_length: value_length, value: value}
             end

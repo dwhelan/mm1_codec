@@ -55,7 +55,7 @@ defmodule MMS.UintvarInteger do
 
   defp ensure_uint32(value, rest) when is_uint32(value) do
     value
-    |> decode_ok(rest)
+    |> ok(rest)
   end
 
   defp ensure_uint32(value, _rest) do

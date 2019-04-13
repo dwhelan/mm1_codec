@@ -33,11 +33,11 @@ defmodule MMS.RetrieveStatus do
   }
 
   def decode(<<status, rest::binary>>) when status in 195..223 do
-    decode_ok {:transient_failure, status}, rest
+    ok {:transient_failure, status}, rest
   end
 
   def decode(<<status, rest::binary>>) when status in 228..255 do
-    decode_ok {:permanent_failure, status}, rest
+    ok {:permanent_failure, status}, rest
   end
 
   def decode bytes do

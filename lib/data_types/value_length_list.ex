@@ -15,7 +15,7 @@ defmodule MMS.ValueLengthList do
   end
 
   defp ensure_correct_length(length, value_bytes, values, rest, _bytes) when length == byte_size(value_bytes) - byte_size(rest) do
-    values |> decode_ok(rest)
+    values |> ok(rest)
   end
 
   defp ensure_correct_length(length, value_bytes, values, rest, bytes) do

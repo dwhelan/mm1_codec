@@ -32,7 +32,7 @@ defmodule MMS.TokenText do
     ~> fn {text, rest} ->
           text
           |> first_non_token_char
-          ~> fn _ -> decode_ok text, rest end
+          ~> fn _ -> ok text, rest end
           ~>> fn reason -> decode_error bytes, reason end
        end
   end

@@ -8,7 +8,7 @@ defmodule MMS.Octet do
 
   def decode <<octet, rest::binary>> do
     octet
-    |> decode_ok(rest)
+    |> ok(rest)
   end
 
   def encode(octet) when is_octet(octet) do

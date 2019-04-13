@@ -31,7 +31,7 @@ defmodule MMS.CodecMapper do
       defp do_decode rest, values do
         values
         |> Enum.reverse
-        |> decode_ok(rest)
+        |> ok(rest)
       end
 
       def encode values do

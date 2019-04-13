@@ -9,7 +9,7 @@ defmodule MMS.NoValue do
 
   def decode(<<byte, rest::binary>>) when is_no_value_byte(byte) do
     no_value()
-    |> decode_ok(rest)
+    |> ok(rest)
   end
 
   def decode bytes = <<value, _::binary>> do

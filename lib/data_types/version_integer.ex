@@ -20,12 +20,12 @@ defmodule MMS.VersionInteger do
 
   def decode <<1::1, major::3, @no_minor::4, rest::binary>> do
     major
-    |> decode_ok(rest)
+    |> ok(rest)
   end
 
   def decode <<1::1, major::3, minor::4, rest::binary>> do
     {major, minor}
-    |> decode_ok(rest)
+    |> ok(rest)
   end
 
   def decode bytes = <<version, _::binary>> do

@@ -32,7 +32,7 @@ defmodule MMS.LongInteger do
     ~> fn {integer_bytes, rest} ->
          integer_bytes
          |> :binary.decode_unsigned
-         |> decode_ok(rest) end
+         |> ok(rest) end
   end
 
   def encode(value) when is_long(value) do

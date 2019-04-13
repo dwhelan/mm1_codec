@@ -6,7 +6,7 @@ defmodule MMS.PreviouslySentBy do
   def decode(bytes) do
     bytes
     |> ValueLengthList.decode([IntegerValue, Address])
-    ~> fn {[count, address], rest} ->  {address, count} |> decode_ok(rest) end
+    ~> fn {[count, address], rest} ->  {address, count} |> ok(rest) end
   end
 
   def encode({address, count}) when is_integer(count) do

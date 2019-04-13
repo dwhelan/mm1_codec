@@ -18,10 +18,6 @@ defmodule MMS.CodecTest do
 
   def invalid_short_length, do: max_short_length() + 1
 
-  def ok value, rest do
-    ok {value, rest}
-  end
-
   def assert_code_raise code do
     ExUnit.Assertions.assert_raise ArgumentError, fn -> Code.eval_string(code) end
   end

@@ -17,7 +17,7 @@ defmodule MMS.Time do
     ~> fn {result, rest} ->
          result
          |> to_time
-         |> decode_ok(rest)
+         |> ok(rest)
        end
     ~>> & bytes |> decode_error(&1)
   end
