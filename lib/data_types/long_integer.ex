@@ -47,7 +47,6 @@ defmodule MMS.LongInteger do
   end
 
   def encode value do
-    value
-    |> error(:out_of_range)
+    error value, :out_of_range
   end
 end

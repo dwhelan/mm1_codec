@@ -30,8 +30,7 @@ defmodule MMS.ValueLength do
   end
 
   def decode(bytes) when is_binary(bytes) do
-    bytes
-    |> error(:does_not_start_with_a_short_length_or_length_quote)
+    error bytes, :does_not_start_with_a_short_length_or_length_quote
   end
 
   def encode(value) when is_short_length(value) do

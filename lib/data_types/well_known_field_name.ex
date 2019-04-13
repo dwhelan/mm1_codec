@@ -8,6 +8,4 @@ defmodule MMS.WellKnownFieldName do
 
   defdelegate decode(bytes), to: ShortInteger
   defdelegate encode(value), to: ShortInteger
-  defdelegate decodeable?(bytes), to: ShortInteger
-  defdelegate encodeable?(value), to: ShortInteger
 end

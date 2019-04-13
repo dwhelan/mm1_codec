@@ -29,8 +29,7 @@ defmodule MMS.Text do
   end
 
   defp do_decode [string | []] do
-    string
-    |> error(:missing_end_of_string)
+    error string, :missing_end_of_string
   end
 
   def encode(string = <<char, _::binary>>) when is_char(char) do
@@ -44,18 +43,15 @@ defmodule MMS.Text do
   end
 
   def encode(string) when is_binary(string) do
-    string
-    |> error(:first_byte_must_be_a_zero_or_a_char)
+    error string, :first_byte_must_be_a_zero_or_a_char
   end
 
   def encode value do
-    value
-    |> error(:invalid_type)
+    error value, :invalid_type
   end
 
   defp do_encode string, _end_of_string = true do
-    string
-    |> error(:contains_end_of_string)
+    error string, :contains_end_of_string
   end
 
   defp do_encode string, _end_of_string = false do

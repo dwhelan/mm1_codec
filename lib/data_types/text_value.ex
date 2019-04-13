@@ -24,8 +24,7 @@ defmodule MMS.TextValue do
   end
 
   def decode(bytes) when is_binary(bytes) do
-    bytes
-    |> error(:first_byte_must_be_no_value_or_quote_or_char)
+    error bytes, :first_byte_must_be_no_value_or_quote_or_char
   end
 
   def encode(no_value) when is_no_value(no_value) do
@@ -44,7 +43,6 @@ defmodule MMS.TextValue do
   end
 
   def encode value do
-    value
-    |> error(:first_byte_must_be_no_value_or_quote_or_char)
+    error value, :first_byte_must_be_no_value_or_quote_or_char
   end
 end

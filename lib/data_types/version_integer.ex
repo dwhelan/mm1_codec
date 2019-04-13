@@ -27,8 +27,7 @@ defmodule MMS.VersionInteger do
   end
 
   def decode bytes = <<version, _::binary>> do
-    bytes
-    |> error(out_of_range: version)
+    error bytes, out_of_range: version
   end
 
   def encode(major) when major in @major_range do
@@ -37,8 +36,7 @@ defmodule MMS.VersionInteger do
   end
 
   def encode(major) when is_integer(major) do
-    major
-    |> error(:out_of_range)
+    error major, :out_of_range
   end
 
   def encode({major, minor}) when major in @major_range and minor in @minor_range do
@@ -47,13 +45,11 @@ defmodule MMS.VersionInteger do
   end
 
   def encode({major, minor}) when is_integer(major) and minor in @minor_range do
-    {major, minor}
-    |> error(:major_out_of_range)
+    error {major, minor}, :major_out_of_range
   end
 
   def encode({major, minor}) when is_integer(major) and is_integer(minor) do
-    {major, minor}
-    |> error(:minor_out_of_range)
+    error {major, minor}, :minor_out_of_range
   end
 
   def do_encode {major, minor} do
