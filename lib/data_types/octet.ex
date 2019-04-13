@@ -7,17 +7,14 @@ defmodule MMS.Octet do
   use MMS.Codec
 
   def decode <<octet, rest::binary>> do
-    octet
-    |> ok(rest)
+    ok octet, rest
   end
 
-  def encode(octet) when is_octet(octet) do
-    <<octet>>
-    |> ok
+  def encode(octet) when octet in 0..255 do
+    ok <<octet>>
   end
 
   def encode value do
-    value
-    |> error(:out_of_range)
+    error value, :out_of_range
   end
 end

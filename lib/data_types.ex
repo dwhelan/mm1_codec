@@ -17,7 +17,6 @@ defmodule MMS.DataTypes do
   @separators ~c|()<>@,;:\\"/[]?={}\s\t|
   @tokens     (@chars -- @controls) -- @separators
 
-  defmacro is_octet(value),             do: value |> in?(0..255)
   defmacro is_short_integer(value),     do: value |> in?(0..127)
   defmacro is_short_integer_byte(byte), do: byte  |> in?(128..255)
   defmacro is_char(value),              do: value |> in?(32..127)
