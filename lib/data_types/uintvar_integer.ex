@@ -27,13 +27,13 @@ defmodule MMS.UintvarInteger do
 
   def decode bytes = <<128, _::binary>> do
     bytes
-    |> decode_error(:first_byte_cannot_be_128)
+    |> error(:first_byte_cannot_be_128)
   end
 
   def decode(bytes) when is_binary(bytes) do
     bytes
     |> do_decode([])
-    ~>> & decode_error bytes, &1
+    ~>> & error bytes, &1
   end
 
   defp do_decode <<1::1, value::7, rest::binary>>, values do
@@ -69,7 +69,7 @@ defmodule MMS.UintvarInteger do
 
   def encode(value) when is_integer(value) do
     value
-    |> encode_error(:out_of_range)
+    |> error(:out_of_range)
   end
 
   defp do_encode value, [] do

@@ -19,7 +19,7 @@ defmodule MMS.Time do
          |> to_time
          |> ok(rest)
        end
-    ~>> & bytes |> decode_error(&1)
+    ~>> & bytes |> error(&1)
   end
 
   defp to_time [@absolute, seconds] do

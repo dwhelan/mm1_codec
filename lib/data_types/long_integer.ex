@@ -19,7 +19,7 @@ defmodule MMS.LongInteger do
     bytes
     |> ShortLength.decode
     ~> decode_multi_octet_integer
-    ~>> & decode_error bytes, &1
+    ~>> & error bytes, &1
   end
 
   defp decode_multi_octet_integer {_length = 0, _bytes} do
@@ -48,6 +48,6 @@ defmodule MMS.LongInteger do
 
   def encode value do
     value
-    |> encode_error(:out_of_range)
+    |> error(:out_of_range)
   end
 end

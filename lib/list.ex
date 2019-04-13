@@ -4,7 +4,7 @@ defmodule MMS.List do
   def decode(bytes, codecs) when is_binary(bytes) and is_list(codecs) do
     bytes
     |> do_decode(codecs, [])
-    ~>> & decode_error bytes, &1
+    ~>> & error bytes, &1
   end
 
   defp do_decode bytes, [codec | codecs], values do

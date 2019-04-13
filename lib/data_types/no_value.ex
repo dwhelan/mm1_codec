@@ -14,7 +14,7 @@ defmodule MMS.NoValue do
 
   def decode bytes = <<value, _::binary>> do
     bytes
-    |> decode_error(%{out_of_range: value})
+    |> error(%{out_of_range: value})
   end
 
   def encode(no_value) when is_no_value(no_value) do

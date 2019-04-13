@@ -18,6 +18,6 @@ defmodule MMS.Octet do
 
   def encode value do
     value
-    |> encode_error(:out_of_range)
+    |> error(:out_of_range)
   end
 end

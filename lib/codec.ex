@@ -194,14 +194,10 @@ defmodule MMS.Codec do
       import CodecError
 
       def decode <<>> do
-        error {data_type(), <<>>, :no_bytes}
+        error <<>>, :no_bytes
       end
 
-      defp decode_error input, details do
-        error data_type(), input, nest_error(details)
-      end
-
-      defp encode_error input, details do
+      defp error input, details do
         error data_type(), input, nest_error(details)
       end
     end

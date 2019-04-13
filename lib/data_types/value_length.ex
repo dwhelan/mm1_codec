@@ -22,7 +22,7 @@ defmodule MMS.ValueLength do
     |> decode_with_prefix(UintvarInteger, length_quote())
     ~> fn {length, rest} ->
          if is_short_length(length) do
-           decode_error bytes, :should_be_encoded_as_a_short_length
+           error bytes, :should_be_encoded_as_a_short_length
          else
            ok length, rest
          end
@@ -31,7 +31,7 @@ defmodule MMS.ValueLength do
 
   def decode(bytes) when is_binary(bytes) do
     bytes
-    |> decode_error(:does_not_start_with_a_short_length_or_length_quote)
+    |> error(:does_not_start_with_a_short_length_or_length_quote)
   end
 
   def encode(value) when is_short_length(value) do
@@ -61,7 +61,7 @@ defmodule MMS.ValueLength do
             if bytes_used == value_length do
               ok value, rest
             else
-              decode_error bytes, %{bytes_used: bytes_used, value_length: value_length, value: value}
+              error bytes, %{bytes_used: bytes_used, value_length: value_length, value: value}
             end
            end
        end

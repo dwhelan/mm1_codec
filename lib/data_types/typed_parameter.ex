@@ -14,7 +14,7 @@ defmodule MMS.TypedParameter do
     ~> fn {token, rest} ->
          rest
          |> TypedValue.decode(token)
-         ~>> fn {data_type, _, details} -> bytes |> decode_error(nest_error([data_type, details])) end
+         ~>> fn {data_type, _, details} -> bytes |> error(nest_error([data_type, details])) end
        end
   end
 
@@ -27,7 +27,7 @@ defmodule MMS.TypedParameter do
          ~> fn value_bytes ->
               ok token_bytes <> value_bytes
             end
-         ~>> fn {data_type, _, details} -> {token, value} |> encode_error(nest_error([data_type, details])) end
+         ~>> fn {data_type, _, details} -> {token, value} |> error(nest_error([data_type, details])) end
        end
   end
 end

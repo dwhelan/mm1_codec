@@ -19,7 +19,7 @@ defmodule MMS.TypedValue do
           bytes
           |> decode_as(TextValue, fn value -> {expected_type, value} end)
         end
-    ~>> fn _ -> bytes |> decode_error(%{cannot_be_decoded_as: [CompactValue, TextValue]}) end
+    ~>> fn _ -> bytes |> error(%{cannot_be_decoded_as: [CompactValue, TextValue]}) end
   end
 
   def encode {_, :no_value} do
@@ -34,10 +34,10 @@ defmodule MMS.TypedValue do
       ~>> fn _ ->
             value
               |> encode_as(TextValue)
-              ~>> fn _ -> {expected_type, value} |> encode_error(%{cannot_be_encoded_as: [CompactValue, TextValue]}) end
+              ~>> fn _ -> {expected_type, value} |> error(%{cannot_be_encoded_as: [CompactValue, TextValue]}) end
           end
     rescue
-      FunctionClauseError -> value |> encode_error(%{cannot_be_encoded_as: [CompactValue, TextValue]})
+      FunctionClauseError -> value |> error(%{cannot_be_encoded_as: [CompactValue, TextValue]})
     end
   end
  end

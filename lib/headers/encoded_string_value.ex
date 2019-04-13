@@ -26,7 +26,7 @@ defmodule MMS.EncodedStringValue do
     bytes
     |> ValueLengthList.decode([WellKnownCharset, TextString])
     ~> fn {[charset, text], rest} -> {text, charset} |> ok(rest) end
-    ~>> & decode_error(bytes, &1)
+    ~>> & error(bytes, &1)
   end
 
   def encode(text) when is_binary(text) do
@@ -37,6 +37,6 @@ defmodule MMS.EncodedStringValue do
   def encode({text, charset}) when is_binary(text) do
     [charset, text]
     |> ValueLengthList.encode([WellKnownCharset, TextString])
-    ~>> & decode_error({text, charset}, &1)
+    ~>> & error({text, charset}, &1)
   end
 end
