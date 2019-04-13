@@ -21,13 +21,11 @@ defmodule MMS.Text do
   end
 
   def decode(bytes) when is_binary(bytes) do
-    bytes
-    |> error(:first_byte_must_be_a_zero_or_a_char)
+    error bytes, :first_byte_must_be_a_zero_or_a_char
   end
 
   defp do_decode [string | [rest]] do
-    string
-    |> ok(rest)
+    ok string, rest
   end
 
   defp do_decode [string | []] do
