@@ -34,7 +34,7 @@ defmodule MMS.Codec do
     quote do
       fn value ->
         unquote(map)[value]
-        ~>> fn nil   -> error %{out_of_range: value} end
+        ~>> fn nil   -> error out_of_range: value end
         ~>  fn value -> ok value end
       end
     end

@@ -11,7 +11,7 @@ defmodule MMS.TypedParameterTest do
       ],
 
       decode_errors: [
-        { << s 30 >>,    {:typed_parameter, << s 30 >>,    [:well_known_parameter_token, %{out_of_range: 30}]} },
+        { << s 30 >>,    {:typed_parameter, << s 30 >>,    [:well_known_parameter_token, out_of_range: 30]} },
         { << s(8), 1 >>, {:typed_parameter, << s(8), 1 >>, [:typed_value, %{cannot_be_decoded_as: [CompactValue, TextValue]}] } },
       ],
 

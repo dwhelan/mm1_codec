@@ -15,8 +15,8 @@ defmodule MMS.StatusTest do
       ],
 
       decode_errors: [
-        {<<127>>, {:status, <<127>>, %{out_of_range: 127}}},
-        {<<135>>, {:status, <<135>>, %{out_of_range: 135}}},
+        {<<127>>, {:status, <<127>>, out_of_range: 127}},
+        {<<135>>, {:status, <<135>>, out_of_range: 135}},
       ],
 
       encode_errors: [

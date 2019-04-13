@@ -21,7 +21,7 @@ defmodule MMS.UintvarIntegerTest do
       decode_errors: [
         { <<>>,                      {:uintvar_integer, <<>>, :no_bytes} },
         { <<128>>,                   {:uintvar_integer, <<128>>, :first_byte_cannot_be_128} },
-        { <<144, 128, 128, 128, 0>>, {:uintvar_integer, <<144, 128, 128, 128, 0>>, %{out_of_range: max_uint32()+1}} },
+        { <<144, 128, 128, 128, 0>>, {:uintvar_integer, <<144, 128, 128, 128, 0>>, out_of_range: max_uint32()+1}} ,
       ],
 
       encode_errors: [

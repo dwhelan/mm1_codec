@@ -13,7 +13,7 @@ defmodule MMS.CompactValueTest do
     end
 
     test "when bytes are invalid" do
-      assert decode(<< 0 >>, :q) == error :compact_value, << 0 >>, [:qvalue, %{out_of_range: 0}]
+      assert decode(<< 0 >>, :q) == error :compact_value, << 0 >>, [:qvalue, out_of_range: 0]
     end
   end
 

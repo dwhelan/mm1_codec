@@ -8,17 +8,14 @@ defmodule MMS.NoValue do
   use MMS.Codec
 
   def decode(<<byte, rest::binary>>) when is_no_value_byte(byte) do
-    no_value()
-    |> ok(rest)
+    ok no_value(), rest
   end
 
   def decode bytes = <<value, _::binary>> do
-    bytes
-    |> error(%{out_of_range: value})
+    error bytes, out_of_range: value
   end
 
   def encode(no_value) when is_no_value(no_value) do
-    <<no_value_byte()>>
-    |> ok
+    ok <<no_value_byte()>>
   end
 end

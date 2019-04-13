@@ -15,8 +15,8 @@ defmodule MMS.VersionIntegerTest do
       ],
 
       decode_errors: [
-        { <<0>>,   {:version_integer, <<0>>,   %{out_of_range: 0}}   },
-        { <<127>>, {:version_integer, <<127>>, %{out_of_range: 127}} },
+        { <<0>>,   {:version_integer, <<0>>,   out_of_range: 0}}   ,
+        { <<127>>, {:version_integer, <<127>>, out_of_range: 127}} ,
       ],
 
       encode_errors: [

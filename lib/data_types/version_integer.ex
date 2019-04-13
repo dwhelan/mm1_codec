@@ -30,7 +30,7 @@ defmodule MMS.VersionInteger do
 
   def decode bytes = <<version, _::binary>> do
     bytes
-    |> error(%{out_of_range: version})
+    |> error(out_of_range: version)
   end
 
   def encode(major) when major in @major_range do

@@ -59,7 +59,7 @@ defmodule MMS.UintvarInteger do
   end
 
   defp ensure_uint32(value, _rest) do
-    error %{out_of_range: value}
+    error out_of_range: value
   end
 
   def encode(uint32) when is_uint32(uint32) do

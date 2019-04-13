@@ -88,8 +88,8 @@ defmodule MMS.ResponseStatusTest do
       ],
 
       decode_errors: [
-        {<<127>>, {:response_status, <<127>>, %{out_of_range: 127}}},
-        {<<137>>, {:response_status, <<137>>, %{out_of_range: 137}}},
+        {<<127>>, {:response_status, <<127>>, out_of_range: 127}},
+        {<<137>>, {:response_status, <<137>>, out_of_range: 137}},
       ],
 
       encode_errors: [

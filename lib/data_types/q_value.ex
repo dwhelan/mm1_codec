@@ -26,7 +26,7 @@ defmodule MMS.QValue do
 
   defp to_q_string(uint32) when is_2_digit_q_value(uint32), do: format(uint32 - 1,   2)
   defp to_q_string(uint32) when is_3_digit_q_value(uint32), do: format(uint32 - 100, 3)
-  defp to_q_string(uint32),                                 do: error %{out_of_range: uint32}
+  defp to_q_string(uint32),                                 do: error out_of_range: uint32
 
   defp format uint32, digits do
     uint32

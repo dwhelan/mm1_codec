@@ -77,6 +77,6 @@ defmodule MMS.RetrieveStatusTest do
       ],
 
       decode_errors: [
-        {<<127>>, {:retrieve_status, <<127>>, %{out_of_range: 127}}},
+        {<<127>>, {:retrieve_status, <<127>>, out_of_range: 127}},
       ]
 end
