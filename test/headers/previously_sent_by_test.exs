@@ -11,7 +11,7 @@ defmodule MMS.PreviouslySentByTest do
 
       decode_errors: [
         { << 32 >>,                    {:value_length, << 32 >>, :does_not_start_with_a_short_length_or_length_quote}  },
-        { << 2, 32 >>,                 {:value_length, <<2, 32>>, [:short_length, %{available_bytes: 1, short_length: 2}]} },
+        { << 2, 32 >>,                 {:value_length, <<2, 32>>, [:short_length, short_length: 2, available_bytes: 1]} },
         { << l(4), l(2), 1, 0, "@" >>, {:value_length_list, <<4, 2, 1, 0, 64>>, [:list, %{error: {:address, "@", [:text, :missing_end_of_string]}, length: 4, values: [256]}]} },
       ],
 
