@@ -11,22 +11,18 @@ defmodule MMS.ShortInteger do
   use MMS.Codec
 
   def decode <<1::1, value::7, rest::binary>> do
-    value
-    |> ok(rest)
+    ok value, rest
   end
 
   def decode(bytes = <<value, _::binary>>) do
-    bytes
-    |> error(out_of_range: value)
+    error bytes, out_of_range: value
   end
 
-  def encode(value) when is_short_integer(value) do
-    <<1::1, value::7>>
-    |> ok
+  def encode(value) when value in 0..127 do
+    ok <<1::1, value::7>>
   end
 
   def encode value do
-    value
-    |> error(:out_of_range)
+    error value, :out_of_range
   end
 end
