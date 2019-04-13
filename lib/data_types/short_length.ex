@@ -7,27 +7,22 @@ defmodule MMS.ShortLength do
   use MMS.Codec
 
   def decode(<<length, rest::binary>>) when is_short_length(length) and length <= byte_size(rest) do
-    length
-    |> ok(rest)
+    ok length, rest
   end
 
   def decode(bytes = <<length, rest::binary>>) when is_short_length(length) do
-    bytes
-    |> error(%{short_length: length, available_bytes: byte_size(rest)})
+    error bytes, %{short_length: length, available_bytes: byte_size(rest)}
   end
 
   def decode bytes = <<length, _::binary>> do
-    bytes
-    |> error(%{out_of_range: length})
+    error bytes, %{out_of_range: length}
   end
 
   def encode(value) when is_short_length(value) do
-    <<value>>
-    |> ok
+    ok <<value>>
   end
 
-  def encode(value) when is_integer(value) do
-    value
-    |> error(:out_of_range)
+  def encode value do
+    error(value, :out_of_range)
   end
 end
