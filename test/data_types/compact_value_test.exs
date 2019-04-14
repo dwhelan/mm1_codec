@@ -9,7 +9,7 @@ defmodule MMS.CompactValueTest do
     end
 
     test "when token is invalid" do
-      assert decode(<< 1 >>, :foo) == error :compact_value, << 1 >>, %{invalid_token: :foo}
+      assert decode(<< 1 >>, :foo) == error :compact_value, << 1 >>, invalid_token: :foo
     end
 
     test "when bytes are invalid" do
@@ -23,7 +23,7 @@ defmodule MMS.CompactValueTest do
     end
 
     test "when token is invalid" do
-      assert encode({:foo, "00"}) == error :compact_value, {:foo, "00"}, %{invalid_token: :foo}
+      assert encode({:foo, "00"}) == error :compact_value, {:foo, "00"}, invalid_token: :foo
     end
 
     test "when value is invalid" do

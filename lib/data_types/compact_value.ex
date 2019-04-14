@@ -92,7 +92,7 @@ defmodule MMS.CompactValue do
   end
 
   defp do_decode bytes, token, nil do
-    error bytes, %{invalid_token: token}
+    error bytes, invalid_token: token
   end
 
   defp do_decode bytes, token, codec do
@@ -106,7 +106,7 @@ defmodule MMS.CompactValue do
   end
 
   def do_encode {token, value}, nil do
-    error {token, value}, %{invalid_token: token}
+    error {token, value}, invalid_token: token
   end
 
   def do_encode {token, value}, codec do

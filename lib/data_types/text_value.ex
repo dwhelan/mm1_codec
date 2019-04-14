@@ -18,4 +18,4 @@ defmodule MMS.TextValue do
     value
     |> encode(@either)
   end
-qend
+end
