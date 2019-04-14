@@ -5,44 +5,17 @@ defmodule MMS.TextValue do
   Text-value = No-value | Token-text | Quoted-string
   """
   use MMS.Codec
+  import MMS.Or
 
-  alias MMS.{NoValue, QuotedString, Text}
+  @either [MMS.NoValue, MMS.TokenText, MMS.QuotedString]
 
-  def decode(no_value = <<byte, _ :: binary>>) when is_no_value_byte(byte) do
-    no_value
-    |> decode_as(NoValue)
-  end
-
-  def decode(quoted_string = <<quote, _ :: binary>>) when is_quote(quote) do
-    quoted_string
-    |> decode_as(QuotedString)
-  end
-
-  def decode(text = <<char, _ :: binary>>) when is_char(char) do
-    text
-    |> decode_as(Text)
-  end
-
-  def decode(bytes) when is_binary(bytes) do
-    error bytes, :first_byte_must_be_no_value_or_quote_or_char
-  end
-
-  def encode(no_value) when is_no_value(no_value) do
-    no_value
-    |> encode_as(NoValue)
-  end
-
-  def encode(quoted_string = <<quote, _ :: binary>>) when is_quote(quote) do
-    quoted_string
-    |> encode_as(QuotedString)
-  end
-
-  def encode(text = <<char, _ :: binary>>) when is_char(char) do
-    text
-    |> encode_as(Text)
+  def decode bytes do
+    bytes
+    |> decode(@either)
   end
 
   def encode value do
-    error value, :first_byte_must_be_no_value_or_quote_or_char
+    value
+    |> encode(@either)
   end
-end
+qend

@@ -18,4 +18,8 @@ defmodule MMS.NoValue do
   def encode(no_value) when is_no_value(no_value) do
     ok <<no_value_byte()>>
   end
+
+  def encode value do
+    error value, :out_of_range
+  end
 end

@@ -37,7 +37,7 @@ defmodule MMS.TypedValue do
               ~>> fn _ -> {expected_type, value} |> error(%{cannot_be_encoded_as: [CompactValue, TextValue]}) end
           end
     rescue
-      FunctionClauseError -> value |> error(%{cannot_be_encoded_as: [CompactValue, TextValue]})
+      FunctionClauseError -> {expected_type, value} |> error(%{cannot_be_encoded_as: [CompactValue, TextValue]})
     end
   end
  end

@@ -11,16 +11,16 @@ defmodule MMS.TextValueTest do
       ],
 
       decode_errors: [
-        { <<1>>,        {:text_value, <<1>>,        :first_byte_must_be_no_value_or_quote_or_char} },
-        { <<128>>,      {:text_value, <<128>>,      :first_byte_must_be_no_value_or_quote_or_char} },
-        { <<"x">>,      {:text_value, <<"x">>,      [:text, :missing_end_of_string]}                 },
-        { << ~s("x) >>, {:text_value, << ~s("x) >>, [:quoted_string, :text, :missing_end_of_string]}                 },
+        { <<1>>,        {:text_value, <<1>>,        [no_value: [out_of_range: 1],   token_text: [:text, :first_byte_must_be_a_zero_or_a_char], quoted_string: :must_start_with_a_quote]} },
+        { <<128>>,      {:text_value, <<128>>,      [no_value: [out_of_range: 128], token_text: [:text, :first_byte_must_be_a_zero_or_a_char], quoted_string: :must_start_with_a_quote]} },
+        { <<"x">>,      {:text_value, <<"x">>,      [no_value: [out_of_range: 120], token_text: [:text, :missing_end_of_string],               quoted_string: :must_start_with_a_quote]}                 },
+        { << ~s("x) >>, {:text_value, << ~s("x) >>, [no_value: [out_of_range: 34],  token_text: [:text, :missing_end_of_string],               quoted_string: [:text, :missing_end_of_string]]} },
       ],
 
       encode_errors: [
-        { <<1>>,    {:text_value, <<1>>,      :first_byte_must_be_no_value_or_quote_or_char}},
-        { <<128>>,  {:text_value, <<128>>,    :first_byte_must_be_no_value_or_quote_or_char}},
-        { "x\0",    {:text_value, <<120, 0>>, [:text, :contains_end_of_string]}               },
-        { ~s("x\0), {:text_value, ~s("x\0),   [:quoted_string, :text, :contains_end_of_string]}               },
+        { <<1>>,    {:text_value, <<1>>,      [no_value: :out_of_range, token_text: {:invalid_token_char, 1},   quoted_string: :must_start_with_a_quote]}},
+        { <<128>>,  {:text_value, <<128>>,    [no_value: :out_of_range, token_text: {:invalid_token_char, 128}, quoted_string: :must_start_with_a_quote]}},
+        { "x\0",    {:text_value, <<120, 0>>, [no_value: :out_of_range, token_text: {:invalid_token_char, 0},   quoted_string: :must_start_with_a_quote]}},
+        { ~s("x\0), {:text_value, ~s("x\0),   [no_value: :out_of_range, token_text: {:invalid_token_char, 34}, quoted_string: [:text, :contains_end_of_string]]}},
       ]
 end

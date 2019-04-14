@@ -55,7 +55,7 @@ defmodule MMS.TokenText do
   defp first_non_token_char string do
     non_token_char =
       string
-      |> String.to_charlist
+      |> :binary.bin_to_list
       |> Enum.find(fn char -> is_token_char(char) == false end)
 
     case non_token_char do
