@@ -88,7 +88,7 @@ defmodule MMS.CompactValue do
 
   def decode(bytes, token) when is_binary(bytes) and is_atom(token) do
     bytes
-    |> do_decode(token, codec(token))
+    |> do_decode(token, codec token)
   end
 
   defp do_decode bytes, token, nil do

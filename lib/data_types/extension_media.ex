@@ -9,8 +9,24 @@ defmodule MMS.ExtensionMedia do
   The `MMS.TEXT` module supports `*TEXT End-of-string`
   """
 
+  use MMS.Codec
   alias MMS.Text
 
-  defdelegate decode(bytes), to: Text
-  defdelegate encode(value), to: Text
+  def decode <<"\0", rest::binary>> do
+    ok "", rest
+  end
+
+  def decode bytes do
+    bytes
+    |> decode_as(Text)
+  end
+
+  def encode "" do
+    ok "\0"
+  end
+
+  def encode value do
+    value
+    |> encode_as(Text)
+  end
 end

@@ -16,9 +16,9 @@ defmodule MMS.MediaTypeTest do
       ],
 
       decode_errors: [
-        { "x",                        {:media_type, "x",                        [well_known_media: [:short_integer, {:out_of_range, 120}], text: :missing_end_of_string              ]}, },
-        { <<invalid_short_length()>>, {:media_type, <<invalid_short_length()>>, [well_known_media: [:short_integer, {:out_of_range,  31}], text: :first_byte_must_be_a_zero_or_a_char]} },
-        { <<1>>,                      {:media_type, <<1>>,                      [well_known_media: [:short_integer, {:out_of_range,   1}], text: :first_byte_must_be_a_zero_or_a_char]} },
+        { "x",                        {:media_type, "x",                        [well_known_media: [:short_integer, {:out_of_range, 120}], extension_media: [:text, :missing_end_of_string]]}, },
+        { <<invalid_short_length()>>, {:media_type, <<invalid_short_length()>>, [well_known_media: [:short_integer, {:out_of_range,  31}], extension_media: [:text, :must_start_with_a_char]]} },
+        { <<1>>,                      {:media_type, <<1>>,                      [well_known_media: [:short_integer, {:out_of_range,   1}], extension_media: [:text, :must_start_with_a_char]]} },
       ],
 
       encode_errors: [

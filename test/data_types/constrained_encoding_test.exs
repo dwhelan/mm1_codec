@@ -17,12 +17,12 @@ defmodule MMS.ConstrainedEncodingTest do
       ],
 
       decode_errors: [
-        { "x",                        {:constrained_encoding, "x",       [{:text, :missing_end_of_string}, {:short_integer, [out_of_range: 120]}]} },
-        { <<invalid_short_length()>>, {:constrained_encoding, <<invalid_short_length()>>,     [text: :first_byte_must_be_a_zero_or_a_char, short_integer: [out_of_range: 31]]} },
-        { <<1>>,                      {:constrained_encoding, <<1>>,     [text: :first_byte_must_be_a_zero_or_a_char, short_integer: [out_of_range: 1]]} },
+        { "x",                        {:constrained_encoding, "x",       extension_media: [:text, :missing_end_of_string], short_integer: [out_of_range: 120]} },
+        { <<invalid_short_length()>>, {:constrained_encoding, <<invalid_short_length()>>,     extension_media: [:text, :must_start_with_a_char], short_integer: [out_of_range: 31]} },
+        { <<1>>,                      {:constrained_encoding, <<1>>,     extension_media: [:text, :must_start_with_a_char], short_integer: [out_of_range: 1]} },
       ],
 
       encode_errors: [
-        { "x\0", {:constrained_encoding, "x\0", [{:text, :contains_end_of_string}, {:short_integer, :out_of_range}]} },
+        { "x\0", {:constrained_encoding, "x\0", extension_media: [:text, :contains_end_of_string], short_integer: :out_of_range} },
       ]
 end

@@ -11,8 +11,8 @@ defmodule MMS.TextValueTest do
       ],
 
       decode_errors: [
-        { <<1>>,        {:text_value, <<1>>,        [no_value: [out_of_range: 1],   token_text: [:text, :first_byte_must_be_a_zero_or_a_char], quoted_string: :must_start_with_a_quote]} },
-        { <<128>>,      {:text_value, <<128>>,      [no_value: [out_of_range: 128], token_text: [:text, :first_byte_must_be_a_zero_or_a_char], quoted_string: :must_start_with_a_quote]} },
+        { <<1>>,        {:text_value, <<1>>,        [no_value: [out_of_range: 1],   token_text: [:text, :must_start_with_a_char], quoted_string: :must_start_with_a_quote]} },
+        { <<128>>,      {:text_value, <<128>>,      [no_value: [out_of_range: 128], token_text: [:text, :must_start_with_a_char], quoted_string: :must_start_with_a_quote]} },
         { <<"x">>,      {:text_value, <<"x">>,      [no_value: [out_of_range: 120], token_text: [:text, :missing_end_of_string],               quoted_string: :must_start_with_a_quote]}                 },
         { << ~s("x) >>, {:text_value, << ~s("x) >>, [no_value: [out_of_range: 34],  token_text: [:text, :missing_end_of_string],               quoted_string: [:text, :missing_end_of_string]]} },
       ],

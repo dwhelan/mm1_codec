@@ -10,7 +10,6 @@ defmodule MMS.EncodedStringValueTest do
 
       examples: [
         # Not encoded
-        { <<0>>,     ""  },
         { <<"x\0">>, "x" },
 
         # Encoded with short length
@@ -22,12 +21,13 @@ defmodule MMS.EncodedStringValueTest do
       ],
 
       decode_errors: [
+        { <<"\0">>,              {:encoded_string_value, <<0>>,                 [:text_string, :text, :must_start_with_a_char]}},
         { <<"x">>,               {:encoded_string_value, "x",                   [:text_string, :text, :missing_end_of_string]} },
         { <<l(2), s(106), "x">>, {:encoded_string_value, <<l(2), s(106), "x">>, [:value_length_list, :list, %{error: {:text_string, "x", [:text, :missing_end_of_string]}, length: 2, values: [:UTF8]}] }},
       ],
 
       encode_errors: [
-        { "x\0",            {:encoded_string_value, "x\0",            [:text_string, :text, :contains_end_of_string]} },
+        { "x\0",          {:encoded_string_value, "x\0",            [:text_string, :text, :contains_end_of_string]} },
         { {"x\0", :UTF8}, {:encoded_string_value, {"x\0", :UTF8}, [:list, {:text_string, "x\0", [:text, :contains_end_of_string]}]} },
       ]
 end
