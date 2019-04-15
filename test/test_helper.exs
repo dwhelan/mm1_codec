@@ -6,6 +6,7 @@ ExUnit.start exclude: [:skip], include: [
 
 defmodule MMS.CodecTest do
   import OkError
+  require MMS.Codec
   import MMS.DataTypes
 
   def s(short),  do: short + 128
@@ -43,5 +44,29 @@ defmodule MMS.CodecTest do
   defmodule Error do
     def decode(bytes), do: error {:data_type, bytes, :reason}
     def encode(value), do: error {:data_type, value, :reason}
+  end
+
+  defmacro codec_test name, bytes, value do
+    quote do
+      test unquote(name) do
+        assert decode(unquote(bytes) <> "rest") == ok unquote(value), "rest"
+      end
+    end
+  end
+
+  defmacro codec_test name, bytes, value do
+    quote do
+      test unquote(name) do
+        assert decode(unquote(bytes) <> "rest") == ok unquote(value), "rest"
+      end
+    end
+  end
+
+  defmacro encode_error name, value, details do
+    quote do
+      test unquote(name) do
+        assert encode(unquote(value)) == error data_type(), unquote(value), unquote(details)
+      end
+    end
   end
 end

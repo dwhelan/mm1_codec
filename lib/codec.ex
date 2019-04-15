@@ -200,6 +200,10 @@ defmodule MMS.Codec do
       defp error input, details do
         error data_type(), input, nest_error(details)
       end
+
+      def data_type do
+        data_type __MODULE__
+      end
     end
   end
 end
