@@ -13,12 +13,12 @@ defmodule MMS.ConstrainedEncodingTest do
   ]
 
   decode_errors [
-    {"invalid extension media", <<"x">>, extension_media: [:text, :missing_end_of_string], short_integer: [out_of_range: 120]},
-    {"invalid short integer ",  <<127>>, extension_media: [:text, :missing_end_of_string], short_integer: [out_of_range: 127]},
+    {"invalid extension media", <<"x">>},
+    {"invalid short integer ",  <<127>>},
   ]
 
   encode_errors [
-    {"invalid extension media", "x\0", extension_media: [:text, :contains_end_of_string], short_integer: :out_of_range},
-    {"invalid short integer",   -1,    extension_media: [:text, :invalid_type],           short_integer: :out_of_range},
+    {"invalid extension media", "x\0"},
+    {"invalid short integer",   -1},
   ]
 end
