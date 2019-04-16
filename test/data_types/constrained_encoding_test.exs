@@ -1,28 +1,24 @@
 defmodule MMS.ConstrainedEncodingTest do
   use MMS.CodecTest
+  import MMS.ConstrainedEncoding
 
-  use MMS.TestExamples,
-      codec: MMS.ConstrainedEncoding,
+  codec_examples [
+    {"empty string", <<0>>,          ""},
+    {"space",        <<" \0">>,      " "},
+    {"largest char", <<0x7f, 0>>,    <<0x7f>>},
+    {"string\0",     <<"string\0">>, "string"},
 
-      examples: [
-        # Extension media
-        { << 0 >>,         ""          },
-        { << 32, 0 >>,     " "        },
-        { << 0x7f, 0 >>,   <<0x7f>>      },
-        { "other/other\0", "other/other" },
+    {"min short integer", <<s(0)>>,   0},
+    {"max short integer", <<s(127)>>, 127},
+  ]
 
-        # Short-integer
-        { << s(0) >>, 0},
-        { << s(127) >>, 127},
-      ],
+  decode_errors [
+    {"invalid extension media", <<"x">>, extension_media: [:text, :missing_end_of_string], short_integer: [out_of_range: 120]},
+    {"invalid short integer ",  <<127>>, extension_media: [:text, :missing_end_of_string], short_integer: [out_of_range: 127]},
+  ]
 
-      decode_errors: [
-        { "x",                        {:constrained_encoding, "x",       extension_media: [:text, :missing_end_of_string], short_integer: [out_of_range: 120]} },
-        { <<invalid_short_length()>>, {:constrained_encoding, <<invalid_short_length()>>,     extension_media: [:text, :must_start_with_a_char], short_integer: [out_of_range: 31]} },
-        { <<1>>,                      {:constrained_encoding, <<1>>,     extension_media: [:text, :must_start_with_a_char], short_integer: [out_of_range: 1]} },
-      ],
-
-      encode_errors: [
-        { "x\0", {:constrained_encoding, "x\0", extension_media: [:text, :contains_end_of_string], short_integer: :out_of_range} },
-      ]
+  encode_errors [
+    {"invalid extension media", "x\0", extension_media: [:text, :contains_end_of_string], short_integer: :out_of_range},
+    {"invalid short integer",   -1,    extension_media: [:text, :invalid_type],           short_integer: :out_of_range},
+  ]
 end
