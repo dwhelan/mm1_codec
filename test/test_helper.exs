@@ -70,7 +70,7 @@ defmodule MMS.CodecTest do
     end
   end
 
-  defmacro decode_errors list do
+  defmacro decode_errors2 list do
     quote do
       unquote(list)
       |> Enum.each(
@@ -86,16 +86,78 @@ defmodule MMS.CodecTest do
     end
   end
 
-  defmacro encode_errors list do
+  defmacro decode_errors list do
     quote do
+      @data_type data_type()
       unquote(list)
       |> Enum.each(
-           fn {name, value, details} ->
-             @value value
-             @details details
+           fn test_case ->
+             name = elem(test_case, 0)
+             @input elem(test_case, 1)
+             @details if (tuple_size(test_case) > 2), do: elem(test_case, 2), else: nil
 
-             test "encode error: #{name}" do
-               assert encode(@value) == error data_type(), @value, @details
+             IO.inspect details: @details
+             test "#{name} decode error" do
+               assert {:error, {@data_type, @input, _}} = decode(@input)
+             end
+
+             if @details do
+               test "#{name} decode error data_type" do
+                 {:error, {_, _, details}} = decode(@input)
+                 cond do
+                   is_atom(@details) -> assert details == @details
+                   is_list(@details) ->
+                     assert is_list(details), "Expected error details but it was not #{inspect details}"
+                     @details
+                     |> Enum.with_index()
+                     |> Enum.each(
+                          fn {detail, index} ->
+                            assert detail == Enum.at(details, index)
+                          end
+                        )
+
+                   true -> nil
+                 end
+               end
+             end
+           end
+         )
+    end
+  end
+
+  defmacro encode_errors list do
+    quote do
+      @data_type data_type()
+      unquote(list)
+      |> Enum.each(
+           fn test_case ->
+             name = elem(test_case, 0)
+             @input elem(test_case, 1)
+             @details if (tuple_size(test_case) > 2), do: elem(test_case, 2), else: nil
+
+             IO.inspect details: @details
+             test "#{name} encode error" do
+               assert {:error, {@data_type, @input, _}} = encode(@input)
+             end
+
+             if @details do
+               test "#{name} encode error data_type" do
+                 {:error, {_, _, details}} = encode(@input)
+                 cond do
+                   is_atom(@details) -> assert details == @details
+                   is_list(@details) ->
+                     assert is_list(details), "Expected error details but it was not #{inspect details}"
+                     @details
+                     |> Enum.with_index()
+                     |> Enum.each(
+                          fn {detail, index} ->
+                            assert detail == Enum.at(details, index)
+                          end
+                        )
+
+                   true -> nil
+                 end
+               end
              end
            end
          )
