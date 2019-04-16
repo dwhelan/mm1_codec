@@ -6,7 +6,15 @@ defmodule MMS.ConstrainedMedia do
   """
 
   alias MMS.ConstrainedEncoding
+  use MMS.Codec
 
-  defdelegate decode(bytes), to: ConstrainedEncoding
-  defdelegate encode(value), to: ConstrainedEncoding
+  def decode bytes do
+    bytes
+    |> decode_as(ConstrainedEncoding)
+  end
+
+  def encode value do
+    value
+    |> encode_as(ConstrainedEncoding)
+  end
 end
