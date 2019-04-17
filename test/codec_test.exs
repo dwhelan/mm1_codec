@@ -15,4 +15,8 @@ defmodule MMS.Codec2Test do
       assert nest_error(:reason) == :reason
     end
   end
+
+  test "default encode" do
+    assert encode(:bad) == error :bad, :bad_data_type
+  end
 end

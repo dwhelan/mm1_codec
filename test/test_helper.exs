@@ -52,6 +52,16 @@ defmodule MMS.CodecTest do
 
   defmacro codec_examples list do
     quote location: :keep do
+      test "decode empty binary" do
+        assert decode(<<>>) == error {data_type(), <<>>, :no_bytes}
+      end
+
+      test "encode bad type" do
+        bad_data = :c.pid(0,0,0)
+        data_type = data_type()
+        assert {:error, {data_type, bad_data, _}} = encode(bad_data)
+      end
+
       unquote(list)
       |> Enum.each(
            fn {name, bytes, value} ->

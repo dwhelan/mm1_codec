@@ -197,6 +197,10 @@ defmodule MMS.Codec do
         error <<>>, :no_bytes
       end
 
+      def encode value do
+        error value, :bad_data_type
+      end
+
       defp error input, details do
         error data_type(), input, nest_error(details)
       end
@@ -204,6 +208,8 @@ defmodule MMS.Codec do
       def data_type do
         data_type __MODULE__
       end
+
+      defoverridable encode: 1
     end
   end
 end
