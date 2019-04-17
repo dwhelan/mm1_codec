@@ -1,21 +1,18 @@
 defmodule MMS.ExtensionMediaTest do
   use MMS.CodecTest
+  import MMS.ExtensionMedia
 
-  use MMS.TestExamples,
-      codec: MMS.ExtensionMedia,
+  codec_examples [
+    {"empty string", <<0>>,     ""},
+    {"string",       <<"x\0">>, "x"},
+  ]
 
-      examples: [
-        {<<"\0">>, ""},
-        {<<"string\0">>, "string"},
-      ],
+  decode_errors [
+    {"invalid extension media", <<"x">>},
+  ]
 
-      decode_errors: [
-        {<<1, 0>>,     {:extension_media, <<1, 0>>, [:text, :must_start_with_a_char]} },
-        {<<"string">>, {:extension_media, "string", [:text, :missing_end_of_string]} },
-      ],
-
-      encode_errors: [
-        {<<1>>, {:extension_media, <<1>>, [:text, :must_start_with_a_char]} },
-        {"x\0",    {:extension_media, "x\0", [:text, :contains_end_of_string]} },
-      ]
+  encode_errors [
+    {"invalid extension media", "x\0"},
+    {"invalid short integer",   -1},
+  ]
 end
