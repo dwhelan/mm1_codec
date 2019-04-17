@@ -18,4 +18,8 @@ defmodule MMS.DateValue do
     date_time
     |> encode_as(LongInteger, &DateTime.to_unix/1)
   end
+
+  def encode value do
+    error value, :out_of_range
+  end
 end

@@ -21,6 +21,16 @@ end
 ## decode
 ## encode
 
+| Data type     | Detail Type                                        |
+| ------------- | -------------------------------------------------- |
+| primitive     | error atom                                         |
+| or            | keyword list of data types and error atoms         |
+| and           | keyword list - last item value will the error atom |
+| delegation    | keyword list - last item value will the error atom |
+
+## errors
+
+
 # Documentation
 
 Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
