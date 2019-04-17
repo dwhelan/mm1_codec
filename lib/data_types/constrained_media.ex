@@ -5,8 +5,8 @@ defmodule MMS.ConstrainedMedia do
   Constrained-media = Constrained-encoding
   """
 
-  alias MMS.ConstrainedEncoding
   use MMS.Codec
+  alias MMS.ConstrainedEncoding
 
   def decode bytes do
     bytes

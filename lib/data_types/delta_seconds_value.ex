@@ -4,8 +4,16 @@ defmodule MMS.DeltaSecondsValue do
 
   Delta-seconds-value = Integer-value
   """
+  use MMS.Codec
   alias MMS.IntegerValue
 
-  defdelegate decode(bytes), to: IntegerValue
-  defdelegate encode(value), to: IntegerValue
+  def decode bytes do
+    bytes
+    |> decode_as(IntegerValue)
+  end
+
+  def encode value do
+    value
+    |> encode_as(IntegerValue)
+  end
 end
