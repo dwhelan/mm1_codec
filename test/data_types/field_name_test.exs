@@ -1,21 +1,18 @@
 defmodule MMS.FieldNameTest do
   use MMS.CodecTest
+  import MMS.FieldName
   alias MMS.FieldName
 
-  use MMS.TestExamples,
-      codec: FieldName,
+  codec_examples [
+    { "well known field name", << s(0) >>, 0},
+    { "token text",            << "a\0" >>, "a"},
+  ]
 
-      examples: [
-        {<< s(0) >>, 0},
-        {<< "a\0" >>, "a"},
-      ],
+  decode_errors [
+    {"bad token text", <<0>>},
+  ]
 
-      decode_errors: [
-        {<< 0 >>, {:field_name, << 0 >>, [token_text: :must_have_at_least_one_token_char, short_integer: [out_of_range: 0]]}},
-      ],
-
-      encode_errors: [
-        { -1, {:field_name, -1, [token_text: :out_of_range, short_integer: :out_of_range]}},
-      ]
+  encode_errors [
+  ]
 end
 

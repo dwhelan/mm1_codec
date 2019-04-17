@@ -12,6 +12,5 @@ defmodule MMS.DateValueTest do
   ]
 
   encode_errors [
-    {"bad type", "string", :out_of_range},
   ]
 end

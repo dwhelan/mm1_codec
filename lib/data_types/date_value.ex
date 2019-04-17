@@ -20,6 +20,6 @@ defmodule MMS.DateValue do
   end
 
   def encode value do
-    error value, :out_of_range
+    super value
   end
 end
