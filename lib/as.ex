@@ -1,6 +1,20 @@
 defmodule MMS.As do
   import CodecError
 
+  defmacro defcodec as: delegate do
+    quote do
+      def decode bytes do
+        bytes
+        |> decode_as(unquote delegate)
+      end
+
+      def encode value do
+        value
+        |> encode_as(unquote delegate)
+      end
+    end
+  end
+
   defmacro decode_as bytes, codec do
     do_decode identity(), bytes, codec, __CALLER__
   end

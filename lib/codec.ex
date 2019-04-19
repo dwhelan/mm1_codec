@@ -25,20 +25,6 @@ defmodule MMS.Codec do
     reason
   end
 
-  defmacro defcodec as: delegate do
-    quote do
-      def decode bytes do
-        bytes
-        |> decode_as(unquote delegate)
-      end
-
-      def encode value do
-        value
-        |> encode_as(unquote delegate)
-      end
-    end
-  end
-
   defmacro __using__ (_ \\ []) do
     quote do
       import MMS.DataTypes
