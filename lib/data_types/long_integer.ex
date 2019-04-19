@@ -15,7 +15,7 @@ defmodule MMS.LongInteger do
 
   alias MMS.ShortLength
 
-  def decode(bytes) when is_binary(bytes) do
+  def decode(bytes) do
     bytes
     |> ShortLength.decode
     ~> decode_multi_octet_integer
