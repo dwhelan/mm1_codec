@@ -49,6 +49,7 @@ defmodule MMS.CompactValue do
   so the BNF rules for `Compact-value` are not enforced in this module.
   """
   use MMS.Codec
+  import MMS.As
 
   alias MMS.{QValue, WellKnownCharset, VersionValue, IntegerValue, TextString}
   alias MMS.{FieldName, ShortInteger, ConstrainedEncoding, DeltaSecondsValue}

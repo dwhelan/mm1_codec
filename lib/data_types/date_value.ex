@@ -7,6 +7,7 @@ defmodule MMS.DateValue do
   The encoding of dates shall be done in number of seconds from 1970-01-01, 00:00:00 GMT.
   """
   use MMS.Codec
+  import MMS.As
   alias MMS.LongInteger
 
   def decode bytes do

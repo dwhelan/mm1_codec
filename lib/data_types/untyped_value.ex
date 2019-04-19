@@ -5,6 +5,7 @@ defmodule MMS.UntypedValue do
   Untyped-value = Integer-value | Text-value
   """
   use MMS.Codec
+  import MMS.As
 
   alias MMS.{IntegerValue, TextValue}
 

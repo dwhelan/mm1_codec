@@ -10,6 +10,7 @@ defmodule MMS.WellKnownCharset do
   Equivalent to the special RFC2616 charset value “*”
   """
   use MMS.Codec
+  import MMS.As
   alias MMS.IntegerValue
 
   @map %{

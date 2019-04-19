@@ -1,5 +1,6 @@
 defmodule MMS.MessageClass do
   use MMS.Codec
+  import MMS.As
   alias MMS.{Octet, Text}
 
   @map %{

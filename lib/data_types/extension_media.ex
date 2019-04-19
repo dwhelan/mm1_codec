@@ -10,6 +10,7 @@ defmodule MMS.ExtensionMedia do
   """
 
   use MMS.Codec
+  import MMS.As
   alias MMS.Text
 
   @end_of_string "\0"

@@ -7,6 +7,7 @@ defmodule MMS.ReadStatus do
   """
 
   use MMS.Codec
+  import MMS.As
   alias MMS.Octet
 
   @map %{

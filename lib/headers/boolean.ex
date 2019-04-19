@@ -20,6 +20,7 @@ defmodule MMS.Boolean do
     No  = <Octet 129>
   """
   use MMS.Codec
+  import MMS.As
   alias MMS.Octet
 
   @map %{

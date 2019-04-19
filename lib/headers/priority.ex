@@ -7,6 +7,7 @@ defmodule MMS.Priority do
   High   = <Octet 130>
   """
   use MMS.Codec
+  import MMS.As
   alias MMS.Octet
 
   @map %{

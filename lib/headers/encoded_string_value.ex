@@ -14,6 +14,7 @@ defmodule MMS.EncodedStringValue do
   """
 
   use MMS.Codec
+  import MMS.As
 
   alias MMS.{TextString, WellKnownCharset, ValueLengthList}
 

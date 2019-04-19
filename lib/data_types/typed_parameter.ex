@@ -6,6 +6,7 @@ defmodule MMS.TypedParameter do
   """
 
   use MMS.Codec
+  import MMS.As
   alias MMS.{Tuple, WellKnownParameterToken, TypedValue}
 
   def decode bytes do

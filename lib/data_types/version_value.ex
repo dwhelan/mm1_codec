@@ -7,6 +7,7 @@ defmodule MMS.VersionValue do
   The VersionInteger codec is responsible for interpreting the major and minor versions from a ShortInteger
   """
   use MMS.Codec
+  import MMS.As
 
   alias MMS.{VersionInteger, Text}
 

@@ -16,6 +16,7 @@ defmodule MMS.QValue do
   Quality factor 1 is the default value and shall never be sent.
   """
   use MMS.Codec, error: :q_value
+  import MMS.As
 
   alias MMS.UintvarInteger
 

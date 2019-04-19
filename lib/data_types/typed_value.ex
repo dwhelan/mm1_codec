@@ -9,6 +9,7 @@ defmodule MMS.TypedValue do
   If the value cannot be encoded using the expected type, it shall be encoded as text.
   """
   use MMS.Codec
+  import MMS.As
 
   alias MMS.{CompactValue, TextValue, NoValue}
 

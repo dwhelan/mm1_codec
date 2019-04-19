@@ -3,6 +3,7 @@ defmodule MMS.Status do
   OMA-WAP-MMS-ENC-V1_1-20040715-A; 7.2.32 X-Mms-Status field
   """
   use MMS.Codec
+  import MMS.As
   alias MMS.Octet
 
   @map %{

@@ -11,7 +11,8 @@ defmodule MMS.RetrieveStatus do
   """
 
   use MMS.Codec
-  alias MMS.{Octet}
+  import MMS.As
+  alias MMS.Octet
 
   @map %{
     128 => :ok,

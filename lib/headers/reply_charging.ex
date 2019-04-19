@@ -3,6 +3,7 @@ defmodule MMS.ReplyCharging do
   OMA-WAP-MMS-ENC-V1_1-20040715-A; 7.2.22 X-Mms-Reply-Charging field
   """
   use MMS.Codec
+  import MMS.As
   alias MMS.Octet
 
   @map %{

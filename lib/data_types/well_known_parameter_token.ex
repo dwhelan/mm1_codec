@@ -48,6 +48,7 @@ defmodule MMS.WellKnownParameterToken do
   """
 
   use MMS.Codec
+  import MMS.As
 
   alias MMS.{QValue, WellKnownCharset, VersionValue, IntegerValue, TextString}
   alias MMS.{FieldName, ShortInteger, ConstrainedEncoding, DeltaSecondsValue}

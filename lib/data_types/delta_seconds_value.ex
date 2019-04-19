@@ -5,6 +5,7 @@ defmodule MMS.DeltaSecondsValue do
   Delta-seconds-value = Integer-value
   """
   import MMS.Codec
+  import MMS.As
 
   defcodec as: MMS.IntegerValue
 end

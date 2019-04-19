@@ -19,6 +19,7 @@ defmodule MMS.TokenText do
   """
 
   use MMS.Codec
+  import MMS.As
   alias MMS.Text
 
   def decode(bytes = <<end_of_string, _::binary>>) when is_end_of_string(end_of_string) do

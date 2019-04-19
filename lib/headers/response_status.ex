@@ -1,5 +1,6 @@
 defmodule MMS.ResponseStatus do
   use MMS.Codec
+  import MMS.As
   alias MMS.{Octet}
 
   @map %{
