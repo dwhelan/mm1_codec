@@ -2,6 +2,20 @@ defmodule MMS.Or do
   import OkError
   import CodecError
 
+  defmacro defcodec either: codecs do
+    quote do
+      def decode bytes do
+        bytes
+        |> decode(unquote codecs)
+      end
+
+      def encode value do
+        value
+        |> encode(unquote codecs)
+      end
+    end
+  end
+
   defmacro decode bytes, codecs do
     quote do
       MMS.Or.decode(unquote(bytes), unquote(codecs), unquote(CodecError.data_type __CALLER__.module))
@@ -37,6 +51,13 @@ defmodule MMS.Or do
           {:ok, result} -> {:halt, ok(result)}
           {:error, {dt, _, details}} -> {:cont, error({data_type, value, errors ++ [{dt, details}]})}
         end
+    end
+  end
+
+  defmacro __using__ (_) do
+    quote do
+      use MMS.Codec
+      import MMS.Or
     end
   end
 end
