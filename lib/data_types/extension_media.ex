@@ -12,7 +12,9 @@ defmodule MMS.ExtensionMedia do
   use MMS.Codec
   alias MMS.Text
 
-  def decode <<"\0", rest::binary>> do
+  @end_of_string "\0"
+
+  def decode <<@end_of_string, rest::binary>> do
     ok "", rest
   end
 
@@ -22,7 +24,7 @@ defmodule MMS.ExtensionMedia do
   end
 
   def encode "" do
-    ok "\0"
+    ok <<@end_of_string>>
   end
 
   def encode value do
