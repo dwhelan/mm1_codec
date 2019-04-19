@@ -1,6 +1,6 @@
 defmodule MMS.OrTest do
   use MMS.CodecTest
-  import MMS.Or
+  import MMS.Either
 
   defmodule Ok1 do
     def decode(<<_ , rest::binary>>), do: ok {1, rest}

@@ -5,7 +5,7 @@ defmodule MMS.TextValue do
   Text-value = No-value | Token-text | Quoted-string
   """
   use MMS.Codec
-  import MMS.Or
+  import MMS.Either
 
   @either [MMS.NoValue, MMS.TokenText, MMS.QuotedString]
 

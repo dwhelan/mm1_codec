@@ -7,7 +7,7 @@ defmodule MMS.ConstrainedEncoding do
   This encoding is used for token values, which have no well-known binary encoding, or when
   the assigned number of the well-known encoding is small enough to fit into Short-integer.
   """
-  use MMS.Or
+  use MMS.Either
 
   defcodec either: [MMS.ExtensionMedia, MMS.ShortInteger]
 end

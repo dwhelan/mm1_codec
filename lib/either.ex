@@ -1,4 +1,4 @@
-defmodule MMS.Or do
+defmodule MMS.Either do
   import OkError
   import CodecError
 
@@ -18,7 +18,7 @@ defmodule MMS.Or do
 
   defmacro decode bytes, codecs do
     quote do
-      MMS.Or.decode(unquote(bytes), unquote(codecs), unquote(CodecError.data_type __CALLER__.module))
+      MMS.Either.decode(unquote(bytes), unquote(codecs), unquote(CodecError.data_type __CALLER__.module))
     end
   end
 
@@ -37,7 +37,7 @@ defmodule MMS.Or do
 
   defmacro encode value, codecs do
     quote do
-      MMS.Or.encode(unquote(value), unquote(codecs), unquote(data_type __CALLER__.module))
+      MMS.Either.encode(unquote(value), unquote(codecs), unquote(data_type __CALLER__.module))
     end
   end
 
@@ -57,7 +57,7 @@ defmodule MMS.Or do
   defmacro __using__ (_) do
     quote do
       use MMS.Codec
-      import MMS.Or
+      import MMS.Either
     end
   end
 end

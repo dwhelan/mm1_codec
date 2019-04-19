@@ -8,7 +8,7 @@ defmodule MMS.FieldName do
   the assigned number of the well-known encoding is small enough to fit into Short-integer.
   """
   use MMS.Codec
-  import MMS.Or
+  import MMS.Either
 
   @either [MMS.TokenText, MMS.WellKnownFieldName]
 

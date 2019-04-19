@@ -11,7 +11,7 @@ defmodule MMS.ContentTypeValue do
 
   """
   use MMS.Codec
-  import MMS.Or
+  import MMS.Either
 
   @either [MMS.ConstrainedMedia, MMS.ContentGeneralForm]
 
