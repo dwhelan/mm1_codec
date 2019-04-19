@@ -1,31 +1,9 @@
 defmodule MMS.Codec do
   import OkError
   import CodecError
-  import OkError.Operators
 
   def is_module?(atom) when is_atom(atom), do: atom |> to_string |> String.starts_with?("Elixir.")
   def is_module?(_),                       do: false
-
-  defp do_encode(f, value, map_codec, caller) do
-    quote bind_quoted: [value: value, f: f, map_codec: map_codec, module: caller.module] do
-      value
-      |> f.()
-      ~>  fn map_value -> map_value |> map_codec.encode end
-      ~>> fn details   -> error data_type(module), value, nest_error(details) end
-    end
-  end
-
-  defp invert {:%{}, context, kv_pairs} do
-    {:%{}, context, kv_pairs |> Enum.map(fn {k, v} -> {v, k} end)}
-  end
-
-  defp to_map list do
-    {:%{}, [], Enum.with_index(list)}
-  end
-
-  def ok value, rest do
-    ok {value, rest}
-  end
 
   def ok value, rest do
     ok {value, rest}
@@ -47,14 +25,8 @@ defmodule MMS.Codec do
     reason
   end
 
-  defp identity do
-    quote do & &1 end
-  end
-
   defmacro defcodec as: delegate do
     quote do
-      use MMS.Codec
-
       def decode bytes do
         bytes
         |> decode_as(unquote delegate)

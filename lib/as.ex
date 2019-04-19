@@ -1,7 +1,5 @@
 defmodule MMS.As do
-  import OkError
   import CodecError
-  import OkError.Operators
 
   defmacro decode_as bytes, codec do
     do_decode identity(), bytes, codec, __CALLER__
@@ -136,9 +134,6 @@ defmodule MMS.As do
   defp to_map list do
     {:%{}, [], Enum.with_index(list)}
   end
-  defmacro encode_as value, codec, module do
-    do_encode_as value, codec, module
-  end
 
   defmacro encode_as value, codec do
     do_encode_as value, codec, __CALLER__.module
@@ -154,5 +149,12 @@ defmodule MMS.As do
 
   defp identity do
     quote do & &1 end
+  end
+
+  defmacro __using__ (_) do
+    quote do
+      use MMS.Codec
+      import MMS.As
+    end
   end
 end

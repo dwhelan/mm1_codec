@@ -1,7 +1,6 @@
 defmodule MMS.FieldNameTest do
   use MMS.CodecTest
   import MMS.FieldName
-  alias MMS.FieldName
 
   codec_examples [
     { "well known field name", << s(0) >>, 0},

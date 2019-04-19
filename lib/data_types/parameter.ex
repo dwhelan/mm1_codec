@@ -6,7 +6,6 @@ defmodule MMS.Parameter do
   """
 
   use MMS.Codec
-  import MMS.As
 
   alias MMS.{Tuple, TokenText, UntypedValue}
 
