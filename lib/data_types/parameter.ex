@@ -11,11 +11,11 @@ defmodule MMS.Parameter do
 
   def decode bytes do
     bytes
-    |> Tuple.decode([TokenText, UntypedValue])
+    |> Tuple.decode({TokenText, UntypedValue})
   end
 
   def encode {name, value} do
     {name, value}
-    |> Tuple.encode([TokenText, UntypedValue])
+    |> Tuple.encode({TokenText, UntypedValue})
   end
 end
