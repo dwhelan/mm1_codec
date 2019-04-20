@@ -7,18 +7,7 @@ defmodule MMS.FieldName do
   This encoding is used for token values, which have no well-known binary encoding, or when
   the assigned number of the well-known encoding is small enough to fit into Short-integer.
   """
-  use MMS.Codec
-  import MMS.Either
+  use MMS.Either
 
-  @either [MMS.TokenText, MMS.WellKnownFieldName]
-
-  def decode bytes do
-    bytes
-    |> decode(@either)
-  end
-
-  def encode value do
-    value
-    |> encode(@either)
-  end
+  defcodec either: [MMS.TokenText, MMS.WellKnownFieldName]
 end

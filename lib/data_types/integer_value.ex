@@ -4,18 +4,7 @@ defmodule MMS.IntegerValue do
 
   Integer-Value = Short-integer | Long-integer
   """
-  use MMS.Codec
-  import MMS.Either
+  use MMS.Either
 
-  @either [MMS.ShortInteger, MMS.LongInteger]
-
-  def decode bytes do
-    bytes
-    |> decode(@either)
-  end
-
-  def encode value do
-    value
-    |> encode(@either)
-  end
+  defcodec either: [MMS.ShortInteger, MMS.LongInteger]
 end

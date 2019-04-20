@@ -6,28 +6,7 @@ defmodule MMS.VersionValue do
 
   The VersionInteger codec is responsible for interpreting the major and minor versions from a ShortInteger
   """
-  use MMS.Codec
-  import MMS.As
+  use MMS.Either
 
-  alias MMS.{VersionInteger, Text}
-
-  def decode(bytes = <<char, _::binary>>) when is_char(char) do
-    bytes
-    |> decode_as(Text)
-  end
-
-  def decode(bytes) when is_binary(bytes) do
-    bytes
-    |> decode_as(VersionInteger)
-  end
-
-  def encode(string) when is_binary(string) do
-    string
-    |> encode_as(Text)
-  end
-
-  def encode(value) do
-    value
-    |> encode_as(VersionInteger)
-  end
+  defcodec either: [MMS.VersionInteger, MMS.TextString]
 end

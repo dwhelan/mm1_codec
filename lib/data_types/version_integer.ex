@@ -35,10 +35,6 @@ defmodule MMS.VersionInteger do
     |> do_encode
   end
 
-  def encode(major) when is_integer(major) do
-    error major, :out_of_range
-  end
-
   def encode({major, minor}) when major in @major_range and minor in @minor_range do
     {major, minor}
     |> do_encode
@@ -50,6 +46,10 @@ defmodule MMS.VersionInteger do
 
   def encode({major, minor}) when is_integer(major) and is_integer(minor) do
     error {major, minor}, :minor_out_of_range
+  end
+
+  def encode(major) do
+    error major, :out_of_range
   end
 
   def do_encode {major, minor} do

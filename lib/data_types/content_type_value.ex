@@ -10,18 +10,7 @@ defmodule MMS.ContentTypeValue do
   Content-type-value = Constrained-media | Content-general-form
 
   """
-  use MMS.Codec
-  import MMS.Either
+  use MMS.Either
 
-  @either [MMS.ConstrainedMedia, MMS.ContentGeneralForm]
-
-  def decode bytes do
-    bytes
-    |> decode(@either)
-  end
-
-  def encode value do
-    value
-    |> encode(@either)
-  end
+  defcodec either: [MMS.ConstrainedMedia, MMS.ContentGeneralForm]
 end

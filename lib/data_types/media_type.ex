@@ -4,18 +4,7 @@ defmodule MMS.MediaType do
 
   Media-type = (Well-known-media | Extension-Media) *(Parameter)
   """
-  use MMS.Codec
-  import MMS.Either
+  use MMS.Either
 
-  @either [MMS.WellKnownMedia, MMS.ExtensionMedia]
-
-  def decode bytes do
-    bytes
-    |> decode(@either)
-  end
-
-  def encode value do
-    value
-    |> encode(@either)
-  end
+  defcodec either: [MMS.WellKnownMedia, MMS.ExtensionMedia]
 end

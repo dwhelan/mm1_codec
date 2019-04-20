@@ -11,7 +11,7 @@ defmodule MMS.VersionValueTest do
       ],
 
       decode_errors: [
-        { "no end of string", {:version_value, "no end of string", [:text, :missing_end_of_string]}},
+        { "no end of string", {:version_value, "no end of string", [{:version_integer, [out_of_range: 110]}, {:text_string, [:text, :missing_end_of_string]}]}},
       ],
 
       encode_errors: [
