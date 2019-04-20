@@ -65,7 +65,7 @@ defmodule MMS.ValueLengthTest do
 
     test "with a uint32 length" do
       assert encode(max_short_length() + 1) == ok <<length_quote(), max_short_length() + 1>>
-      assert encode(max_uint32())           == ok <<length_quote()>> <> max_uint32_bytes()
+      assert encode(max_unitvar_integer())           == ok <<length_quote()>> <> max_unitvar_integer_bytes()
     end
 
     test "with an invalid integer" do

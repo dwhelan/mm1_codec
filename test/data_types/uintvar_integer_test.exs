@@ -13,7 +13,7 @@ defmodule MMS.UintvarIntegerTest do
     {"268_435_455", <<255, 255, 255, 127>>, 268_435_455},
     {"268_435_456", <<129, 128, 128, 128, 0>>, 268_435_456},
 
-    {"max uintvar integer", max_uint32_bytes(), max_uint32()},
+    {"max uintvar integer", max_unitvar_integer_bytes(), max_unitvar_integer()},
   ]
 
   decode_errors [
@@ -23,14 +23,14 @@ defmodule MMS.UintvarIntegerTest do
       {:uintvar_integer, <<128>>, :first_byte_cannot_be_128}
     },
     {
-      "#{max_uint32() + 1}",
+      "#{max_unitvar_integer() + 1}",
       <<144, 128, 128, 128, 0>>,
-      {:uintvar_integer, <<144, 128, 128, 128, 0>>, out_of_range: max_uint32() + 1}
+      {:uintvar_integer, <<144, 128, 128, 128, 0>>, out_of_range: max_unitvar_integer() + 1}
     },
   ]
 
   encode_errors [
     {"negative", -1, {:uintvar_integer, -1, :out_of_range}},
-    {"#{max_uint32() + 1}", max_uint32() + 1, {:uintvar_integer, max_uint32() + 1, :out_of_range}},
+    {"#{max_unitvar_integer() + 1}", max_unitvar_integer() + 1, {:uintvar_integer, max_unitvar_integer() + 1, :out_of_range}},
   ]
 end
