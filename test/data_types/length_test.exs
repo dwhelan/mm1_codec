@@ -7,11 +7,10 @@ defmodule MMS.LengthTest do
   ]
 
   decode_errors [
-    {"128 as first byte", <<128>>},
+    {"128 as first byte", <<128>>, [:uintvar_integer, :first_byte_cannot_be_128]},
   ]
 
   encode_errors [
-    {"negative length", -1},
+    {"negative", -1, [:uintvar_integer, :out_of_range]},
   ]
-
 end
