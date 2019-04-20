@@ -1,16 +1,19 @@
 defmodule MMS.As do
   import CodecError
 
-  defmacro defcodec as: delegate do
+  defmacro defcodec opts do
+    delegate = opts[:as]
+    map = opts[:map] || identity()
+
     quote do
       def decode bytes do
         bytes
-        |> decode_as(unquote delegate)
+        |> decode_as(unquote(delegate), unquote(map))
       end
 
       def encode value do
         value
-        |> encode_as(unquote delegate)
+        |> encode_as(unquote(delegate), unquote(map))
       end
     end
   end
