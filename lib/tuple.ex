@@ -5,6 +5,7 @@ defmodule MMS.Tuple do
     bytes
     |> MMS.List.decode(Tuple.to_list codecs)
     ~> fn {values, rest} -> ok List.to_tuple(values), rest end
+    ~>> fn {_, _, reason} -> error data_type(), bytes, reason end
   end
 
   def encode(values, codecs) when is_tuple(values) and is_tuple(codecs) do

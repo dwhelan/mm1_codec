@@ -20,11 +20,11 @@ defmodule MMS.TupleTest do
     end
 
     test "return an error if it occurs on first function" do
-      assert Tuple.decode(@bytes, {Error, Ok}) == error :list, @bytes, %{error: {:data_type, @bytes, :reason}, values: []}
+      assert Tuple.decode(@bytes, {Error, Ok}) == error :tuple, @bytes, %{error: {:data_type, @bytes, :reason}, values: []}
     end
 
     test "return an error if it occurs on subsequent functions" do
-      assert Tuple.decode(@bytes, {Ok, Error}) == error :list, @bytes, %{error: {:data_type, <<2, "rest">>, :reason}, values: [1]}
+      assert Tuple.decode(@bytes, {Ok, Error}) == error :tuple, @bytes, %{error: {:data_type, <<2, "rest">>, :reason}, values: [1]}
     end
   end
 
