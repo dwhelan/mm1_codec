@@ -21,7 +21,7 @@ defmodule MMS.UintvarInteger do
 
   Uintvar-integer = 1*5 OCTET
   """
-  use MMS.Codec, error: :uintvar_integer
+  use MMS.Codec
 
   use Bitwise
 
