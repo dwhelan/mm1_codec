@@ -1,10 +1,8 @@
 # http://www.openmobilealliance.org/wp/OMNA/wsp/wsp_content_type_codes.html
 defmodule MMS.WellKnownMedia do
-  use MMS.Codec
-  import MMS.As
-  alias MMS.ShortInteger
+  use MMS.As
 
-  @values [
+  defcodec as: MMS.ShortInteger, map: [
     :"*/*",
     :"text/*",
     :"text/html",
@@ -95,14 +93,4 @@ defmodule MMS.WellKnownMedia do
     :"text/x-vBookmark",
     :"application/vnd.syncml.dm.notification",
   ]
-
-  def decode bytes do
-    bytes
-    |> decode_as(ShortInteger, @values)
-  end
-
-  def encode value do
-    value
-    |> encode_as(ShortInteger, @values)
-  end
 end

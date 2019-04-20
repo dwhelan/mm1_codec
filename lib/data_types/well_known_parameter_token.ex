@@ -46,13 +46,9 @@ defmodule MMS.WellKnownParameterToken do
 
   This codec represents a well known parameter token as a Pascal cased `atom`.
   """
+  use MMS.As
 
-  use MMS.Codec
-  import MMS.As
-
-  alias MMS.IntegerValue
-
-  @map %{
+  defcodec as: MMS.IntegerValue, map: %{
     0x00 => :q,
     0x01 => :charset,
     0x02 => :level,
@@ -83,14 +79,4 @@ defmodule MMS.WellKnownParameterToken do
     0x1C => :domain,
     0x1D => :path,
   }
-
-  def decode bytes do
-    bytes
-    |> decode_as(IntegerValue, @map)
-  end
-
-  def encode token do
-    token
-    |> encode_as(IntegerValue, @map)
-  end
 end

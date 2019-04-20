@@ -4,18 +4,8 @@ defmodule MMS.Parameter do
 
   Parameter = Typed-parameter | Untyped-parameter
   """
+  use MMS.Tuple2
 
-  use MMS.Codec
-
-  alias MMS.{Tuple, TokenText, UntypedValue}
-
-  def decode bytes do
-    bytes
-    |> Tuple.decode({TokenText, UntypedValue})
-  end
-
-  def encode {name, value} do
-    {name, value}
-    |> Tuple.encode({TokenText, UntypedValue})
-  end
+  # This does not match BNF above
+  defcodec as: {MMS.TokenText, MMS.UntypedValue}
 end
