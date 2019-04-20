@@ -19,20 +19,10 @@ defmodule MMS.Boolean do
     Yes = <Octet 128>
     No  = <Octet 129>
   """
-  use MMS.Codec
-  import MMS.As
-  alias MMS.Octet
+  use MMS.As
 
-  @map %{
+  defcodec as: MMS.Octet, map: %{
     128 => true,
     129 => false,
   }
-
-  def decode bytes do
-    bytes |> decode_as(Octet, @map)
-  end
-
-  def encode value do
-    value |> encode_as(Octet, @map)
-  end
 end
