@@ -7,13 +7,13 @@ defmodule MMS.ResponseStatus do
     128 => :ok,
 
     # Obsolete failure
-    129 => {:permanent_failure, :obsolete_unspecified},
-    130 => {:permanent_failure, :obsolete_service_denied},
-    131 => {:permanent_failure, :obsolete_message_format_corrupt},
-    132 => {:permanent_failure, :obsolete_sending_address_unresolved},
-    133 => {:transient_failure, :obsolete_message_not_found},
-    134 => {:transient_failure, :obsolete_network_problem},
-    135 => {:permanent_failure, :obsolete_content_not_accepted},
+    129 => {:permanent_failure, :unspecified,                :obsolete},
+    130 => {:permanent_failure, :service_denied,             :obsolete},
+    131 => {:permanent_failure, :message_format_corrupt,     :obsolete},
+    132 => {:permanent_failure, :sending_address_unresolved, :obsolete},
+    133 => {:transient_failure, :message_not_found,          :obsolete},
+    134 => {:transient_failure, :network_problem,            :obsolete},
+    135 => {:permanent_failure, :content_not_accepted,       :obsolete},
 
     136 => {:permanent_failure, :unsupported_message},
 
@@ -49,7 +49,8 @@ defmodule MMS.ResponseStatus do
   end
 
   def decode bytes do
-    bytes |> decode_as(Octet, @map)
+    bytes
+    |> decode_as(Octet, @map)
   end
 
   def encode({:transient_failure, status}) when status in 196..223 do
@@ -61,6 +62,7 @@ defmodule MMS.ResponseStatus do
   end
 
   def encode(value) do
-    value |> encode_as(Octet, @map)
+    value
+    |> encode_as(Octet, @map)
   end
 end
