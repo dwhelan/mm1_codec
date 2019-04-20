@@ -65,7 +65,7 @@ defmodule MMS.UintvarInteger do
     |> do_encode([]) |> ok
   end
 
-  def encode(value) when is_integer(value) do
+  def encode value do
     error value, :out_of_range
   end
 
