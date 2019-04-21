@@ -30,10 +30,6 @@ defmodule MMS.Time do
     seconds
   end
 
-  defp to_time(_) do
-    module_error()
-  end
-
   def encode date_time = %DateTime{} do
     date_time
     |> DateTime.to_unix

@@ -17,10 +17,4 @@ defmodule CodecError do
     |> Enum.map(&String.capitalize/1)
     |> Enum.join
   end
-
-  defmacro module_error _reason \\ nil do
-    __CALLER__.module
-    |> data_type
-    |> error
-  end
 end

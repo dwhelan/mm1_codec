@@ -15,10 +15,4 @@ defmodule CodecErrorTest do
       assert data_type(AB1C2) == :ab1_c2
     end
   end
-
-  describe "module_error/0" do
-    test "reason should be underscore version of caller module" do
-      assert module_error() == {:error, :codec_error_test}
-    end
-  end
 end
