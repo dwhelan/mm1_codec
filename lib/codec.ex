@@ -13,6 +13,12 @@ defmodule MMS.Codec do
     error {data_type, input, details}
   end
 
+  defmacro error input, details do
+    quote do
+      error data_type(unquote __CALLER__.module), unquote(input), nest_error(unquote details)
+    end
+  end
+
   def nest_error({data_type, _, error}) when is_list(error) do
     [data_type | error]
   end
@@ -40,10 +46,6 @@ defmodule MMS.Codec do
 
       def encode value do
         error value, :bad_data_type
-      end
-
-      defp error input, details do
-        error data_type(), input, nest_error(details)
       end
 
       def data_type do
