@@ -37,17 +37,6 @@ defmodule MMS.OrTest do
       assert decode(<<0>>, [Error1, Error2], :data_type) == error(:data_type, <<0>>, [error1: 1, error2: 2])
     end
   end
-
-  describe "decode macro should" do
-    test "return ok from the first codec that returns ok" do
-      assert decode(<<0>>, [Ok1, Error1]) == ok(1, "")
-    end
-
-    test "return error if all codecs fail" do
-      assert decode(<<0>>, [Error1]) == error(:or_test, <<0>>, [error1: 1])
-    end
-  end
-
   describe "encode should" do
     test "return ok from the first codec that returns ok" do
       assert encode(0, [Ok1], :data_type) == ok <<1>>
@@ -64,13 +53,27 @@ defmodule MMS.OrTest do
     end
   end
 
-  describe "encode macro should" do
-    test "return ok from the first codec that returns ok" do
-      assert encode(0, [Ok1, Error1]) == ok <<1>>
+  describe "using" do
+    defmodule Ok1Error1 do
+      defcodec either: [Ok1, Error1]
+    end
+    defmodule Error1Error2 do
+      defcodec either: [Error1, Error2]
+    end
+
+    test "return ok from the first codec that decodes ok" do
+      assert Ok1Error1.decode(<<0>>) == ok(1, "")
+    end
+
+    test "return error if all codecs fail  to decode" do
+      assert Error1Error2.decode(<<0>>) == error(:error1_error2, <<0>>, error1: 1, error2: 2)
+    end
+    test "return ok from the first codec that encodes ok" do
+      assert Ok1Error1.encode(0) == ok <<1>>
     end
 
     test "return error if all codecs fail" do
-      assert encode(0, [Error1]) == error(:or_test, 0, [error1: 1])
+      assert Error1Error2.encode(0) == error(:error1_error2, 0, error1: 1, error2: 2)
     end
   end
 end

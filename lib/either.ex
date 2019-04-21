@@ -6,19 +6,13 @@ defmodule MMS.Either do
     quote do
       def decode bytes do
         bytes
-        |> decode(unquote codecs)
+        |> decode(unquote(codecs), data_type(unquote __CALLER__.module))
       end
 
       def encode value do
         value
-        |> encode(unquote codecs)
+        |> encode(unquote(codecs), data_type(unquote __CALLER__.module))
       end
-    end
-  end
-
-  defmacro decode bytes, codecs do
-    quote do
-      MMS.Either.decode(unquote(bytes), unquote(codecs), data_type(unquote __CALLER__.module))
     end
   end
 
@@ -37,7 +31,7 @@ defmodule MMS.Either do
 
   defmacro encode value, codecs do
     quote do
-      MMS.Either.encode(unquote(value), unquote(codecs), unquote(data_type __CALLER__.module))
+      encode(unquote(value), unquote(codecs), unquote(data_type __CALLER__.module))
     end
   end
 
