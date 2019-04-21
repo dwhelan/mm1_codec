@@ -82,7 +82,7 @@ defmodule MMS.CodecTest do
 
   defmacro decode_errors list do
     quote location: :keep do
-      @data_type data_type()
+      @data_type data_type() |> to_string |> String.replace_trailing("_test", "") |> String.to_atom
       unquote(list)
       |> Enum.each(
            fn test_case ->
@@ -120,7 +120,7 @@ defmodule MMS.CodecTest do
 
   defmacro encode_errors list do
     quote location: :keep do
-      @data_type data_type()
+      @data_type data_type() |> to_string |> String.replace_trailing("_test", "") |> String.to_atom
       unquote(list)
       |> Enum.each(
            fn test_case ->
