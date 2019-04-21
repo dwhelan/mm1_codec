@@ -1,6 +1,5 @@
 defmodule MMS.Either do
   import OkError
-  import MMS.DataTypes
   import MMS.Codec
 
   defmacro defcodec either: codecs do

@@ -1,5 +1,4 @@
 defmodule MMS.As do
-  import MMS.DataTypes
   import MMS.Codec
 
   defmacro defcodec opts do
