@@ -1,7 +1,7 @@
 defmodule CodecErrorTest do
   use ExUnit.Case
 
-  import CodecError
+  import MMS.DataTypes
 
   describe "data_type/1 should" do
     test "convert all upper case letters to lower case" do

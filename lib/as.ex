@@ -1,5 +1,5 @@
 defmodule MMS.As do
-  import CodecError
+  import MMS.DataTypes
 
   defmacro defcodec opts do
     delegate = opts[:as]

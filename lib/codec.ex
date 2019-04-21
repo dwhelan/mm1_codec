@@ -1,6 +1,6 @@
 defmodule MMS.Codec do
   import OkError
-  import CodecError
+  import MMS.DataTypes
 
   def is_module?(atom) when is_atom(atom), do: atom |> to_string |> String.starts_with?("Elixir.")
   def is_module?(_),                       do: false
@@ -32,7 +32,7 @@ defmodule MMS.Codec do
       import OkError
       import OkError.Operators
       import MMS.Codec
-      import CodecError
+      import MMS.DataTypes
 
       def decode <<>> do
         error <<>>, :no_bytes

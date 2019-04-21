@@ -1,6 +1,6 @@
 defmodule MMS.Either do
   import OkError
-  import CodecError
+  import MMS.DataTypes
 
   defmacro defcodec either: codecs do
     quote do
@@ -18,7 +18,7 @@ defmodule MMS.Either do
 
   defmacro decode bytes, codecs do
     quote do
-      MMS.Either.decode(unquote(bytes), unquote(codecs), unquote(CodecError.data_type __CALLER__.module))
+      MMS.Either.decode(unquote(bytes), unquote(codecs), unquote(MMS.DataTypes.data_type __CALLER__.module))
     end
   end
 

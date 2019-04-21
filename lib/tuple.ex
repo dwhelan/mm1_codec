@@ -1,5 +1,5 @@
 defmodule MMS.Tuple do
-  import CodecError
+  import MMS.DataTypes
   use MMS.Codec
 
   def decode(bytes, codecs) when is_binary(bytes) and is_tuple(codecs) do

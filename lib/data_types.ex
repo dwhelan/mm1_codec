@@ -11,6 +11,22 @@ defmodule MMS.DataTypes do
   SP             = <US-ASCII SP, space (32)>
   HT             = <US-ASCII HT, horizontal-tab (9)>
   """
+  def data_type module do
+    module
+    |> to_string
+    |> String.split(".")
+    |> List.last
+    |> pascalcase
+    |> Macro.underscore
+    |> String.to_atom
+  end
+
+  def pascalcase string do
+    string
+    |> String.split(~r/[A-Z]+[^A-Z]*/, include_captures: true)
+    |> Enum.map(&String.capitalize/1)
+    |> Enum.join
+  end
 
   @chars      0..127 |> Enum.into([])
   @controls   0..31  |> Enum.into([127])
