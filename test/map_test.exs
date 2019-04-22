@@ -2,7 +2,7 @@ defmodule MMS.Mapper do
   @callback decode_map(any) :: any
   @callback encode_map(any) :: any
 
-  defmacro defmapper map do
+  defmacro defmapper map = {:%{}, _, _} do
     decode_map =
       quote do
         fn value ->
@@ -20,11 +20,11 @@ defmodule MMS.Mapper do
     create_mapper decode_map, encode_map
   end
 
-  defmacro defmapper decode_map, encode_map do
-    create_mapper decode_map, encode_map
+  defmacro defmapper decode_mapper, encode_mapper do
+    create_mapper decode_mapper, encode_mapper
   end
 
-  defp create_mapper decode_map, encode_map do
+  defp create_mapper decode_mapper, encode_mapper do
     quote do
       import OkError
       import Monad.Operators
@@ -34,11 +34,11 @@ defmodule MMS.Mapper do
 
       IO.inspect __MODULE__
 
-      def decode_map result do
+      def decode_mapper result do
         result
         ~> fn {value, rest} ->
              value
-             |> unquote(decode_map).()
+             |> unquote(decode_mapper).()
              ~> fn mapped ->
                   ok {mapped, rest}
                 end
@@ -46,16 +46,11 @@ defmodule MMS.Mapper do
            end
       end
 
-      def encode_map value do
+      def encode_mapper value do
         new_value =
           value
-          |> unquote(encode_map).()
-
-        if new_value == nil do
-          error {data_type(__MODULE__), value, :not_found}
-        else
-          new_value
-        end
+          |> unquote(encode_mapper).()
+          ~>> fn details -> error {data_type(__MODULE__), value, details || :not_found} end
       end
     end
   end
@@ -76,13 +71,13 @@ defmodule MMS.MapperTest do
       defmapper fn x -> x + 1 end, fn x -> x - 1 end
     end
 
-    test "decode_map" do
-      assert Plus1.decode_map(ok(1, "rest")) == ok(2, "rest")
-      assert Plus1.decode_map(error(:data_type, "bytes", :reason)) == error(:data_type, "bytes", :reason)
+    test "decode_mapper" do
+      assert Plus1.decode_mapper(ok(1, "rest")) == ok(2, "rest")
+      assert Plus1.decode_mapper(error(:data_type, "bytes", :reason)) == error(:data_type, "bytes", :reason)
     end
 
-    test "encode_map" do
-      assert Plus1.encode_map(2) == 1
+    test "encode_mapper" do
+      assert Plus1.encode_mapper(2) == ok(1)
     end
   end
 
@@ -93,16 +88,16 @@ defmodule MMS.MapperTest do
       defmapper %{0 => :a, 1 => :b}
     end
 
-    test "decode_map" do
-      assert CodecMap.decode_map(ok(0, "rest")) == ok(:a, "rest")
-      assert CodecMap.decode_map(ok(1, "rest")) == ok(:b, "rest")
-      assert CodecMap.decode_map(ok(2, "rest")) == error {:codec_map, 2, :not_found}
+    test "decode_mapper" do
+      assert CodecMap.decode_mapper(ok(0, "rest")) == ok(:a, "rest")
+      assert CodecMap.decode_mapper(ok(1, "rest")) == ok(:b, "rest")
+      assert CodecMap.decode_mapper(ok(2, "rest")) == error {:codec_map, 2, :not_found}
     end
 
-    test "encode_map" do
-      assert CodecMap.encode_map(:a) == 0
-      assert CodecMap.encode_map(:b) == 1
-      assert CodecMap.encode_map(:c) == error {:codec_map, :c, :not_found}
+    test "encode_mapper" do
+      assert CodecMap.encode_mapper(:a) == ok(0)
+      assert CodecMap.encode_mapper(:b) == ok(1)
+      assert CodecMap.encode_mapper(:c) == error {:codec_map, :c, :not_found}
     end
   end
 end
