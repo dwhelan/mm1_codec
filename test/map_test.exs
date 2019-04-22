@@ -81,6 +81,23 @@ defmodule MMS.MapperTest do
     end
   end
 
+  describe "with captures" do
+    defmodule Plus1 do
+      import MMS.Mapper
+
+      defmapper & &1 + 1, & &1 - 1
+    end
+
+    test "decode_mapper" do
+      assert Plus1.decode_mapper(ok(1, "rest")) == ok(2, "rest")
+      assert Plus1.decode_mapper(error(:data_type, "bytes", :reason)) == error(:data_type, "bytes", :reason)
+    end
+
+    test "encode_mapper" do
+      assert Plus1.encode_mapper(2) == ok(1)
+    end
+  end
+
   describe "with a map" do
     defmodule CodecMap do
       import MMS.Mapper
