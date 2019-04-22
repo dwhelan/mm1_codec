@@ -19,7 +19,6 @@ defmodule MMS.MapperTest do
     end
   end
 
-
   describe "functions with arity 2" do
     defmodule Plus1a do
       import MMS.Mapper
