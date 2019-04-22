@@ -1,5 +1,5 @@
 defmodule MMS.Mapper do
-  @callback decode_mapper(any) :: any
+  @callback decode_map(any) :: any
   @callback encode_mapper(any) :: any
 
   defmacro defmapper map = {:%{}, _, _} do
@@ -25,7 +25,7 @@ defmodule MMS.Mapper do
 
       @behaviour MMS.Mapper
 
-      def decode_mapper result do
+      def decode_map result do
         result
         ~> fn {value, rest} ->
              value
@@ -56,8 +56,8 @@ defmodule MMS.MapperTest do
     end
 
     test "decode_mapper" do
-      assert Plus1.decode_mapper(ok(1, "rest")) == ok(2, "rest")
-      assert Plus1.decode_mapper(error(:data_type, "bytes", :reason)) == error(:data_type, "bytes", :reason)
+      assert Plus1.decode_map(ok(1, "rest")) == ok(2, "rest")
+      assert Plus1.decode_map(error(:data_type, "bytes", :reason)) == error(:data_type, "bytes", :reason)
     end
 
     test "encode_mapper" do
@@ -73,8 +73,8 @@ defmodule MMS.MapperTest do
     end
 
     test "decode_mapper" do
-      assert Plus1Capture.decode_mapper(ok(1, "rest")) == ok(2, "rest")
-      assert Plus1Capture.decode_mapper(error(:data_type, "bytes", :reason)) == error(:data_type, "bytes", :reason)
+      assert Plus1Capture.decode_map(ok(1, "rest")) == ok(2, "rest")
+      assert Plus1Capture.decode_map(error(:data_type, "bytes", :reason)) == error(:data_type, "bytes", :reason)
     end
 
     test "encode_mapper" do
@@ -90,9 +90,9 @@ defmodule MMS.MapperTest do
     end
 
     test "decode_mapper" do
-      assert CodecMap.decode_mapper(ok(0, "rest")) == ok(:a, "rest")
-      assert CodecMap.decode_mapper(ok(1, "rest")) == ok(:b, "rest")
-      assert CodecMap.decode_mapper(ok(2, "rest")) == error {:codec_map, 2, :not_found}
+      assert CodecMap.decode_map(ok(0, "rest")) == ok(:a, "rest")
+      assert CodecMap.decode_map(ok(1, "rest")) == ok(:b, "rest")
+      assert CodecMap.decode_map(ok(2, "rest")) == error {:codec_map, 2, :not_found}
     end
 
     test "encode_mapper" do
