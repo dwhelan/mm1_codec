@@ -1,27 +1,20 @@
 defmodule MMS.Mapper do
-  @callback decode_map(any) :: any
-  @callback encode_map(any) :: any
+  @callback decode_mapper(any) :: any
+  @callback encode_mapper(any) :: any
 
   defmacro defmapper map = {:%{}, _, _} do
-    decode_map =
-      quote do
-        fn value ->
-          unquote(map)[value]
-        end
-      end
+    decode_mapper = quote do & unquote(map)[&1] end
+    encode_mapper = quote do & unquote(invert map)[&1] end
 
-    encode_map =
-      quote do
-        fn value ->
-          unquote(invert map)[value]
-        end
-      end
-
-    create_mapper decode_map, encode_map
+    create_mapper decode_mapper, encode_mapper
   end
 
   defmacro defmapper(decode_mapper = {d, _, _}, encode_mapper = {e, _, _}) when d in [:fn, :&] and e in [:fn, :&] do
     create_mapper decode_mapper, encode_mapper
+  end
+
+  defp invert {:%{}, context, kv_pairs} do
+    {:%{}, context, kv_pairs |> Enum.map(fn {k, v} -> {v, k} end)}
   end
 
   defp create_mapper decode_mapper, encode_mapper do
@@ -32,31 +25,22 @@ defmodule MMS.Mapper do
 
       @behaviour MMS.Mapper
 
-      IO.inspect __MODULE__
-
       def decode_mapper result do
         result
         ~> fn {value, rest} ->
              value
              |> unquote(decode_mapper).()
-             ~> fn mapped ->
-                  ok {mapped, rest}
-                end
+             ~> fn mapped -> ok {mapped, rest} end
              ~>> fn details -> error {data_type(__MODULE__), value, details || :not_found} end
            end
       end
 
       def encode_mapper value do
-        new_value =
-          value
-          |> unquote(encode_mapper).()
-          ~>> fn details -> error {data_type(__MODULE__), value, details || :not_found} end
+        value
+        |> unquote(encode_mapper).()
+        ~>> fn details -> error {data_type(__MODULE__), value, details || :not_found} end
       end
     end
-  end
-
-  defp invert {:%{}, context, kv_pairs} do
-    {:%{}, context, kv_pairs |> Enum.map(fn {k, v} -> {v, k} end)}
   end
 end
 
@@ -82,19 +66,19 @@ defmodule MMS.MapperTest do
   end
 
   describe "with captures" do
-    defmodule Plus1 do
+    defmodule Plus1Capture do
       import MMS.Mapper
 
       defmapper & &1 + 1, & &1 - 1
     end
 
     test "decode_mapper" do
-      assert Plus1.decode_mapper(ok(1, "rest")) == ok(2, "rest")
-      assert Plus1.decode_mapper(error(:data_type, "bytes", :reason)) == error(:data_type, "bytes", :reason)
+      assert Plus1Capture.decode_mapper(ok(1, "rest")) == ok(2, "rest")
+      assert Plus1Capture.decode_mapper(error(:data_type, "bytes", :reason)) == error(:data_type, "bytes", :reason)
     end
 
     test "encode_mapper" do
-      assert Plus1.encode_mapper(2) == ok(1)
+      assert Plus1Capture.encode_mapper(2) == ok(1)
     end
   end
 
