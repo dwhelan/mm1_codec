@@ -20,7 +20,7 @@ defmodule MMS.Mapper do
     create_mapper decode_map, encode_map
   end
 
-  defmacro defmapper decode_mapper, encode_mapper do
+  defmacro defmapper(decode_mapper = {d, _, _}, encode_mapper = {e, _, _}) when d in [:fn, :&] and e in [:fn, :&] do
     create_mapper decode_mapper, encode_mapper
   end
 
