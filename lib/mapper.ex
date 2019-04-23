@@ -47,8 +47,11 @@ defmodule MMS.Mapper do
 
   def encode_map value, encode_mapper, module do
     value
-    |> encode_mapper.()
-    ~>> & error {data_type(module), value, &1}
+    ~> fn value ->
+         value
+         |> encode_mapper.()
+         ~>> & error {data_type(module), value, &1}
+       end
   end
 
   defp invert {:%{}, context, kv_pairs} do
