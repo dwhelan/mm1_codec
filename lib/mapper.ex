@@ -58,7 +58,7 @@ defmodule MMS.Mapper do
     ~> fn value ->
          value
          |> encode_mapper.()
-         ~>> & error {data_type(module), value, &1}
+         ~>> & error {data_type(module), value, mapper: &1}
        end
   end
 
