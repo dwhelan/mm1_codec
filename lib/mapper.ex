@@ -39,10 +39,18 @@ defmodule MMS.Mapper do
   end
 
   defp do_decode_map {value, rest}, decode_mapper do
-    case Function.info(decode_mapper)[:arity] do
-      1 -> decode_mapper.(value) ~> fn value -> ok {value, rest} end
-      2 -> decode_mapper.(value, rest)
-    end
+    do_decode_map {value, rest}, decode_mapper, Function.info(decode_mapper)[:arity]
+  end
+
+  defp do_decode_map {value, rest}, decode_mapper, 1 do
+    value
+    |> decode_mapper.()
+    ~> fn value -> ok {value, rest} end
+  end
+
+  defp do_decode_map {value, rest}, decode_mapper, 2 do
+    value
+    |> decode_mapper.(rest)
   end
 
   def encode_map value, encode_mapper, module do
