@@ -2,6 +2,28 @@ defmodule MMS.MapperTest do
   use MMS.CodecTest
   import MMS.Mapper
 
+
+  def identity(x), do: x
+  def plus(x), do: x + 1
+  def err(x), do: error :details
+  def null(x), do: nil
+
+  describe "decode_map should" do
+    test "map ok results" do
+      assert decode_map(ok(0, ""), &identity/1, __MODULE__) == ok(0, "")
+      assert decode_map(ok(0, ""), &plus/1, __MODULE__) == ok(1, "")
+      assert decode_map(ok(0, ""), &err/1, __MODULE__) == error(:mapper_test, 0, :details)
+      assert decode_map(ok(0, ""), &null/1, __MODULE__) == error(:mapper_test, 0, nil)
+    end
+
+    test "short circuit error results" do
+      error = error(:data_type, 42, :details)
+      assert decode_map(error, &identity/1, __MODULE__) == error
+      assert decode_map(error, &plus/1, __MODULE__) == error
+      assert decode_map(error, &err/1, __MODULE__) == error
+      assert decode_map(error, &null/1, __MODULE__) == error
+    end
+  end
   describe "functions with arity 1" do
     defmodule Plus1 do
       import MMS.Mapper

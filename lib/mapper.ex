@@ -3,6 +3,7 @@ defmodule MMS.Mapper do
   import OkError
   import Monad.Operators
   import OkError.Operators
+
   @callback decode_map(any) :: any
   @callback encode_map(any) :: any
 
@@ -31,18 +32,15 @@ defmodule MMS.Mapper do
   def decode_map result, decode_mapper, module do
     result
     ~> fn {value, rest} ->
-      {value, rest}
-      |> do_decode_map(decode_mapper)
-      ~>> & error {data_type(module), value, &1}
+         {value, rest}
+         |> do_decode_map(decode_mapper)
+         ~>> & error {data_type(module), value, &1}
        end
   end
 
   defp do_decode_map {value, rest}, decode_mapper do
     case Function.info(decode_mapper)[:arity] do
-      1 ->
-        decode_mapper.(value)
-        ~> fn value -> ok {value, rest} end
-
+      1 -> decode_mapper.(value) ~> fn value -> ok {value, rest} end
       2 -> decode_mapper.(value, rest)
     end
   end
@@ -50,7 +48,7 @@ defmodule MMS.Mapper do
   def encode_map value, encode_mapper, module do
     value
     |> encode_mapper.()
-      ~>> & error {data_type(module), value, &1}
+    ~>> & error {data_type(module), value, &1}
   end
 
   defp invert {:%{}, context, kv_pairs} do
