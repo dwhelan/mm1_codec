@@ -2,28 +2,50 @@ defmodule MMS.MapperTest do
   use MMS.CodecTest
   import MMS.Mapper
 
+  defp plus(x), do: x + 1
+  defp ok_plus(x), do: ok x + 1
+  defp err(_), do: error :details
+  defp null(_), do: nil
 
-  def identity(x), do: x
-  def plus(x), do: x + 1
-  def err(x), do: error :details
-  def null(x), do: nil
-
-  describe "decode_map should" do
-    test "map ok results" do
-      assert decode_map(ok(0, ""), &identity/1, __MODULE__) == ok(0, "")
-      assert decode_map(ok(0, ""), &plus/1, __MODULE__) == ok(1, "")
-      assert decode_map(ok(0, ""), &err/1, __MODULE__) == error(:mapper_test, 0, :details)
-      assert decode_map(ok(0, ""), &null/1, __MODULE__) == error(:mapper_test, 0, nil)
+  describe "decode_map with mapper of arity/1 should" do
+    test "map ok values" do
+      ok = ok 42, "rest"
+      assert decode_map(ok, &plus/1, __MODULE__) == ok(43, "rest")
+      assert decode_map(ok, &ok_plus/1, __MODULE__) == ok(43, "rest")
+      assert decode_map(ok, &err/1, __MODULE__) == error(:mapper_test, 42, :details)
+      assert decode_map(ok, &null/1, __MODULE__) == error(:mapper_test, 42, nil)
     end
 
     test "short circuit error results" do
-      error = error(:data_type, 42, :details)
-      assert decode_map(error, &identity/1, __MODULE__) == error
+      error = error :data_type, 42, :details
       assert decode_map(error, &plus/1, __MODULE__) == error
       assert decode_map(error, &err/1, __MODULE__) == error
       assert decode_map(error, &null/1, __MODULE__) == error
     end
   end
+
+  def plus(x, rest), do: {x + 1, String.upcase(rest)}
+  defp ok_plus(x, rest), do: ok {x + 1, String.upcase(rest)}
+  def err(_, _), do: error :details
+  def null(_, _), do: nil
+
+  describe "decode_map with mapper of arity/2 should" do
+    test "map ok values" do
+      ok = ok 42, "rest"
+      assert decode_map(ok, &plus/2, __MODULE__) == ok(43, "REST")
+      assert decode_map(ok, &ok_plus/2, __MODULE__) == ok(43, "REST")
+      assert decode_map(ok, &err/2, __MODULE__) == error(:mapper_test, 42, :details)
+      assert decode_map(ok, &null/2, __MODULE__) == error(:mapper_test, 42, nil)
+    end
+
+    test "short circuit error results" do
+      error = error :data_type, 42, :details
+      assert decode_map(error, &plus/2, __MODULE__) == error
+      assert decode_map(error, &err/2, __MODULE__) == error
+      assert decode_map(error, &null/2, __MODULE__) == error
+    end
+  end
+
   describe "functions with arity 1" do
     defmodule Plus1 do
       import MMS.Mapper
