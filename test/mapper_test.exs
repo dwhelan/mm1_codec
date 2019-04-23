@@ -12,8 +12,8 @@ defmodule MMS.MapperTest do
       ok = ok 42, "rest"
       assert decode_map(ok, &plus/1, __MODULE__) == ok(43, "rest")
       assert decode_map(ok, &ok_plus/1, __MODULE__) == ok(43, "rest")
-      assert decode_map(ok, &err/1, __MODULE__) == error(:mapper_test, 42, :details)
-      assert decode_map(ok, &null/1, __MODULE__) == error(:mapper_test, 42, nil)
+      assert decode_map(ok, &err/1, __MODULE__) == error(:mapper_test, 42, mapper: :details)
+      assert decode_map(ok, &null/1, __MODULE__) == error(:mapper_test, 42, mapper: nil)
     end
 
     test "short circuit error results" do
@@ -34,8 +34,8 @@ defmodule MMS.MapperTest do
       ok = ok 42, "rest"
       assert decode_map(ok, &plus/2, __MODULE__) == ok(43, "REST")
       assert decode_map(ok, &ok_plus/2, __MODULE__) == ok(43, "REST")
-      assert decode_map(ok, &err/2, __MODULE__) == error(:mapper_test, 42, :details)
-      assert decode_map(ok, &null/2, __MODULE__) == error(:mapper_test, 42, nil)
+      assert decode_map(ok, &err/2, __MODULE__) == error(:mapper_test, 42, mapper: :details)
+      assert decode_map(ok, &null/2, __MODULE__) == error(:mapper_test, 42, mapper: nil)
     end
 
     test "short circuit error results" do
@@ -107,7 +107,7 @@ defmodule MMS.MapperTest do
     test "decode_map" do
       assert CodecMap.decode_map(ok(0, "rest")) == ok(:a, "rest")
       assert CodecMap.decode_map(ok(1, "rest")) == ok(:b, "rest")
-      assert CodecMap.decode_map(ok(2, "rest")) == error {:codec_map, 2, :not_found}
+      assert CodecMap.decode_map(ok(2, "rest")) == error {:codec_map, 2, mapper: :not_found}
     end
 
     test "encode_map" do

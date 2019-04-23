@@ -34,7 +34,7 @@ defmodule MMS.Mapper do
     ~> fn {value, rest} ->
          {value, rest}
          |> do_decode_map(decode_mapper)
-         ~>> & error {data_type(module), value, &1}
+         ~>> & error {data_type(module), value, mapper: &1}
        end
   end
 
