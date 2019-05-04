@@ -1,14 +1,17 @@
 defmodule MMS.Message do
-  import OldOkError
+  use MMS.Codec
 
   alias MMS.Headers
 
   def decode bytes do
-    bytes |> Headers.decode |> wrap_headers
+    bytes
+    |> Headers.decode
+    |> wrap_headers
   end
 
   def encode {Headers, value} do
-    value |> Headers.encode
+    value
+    |> Headers.encode
   end
 
   defp wrap_headers {:ok, {value, rest}} do
