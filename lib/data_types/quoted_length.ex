@@ -27,17 +27,21 @@ defmodule MMS.QuotedLength do
     error bytes, :does_not_start_with_a_length_quote
   end
 
-  defp ensure_in_range({value, rest}, bytes) when is_short_length(value) do
+  defp ensure_in_range({value, _}, bytes) when is_short_length(value) do
     error bytes, out_of_range: value
   end
 
-  defp ensure_in_range({value, rest}, bytes) do
+  defp ensure_in_range {value, rest}, _ do
     ok value, rest
   end
 
-  def encode value do
+  def encode(value) when is_uint32(value) and not is_short_length(value) do
     value
     |> encode_as(Length)
     ~> fn bytes -> <<@length_quote>> <> bytes end
+  end
+
+  def encode value do
+    error value, :out_of_range
   end
 end

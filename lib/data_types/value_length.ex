@@ -39,9 +39,13 @@ defmodule MMS.ValueLength do
     |> encode_as(ShortLength)
   end
 
-  def encode(value) when is_integer(value) do
+  def encode(value) when is_uint32(value) do
     value
     |> encode_as(QuotedLength)
+  end
+
+  def encode value do
+    error value, :out_of_range
   end
 
   def decode(bytes, codec) when is_binary(bytes) and is_atom(codec) do

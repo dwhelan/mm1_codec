@@ -39,21 +39,10 @@ be found at [https://hexdocs.pm/mm1_codec](https://hexdocs.pm/mm1_codec).
 
 # To do
 - refactoring
-  - test macros
-    ```elixir
-    defmacro test_codec_ok desc, bytes, value do
-    end
-    
-    defmacro test_decode_error desc, bytes, error do
-    end
-    
-    defmacro test_encode_error desc, value, error do
-    end
-    
-    ````
   - `decode {:ok, ...}` & `decode {:error, ...}` for codec composition
   - `decode_as(...)` etc, take a `__MODULE__` parameter
   - macro to decode/encode either 2 or a list of codecs
+- `QuotedLength` enforces length > 30. Reconsider having different length representations
 - create `decode_(...)` and`decode_as_one_of(...)`
 - refactor `CodecMapper` to use core `Codec` functions
 - consolidate `CoderError` into `Codec`
