@@ -67,14 +67,25 @@ defmodule MMS.CodecTest do
         assert {:error, {data_type, bad_data, _}} = encode(bad_data)
       end
 
+      def codec_example {name, bytes, value} do
+
+      end
+
       unquote(list)
       |> Enum.each(
            fn {name, bytes, value} ->
-             @bytes bytes
+
              @value value
+             if is_tuple(bytes) do
+               @bytes elem(bytes, 0)
+               @rest elem(bytes, 1)
+             else
+               @bytes bytes
+               @rest "rest"
+             end
 
              test "decode #{name}" do
-               assert decode(@bytes <> "rest") == ok @value, "rest"
+               assert decode(@bytes <> @rest) == ok @value, @rest
              end
 
              test "encode #{name}" do
@@ -88,6 +99,11 @@ defmodule MMS.CodecTest do
   defmacro decode_errors list do
     quote location: :keep do
       @data_type data_type() |> to_string |> String.replace_trailing("_test", "") |> String.to_atom
+
+      test "no bytes" do
+        assert decode(<<>>) == error @data_type, <<>>, :no_bytes
+      end
+
       unquote(list)
       |> Enum.each(
            fn test_case ->
