@@ -24,9 +24,8 @@ defmodule MMS.UintvarIntegerTest do
   ]
 
   decode_errors [
-    {"<<128, ...>>", <<128>>,           :first_byte_cannot_be_128},
-    {"too large",    @too_large_bytes, out_of_range: @too_large
-    },
+    {"128 as first byte", <<128>>,          :first_byte_cannot_be_128},
+    {"too large",         @too_large_bytes, out_of_range: @too_large},
   ]
 
   encode_errors [
