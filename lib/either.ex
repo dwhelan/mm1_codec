@@ -1,6 +1,7 @@
 defmodule MMS.Either do
   import OkError
-  import MMS.Codec, only: [data_type: 1, error: 3]
+  import OkError.Operators
+  import MMS.Codec
 
   defmacro defcodec either: codecs do
     data_type = data_type __CALLER__.module
@@ -26,14 +27,16 @@ defmodule MMS.Either do
   end
 
   defp continue_until_ok input, codecs, data_type, function_name do
-    Enum.reduce_while codecs, error(data_type, input, []), apply(function_name)
+    codecs
+    |> Enum.reduce_while(error([]), call(function_name, input))
+    ~>> fn errors -> error data_type, input, Enum.reverse errors end
   end
 
-  defp apply function_name do
-    fn codec, {:error, {data_type, input, errors}} ->
+  defp call function_name, input do
+    fn codec, {:error, errors} ->
       case apply codec, function_name, [input] do
         {:ok, result} -> {:halt, ok result}
-        {:error, {error_data_type, _, details}} -> {:cont, error(data_type, input, errors ++ [{error_data_type, details}])}
+        {:error, {codec_data_type, _, details}} -> {:cont, error([{codec_data_type, details} | errors])}
       end
     end
   end
@@ -44,4 +47,13 @@ defmodule MMS.Either do
       import MMS.Either
     end
   end
+
+  """
+  Available operators:
+    <<-
+    ->> error
+    <-
+    -> ok
+    <->
+  """
 end
