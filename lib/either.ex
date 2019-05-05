@@ -24,15 +24,9 @@ defmodule MMS.Either do
   defp decode_one do
     fn codec, {:error, {data_type, bytes, errors}} ->
       case bytes |> codec.decode do
-        {:ok, result} -> {:halt, ok(result)}
+        {:ok, result} -> {:halt, ok result}
         {:error, {dt, _, details}} -> {:cont, error({data_type, bytes, errors ++ [{dt, details}]})}
       end
-    end
-  end
-
-  defmacro encode value, codecs do
-    quote do
-      encode(unquote(value), unquote(codecs), unquote(data_type __CALLER__.module))
     end
   end
 
@@ -43,7 +37,7 @@ defmodule MMS.Either do
   defp encode_one do
     fn codec, {:error, {data_type, value, errors}} ->
         case value |> codec.encode do
-          {:ok, result} -> {:halt, ok(result)}
+          {:ok, result} -> {:halt, ok result}
           {:error, {dt, _, details}} -> {:cont, error({data_type, value, errors ++ [{dt, details}]})}
         end
     end
