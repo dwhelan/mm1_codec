@@ -21,7 +21,7 @@ defmodule MMS.Either do
     continue_until_ok bytes, codecs, data_type, :decode
   end
 
-  def encode value, codecs, data_type do
+  def encode(value, codecs, data_type) when is_list(codecs) and is_atom(data_type) do
     continue_until_ok value, codecs, data_type, :encode
   end
 

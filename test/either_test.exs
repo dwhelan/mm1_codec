@@ -37,7 +37,7 @@ defmodule MMS.OrTest do
       assert decode(<<0>>, [Error1, Error2], :data_type) == error(:data_type, <<0>>, [error1: 1, error2: 2])
     end
 
-    test "should not compile with incorrect types" do
+    test "should have guard clauses for parameter types" do
       assert_function_clause_error "MMS.Either.decode(:not_binary, [], :data_type)"
       assert_function_clause_error "MMS.Either.decode(\"\", :not_a_list, :data_type)"
       assert_function_clause_error "MMS.Either.decode(\"\", [], 'not an atom')"
@@ -57,6 +57,11 @@ defmodule MMS.OrTest do
     test "return error if all codecs fail" do
       assert encode(0, [Error1], :data_type) == error {:data_type, 0, [error1: 1]}
       assert encode(0, [Error1, Error2], :data_type) == error {:data_type, 0, [error1: 1, error2: 2]}
+    end
+
+    test "should have guard clauses for parameter types" do
+      assert_function_clause_error "MMS.Either.encode(\"\", :not_a_list, :data_type)"
+      assert_function_clause_error "MMS.Either.encode(\"\", [], 'not an atom')"
     end
   end
 
