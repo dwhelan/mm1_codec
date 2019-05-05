@@ -52,7 +52,7 @@ defmodule MMS.UintvarInteger do
     |> Enum.reduce(& &1 + (&2 <<< 7))
   end
 
-  defp ensure_uint32(value, rest) when is_uint32(value) do
+  defp ensure_uint32(value, rest) when is_uintvar_integer(value) do
     ok value, rest
   end
 
@@ -60,7 +60,7 @@ defmodule MMS.UintvarInteger do
     error out_of_range: value
   end
 
-  def encode(uint32) when is_uint32(uint32) do
+  def encode(uint32) when is_uintvar_integer(uint32) do
     uint32
     |> do_encode([]) |> ok
   end

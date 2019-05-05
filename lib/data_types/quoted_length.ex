@@ -35,7 +35,7 @@ defmodule MMS.QuotedLength do
     ok value, rest
   end
 
-  def encode(value) when is_uint32(value) and not is_short_length(value) do
+  def encode(value) when is_uintvar_integer(value) and not is_short_length(value) do
     value
     |> encode_as(Length)
     ~> fn bytes -> <<@length_quote>> <> bytes end

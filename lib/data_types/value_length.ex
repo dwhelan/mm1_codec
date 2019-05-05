@@ -39,7 +39,7 @@ defmodule MMS.ValueLength do
     |> encode_as(ShortLength)
   end
 
-  def encode(value) when is_uint32(value) do
+  def encode(value) when is_uintvar_integer(value) do
     value
     |> encode_as(QuotedLength)
   end
