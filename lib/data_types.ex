@@ -22,6 +22,7 @@ defmodule MMS.DataTypes do
   defmacro is_char(value),              do: value |> in?(32..127)
   defmacro is_short_length(value),      do: value |> in?(0..max_short_length())
   defmacro is_uintvar_integer(value),   do: value |> in?(0..max_uintvar_integer())
+  defmacro is_quoted_length(value),     do: value |> in?(max_short_length()+1..max_uintvar_integer())
   defmacro is_long(value),              do: value |> in?(0..max_long())
   defmacro is_end_of_string(value),     do: value |> is_equal_to?(end_of_string())
   defmacro is_length_quote(value),      do: value |> is_equal_to?(length_quote())
