@@ -27,15 +27,15 @@ defmodule MMS.ValueLengthTest do
     end
 
     test "with an unnecessary length quote" do
-      assert decode(<<length_quote(), max_short_length()>>) == error :value_length, <<length_quote(), max_short_length()>>, [:quoted_length, {:out_of_range, 30}]
+      assert decode(<<length_quote(), max_short_length()>>) == error :value_length, <<length_quote(), max_short_length()>>, [{:short_length, [out_of_range: 31]}, {:quoted_length, [out_of_range: 30]}]
     end
 
     test "with no short length or length quote" do
-      assert decode(<<"a">>) == error {:value_length, <<"a">>, :does_not_start_with_a_short_length_or_length_quote}
+      assert decode(<<"a">>) == error {:value_length, <<"a">>, [short_length: [out_of_range: 97], quoted_length: :does_not_start_with_a_length_quote]}
     end
 
     test "with an invalid length" do
-      assert decode(<<length_quote(), 128>>) == error :value_length, <<length_quote(), 128>>, [:quoted_length, :length, :uintvar_integer, :first_byte_cannot_be_128]
+      assert decode(<<length_quote(), 128>>) == error :value_length, <<length_quote(), 128>>, [{:short_length, [out_of_range: 31]}, {:quoted_length, [:length, :uintvar_integer, :first_byte_cannot_be_128]}]
     end
   end
 
@@ -53,7 +53,7 @@ defmodule MMS.ValueLengthTest do
     end
 
     test "when insufficient bytes" do
-      assert ValueLength.decode(<<1>>, &Ok.decode/1) == error :value_length, <<1>>, [:short_length, required_bytes: 1, available_bytes: 0]
+      assert ValueLength.decode(<<1>>, &Ok.decode/1) == error :value_length, <<1>>, [{:short_length, [required_bytes: 1, available_bytes: 0]}, {:quoted_length, :does_not_start_with_a_length_quote}]
     end
   end
 
@@ -69,7 +69,7 @@ defmodule MMS.ValueLengthTest do
     end
 
     test "with an invalid integer" do
-      assert encode(-1) == error :value_length, -1, :out_of_range
+      assert encode(-1) == error :value_length, -1, [short_length: :out_of_range, quoted_length: :out_of_range]
     end
   end
 
