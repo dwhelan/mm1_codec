@@ -22,7 +22,7 @@ defmodule MMS.OrTest do
     def encode(value), do: error {:error2, value, 2}
   end
 
-  describe "decode should" do
+  describe "decode/3 should" do
     test "return ok from the first codec that returns ok" do
       assert decode(<<0>>, [Ok1], :data_type) == ok(1, "")
       assert decode(<<0>>, [Ok1, Error1], :data_type) == ok(1, "")
@@ -36,7 +36,14 @@ defmodule MMS.OrTest do
       assert decode(<<0>>, [Error1], :data_type) == error(:data_type, <<0>>, [error1: 1])
       assert decode(<<0>>, [Error1, Error2], :data_type) == error(:data_type, <<0>>, [error1: 1, error2: 2])
     end
+
+    test "should not compile with incorrect types" do
+      assert_function_clause_error "MMS.Either.decode(:not_binary, [], :data_type)"
+      assert_function_clause_error "MMS.Either.decode(\"\", :not_a_list, :data_type)"
+      assert_function_clause_error "MMS.Either.decode(\"\", [], 'not an atom')"
+    end
   end
+
   describe "encode should" do
     test "return ok from the first codec that returns ok" do
       assert encode(0, [Ok1], :data_type) == ok <<1>>

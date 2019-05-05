@@ -9,6 +9,7 @@ defmodule MMS.CodecTest do
   import OkError
   require MMS.Codec
   import MMS.DataTypes
+  import ExUnit.Assertions
 
   def s(short), do: short + 128
   def l(length), do: length
@@ -24,7 +25,11 @@ defmodule MMS.CodecTest do
   def invalid_short_length, do: max_short_length() + 1
 
   def assert_code_raise code do
-    ExUnit.Assertions.assert_raise ArgumentError, fn -> Code.eval_string(code) end
+    assert_raise ArgumentError, fn -> Code.eval_string(code) end
+  end
+
+  def assert_function_clause_error  code do
+    assert_raise FunctionClauseError, fn -> Code.eval_string(code) end
   end
 
   def date_time(seconds), do: DateTime.from_unix!(seconds)

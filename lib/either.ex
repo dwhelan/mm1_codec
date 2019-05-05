@@ -17,7 +17,7 @@ defmodule MMS.Either do
     end
   end
 
-  def decode(bytes, codecs, data_type) when is_list(codecs) do
+  def decode(bytes, codecs, data_type) when is_binary(bytes) and is_list(codecs) and is_atom(data_type) do
     continue_until_ok bytes, codecs, data_type, :decode
   end
 
