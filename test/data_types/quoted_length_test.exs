@@ -5,8 +5,8 @@ defmodule MMS.QuotedLengthTest do
 
   @length_quote 31
 
-  @max max_unitvar_integer()
-  @max_bytes max_unitvar_integer_bytes()
+  @max max_uintvar_integer()
+  @max_bytes max_uintvar_integer_bytes()
 
   @too_large @max + 1
   @too_large_bytes <<144, 128, 128, 128, 0>>
