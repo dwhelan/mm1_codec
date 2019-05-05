@@ -18,28 +18,19 @@ defmodule MMS.Either do
   end
 
   def decode(bytes, codecs, data_type) when is_list(codecs) do
-    Enum.reduce_while(codecs, error({data_type, bytes, []}), decode_one())
-  end
-
-  defp decode_one do
-    fn codec, {:error, {data_type, bytes, errors}} ->
-      case bytes |> codec.decode do
-        {:ok, result} -> {:halt, ok result}
-        {:error, {dt, _, details}} -> {:cont, error({data_type, bytes, errors ++ [{dt, details}]})}
-      end
-    end
+    Enum.reduce_while(codecs, error({data_type, bytes, []}), apply(:decode))
   end
 
   def encode value, codecs, data_type do
-    Enum.reduce_while(codecs, error({data_type, value, []}), encode_one())
+    Enum.reduce_while(codecs, error({data_type, value, []}), apply(:encode))
   end
 
-  defp encode_one do
-    fn codec, {:error, {data_type, value, errors}} ->
-        case value |> codec.encode do
-          {:ok, result} -> {:halt, ok result}
-          {:error, {dt, _, details}} -> {:cont, error({data_type, value, errors ++ [{dt, details}]})}
-        end
+  defp apply function_name do
+    fn codec, {:error, {data_type, input, errors}} ->
+      case apply(codec, function_name, [input]) do
+        {:ok, result} -> {:halt, ok result}
+        {:error, {dt, _, details}} -> {:cont, error({data_type, input, errors ++ [{dt, details}]})}
+      end
     end
   end
 
