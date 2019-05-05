@@ -51,11 +51,9 @@ defmodule MMS.MapperTest do
   defp diminish(x), do: x - 1
   defp ok_diminish(x), do: ok x - 1
   def diminish(x, rest), do: {x - 1, String.downcase(rest)}
-  defp ok_diminish(x, rest), do: ok {x - 1, String.downcase(rest)}
 
   describe "encode_map with should" do
     test "map ok values" do
-      ok = ok 42, "rest"
       assert encode_map(43, &diminish/1, __MODULE__) == ok(42)
       assert encode_map(43, &ok_diminish/1, __MODULE__) == ok(42)
       assert encode_map(43, &err/1, __MODULE__) == error(:mapper_test, 43, mapper: :details)

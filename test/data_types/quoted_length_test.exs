@@ -1,24 +1,14 @@
 defmodule MMS.QuotedLengthTest do
   use MMS.CodecTest
-  alias MMS.CodecTest.{Ok, Error}
 
   import MMS.QuotedLength
 
-  def min_uint32_length,       do: max_short_length() + 1
-  def min_uint32_length_value, do: String.duplicate("a", min_uint32_length())
-  def min_uint32_length_bytes, do: <<min_uint32_length()>> <> min_uint32_length_value()
-
-  @min_uint32_length max_short_length() + 1
-  @min_uint32_length_value String.duplicate("a", @min_uint32_length)
-  @min_uint32_length_bytes <<@min_uint32_length>>
-
   @length_quote 31
-  @min_value max_short_length() + 1
   @max_value max_unitvar_integer()
 
   codec_examples [
     {"smallest quoted length", <<@length_quote, 0>>, 0},
-    {"largest quoted length",  <<@length_quote>> <> max_unitvar_integer_bytes, max_unitvar_integer()},
+    {"largest quoted length",  <<@length_quote>> <> max_unitvar_integer_bytes(), max_unitvar_integer()},
   ]
 
   decode_errors [
