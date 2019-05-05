@@ -1,6 +1,6 @@
 defmodule MMS.Either do
   import OkError
-  import MMS.Codec
+  import MMS.Codec, only: [data_type: 1, error: 3]
 
   defmacro defcodec either: codecs do
     data_type = data_type __CALLER__.module
@@ -18,23 +18,27 @@ defmodule MMS.Either do
   end
 
   def decode(bytes, codecs, data_type) when is_list(codecs) do
-    Enum.reduce_while(codecs, error({data_type, bytes, []}), apply(:decode))
+    continue_until_ok bytes, codecs, data_type, :decode
   end
 
   def encode value, codecs, data_type do
-    Enum.reduce_while(codecs, error({data_type, value, []}), apply(:encode))
+    continue_until_ok value, codecs, data_type, :encode
+  end
+
+  defp continue_until_ok input, codecs, data_type, function_name do
+    Enum.reduce_while codecs, error(data_type, input, []), apply(function_name)
   end
 
   defp apply function_name do
     fn codec, {:error, {data_type, input, errors}} ->
-      case apply(codec, function_name, [input]) do
+      case apply codec, function_name, [input] do
         {:ok, result} -> {:halt, ok result}
-        {:error, {dt, _, details}} -> {:cont, error({data_type, input, errors ++ [{dt, details}]})}
+        {:error, {error_data_type, _, details}} -> {:cont, error(data_type, input, errors ++ [{error_data_type, details}])}
       end
     end
   end
 
-  defmacro __using__ (_) do
+  defmacro __using__ _ do
     quote do
       use MMS.Codec
       import MMS.Either
