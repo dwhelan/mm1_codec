@@ -3,6 +3,8 @@ defmodule MMS.QuotedLength do
   We define:
   Quoted-length = Length-quote Length
 
+  We enforce that Length must be greater than 30.
+
   8.4.2.2 Length
 
   Length-quote = <Octet 31>
@@ -18,10 +20,19 @@ defmodule MMS.QuotedLength do
     rest
     |> decode_as(Length)
     ~>> fn {_, _, details} -> error bytes, details end
+    ~> &ensure_in_range &1, bytes
   end
 
   def decode bytes do
     error bytes, :does_not_start_with_a_length_quote
+  end
+
+  defp ensure_in_range({value, rest}, bytes) when is_short_length(value) do
+    error bytes, out_of_range: value
+  end
+
+  defp ensure_in_range({value, rest}, bytes) do
+    ok value, rest
   end
 
   def encode value do

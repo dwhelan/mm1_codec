@@ -27,7 +27,7 @@ defmodule MMS.ValueLengthTest do
     end
 
     test "with an unnecessary length quote" do
-      assert decode(<<length_quote(), max_short_length()>>) == error :value_length, <<length_quote(), max_short_length()>>, :should_be_encoded_as_a_short_length
+      assert decode(<<length_quote(), max_short_length()>>) == error :value_length, <<length_quote(), max_short_length()>>, [:quoted_length, {:out_of_range, 30}]
     end
 
     test "with no short length or length quote" do
