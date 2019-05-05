@@ -1,3 +1,40 @@
+defmodule MMS.QuotedLength do
+  @moduledoc """
+  8.4.2.2 Length
+
+  The following rules are used to encode length indicators.
+
+  Value-length = Short-length | (Length-quote Length)
+
+  Value length is used to indicate the length of the value to follow.
+  """
+  use MMS.Codec
+  import MMS.As
+  alias MMS.Length
+
+  @length_quote 31
+
+  def decode(bytes = <<@length_quote>>) do
+    error bytes, :insufficient_bytes
+  end
+
+  def decode(bytes = <<@length_quote, rest::binary>>) do
+    rest
+    |> decode_as(Length)
+    ~>> fn {_, _, details} -> error bytes, details end
+  end
+
+  def decode bytes do
+    error bytes, :does_not_start_with_a_length_quote
+  end
+
+  def encode(value) do
+    value
+    |> encode_as(Length)
+    ~> fn bytes -> <<@length_quote>> <> bytes end
+  end
+end
+
 defmodule MMS.ValueLength do
   @moduledoc """
   8.4.2.2 Length
@@ -6,7 +43,7 @@ defmodule MMS.ValueLength do
 
   Value-length = Short-length | (Length-quote Length)
 
-  Value length is used to indicate the length of the value to follow
+  Value length is used to indicate the length of the value to follow.
   """
   use MMS.Codec
   import MMS.Prefix
@@ -49,12 +86,12 @@ defmodule MMS.ValueLength do
     |> decode(& codec.decode &1)
   end
 
-  def decode(bytes, f) when is_binary(bytes) and is_function(f) do
+  def decode(bytes, decoder) when is_binary(bytes) and is_function(decoder) do
     bytes
     |>  __MODULE__.decode
     ~> fn {value_length, value_bytes} ->
         value_bytes
-        |> f.()
+        |> decoder.()
         ~>> fn {data_type, _, reason} -> error data_type, bytes, reason end
         ~> fn {value, rest} ->
             bytes_used = byte_size(value_bytes) - byte_size(rest)

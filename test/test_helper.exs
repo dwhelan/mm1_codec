@@ -95,19 +95,23 @@ defmodule MMS.CodecTest do
              @input elem(test_case, 1)
              @details if (tuple_size(test_case) > 2), do: elem(test_case, 2), else: nil
 
-             test "#{name} decode error" do
-               assert {:error, {@data_type, @input, _}} = decode(@input)
+             test "#{name} decode error data_type = :#{@data_type}" do
+               assert {:error, {@data_type, _, _}} = decode(@input)
+             end
+
+             test "#{name} decode error input" do
+               assert {:error, {_, @input, _}} = decode(@input)
              end
 
              if @details do
-               test "#{name} decode error data_type" do
+               test "#{name} decode error details" do
                  {:error, {_, _, details}} = decode(@input)
                  if is_atom(@details) do
                    assert details == @details
                  end
 
                  if is_list(@details) do
-                     assert is_list(details), "Expected error details but it was not #{inspect details}"
+                     assert is_list(details), "Expected error keyword list but it was not #{inspect details}"
                      @details
                      |> Enum.with_index()
                      |> Enum.each(
