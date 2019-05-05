@@ -3,15 +3,16 @@ defmodule MMS.Either do
   import MMS.Codec
 
   defmacro defcodec either: codecs do
+    data_type = data_type __CALLER__.module
     quote do
       def decode bytes do
         bytes
-        |> decode(unquote(codecs), data_type(unquote __CALLER__.module))
+        |> decode(unquote(codecs), unquote(data_type))
       end
 
       def encode value do
         value
-        |> encode(unquote(codecs), data_type(unquote __CALLER__.module))
+        |> encode(unquote(codecs), unquote(data_type))
       end
     end
   end
@@ -22,7 +23,7 @@ defmodule MMS.Either do
 
   defp decode_one do
     fn codec, {:error, {data_type, bytes, errors}} ->
-      case codec.decode(bytes) do
+      case bytes |> codec.decode do
         {:ok, result} -> {:halt, ok(result)}
         {:error, {dt, _, details}} -> {:cont, error({data_type, bytes, errors ++ [{dt, details}]})}
       end
