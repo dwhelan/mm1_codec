@@ -4,21 +4,26 @@ defmodule MMS.QuotedLengthTest do
   import MMS.QuotedLength
 
   @length_quote 31
-  @max_value max_unitvar_integer()
+
+  @max max_unitvar_integer()
+  @max_bytes max_unitvar_integer_bytes()
+
+  @too_large @max + 1
+  @too_large_bytes <<144, 128, 128, 128, 0>>
 
   codec_examples [
-    {"smallest quoted length", <<@length_quote, 0>>, 0},
-    {"largest quoted length",  <<@length_quote>> <> max_unitvar_integer_bytes(), max_unitvar_integer()},
+    {"min quoted length", <<@length_quote>> <> <<0>>,       0},
+    {"max quoted length",  <<@length_quote>> <> @max_bytes, @max},
   ]
 
   decode_errors [
     {"missing length quote", <<0>>,                                    :does_not_start_with_a_length_quote},
     {"missing data bytes",   <<@length_quote>>,                       :insufficient_bytes},
-    {"too large",            <<@length_quote, 144, 128, 128, 128, 0>>, [:length, :uintvar_integer, {:out_of_range, max_unitvar_integer() + 1}]},
+    {"too large",            <<@length_quote>> <> @too_large_bytes, [:length, :uintvar_integer, {:out_of_range, @too_large}]},
   ]
 
   encode_errors [
-    {"too small", -1,             [:length, :uintvar_integer, :out_of_range]},
-    {"too large", @max_value + 1, [:length, :uintvar_integer, :out_of_range]},
+    {"negative",  -1,          [:length, :uintvar_integer, :out_of_range]},
+    {"too large", @too_large, [:length, :uintvar_integer, :out_of_range]},
   ]
 end
