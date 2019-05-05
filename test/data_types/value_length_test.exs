@@ -35,7 +35,7 @@ defmodule MMS.ValueLengthTest do
     end
 
     test "with an invalid length" do
-      assert decode(<<length_quote(), 128>>) == error :value_length, <<length_quote(), 128>>, [:uintvar_integer, :first_byte_cannot_be_128]
+      assert decode(<<length_quote(), 128>>) == error :value_length, <<length_quote(), 128>>, [:quoted_length, :length, :uintvar_integer, :first_byte_cannot_be_128]
     end
   end
 
@@ -69,7 +69,7 @@ defmodule MMS.ValueLengthTest do
     end
 
     test "with an invalid integer" do
-      assert encode(-1) == error :value_length, -1, [:uintvar_integer, :out_of_range]
+      assert encode(-1) == error :value_length, -1, [:quoted_length, :length, :uintvar_integer, :out_of_range]
     end
   end
 

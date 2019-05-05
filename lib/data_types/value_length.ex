@@ -1,40 +1,3 @@
-defmodule MMS.QuotedLength do
-  @moduledoc """
-  8.4.2.2 Length
-
-  The following rules are used to encode length indicators.
-
-  Value-length = Short-length | (Length-quote Length)
-
-  Value length is used to indicate the length of the value to follow.
-  """
-  use MMS.Codec
-  import MMS.As
-  alias MMS.Length
-
-  @length_quote 31
-
-  def decode(bytes = <<@length_quote>>) do
-    error bytes, :insufficient_bytes
-  end
-
-  def decode(bytes = <<@length_quote, rest::binary>>) do
-    rest
-    |> decode_as(Length)
-    ~>> fn {_, _, details} -> error bytes, details end
-  end
-
-  def decode bytes do
-    error bytes, :does_not_start_with_a_length_quote
-  end
-
-  def encode(value) do
-    value
-    |> encode_as(Length)
-    ~> fn bytes -> <<@length_quote>> <> bytes end
-  end
-end
-
 defmodule MMS.ValueLength do
   @moduledoc """
   8.4.2.2 Length
@@ -42,13 +5,13 @@ defmodule MMS.ValueLength do
   The following rules are used to encode length indicators.
 
   Value-length = Short-length | (Length-quote Length)
+               = Short-length | Quoted-length
 
   Value length is used to indicate the length of the value to follow.
   """
   use MMS.Codec
-  import MMS.Prefix
   import MMS.As
-  alias MMS.{ShortLength, UintvarInteger}
+  alias MMS.{ShortLength, QuotedLength}
 
   def decode(bytes = <<short_length, _::binary>>) when is_short_length(short_length) do
     bytes
@@ -57,7 +20,7 @@ defmodule MMS.ValueLength do
 
   def decode(bytes = <<length_quote, _::binary>>) when is_length_quote(length_quote) do
     bytes
-    |> decode_with_prefix(UintvarInteger, length_quote())
+    |> decode_as(QuotedLength)
     ~> fn {length, rest} ->
          if is_short_length(length) do
            error bytes, :should_be_encoded_as_a_short_length
@@ -78,7 +41,7 @@ defmodule MMS.ValueLength do
 
   def encode(value) when is_integer(value) do
     value
-    |> encode_with_prefix(UintvarInteger, length_quote())
+    |> encode_as(QuotedLength)
   end
 
   def decode(bytes, codec) when is_binary(bytes) and is_atom(codec) do
