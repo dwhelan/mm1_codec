@@ -24,6 +24,7 @@ defmodule MMS.From do
            |> decode_as(ShortInteger, @map)
          end
        )
+#    ~>> fn {data_type, _, details} -> error bytes, [{data_type, details}]  end
   end
 
   def encode(from) when is_address(from) or from == :insert_address_token do

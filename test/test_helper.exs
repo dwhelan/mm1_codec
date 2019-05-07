@@ -67,10 +67,6 @@ defmodule MMS.CodecTest do
         assert {:error, {data_type, bad_data, _}} = encode(bad_data)
       end
 
-      def codec_example {name, bytes, value} do
-
-      end
-
       unquote(list)
       |> Enum.each(
            fn {name, bytes, value} ->
@@ -111,12 +107,17 @@ defmodule MMS.CodecTest do
              @input elem(test_case, 1)
              @details if (tuple_size(test_case) > 2), do: elem(test_case, 2), else: nil
 
-             test "#{name} decode error data_type = :#{@data_type}" do
-               assert {:error, {@data_type, _, _}} = decode(@input)
-             end
+             test "#{name} decode error" do
+               result = decode(@input)
+               assert is_tuple(result)
+               assert tuple_size(result) == 2
+               assert elem(result, 0) == :error
 
-             test "#{name} decode error input" do
-               assert {:error, {_, @input, _}} = decode(@input)
+               error = elem(result, 1)
+               assert is_tuple(error)
+               assert tuple_size(error) == 3
+               assert elem(error, 0) == @data_type
+               assert elem(error, 1) == @input
              end
 
              if @details do
