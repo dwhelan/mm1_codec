@@ -26,11 +26,11 @@ defmodule MMS.ValueLength do
         |> decoder.()
         ~>> fn {data_type, _, reason} -> error data_type, bytes, reason end
         ~> fn {value, rest} ->
-            bytes_used = byte_size(value_bytes) - byte_size(rest)
-            if bytes_used == value_length do
+            used_bytes = byte_size(value_bytes) - byte_size(rest)
+            if used_bytes == value_length do
               ok value, rest
             else
-              error bytes, %{bytes_used: bytes_used, value_length: value_length, value: value}
+              error bytes, required_bytes: value_length, used_bytes: used_bytes
             end
            end
        end
