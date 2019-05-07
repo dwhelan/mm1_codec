@@ -22,6 +22,24 @@ defmodule MMS.ValueLengthTest do
     {"length error", "a", short_length: :out_of_range, quoted_length: :out_of_range},
   ]
 
+  describe "decode2/2" do
+    test "when function returns ok" do
+      assert ValueLength.decode2(<<1, 42>>, Ok) == ok 42, <<>>
+    end
+
+    test "function returns an error" do
+      assert ValueLength.decode2(<<1, 42>>, Error) == error :value_length_test, <<1, 42>>, data_type: :reason
+    end
+
+    test "when incorrect number of bytes consumed" do
+      assert ValueLength.decode2(<<2, 42, 0>>, Ok) == error :value_length_test, <<2, 42, 0>>, value_length: [required_bytes: 2, used_bytes: 1]
+    end
+
+    test "when insufficient bytes" do
+      assert ValueLength.decode2(<<1>>, Ok) == error :value_length_test, <<1>>, value_length: [short_length: [required_bytes: 1, available_bytes: 0], quoted_length: :does_not_start_with_a_length_quote]
+    end
+  end
+
   describe "decode/2" do
     test "when function returns ok" do
       assert ValueLength.decode(<<1, 42>>, Ok) == ok 42, <<>>
