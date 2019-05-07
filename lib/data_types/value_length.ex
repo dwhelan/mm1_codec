@@ -13,16 +13,15 @@ defmodule MMS.ValueLength do
 
   defcodec either: [MMS.ShortLength, MMS.QuotedLength]
 
-  defmacro decode2(bytes, codec) do
-    data_type = data_type(__CALLER__.module)
-    quote bind_quoted: [bytes: bytes, codec: codec, data_type: data_type] do
+  defmacro decode_as(bytes, codec) do
+    quote bind_quoted: [bytes: bytes, codec: codec] do
       bytes
       |>  MMS.ValueLength.decode
-      ~>> fn {dt, _, reason} -> error data_type, bytes, [{dt, reason}] end
+      ~>> fn {data_type, _, reason} -> error bytes, [{data_type, reason}] end
       ~> fn {value_length, value_bytes} ->
           value_bytes
           |> codec.decode()
-          ~>> fn {dt, _, reason} -> error data_type, bytes, [{dt, reason}] end
+          ~>> fn {dt, _, reason} -> error bytes, [{dt, reason}] end
           ~> fn {value, rest} ->
                used_bytes = byte_size(value_bytes) - byte_size(rest)
                if used_bytes == value_length do
