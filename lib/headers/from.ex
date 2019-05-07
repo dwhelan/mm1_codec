@@ -1,4 +1,12 @@
 defmodule MMS.From do
+  @moduledoc """
+  7.2.11 From field
+  From-value = Value-length (Address-present-token Encoded-string-value | Insert-address-token)
+
+  Address-present-token = <Octet 128>
+  Insert-address-token  = <Octet 129>
+  """
+
   use MMS.Codec
   import MMS.As
   alias MMS.{ValueLength, ShortInteger, Address}
@@ -26,5 +34,9 @@ defmodule MMS.From do
            |> encode_as(ShortInteger, @map, Address)
          end
        )
+  end
+
+  def encode value do
+    error value, :bad_data_type
   end
 end

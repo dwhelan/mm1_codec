@@ -64,6 +64,10 @@ defmodule MMS.Codec do
         error <<>>, :no_bytes
       end
 
+      def decode(value) when not is_binary(value) do
+        error value, :must_be_binary
+      end
+
       def encode value do
         error value, :bad_data_type
       end

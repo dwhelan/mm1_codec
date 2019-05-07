@@ -1,6 +1,20 @@
 defmodule MMS.FromTest do
   use MMS.CodecTest
 
+  import MMS.From
+
+  codec_examples [
+#    {"min length", {<<0>>,  <<>>},          0},
+  ]
+
+  decode_errors [
+#    { "insufficient bytes",   <<5, "rest">>, required_bytes: 5, available_bytes: 4},
+  ]
+
+  encode_errors [
+#    { "invalid short length", 31, :out_of_range},
+  ]
+
   use MMS.TestExamples,
       codec: MMS.From,
 
