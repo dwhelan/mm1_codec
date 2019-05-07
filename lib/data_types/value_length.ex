@@ -16,12 +16,12 @@ defmodule MMS.ValueLength do
   defmacro decode_as(bytes, codec) do
     quote bind_quoted: [bytes: bytes, codec: codec] do
       bytes
-      |>  MMS.ValueLength.decode
+      |> MMS.ValueLength.decode
       ~>> fn {data_type, _, reason} -> error bytes, [{data_type, reason}] end
       ~> fn {value_length, value_bytes} ->
           value_bytes
           |> codec.decode()
-          ~>> fn {dt, _, reason} -> error bytes, [{dt, reason}] end
+          ~>> fn {data_type, _, reason} -> error bytes, [{data_type, reason}] end
           ~> fn {value, rest} ->
                used_bytes = byte_size(value_bytes) - byte_size(rest)
                if used_bytes == value_length do
@@ -33,6 +33,7 @@ defmodule MMS.ValueLength do
          end
     end
   end
+
   def decode(bytes, codec) when is_binary(bytes) and is_atom(codec) do
     bytes
     |> decode(& codec.decode &1)
@@ -54,6 +55,21 @@ defmodule MMS.ValueLength do
              end
            end
        end
+  end
+
+  defmacro encode_as(value, codec) do
+    quote bind_quoted: [value: value, codec: codec] do
+      value
+      |> codec.encode
+      ~>> fn {data_type, _, reason} -> error value, [{data_type, reason}] end
+      ~> fn value_bytes ->
+          value_bytes
+          |> byte_size
+          |> MMS.ValueLength.encode
+          ~>> fn {data_type, _, reason} -> error value, [{data_type, reason}] end
+          ~> & &1 <> value_bytes
+         end
+    end
   end
 
   def encode(value, codec) when is_atom(codec) do

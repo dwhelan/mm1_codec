@@ -58,6 +58,16 @@ defmodule MMS.ValueLengthTest do
     end
   end
 
+  describe "encode_as/2" do
+    test "when function return ok" do
+      assert encode_as(0, Ok) == ok <<1, 0>>
+    end
+
+    test "function returns an error" do
+      assert encode_as(0, Error) == error :value_length_test, 0, data_type: :reason
+    end
+  end
+
   describe "encode/2" do
     test "when function return ok" do
       assert encode(0, Ok) == ok <<1, 0>>
