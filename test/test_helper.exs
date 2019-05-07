@@ -122,12 +122,9 @@ defmodule MMS.CodecTest do
              if @details do
                test "#{name} decode error details" do
                  {:error, {_, _, details}} = decode(@input)
-                 if is_atom(@details) do
-                   assert details == @details
-                 end
 
                  if is_list(@details) do
-                     assert is_list(details), "Expected error keyword list but it was not #{inspect details}"
+                     assert is_list(details), "Expected a details list of errors but it was not #{inspect details}"
                      @details
                      |> Enum.with_index()
                      |> Enum.each(
@@ -135,6 +132,8 @@ defmodule MMS.CodecTest do
                             assert detail == Enum.at(details, index)
                           end
                         )
+                 else
+                   assert details == @details
                  end
                end
              end

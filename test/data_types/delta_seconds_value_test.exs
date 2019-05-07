@@ -10,7 +10,7 @@ defmodule MMS.DeltaSecondsValueTest do
   ]
 
   decode_errors [
-    { "x", <<0>>, {:integer_value, <<0>>, [{:short_integer, [out_of_range: 0]}, {:long_integer, :must_have_at_least_one_data_byte}]} },
+    { "x", <<0>>, [:integer_value, {:short_integer, [out_of_range: 0]}, {:long_integer, :must_have_at_least_one_data_byte}] },
   ]
 
   encode_errors [

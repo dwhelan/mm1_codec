@@ -3,8 +3,6 @@ defmodule MMS.QuotedLengthTest do
 
   import MMS.QuotedLength
 
-  @length_quote 31
-
   @min 31
   @min_bytes <<@min>>
 
@@ -12,8 +10,8 @@ defmodule MMS.QuotedLengthTest do
   @max_bytes max_uintvar_integer_bytes()
 
   codec_examples [
-    {"min value", <<@length_quote>> <> @min_bytes, @min},
-    {"max value", <<@length_quote>> <> @max_bytes, @max},
+    {"min value", <<length_quote()>> <> @min_bytes, @min},
+    {"max value", <<length_quote()>> <> @max_bytes, @max},
   ]
 
   @too_small @min - 1
@@ -24,9 +22,9 @@ defmodule MMS.QuotedLengthTest do
 
   decode_errors [
     {"missing length quote", <<0>>,                                 :does_not_start_with_a_length_quote},
-    {"missing data bytes",   <<@length_quote>>,                     [:length, :no_bytes]},
-    {"too small",            <<@length_quote>> <> @too_small_bytes, out_of_range: @too_small},
-    {"too large",            <<@length_quote>> <> @too_large_bytes, [:length, :uintvar_integer, {:out_of_range, @too_large}]},
+    {"missing data bytes",   <<length_quote()>>,                     [:length, :no_bytes]},
+    {"too small",            <<length_quote()>> <> @too_small_bytes, out_of_range: @too_small},
+    {"too large",            <<length_quote()>> <> @too_large_bytes, [:length, :uintvar_integer, {:out_of_range, @too_large}]},
   ]
 
   encode_errors [

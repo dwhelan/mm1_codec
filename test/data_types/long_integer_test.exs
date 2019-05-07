@@ -11,9 +11,9 @@ defmodule MMS.LongIntegerTest do
   ]
 
   decode_errors [
-    { "zero length",        <<0>>,                      {:long_integer, <<0>>,                      :must_have_at_least_one_data_byte}},
-    { "insufficient bytes", <<1>>,                      {:long_integer, <<1>>,                      [:short_length, required_bytes: 1, available_bytes: 0]} },
-    { "too many bytes",     <<max_short_length() + 1>>, {:long_integer, <<max_short_length() + 1>>, [:short_length, out_of_range: max_short_length()+1]} },
+    { "zero length",        <<0>>,                      :must_have_at_least_one_data_byte },
+    { "insufficient bytes", <<1>>,                      [:short_length, required_bytes: 1, available_bytes: 0] },
+    { "too many bytes",     <<max_short_length() + 1>>, [:short_length, out_of_range: max_short_length()+1] },
   ]
 
   encode_errors [

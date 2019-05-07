@@ -44,6 +44,7 @@ defmodule MMS.DataTypes do
   end
 
   def max_short_length,          do: 30
+  def min_quoted_length,         do: max_short_length() + 1
   def max_uintvar_integer,       do: 0xffffffff
   def max_uintvar_integer_bytes, do: <<143, 255, 255, 255, 127>>
   def max_long,                  do: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff # 30 0xffs
