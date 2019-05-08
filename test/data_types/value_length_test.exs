@@ -28,7 +28,8 @@ defmodule MMS.ValueLengthTest do
     end
 
     test "function returns an error" do
-      assert ValueLength.decode_as(<<1, 42>>, Error) == error :value_length_test, <<1, 42>>, data_type: :reason
+      bytes = <<1, 42>>
+      assert ValueLength.decode_as(bytes, Error) == error :value_length_test, bytes, data_type: :reason
     end
 
     test "when incorrect number of bytes consumed" do
