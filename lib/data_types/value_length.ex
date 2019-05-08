@@ -48,20 +48,4 @@ defmodule MMS.ValueLength do
          end
     end
   end
-
-  def encode(value, codec) when is_atom(codec) do
-    value
-    |> encode(& codec.encode &1)
-  end
-
-  def encode(value, encoder) when is_function(encoder) do
-    value
-    |> encoder.()
-    ~> fn value_bytes ->
-        value_bytes
-        |> byte_size
-        |> __MODULE__.encode
-        ~> &(&1 <> value_bytes)
-       end
-  end
 end

@@ -7,15 +7,15 @@ defmodule MMS.ContentGeneralForm do
   """
   use MMS.Codec
   import MMS.ValueLength
-  alias MMS.{ValueLength, MediaType}
+  alias MMS.MediaType
 
   def decode bytes do
     bytes
     |> decode_as(MediaType)
   end
 
-  def encode(media_type) do
-    media_type
-    |> ValueLength.encode(MediaType)
+  def encode(value) do
+    value
+    |> encode_as(MediaType)
   end
 end

@@ -38,11 +38,10 @@ and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
 be found at [https://hexdocs.pm/mm1_codec](https://hexdocs.pm/mm1_codec).
 
 # To do
+- create consistent `error` function for nesting
 - refactoring
   - `decode {:ok, ...}` & `decode {:error, ...}` for codec composition
-  - `decode_as(...)` etc, take a `__MODULE__` parameter
   - macro to decode/encode either 2 or a list of codecs
 - `QuotedLength` enforces length > 30. Reconsider having different length representations
 - create `decode_(...)` and`decode_as_one_of(...)`
 - refactor `CodecMapper` to use core `Codec` functions
-- consolidate `CoderError` into `Codec`
