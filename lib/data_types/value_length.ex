@@ -34,29 +34,6 @@ defmodule MMS.ValueLength do
     end
   end
 
-  def decode(bytes, codec) when is_binary(bytes) and is_atom(codec) do
-    bytes
-    |> decode(& codec.decode &1)
-  end
-
-  def decode(bytes, decoder) when is_binary(bytes) and is_function(decoder) do
-    bytes
-    |>  __MODULE__.decode
-    ~> fn {value_length, value_bytes} ->
-        value_bytes
-        |> decoder.()
-        ~>> fn {data_type, _, reason} -> error data_type, bytes, reason end
-        ~> fn {value, rest} ->
-             used_bytes = byte_size(value_bytes) - byte_size(rest)
-             if used_bytes == value_length do
-               ok value, rest
-             else
-               error bytes, required_bytes: value_length, used_bytes: used_bytes
-             end
-           end
-       end
-  end
-
   defmacro encode_as(value, codec) do
     quote bind_quoted: [value: value, codec: codec] do
       value

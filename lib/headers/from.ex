@@ -15,7 +15,7 @@ defmodule MMS.From.Address do
 
   use MMS.Codec
   import MMS.As
-  alias MMS.{ShortInteger, Address}
+  alias MMS.Address
 
   def decode <<@insert_address_token, rest::binary>> do
     ok :insert_address_token, rest

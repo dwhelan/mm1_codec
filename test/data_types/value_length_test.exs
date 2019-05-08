@@ -41,24 +41,6 @@ defmodule MMS.ValueLengthTest do
     end
   end
 
-  describe "decode/2" do
-    test "when function returns ok" do
-      assert ValueLength.decode(<<1, 42>>, Ok) == ok 42, <<>>
-    end
-
-    test "function returns an error" do
-      assert ValueLength.decode(<<1, 42>>, Error) == error :data_type, <<1, 42>>, :reason
-    end
-
-    test "when incorrect number of bytes consumed" do
-      assert ValueLength.decode(<<2, 42, 0>>, Ok) == error :value_length, <<2, 42, 0>>, required_bytes: 2, used_bytes: 1
-    end
-
-    test "when insufficient bytes" do
-      assert ValueLength.decode(<<1>>, Ok) == error :value_length, <<1>>, short_length: [required_bytes: 1, available_bytes: 0], quoted_length: :does_not_start_with_a_length_quote
-    end
-  end
-
   describe "encode_as/2" do
     test "when function return ok" do
       assert encode_as(0, Ok) == ok <<1, 0>>
