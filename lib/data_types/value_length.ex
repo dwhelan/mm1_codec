@@ -13,7 +13,7 @@ defmodule MMS.ValueLength do
 
   defcodec either: [MMS.ShortLength, MMS.QuotedLength]
 
-  defmacro decode_as(bytes, codec) do
+  defmacro decode_as bytes, codec do
     quote bind_quoted: [bytes: bytes, codec: codec] do
       bytes
       |> MMS.ValueLength.decode
@@ -34,16 +34,16 @@ defmodule MMS.ValueLength do
     end
   end
 
-  defmacro encode_as(value, codec) do
+  defmacro encode_as value, codec do
     quote bind_quoted: [value: value, codec: codec] do
       value
       |> codec.encode
-      ~>> fn {data_type, _, reason} -> error value, [{data_type, reason}] end
+      ~>> fn {data_type, value, reason} -> error value, [{data_type, reason}] end
       ~> fn value_bytes ->
           value_bytes
           |> byte_size
           |> MMS.ValueLength.encode
-          ~>> fn {data_type, _, reason} -> error value, [{data_type, reason}] end
+          ~>> fn {data_type, value, reason} -> error value, [{data_type, reason}] end
           ~> & (&1 <> value_bytes)
          end
     end

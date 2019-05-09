@@ -38,6 +38,7 @@ and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
 be found at [https://hexdocs.pm/mm1_codec](https://hexdocs.pm/mm1_codec).
 
 # To do
+- consolidate length codecs
 - create consistent `error` function for nesting
 - refactoring
   - `decode {:ok, ...}` & `decode {:error, ...}` for codec composition

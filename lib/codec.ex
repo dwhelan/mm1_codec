@@ -1,11 +1,12 @@
 defmodule MMS.Codec do
   import OkError
-  import MMS.DataTypes
 
-  def is_module?(atom) when is_atom(atom),
-      do: atom
-          |> to_string
-          |> String.starts_with?("Elixir.")
+  def is_module?(atom) when is_atom(atom) do
+    atom
+    |> to_string
+    |> String.starts_with?("Elixir.")
+  end
+
   def is_module?(_), do: false
 
   def data_type module do
@@ -21,7 +22,7 @@ defmodule MMS.Codec do
   def pascalcase string do
     string
     |> String.split(~r/[A-Z]+[^A-Z]*/, include_captures: true)
-    |> Enum.map(&String.capitalize/1)
+    |> Enum.map(& String.capitalize/1)
     |> Enum.join
   end
 

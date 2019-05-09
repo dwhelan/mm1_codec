@@ -10,13 +10,8 @@ defmodule MMS.List do
   defp do_decode bytes, [codec | codecs], values do
     bytes
     |> codec.decode
-    ~>> fn details ->
-          error %{error: details, values: Enum.reverse(values)}
-        end
-    ~>  fn {value, rest} ->
-          rest
-          |> do_decode(codecs, [value | values])
-        end
+    ~>> fn details -> error %{error: details, values: Enum.reverse(values)} end
+    ~>  fn {value, rest} -> rest |> do_decode(codecs, [value | values]) end
   end
 
   defp do_decode rest, [], values do
@@ -25,17 +20,17 @@ defmodule MMS.List do
     |> ok(rest)
   end
 
-  def encode [], _  do
-    ok <<>>
-  end
-
   def encode(values, codecs) when is_list(values) and is_list(codecs) do
     values
     |> Enum.zip(codecs)
     |> do_encode([])
-    ~>> fn details ->
-          error data_type(), values, details
-        end
+    ~>> fn details -> error data_type(), values, details end
+  end
+
+  defp do_encode [{value, codec} | tail], bytes_list do
+    value
+    |> codec.encode
+    ~> fn bytes -> tail |> do_encode([bytes | bytes_list]) end
   end
 
   defp do_encode [], bytes_list do
@@ -43,14 +38,5 @@ defmodule MMS.List do
     |> Enum.reverse
     |> Enum.join
     |> ok
-  end
-
-  defp do_encode [{value, codec} | value_pairs], bytes_list do
-    value
-    |> codec.encode
-    ~> fn bytes ->
-         value_pairs
-         |> do_encode([bytes | bytes_list])
-       end
   end
 end
