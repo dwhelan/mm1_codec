@@ -30,7 +30,7 @@ defmodule MMS.Address do
     |> decode_as(Text, &parse/1)
   end
 
-  defp parse(text) do
+  defp parse text do
     text
     |> String.split("/TYPE=")
     |> to_tuple
@@ -42,6 +42,10 @@ defmodule MMS.Address do
   def encode(address) when is_address(address) do
     address
     |> encode_as(Text, &to_text/1)
+  end
+
+  def encode value do
+    error value, :out_of_range
   end
 
   defp to_text({email,  ""  }), do: email
