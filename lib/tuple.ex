@@ -1,5 +1,4 @@
 defmodule MMS.Tuple do
-  import OkError
 
   defmacro tuple_codec codecs do
     quote do

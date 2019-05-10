@@ -53,12 +53,12 @@ defmodule MMS.Codec do
     end
   end
 
-  def nest_error({data_type, _, error}) when is_list(error) do
-    [data_type | error]
+  def nest_error({data_type, _, details}) when is_list(details) do
+    [data_type | details]
   end
 
-  def nest_error {data_type, _, error} do
-    [data_type, error]
+  def nest_error {data_type, _, details} do
+    [data_type, details]
   end
 
   def nest_error reason do

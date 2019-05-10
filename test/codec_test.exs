@@ -39,6 +39,6 @@ defmodule MMS.Codec2Test do
     assert map_value(ok(1, ""), & &1 + 1) == ok 2, ""
     assert map_value(ok(1, ""), & ok(&1)) == ok 1, ""
     assert map_value(ok(1, ""), & error(&1)) == error 1
-    assert map_value(ok(1, ""), fn _ -> end) == error nil
+    assert map_value(ok(1, ""), fn _ -> nil end) == error nil
   end
 end
