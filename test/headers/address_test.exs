@@ -15,7 +15,7 @@ defmodule MMS.AddressTest do
   ]
 
   encode_errors [
-    {"invalid address", {"a\0", ""},   {:address, {"a\0", ""},   [:text, :contains_end_of_string]} },
-    {"invalid address type", {"a",   "\0"}, {:address, {"a",   "\0"}, [:text, :contains_end_of_string]} },
+    {"invalid address",      {"a\0", ""}},
+    {"invalid address type", {"a",   "\0"}},
   ]
 end
