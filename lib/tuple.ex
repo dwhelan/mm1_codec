@@ -33,12 +33,4 @@ defmodule MMS.Tuple do
       end
     end
   end
-
-  defmacro __using__ (_) do
-    quote do
-      use MMS.Codec
-      import MMS.Tuple
-    end
-  end
-
 end
