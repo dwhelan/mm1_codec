@@ -4,7 +4,7 @@ defmodule MMS.Parameter do
 
   Parameter = Typed-parameter | Untyped-parameter
   """
-  use MMS.Tuple2
+  use MMS.Tuple
 
   # This does not match BNF above
   defcodec as: {MMS.TokenText, MMS.UntypedValue}

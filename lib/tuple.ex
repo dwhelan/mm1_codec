@@ -16,9 +16,27 @@ defmodule MMS.Tuple do
     ~>> fn {_, _, reason} -> error data_type(), values, reason end
   end
 
+  defmacro defcodec opts do
+    codecs = opts[:as]
+    quote do
+      use MMS.Codec
+      import MMS.Tuple
+
+      def decode bytes do
+        bytes
+        |> decode(unquote codecs)
+      end
+
+      def encode {name, value} do
+        {name, value}
+        |> encode(unquote codecs)
+      end
+    end
+  end
+
   defmacro __using__ (_) do
     quote do
-#      use MMS.Codec
+      use MMS.Codec
       import MMS.Tuple
     end
   end
