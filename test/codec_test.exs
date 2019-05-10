@@ -32,4 +32,13 @@ defmodule MMS.Codec2Test do
   test "default encode" do
     assert encode(:bad) == error :bad, :bad_data_type
   end
+
+  test "map_value" do
+    assert map_value(error(:error), & &1) == error :error
+    assert map_value(ok(1, "rest"), & &1) == ok 1, "rest"
+    assert map_value(ok(1, ""), & &1 + 1) == ok 2, ""
+    assert map_value(ok(1, ""), & ok(&1)) == ok 1, ""
+    assert map_value(ok(1, ""), & error(&1)) == error 1
+    assert map_value(ok(1, ""), fn _ -> end) == error nil
+  end
 end

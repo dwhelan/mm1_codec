@@ -35,7 +35,12 @@ defmodule MMS.Codec do
   end
 
   def map_value {:ok, {value, rest}}, function do
-    ok {function.(value), rest}
+    case function.(value) do
+      {:ok, value} -> ok value, rest
+      {:error, error} -> error error
+      nil -> error :nil
+      value -> ok value, rest
+    end
   end
 
   def map_value {:error, error}, _function do
