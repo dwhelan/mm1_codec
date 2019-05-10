@@ -1,14 +1,6 @@
 defmodule MMS.Tuple do
   import OkError
 
-  def map_value {:ok, {value, rest}}, function do
-    ok {function.(value), rest}
-  end
-
-  def map_value {:error, error}, _function do
-    error error
-  end
-
   defmacro tuple_codec codecs do
     quote do
       use MMS.Codec

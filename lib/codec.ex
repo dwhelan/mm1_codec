@@ -34,6 +34,14 @@ defmodule MMS.Codec do
     error {data_type, input, details}
   end
 
+  def map_value {:ok, {value, rest}}, function do
+    ok {function.(value), rest}
+  end
+
+  def map_value {:error, error}, _function do
+    error error
+  end
+
   defmacro error input, details do
     quote do
       error data_type(unquote __CALLER__.module), unquote(input), nest_error(unquote details)
