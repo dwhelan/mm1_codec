@@ -46,3 +46,11 @@ be found at [https://hexdocs.pm/mm1_codec](https://hexdocs.pm/mm1_codec).
 - `QuotedLength` enforces length > 30. Reconsider having different length representations
 - create `decode_(...)` and`decode_as_one_of(...)`
 - refactor `CodecMapper` to use core `Codec` functions
+- use different monad bind operators (available and supported by Fira code font)
+  Available operators:
+    <<-
+    ->> error
+    <-
+    -> ok
+    <->
+

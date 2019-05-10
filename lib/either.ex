@@ -28,17 +28,14 @@ defmodule MMS.Either do
 
   defp continue_until_ok input, codecs, data_type, function_name do
     codecs
-    |> Enum.reduce_while(error([]), call(function_name, input))
+    |> Enum.reduce_while(error([]),
+         fn codec, {:error, errors} ->
+           case apply codec, function_name, [input] do
+             {:ok, result} -> {:halt, ok result}
+             {:error, {codec_data_type, _, details}} -> {:cont, error [{codec_data_type, details} | errors]}
+           end
+         end)
     ~>> fn errors -> error data_type, input, Enum.reverse errors end
-  end
-
-  defp call function_name, input do
-    fn codec, {:error, errors} ->
-      case apply codec, function_name, [input] do
-        {:ok, result} -> {:halt, ok result}
-        {:error, {codec_data_type, _, details}} -> {:cont, error([{codec_data_type, details} | errors])}
-      end
-    end
   end
 
   defmacro __using__ _ do
@@ -47,13 +44,4 @@ defmodule MMS.Either do
       import MMS.Either
     end
   end
-
-  """
-  Available operators:
-    <<-
-    ->> error
-    <-
-    -> ok
-    <->
-  """
 end
