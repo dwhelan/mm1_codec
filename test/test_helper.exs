@@ -158,7 +158,7 @@ defmodule MMS.CodecTest do
              end
 
              if @details do
-               test "#{name} encode error data_type" do
+               test "#{name} encode error details" do
                  {:error, {_, _, details}} = encode(@input)
                  if is_atom(@details) do
                    assert details == @details

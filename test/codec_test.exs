@@ -16,16 +16,19 @@ defmodule MMS.Codec2Test do
   end
 
   describe "nest_error" do
-    test "should accumulate nested error list" do
-      assert nest_error({:data_type, :value, [:data_type2, :reason]}) == [:data_type, :data_type2, :reason]
+    @error {:data_type, :value, :details}
+    @error2 {:data_type2, :value2, data_type: @error}
+
+    test "should create a keyword list using data_type as the key and error as the value" do
+      assert nest_error(@error) == [data_type: @error]
     end
 
-    test "should accumulate nested error" do
-      assert nest_error({:data_type, :value, :reason}) == [:data_type, :reason]
+    test "should accumulate nested error list" do
+      assert nest_error(@error2) == [data_type2: @error2]
     end
 
     test "should accumulate plain value" do
-      assert nest_error(:reason) == :reason
+      assert nest_error(:details) == :details
     end
   end
 
