@@ -1,19 +1,24 @@
 defmodule MMS.QValue.Test do
   use MMS.CodecTest
-
   import MMS.QValue
 
-  describe "decode" do
-    test "u 1    -> 00",  do: assert decode(u 1)    == ok "00",  <<>>
-    test "u 100  -> 99",  do: assert decode(u 100)  == ok "99",  <<>>
-    test "u 101  -> 001", do: assert decode(u 101)  == ok "001", <<>>
-    test "u 1099 -> 999", do: assert decode(u 1099) == ok "999", <<>>
+  codec_examples [
+    {"1",    u(1),    "00"},
+    {"100",  u(100),  "99"},
+    {"101",  u(101),  "001"},
+    {"1099", u(1099), "999"},
+  ]
 
-    test "<<>>",    do: assert decode(<<>>)    == error :qvalue, <<>>,    :no_bytes
-    test "<<128>>", do: assert decode(<<128>>) == error :qvalue, <<128>>, [:uintvar_integer, :first_byte_cannot_be_128]
-    test "u 0",     do: assert decode(u 0)     == error :qvalue, u(0),    out_of_range: 0
-    test "u 1100",  do: assert decode(u 1100)  == error :qvalue, u(1100), out_of_range: 1100
-  end
+  decode_errors [
+    {"<<>>", <<>>},
+    {"0", u(0), out_of_range: 0},
+    {"1100", u(1100), out_of_range: 1100},
+  ]
+
+  encode_errors [
+    {"0", "0"},
+    {"1100", "1100", :must_be_string_of_2_or_3_digits},
+  ]
 
   describe "encode" do
     test "00",  do: assert encode("00")  == ok u(1)

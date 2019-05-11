@@ -40,6 +40,10 @@ defmodule MMS.QValue do
     |> encode_as(UintvarInteger, &parse/1)
   end
 
+  def encode value do
+    super value
+  end
+
   defp parse string do
     string
     |> Integer.parse
