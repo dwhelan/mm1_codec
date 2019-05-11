@@ -40,4 +40,8 @@ defmodule MMS.EncodedStringValue do
     |> ValueLengthList.encode([WellKnownCharset, TextString])
     ~>> & error({text, charset}, &1)
   end
+
+  def encode value do
+    super value
+  end
 end
