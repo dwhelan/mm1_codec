@@ -19,7 +19,7 @@ defmodule MMS.Time do
          |> to_time
          |> ok(rest)
        end
-    ~>> & bytes |> error(&1)
+    ~>> & error(bytes, &1)
   end
 
   defp to_time [@absolute, seconds] do
@@ -30,19 +30,29 @@ defmodule MMS.Time do
     seconds
   end
 
-  def encode date_time = %DateTime{} do
-    date_time
+  def encode value = %DateTime{} do
+    value
     |> DateTime.to_unix
     |> do_encode(@absolute)
+    ~>> & error(value, &1)
   end
 
-  def encode(seconds) when is_long(seconds) do
-    seconds
+  def encode(value) when is_long(value) do
+    value
     |> do_encode(@relative)
+    ~>> & error(value, &1)
   end
 
-  defp do_encode seconds, time_type do
-    [time_type, seconds]
+  def encode(value) when is_integer(value) do
+    error value, :out_of_range
+  end
+
+  def encode value do
+    super value
+  end
+
+  defp do_encode value, time_type do
+    [time_type, value]
     |> ValueLengthList.encode([ShortInteger, LongInteger])
   end
 end
