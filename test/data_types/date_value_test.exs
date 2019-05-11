@@ -8,9 +8,11 @@ defmodule MMS.DateValueTest do
   ]
 
   decode_errors [
-    {"bad long integer", <<0>>, [:long_integer]},
+    {"bad long integer", <<0>>},
   ]
 
   encode_errors [
+    {"too small", -1},
+    {"too large", max_long},
   ]
 end
