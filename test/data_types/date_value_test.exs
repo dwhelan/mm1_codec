@@ -13,6 +13,6 @@ defmodule MMS.DateValueTest do
 
   encode_errors [
     {"too small", -1},
-    {"too large", max_long},
+    {"too large", max_long()},
   ]
 end

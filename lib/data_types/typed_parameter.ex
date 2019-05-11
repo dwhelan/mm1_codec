@@ -4,6 +4,9 @@ defmodule MMS.TypedParameter do
 
   Typed-parameter = Well-known-parameter-token Typed-value
   """
+  import MMS.Tuple
+
+#  tuple_codec [MMS.WellKnownParameterToken, MMS.TypedValue]
 
   use MMS.Codec
   import MMS.As
@@ -15,8 +18,8 @@ defmodule MMS.TypedParameter do
     ~> fn {token, rest} ->
          rest
          |> TypedValue.decode(token)
-         ~>> fn {data_type, _, details} -> bytes |> error(nest_error([data_type, details])) end
        end
+    ~>> & error(bytes, &1)
   end
 
   def encode {token, value} do
@@ -28,7 +31,11 @@ defmodule MMS.TypedParameter do
          ~> fn value_bytes ->
               ok token_bytes <> value_bytes
             end
-         ~>> fn {data_type, _, details} -> {token, value} |> error(nest_error([data_type, details])) end
        end
+    ~>> & error({token, value}, &1)
+  end
+
+  def encode value do
+    super value
   end
 end

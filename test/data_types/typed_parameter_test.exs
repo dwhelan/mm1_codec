@@ -1,22 +1,20 @@
 defmodule MMS.TypedParameterTest do
   use MMS.CodecTest
   alias MMS.{CompactValue, TextValue}
+  import MMS.TypedParameter
 
-  use MMS.TestExamples,
-      codec: MMS.TypedParameter,
+  codec_examples [
+    {"Q-value", << s(0),  1     >>, {:q, "00"} },
+    {"Path",    << s(29), "a\0" >>, {:path, "a"} },
+  ]
 
-      examples: [
-        { << s(0),  1     >>, {:q, "00"} },
-        { << s(29), "a\0" >>, {:path, "a"} },
-      ],
+  decode_errors [
+    {"Well-known-parameter-token", << s 30 >>},
+    {"Typed-value",                << s(8), 1 >>},
+  ]
 
-      decode_errors: [
-        { << s 30 >>,    {:typed_parameter, << s 30 >>,    [:well_known_parameter_token, out_of_range: 30]} },
-        { << s(8), 1 >>, {:typed_parameter, << s(8), 1 >>, [:typed_value, %{cannot_be_decoded_as: [CompactValue, TextValue]}] } },
-      ],
-
-      encode_errors: [
-        { {:foo, 0},      {:typed_parameter, :foo,           [:well_known_parameter_token, :out_of_range]} },
-        { {:padding, :a}, {:typed_parameter, {:padding, :a}, [:typed_value, %{cannot_be_encoded_as: [CompactValue, TextValue]}]} },
-      ]
+  encode_errors [
+    {"Well-known-parameter-token",  {:bad_token, 0}},
+    {"Typed-value",                 {:q, :bad_value}},
+  ]
 end
