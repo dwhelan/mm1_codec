@@ -1,29 +1,25 @@
 defmodule MMS.PreviouslySentDateTest do
-  use ExUnit.Case
-
-  alias MMS.PreviouslySentDate
+  use MMS.CodecTest
+  import MMS.PreviouslySentDate
 
   time_zero = DateTime.from_unix! 0
   negative_time = DateTime.from_unix! -1
 
-  use MMS.TestExamples,
-      codec: PreviouslySentDate,
-      examples: [
-        #  _                  <- length
-        #     _________       <- forwarded count
-        #                ____ <- date
-        {<<3, 129,       1, 0>>, {time_zero,   1} }, # short count
-        {<<5,   2, 1, 0, 1, 0>>, {time_zero, 256} }, # long count
-      ],
+  codec_examples [
+    #               _            <- length
+    #                  ___       <- forwarded count
+    #                       ____ <- date
+    {"sent data", <<3, 129, 1, 0>>, {time_zero,   1} }, # short count
+  ]
 
-      decode_errors: [
-        {<<32>>,              {:value_length, <<32>>, [short_length: [out_of_range: 32], quoted_length: :does_not_start_with_a_length_quote]}},
-        {<<2, 32>>,           {:value_length, <<2, 32>>, [{:short_length, [required_bytes: 2, available_bytes: 1]}, {:quoted_length, :does_not_start_with_a_length_quote}]}},
-#        {<<5, 2, 1, 0, "@">>, :missing_end_of_string_byte},              # date error
-      ],
+  decode_errors [
+    {"value length", <<1, 129, 1, 0>>,},
+    {"count",        <<1, 0, 1, 0>>,},
+    {"date",         <<5, 2, 1, 0, "@">> },
+  ]
 
-      encode_errors: [
-        {{negative_time, 1}, {:list, [1, negative_time], {:date_value, negative_time, [:long_integer, :out_of_range]}}},
-        {{time_zero, -1},    {:list, [-1, time_zero], {:integer_value, -1, [short_integer: :out_of_range, long_integer: :out_of_range]}}},
-      ]
+  encode_errors [
+    {"date", {negative_time, 1}},
+    {"count", {time_zero, -1}},
+  ]
 end
