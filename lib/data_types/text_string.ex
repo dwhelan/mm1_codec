@@ -22,7 +22,7 @@ defmodule MMS.TextString do
   end
 
   def decode(bytes = <<@quote, _::binary>>) do
-    error bytes, :octet_following_quote_must_be_greater_than_127
+    error bytes, :unnecessary_quote
   end
 
   def decode(bytes = <<text, _::binary>>) when is_text(text) and text != @quote do
@@ -42,6 +42,10 @@ defmodule MMS.TextString do
   def encode(string) when is_binary(string) do
     string
     |> encode_as(Text)
+  end
+
+  def encode value do
+    super value
   end
 
   defp remove_quote string do

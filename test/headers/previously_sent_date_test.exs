@@ -19,7 +19,7 @@ defmodule MMS.PreviouslySentDateTest do
   ]
 
   encode_errors [
-    {"date", {negative_time, 1}},
+    {"date",  {negative_time, 1}},
     {"count", {time_zero, -1}},
   ]
 end
