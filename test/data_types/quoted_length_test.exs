@@ -21,10 +21,10 @@ defmodule MMS.QuotedLengthTest do
   @too_large_bytes <<144, 128, 128, 128, 0>>
 
   decode_errors [
-    {"missing length quote", <<0>>,                                 :does_not_start_with_a_length_quote},
-    {"missing data bytes",   <<length_quote()>>,                     [:length, :no_bytes]},
-    {"too small",            <<length_quote()>> <> @too_small_bytes, out_of_range: @too_small},
-    {"too large",            <<length_quote()>> <> @too_large_bytes, [:length, :uintvar_integer, {:out_of_range, @too_large}]},
+    {"missing length quote", <<0>>},
+    {"missing data bytes",   <<length_quote()>>},
+    {"too small",            <<length_quote()>> <> @too_small_bytes},
+    {"too large",            <<length_quote()>> <> @too_large_bytes},
   ]
 
   encode_errors [
