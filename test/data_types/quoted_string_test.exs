@@ -1,21 +1,19 @@
 defmodule MMS.QuotedStringTest do
   use MMS.CodecTest
 
-  use MMS.TestExamples,
-      codec: MMS.QuotedString,
+  import MMS.QuotedString
 
-      examples: [
-        { ~s("\0),  ~s(")  },
-        { ~s("x\0), ~s("x) },
-      ],
+  codec_examples [
+    {"quoted text", ~s("x\0), ~s("x) },
+  ]
 
-      decode_errors: [
-        { <<1>>,       {:quoted_string, <<1>>,       :must_start_with_a_quote}         },
-        { ~s("string), {:quoted_string, ~s("string), [:text, :missing_end_of_string]} },
-      ],
+  decode_errors [
+    {"missing quote", <<1>>},
+    {"text",          ~s("string)},
+  ]
 
-      encode_errors: [
-        { "x",       {:quoted_string, "x",       :must_start_with_a_quote}         },
-        { ~s("x\0"), {:quoted_string, ~s("x\0"), [:text, :contains_end_of_string]} },
-      ]
+  encode_errors [
+    {"1", "x"},
+    {"2", ~s("x\0")},
+  ]
 end
