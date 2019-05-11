@@ -23,7 +23,7 @@ defmodule MMS.TokenText do
   alias MMS.Text
 
   def decode(bytes = <<end_of_string, _::binary>>) when is_end_of_string(end_of_string) do
-    error bytes, :must_have_at_least_one_token_char
+    error bytes, :missing_token
   end
 
   def decode bytes do
@@ -38,7 +38,7 @@ defmodule MMS.TokenText do
   end
 
   def encode "" do
-    error "", :must_have_at_least_one_token_char
+    error "", :missing_token
   end
 
   def encode(string) when is_binary(string) do
@@ -60,7 +60,7 @@ defmodule MMS.TokenText do
 
     case non_token_char do
       nil -> ok string
-      char -> error {:invalid_token_char, char}
+      char -> error invalid_token: char
     end
   end
 end
