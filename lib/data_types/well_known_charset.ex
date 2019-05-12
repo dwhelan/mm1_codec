@@ -9,11 +9,9 @@ defmodule MMS.WellKnownCharset do
   Any-charset = <Octet 128>
   Equivalent to the special RFC2616 charset value “*”
   """
-  use MMS.Codec
-  import MMS.As
-  alias MMS.IntegerValue
+  use MMS.As
 
-  @map %{
+  defcodec as: MMS.IntegerValue, map: %{
        0 => :AnyCharset,
        3 => :ASCII,
        4 => :ISOLatin1,
@@ -274,14 +272,4 @@ defmodule MMS.WellKnownCharset do
     2260 => :cp50220,
     3000 => :reserved,
   }
-
-  def decode bytes do
-    bytes
-    |> decode_as(IntegerValue, @map)
-  end
-
-  def encode(charset) when is_atom(charset) do
-    charset
-    |> encode_as(IntegerValue, @map)
-  end
 end

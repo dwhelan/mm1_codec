@@ -1,23 +1,21 @@
 defmodule MMS.WellKnownCharsetTest do
   use MMS.CodecTest
+  import MMS.WellKnownCharset
 
-  use MMS.TestExamples,
-      codec: MMS.WellKnownCharset,
+  codec_examples [
+    {"AnyCharset", << s(0) >>,           :AnyCharset},
+    {"ASCII",      << s(3) >>,           :ASCII},
+    {"UTF8",       << s(106) >>,         :UTF8},
+    {"Unicode",    << l(2), 1000::16 >>, :Unicode},
+  ]
 
-      examples: [
-        { << s(0) >>,           :AnyCharset },
-        { << s(3) >>,           :ASCII      },
-        { << s(106) >>,         :UTF8       },
-        { << l(2), 1000::16 >>, :Unicode    },
-      ],
+  decode_errors [
+    {"Reserved 1", << s(1) >>},
+    {"Reserved 2", << s(2) >>},
+    {"Not in list", << s(120) >>},
+  ]
 
-      decode_errors: [
-        { << 0 >>,              {:well_known_charset, << 0 >>,            [:integer_value, {:short_integer, [out_of_range: 0]}, {:long_integer, :must_have_at_least_one_data_byte}]} },
-        { << s(120) >>,         {:well_known_charset, <<s(120)>>,         out_of_range: 120}  },
-        { << l(2), 9999::16 >>, {:well_known_charset, <<l(2), 9999::16>>, out_of_range: 9999} },
-      ],
-
-      encode_errors: [
-        { :unknown_charset, {:well_known_charset, :unknown_charset, :out_of_range} },
-      ]
+  encode_errors [
+    {"Not in list", :unknown_charset},
+  ]
 end
