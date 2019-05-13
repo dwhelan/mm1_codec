@@ -3,8 +3,6 @@ defmodule MMS.EncodedStringValueTest do
 
   import MMS.EncodedStringValue
 
-  string30 = String.duplicate "x", 30
-
   codec_examples [
     {"text string",              <<"x\0">>,                 "x" },
     {"text string with charset", << l(3), s(106), "x\0" >>, {"x", :UTF8}},

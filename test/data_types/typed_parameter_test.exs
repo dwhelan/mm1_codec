@@ -1,6 +1,5 @@
 defmodule MMS.TypedParameterTest do
   use MMS.CodecTest
-  alias MMS.{CompactValue, TextValue}
   import MMS.TypedParameter
 
   codec_examples [
