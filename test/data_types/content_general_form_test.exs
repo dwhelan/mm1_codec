@@ -3,7 +3,8 @@ defmodule MMS.ContentGeneralFormTest do
   import MMS.ContentGeneralForm
 
   codec_examples [
-    {"valid length and media", <<l(1), s(0)>>, :"*/*"},
+    {"media with a single parameter", <<l(1), s(0)>>, :"*/*"},
+    {"media with two parameters", <<l(1), s(0x33)>>, :"application/vnd.wap.multipart.related"},
   ]
 
   decode_errors [

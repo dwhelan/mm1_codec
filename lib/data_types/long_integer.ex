@@ -22,17 +22,18 @@ defmodule MMS.LongInteger do
     ~>> & error bytes, &1
   end
 
-  defp decode_multi_octet_integer {_length = 0, _bytes} do
+  defp decode_multi_octet_integer {_length = 0, _rest} do
     error :must_have_at_least_one_data_byte
   end
 
-  defp decode_multi_octet_integer {length, bytes} do
-    bytes
+  defp decode_multi_octet_integer {length, rest} do
+    rest
     |> String.split_at(length)
-    ~> fn {integer_bytes, rest} ->
-         integer_bytes
+    ~> fn {value_bytes, rest} ->
+         value_bytes
          |> :binary.decode_unsigned
-         |> ok(rest) end
+         |> ok(rest)
+       end
   end
 
   def encode(value) when is_long(value) do

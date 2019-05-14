@@ -6,6 +6,5 @@ defmodule MMS.Parameter do
   """
   import MMS.Tuple
 
-  # This does not match BNF above
-  tuple_codec [MMS.TokenText, MMS.UntypedValue]
+  tuple_codec [MMS.TypedParameter, MMS.UntypedParameter]
 end
