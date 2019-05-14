@@ -60,14 +60,16 @@ defmodule MMS.As do
       bytes
       |> codec.decode
       ~> fn {value, rest} ->
-            value
-            |> f.()
-            ~> fn result ->
-                 if is_module?(result) do
+            case Function.info(f)[:arity] do
+              1 -> f.(value) ~> fn value -> ok value, rest end
+              2 -> f.(value, rest)
+            end
+            ~> fn {value, rest} ->
+                 if is_module?(value) do
                    rest
-                   |> result.decode
+                   |> value.decode
                  else
-                   ok {result, rest}
+                   ok {value, rest}
                  end
                end
          end
