@@ -47,9 +47,10 @@ defmodule MMS.Length do
     end
   end
 
-  defmacro with_length_codec length_codec, codec do
+  defmacro defcodec length: length_codec, as: codec do
     quote do
       use MMS.Codec
+      import MMS.As
 
       def decode bytes do
         bytes
