@@ -9,7 +9,7 @@ defmodule MMS.ContentGeneralFormTest do
 
   decode_errors [
     {"invalid length", <<l(255)>>},
-    {"invalid media",  <<l(1), "invalid media">>},
+    {"invalid media",  <<l(13), "invalid media">>},
   ]
 
   encode_errors [

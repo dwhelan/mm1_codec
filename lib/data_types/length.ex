@@ -10,16 +10,15 @@ defmodule MMS.Length do
 
   defmacro decode_with_length bytes, length_codec, codec do
     quote bind_quoted: [bytes: bytes, codec: codec, length_codec: length_codec] do
-      import OkError
+      import MMS.As
       bytes
-      |> length_codec.decode
-      ~>> fn {data_type, bytes, details} -> error bytes, [{data_type, details}]  end
-      ~> fn {length, value_bytes} ->
-          value_bytes
+      |> decode_as(length_codec)
+      ~> fn {length, rest} ->
+          rest
           |> String.split_at(length)
           ~> fn {value_bytes, rest} ->
               value_bytes
-              |> codec.decode()
+              |> codec.decode
               ~>> fn {data_type, _, details} -> error bytes, [{data_type, details}] end
               ~> fn {value, extra} ->
                    used_bytes = byte_size(value_bytes) - byte_size(extra)
@@ -36,15 +35,14 @@ defmodule MMS.Length do
 
   defmacro encode_with_length value, length_codec, codec do
     quote bind_quoted: [value: value, codec: codec, length_codec: length_codec] do
+      import MMS.As
       value
-      |> codec.encode
-      ~>> fn {data_type, value, details} -> error value, [{data_type, details}] end
+      |> encode_as(codec)
       ~> fn value_bytes ->
           value_bytes
           |> byte_size
-          |> length_codec.encode
-          ~>> fn {data_type, value, details} -> error value, [{data_type, details}] end
-          ~> & &1 <> value_bytes
+          |> encode_as(length_codec)
+          ~> fn length_bytes -> length_bytes <> value_bytes end
          end
     end
   end

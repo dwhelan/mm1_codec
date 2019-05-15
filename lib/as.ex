@@ -1,5 +1,8 @@
 defmodule MMS.As do
   import MMS.Codec
+  import OkError
+  import OkError.Operators
+  import Monad.Operators
 
   defmacro defcodec opts do
     delegate = opts[:as]
@@ -174,6 +177,11 @@ defmodule MMS.As do
     quote do
       use MMS.Codec
       import MMS.As
+      import MMS.Codec
+      import OkError
+      import OkError.Operators
+      import Monad.Operators
+
     end
   end
 end
