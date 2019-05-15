@@ -14,19 +14,19 @@ defmodule MMS.Length do
       bytes
       |> length_codec.decode
       ~>> fn {data_type, bytes, details} -> error bytes, [{data_type, details}]  end
-      ~> fn {value_length, value_bytes} ->
+      ~> fn {length, value_bytes} ->
           value_bytes
-          |> String.split_at(value_length)
+          |> String.split_at(length)
           ~> fn {value_bytes, rest} ->
               value_bytes
               |> codec.decode()
               ~>> fn {data_type, _, details} -> error bytes, [{data_type, details}] end
               ~> fn {value, extra} ->
                    used_bytes = byte_size(value_bytes) - byte_size(extra)
-                   if used_bytes == value_length do
+                   if used_bytes == length do
                      ok value, rest
                    else
-                     error bytes, value_length: [required_bytes: value_length, used_bytes: used_bytes]
+                     error bytes, required_bytes: length, used_bytes: used_bytes
                    end
                  end
              end
@@ -38,13 +38,13 @@ defmodule MMS.Length do
     quote bind_quoted: [value: value, codec: codec, length_codec: length_codec] do
       value
       |> codec.encode
-      ~>> fn {data_type, value, reason} -> error value, [{data_type, reason}] end
+      ~>> fn {data_type, value, details} -> error value, [{data_type, details}] end
       ~> fn value_bytes ->
           value_bytes
           |> byte_size
           |> length_codec.encode
-          ~>> fn {data_type, value, reason} -> error value, [{data_type, reason}] end
-          ~> & (&1 <> value_bytes)
+          ~>> fn {data_type, value, details} -> error value, [{data_type, details}] end
+          ~> & &1 <> value_bytes
          end
     end
   end

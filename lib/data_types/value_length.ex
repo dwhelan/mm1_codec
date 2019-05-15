@@ -10,16 +10,6 @@ defmodule MMS.ValueLength do
   Value length is used to indicate the length of the value to follow.
   """
   use MMS.Either
-  import MMS.Length
 
   defcodec either: [MMS.ShortLength, MMS.QuotedLength]
-
-#  defmacro decode_as bytes, codec do
-#    decode_with_length bytes, codec, MMS.ValueLength
-#  end
-#
-#  defmacro encode_as value, codec do
-#    encode_with_length value, codec, MMS.ValueLength
-#  end
-
 end
