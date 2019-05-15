@@ -16,15 +16,19 @@ defmodule MMS.Length do
       ~>> fn {data_type, bytes, details} -> error bytes, [{data_type, details}]  end
       ~> fn {value_length, value_bytes} ->
           value_bytes
-          |> codec.decode()
-          ~>> fn {data_type, _, details} -> error bytes, [{data_type, details}] end
-          ~> fn {value, rest} ->
-               used_bytes = byte_size(value_bytes) - byte_size(rest)
-               if used_bytes == value_length do
-                 ok value, rest
-               else
-                 error bytes, value_length: [required_bytes: value_length, used_bytes: used_bytes]
-               end
+          |> String.split_at(value_length)
+          ~> fn {value_bytes, rest} ->
+              value_bytes
+              |> codec.decode()
+              ~>> fn {data_type, _, details} -> error bytes, [{data_type, details}] end
+              ~> fn {value, extra} ->
+                   used_bytes = byte_size(value_bytes) - byte_size(extra)
+                   if used_bytes == value_length do
+                     ok value, rest
+                   else
+                     error bytes, value_length: [required_bytes: value_length, used_bytes: used_bytes]
+                   end
+                 end
              end
          end
     end
