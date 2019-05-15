@@ -14,15 +14,5 @@ defmodule MMS.LongInteger do
   use MMS.Codec
   import MMS.Length
 
-  alias MMS.{ShortLength, MultiOctetInteger}
-
-  def decode bytes do
-    bytes
-    |> decode_with_length(ShortLength, MultiOctetInteger)
-  end
-
-  def encode(value) do
-    value
-    |> encode_with_length(ShortLength, MultiOctetInteger)
-  end
+  with_length_codec MMS.ShortLength, MMS.MultiOctetInteger
 end

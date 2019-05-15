@@ -46,4 +46,20 @@ defmodule MMS.Length do
          end
     end
   end
+
+  defmacro with_length_codec length_codec, codec do
+    quote do
+      use MMS.Codec
+
+      def decode bytes do
+        bytes
+        |> decode_with_length(unquote(length_codec), unquote(codec))
+      end
+
+      def encode value do
+        value
+        |> encode_with_length(unquote(length_codec), unquote(codec))
+      end
+    end
+  end
 end
