@@ -47,7 +47,10 @@ defmodule MMS.Length do
     end
   end
 
-  defmacro defcodec length: length_codec, as: codec do
+  defmacro defcodec opts do
+    codec = opts[:as]
+    length_codec = opts[:length]
+
     quote do
       use MMS.Codec
       import MMS.As

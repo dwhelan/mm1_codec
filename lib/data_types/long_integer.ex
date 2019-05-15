@@ -13,5 +13,5 @@ defmodule MMS.LongInteger do
   """
   import MMS.Length
 
-  defcodec length: MMS.ShortLength, as: MMS.MultiOctetInteger
+  defcodec as: MMS.MultiOctetInteger, length: MMS.ShortLength
 end
