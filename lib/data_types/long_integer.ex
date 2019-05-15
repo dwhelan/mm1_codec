@@ -11,43 +11,18 @@ defmodule MMS.LongInteger do
   encoded first (big-endian representation).
   The minimum number of octets must be used to encode the value.
   """
-  import MMS.As
-
   use MMS.Codec
+  import MMS.Length
 
-  alias MMS.ShortLength
+  alias MMS.{ShortLength, MultiOctetInteger}
 
   def decode bytes do
     bytes
-    |> decode_as(ShortLength, &decode_multi_octet_integer/2)
+    |> decode_with_length(ShortLength, MultiOctetInteger)
   end
 
-  defp decode_multi_octet_integer _length = 0, _rest do
-    error :must_have_at_least_one_data_byte
-  end
-
-  defp decode_multi_octet_integer length, rest do
-    rest
-    |> String.split_at(length)
-    ~> fn {value_bytes, rest} ->
-         value_bytes
-         |> :binary.decode_unsigned
-         |> ok(rest)
-       end
-  end
-
-  def encode(value) when is_long(value) do
+  def encode(value) do
     value
-    |> :binary.encode_unsigned
-    ~> fn value_bytes ->
-         value_bytes
-         |> byte_size
-         |> ShortLength.encode
-         ~> & &1 <> value_bytes
-       end
-  end
-
-  def encode value do
-    error value, :out_of_range
+    |> encode_with_length(ShortLength, MultiOctetInteger)
   end
 end

@@ -10,11 +10,11 @@ defmodule MMS.IntegerValueTest do
   ]
 
   decode_errors [
-    {"bad integer", <<0>>, short_integer: [out_of_range: 0], long_integer: :must_have_at_least_one_data_byte},
+    {"bad integer", <<0>>},
   ]
 
   encode_errors [
-    {"negative integer", -1, short_integer: :out_of_range, long_integer: :out_of_range},
+    {"negative integer", -1},
   ]
 end
 
