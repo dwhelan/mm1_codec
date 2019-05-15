@@ -14,12 +14,12 @@ defmodule MMS.ValueLength do
 
   defcodec either: [MMS.ShortLength, MMS.QuotedLength]
 
-  defmacro decode_as bytes, codec do
-    decode_with_length bytes, codec, MMS.ValueLength
-  end
-
-  defmacro encode_as value, codec do
-    encode_with_length value, codec, MMS.ValueLength
-  end
+#  defmacro decode_as bytes, codec do
+#    decode_with_length bytes, codec, MMS.ValueLength
+#  end
+#
+#  defmacro encode_as value, codec do
+#    encode_with_length value, codec, MMS.ValueLength
+#  end
 
 end

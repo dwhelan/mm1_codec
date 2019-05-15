@@ -8,8 +8,9 @@ defmodule MMS.Length do
 
   defcodec as: MMS.UintvarInteger
 
-  def decode_with_length bytes, codec, length_codec do
+  defmacro decode_with_length bytes, length_codec, codec do
     quote bind_quoted: [bytes: bytes, codec: codec, length_codec: length_codec] do
+      import OkError
       bytes
       |> length_codec.decode
       ~>> fn {data_type, bytes, details} -> error bytes, [{data_type, details}]  end
@@ -29,7 +30,7 @@ defmodule MMS.Length do
     end
   end
 
-  def encode_with_length value, codec, length_codec do
+  defmacro encode_with_length value, length_codec, codec do
     quote bind_quoted: [value: value, codec: codec, length_codec: length_codec] do
       value
       |> codec.encode
