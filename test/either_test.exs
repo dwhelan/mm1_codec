@@ -69,6 +69,7 @@ defmodule MMS.OrTest do
     defmodule Ok1Error1 do
       defcodec either: [Ok1, Error1]
     end
+
     defmodule Error1Error2 do
       defcodec either: [Error1, Error2]
     end
