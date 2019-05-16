@@ -4,7 +4,7 @@ defmodule MMS.From do
   From-value = Value-length (Address-present-token Encoded-string-value | Insert-address-token)
              = Value-length From-Address
   """
-  import MMS.Length
+  import MMS.LengthLimiter
 
   defcodec as: MMS.From.Address, length: MMS.ValueLength
 

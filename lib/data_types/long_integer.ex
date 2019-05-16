@@ -11,7 +11,7 @@ defmodule MMS.LongInteger do
   encoded first (big-endian representation).
   The minimum number of octets must be used to encode the value.
   """
-  import MMS.Length
+  import MMS.LengthLimiter
 
   defcodec as: MMS.MultiOctetInteger, length: MMS.ShortLength
 end

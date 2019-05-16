@@ -5,7 +5,7 @@ defmodule MMS.ContentGeneralForm do
   Content-general-form = Value-length Media-type
 
   """
-  import MMS.Length
+  import MMS.LengthLimiter
 
   defcodec as: MMS.MediaType, length: MMS.ValueLength
 end

@@ -47,7 +47,8 @@ defmodule MMS.CodecTest do
 
   defmodule Ok do
     def decode(<<byte, rest :: binary>>), do: ok {byte, rest}
-    def encode(value), do: ok <<value>>
+    def encode(value) when is_integer(value), do: ok <<value>>
+    def encode(value), do: error {:data_type, value, :bad_type}
   end
 
   defmodule Error do
@@ -107,7 +108,7 @@ defmodule MMS.CodecTest do
              @input elem(test_case, 1)
              @details if (tuple_size(test_case) > 2), do: elem(test_case, 2), else: nil
 
-             test "#{name} decode error" do
+             test "#{name} decode error data_type, bytes" do
                result = decode(@input)
                assert is_tuple(result)
                assert tuple_size(result) == 2
