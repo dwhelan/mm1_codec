@@ -2,10 +2,10 @@ defmodule MMS.Header do
   use MMS.Codec
 
   alias MMS.{Address, Boolean, DateValue, EncodedStringValue, VersionInteger, LongInteger, TextString, Time}
-  alias MMS.{ContentTypeValue, From, MessageClass, MessageType, PreviouslySentBy, PreviouslySentDate}
+  alias MMS.{ContentTypeValue, From, MessageClass, MessageType, PreviouslySentBy, PreviouslySentDate, ShortInteger}
   alias MMS.{Priority, ReadStatus, ReplyCharging, ResponseStatus, RetrieveStatus, SenderVisibility, Status}
 
-  @short_map %{
+  @decode_map %{
     0x01 => {:bcc,                     Address},
     0x02 => {:cc,                      Address},
     0x03 => {:content_location,        TextString},
@@ -41,33 +41,33 @@ defmodule MMS.Header do
     0x21 => {:previously_sent_date,    PreviouslySentDate},
   }
 
-  def decode bytes do
-    bytes
-    |> MMS.ShortInteger.decode
-    ~> fn {short, rest} -> ok Map.get(@short_map, short), rest  end
-    ~> fn { {keyword, codec}, rest} ->
-         rest
-         |> codec.decode
-         ~> fn {value, rest} ->
-              ok {keyword, value}, rest
-            end
-       end
-  end
-
-  @keyword_map Enum.reduce(@short_map, %{},
+  @encode_map Enum.reduce(@decode_map, %{},
                  fn {short, {keyword, codec}}, acc ->
                    Map.put(acc, keyword, {short, codec})
                  end)
 
+  def decode bytes do
+    bytes
+    |> ShortInteger.decode
+    ~> fn {short, rest} ->
+         Map.get(@decode_map, short)
+          ~> fn {keyword, codec} ->
+               rest
+               |> codec.decode
+               |> map_value(fn value -> {keyword, value} end)
+             end
+       end
+  end
+
   def encode {keyword, value} do
-    Map.get(@keyword_map, keyword)
+    Map.get(@encode_map, keyword)
     ~> fn {short, codec} ->
-         value
-         |> codec.encode
-         ~> fn value_bytes ->
-              short
-              |> MMS.ShortInteger.encode
-              ~> & &1 <> value_bytes
+         short
+         |> ShortInteger.encode
+         ~> fn short_bytes ->
+              value
+                |> codec.encode
+                |> map_value(fn value_bytes -> short_bytes <> value_bytes end)
             end
        end
   end
