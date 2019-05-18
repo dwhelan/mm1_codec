@@ -1,5 +1,12 @@
 defmodule MMS.Headers do
-  # Based on OMA-WAP-MMS-ENC-V1_1-20040715-A: Table 12. Field Name Assignments
+  @module_docs """
+  7. Binary Encoding of Protocol Data Units
+
+  In the encoding of the header fields, the order of the fields is not significant,
+  except that X-Mms-Message-Type, X-Mms- Transaction-ID (when present) and X-Mms-MMS-Version
+  MUST be at the beginning of the message headers, in that order,
+  and if the PDU contains a message body the Content Type MUST be the last header field, followed by message body.
+  """
 
   use MMS.Codec
   alias MMS.Header
