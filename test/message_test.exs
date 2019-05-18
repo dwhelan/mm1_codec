@@ -1,9 +1,8 @@
 defmodule MMS.MessageTest do
-  use ExUnit.Case
+  use MMS.CodecTest
+  import MMS.Message
 
-  use MMS.TestExamples,
-      codec: MMS.Message,
-      examples: [
-        {<<129, "@", 0, 129, "@", 0>>, {MMS.Headers, [bcc: {"@", ""}, bcc: {"@", ""}]}},
-      ]
+  codec_examples [
+    {"multiple headers", {<<s(12), s(0), s(23), "@\0">>, ""}, headers: [message_type: :m_send_req, to: "@"]},
+  ]
 end

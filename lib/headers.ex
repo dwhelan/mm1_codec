@@ -1,5 +1,5 @@
 defmodule MMS.Headers do
-  @module_docs """
+  @moduledoc """
   7. Binary Encoding of Protocol Data Units
 
   In the encoding of the header fields, the order of the fields is not significant,
@@ -14,6 +14,8 @@ defmodule MMS.Headers do
   def decode bytes do
     bytes
     |> do_decode([])
+    ~> fn result -> ensure_valid_header_order result, bytes end
+    ~>> fn error -> error bytes, error end
   end
 
   defp do_decode <<>>, values do
@@ -25,6 +27,15 @@ defmodule MMS.Headers do
     bytes
     |> Header.decode
     ~> fn {header, rest} -> do_decode rest, values ++ [header] end
+  end
+
+  defp ensure_valid_header_order {values, rest}, bytes do
+    data_types = Enum.map(values, fn {data_type, _} -> data_type end)
+
+    cond do
+      hd(data_types) != :message_type -> error bytes, :message_type_must_be_first_header
+      true ->{values, rest}
+    end
   end
 
   def encode(values) when is_list(values) do

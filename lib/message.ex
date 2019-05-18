@@ -9,16 +9,20 @@ defmodule MMS.Message do
     |> wrap_headers
   end
 
-  def encode {Headers, value} do
+  def encode [{:headers, value}] do
     value
     |> Headers.encode
   end
 
+  def encode value do
+    error value, :out_of_range
+  end
+
   defp wrap_headers {:ok, {value, rest}} do
-    ok {Headers, value}, rest
+    ok [{:headers, value}], rest
   end
 
   defp wrap_headers {:error, reason} do
-    error Headers, reason
+    error :headers, reason
   end
 end

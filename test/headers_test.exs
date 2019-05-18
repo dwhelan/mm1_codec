@@ -3,10 +3,11 @@ defmodule MMS.HeadersTest do
   import MMS.Headers
 
   codec_examples [
-    {"multiple headers", {<<s(1), "@bcc\0", s(2), "@cc\0">>, ""}, bcc: {"@bcc", ""}, cc: {"@cc", ""}},
+    {"multiple headers", {<<s(12), s(0), s(23), "@\0">>, ""}, message_type: :m_send_req, to: "@"},
   ]
 
-  encode_errors [
+  decode_errors [
     { "invalid header", <<0>>},
+    { "first header is not message type", <<s(1), "@bcc\0">>},
   ]
 end
