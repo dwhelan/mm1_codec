@@ -62,7 +62,7 @@ defmodule MMS.Codec do
     end
   end
 
-  def nest_error(error = {data_type, _, details}) do
+  def nest_error {data_type, _, details} do
     [{data_type, details}]
   end
 
