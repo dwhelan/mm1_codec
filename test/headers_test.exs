@@ -3,7 +3,7 @@ defmodule MMS.HeadersTest do
 
   alias MMS.Headers
 
-  date_time_zero = DateTime.from_unix! 0
+#  date_time_zero = DateTime.from_unix! 0
 
   use MMS.TestExamples,
       codec: Headers,

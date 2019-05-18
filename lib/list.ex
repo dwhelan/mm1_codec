@@ -11,7 +11,9 @@ defmodule MMS.List do
     bytes
     |> codec.decode
     ~>> fn details -> error %{error: details, values: Enum.reverse(values)} end
-    ~>  fn {value, rest} -> rest |> do_decode(codecs, [value | values]) end
+    ~> fn {value, rest} ->
+      rest
+      |> do_decode(codecs, [value | values]) end
   end
 
   defp do_decode rest, [], values do
@@ -27,16 +29,13 @@ defmodule MMS.List do
     ~>> fn details -> error data_type(), values, details end
   end
 
-  defp do_encode [{value, codec} | tail], bytes_list do
-    value
-    |> codec.encode
-    ~> fn bytes -> tail |> do_encode([bytes | bytes_list]) end
+  defp do_encode [], bytes_list do
+    ok Enum.join bytes_list
   end
 
-  defp do_encode [], bytes_list do
-    bytes_list
-    |> Enum.reverse
-    |> Enum.join
-    |> ok
+  defp do_encode [{value, codec} | values], bytes_list do
+    value
+    |> codec.encode
+    ~> fn bytes -> do_encode(values, bytes_list ++ [bytes]) end
   end
 end
