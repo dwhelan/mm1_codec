@@ -17,12 +17,16 @@ defmodule MMS.Headers do
   defp do_decode bytes, values do
     bytes
     |> Header.decode
-    ~> fn {header, rest} -> do_decode rest, [header] ++ values end
+    ~> fn {header, rest} -> do_decode rest, values ++ [header] end
   end
 
-  def encode values do
+  def encode(values) when is_list(values) do
     values
     |> do_encode([])
+  end
+
+  def encode value do
+    error value, :out_of_range
   end
 
   defp do_encode [], bytes_list do
