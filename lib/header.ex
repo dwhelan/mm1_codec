@@ -61,6 +61,7 @@ defmodule MMS.Header do
 
   def encode {keyword, value} do
     Map.get(@encode_map, keyword)
+    ~>> fn _ -> error {keyword, value}, :out_of_range end
     ~> fn {short, codec} ->
          short
          |> ShortInteger.encode

@@ -61,6 +61,7 @@ defmodule MMS.Headers do
   def encode(values) when is_list(values) do
     values
     |> do_encode([])
+    ~>> fn error -> error values, error end
   end
 
   def encode value do

@@ -18,4 +18,8 @@ defmodule MMS.HeadersTest do
     {"missing transaction id", @message_type <> @to},
     {"missing version",        @message_type <> @transaction_id <> @to},
   ]
+
+  encode_errors [
+    {"invalid header", [invalid: :header], header: :out_of_range}
+  ]
 end
