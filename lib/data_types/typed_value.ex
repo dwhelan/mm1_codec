@@ -13,13 +13,10 @@ defmodule MMS.TypedValue do
 
   alias MMS.{CompactValue, TextValue, NoValue}
 
-  def decode bytes, expected_type do
+  def decode bytes, codec do
     bytes
-    |> CompactValue.decode(expected_type)
-    ~>> fn _ ->
-          bytes
-          |> decode_as(TextValue, fn value -> {expected_type, value} end)
-        end
+    |> codec.decode
+    ~>> fn _ -> bytes |> decode_as(TextValue)end
     ~>> fn _ -> bytes |> error(%{cannot_be_decoded_as: [CompactValue, TextValue]}) end
   end
 
@@ -28,17 +25,15 @@ defmodule MMS.TypedValue do
     |> NoValue.encode
   end
 
-  def encode({expected_type, value}) when is_atom(expected_type) do
-    try do
-      {expected_type, value}
-      |> CompactValue.encode
-      ~>> fn _ ->
-            value
-              |> encode_as(TextValue)
-              ~>> fn _ -> {expected_type, value} |> error(%{cannot_be_encoded_as: [CompactValue, TextValue]}) end
-          end
-    rescue
-      FunctionClauseError -> {expected_type, value} |> error(%{cannot_be_encoded_as: [CompactValue, TextValue]})
-    end
+  def encode(value, codec) when is_atom(codec) do
+    value
+    |> codec.encode
+    ~>> fn {data_type, _, details} ->
+          value
+          |> TextValue.encode
+          ~>> fn {text_data_type, _, text_details} ->
+                error value, [{data_type, details}, {text_data_type, text_details}]
+              end
+        end
   end
  end
