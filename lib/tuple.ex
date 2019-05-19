@@ -1,6 +1,6 @@
 defmodule MMS.Tuple do
 
-  defmacro tuple_codec codecs do
+  defmacro defcodec(as: codecs) do
     quote do
       use MMS.Codec
 

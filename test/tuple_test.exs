@@ -6,13 +6,13 @@ defmodule MMS.TupleTest do
 
   import MMS.Tuple
 
-  defmodule NoCodecs do tuple_codec [] end
-  defmodule OkCodec do tuple_codec [Ok] end
-  defmodule OkOkCodec do tuple_codec [Ok, Ok] end
-  defmodule OkErrorCodec do tuple_codec [Ok, Error] end
-  defmodule ErrorCodec do tuple_codec [Error] end
-  defmodule ErrorOkCodec do tuple_codec [Error, Ok] end
-  defmodule ErrorErrorCodec do tuple_codec [Error, Error] end
+  defmodule NoCodecs do defcodec as: [] end
+  defmodule OkCodec do defcodec as: [Ok] end
+  defmodule OkOkCodec do defcodec as: [Ok, Ok] end
+  defmodule OkErrorCodec do defcodec as: [Ok, Error] end
+  defmodule ErrorCodec do defcodec as: [Error] end
+  defmodule ErrorOkCodec do defcodec as: [Error, Ok] end
+  defmodule ErrorErrorCodec do defcodec as: [Error, Error] end
 
   test "decode" do
     assert NoCodecs.decode(@bytes) == ok {}, @bytes

@@ -6,5 +6,5 @@ defmodule MMS.UntypedParameter do
   """
   import MMS.Tuple
 
-  tuple_codec [MMS.TokenText, MMS.UntypedValue]
+  defcodec as: [MMS.TokenText, MMS.UntypedValue]
 end
