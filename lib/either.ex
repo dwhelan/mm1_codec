@@ -6,6 +6,8 @@ defmodule MMS.Either do
   defmacro defcodec either: codecs do
     data_type = data_type __CALLER__.module
     quote do
+      use MMS.Codec
+
       def decode bytes do
         bytes
         |> decode(unquote(codecs), unquote(data_type))
@@ -36,12 +38,5 @@ defmodule MMS.Either do
            end
          end)
     ~>> fn errors -> error data_type, input, Enum.reverse errors end
-  end
-
-  defmacro __using__ _ do
-    quote do
-      use MMS.Codec
-      import MMS.Either
-    end
   end
 end

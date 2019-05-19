@@ -9,7 +9,7 @@ defmodule MMS.ValueLength do
 
   Value length is used to indicate the length of the value to follow.
   """
-  use MMS.Either
+  import MMS.Either
 
   defcodec either: [MMS.ShortLength, MMS.QuotedLength]
 end

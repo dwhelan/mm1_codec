@@ -4,7 +4,7 @@ defmodule MMS.UntypedValue do
 
   Untyped-value = Integer-value | Text-value
   """
-  use MMS.Either
+  import MMS.Either
 
   defcodec either: [MMS.IntegerValue, MMS.TextValue]
 end

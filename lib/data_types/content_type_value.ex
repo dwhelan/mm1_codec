@@ -10,7 +10,7 @@ defmodule MMS.ContentTypeValue do
   Content-type-value = Constrained-media | Content-general-form
 
   """
-  use MMS.Either
+  import MMS.Either
 
   defcodec either: [MMS.ConstrainedMedia, MMS.ContentGeneralForm]
 end
