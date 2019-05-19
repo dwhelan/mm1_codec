@@ -4,35 +4,37 @@ defmodule MMS.TypedParameter do
 
   Typed-parameter = Well-known-parameter-token Typed-value
   """
-  use MMS.Codec
-  import MMS.As
+  import MMS.NameValue
 
-  alias MMS.{WellKnownParameterToken, TypedValue}
-
-  def decode bytes do
-    bytes
-    |> decode_as(WellKnownParameterToken)
-    ~> fn {token, rest} ->
-         rest
-         |> TypedValue.decode(token)
-       end
-    ~>> & error(bytes, &1)
-  end
-
-  def encode {token, value} do
-    token
-    |> encode_as(WellKnownParameterToken)
-    ~> fn token_bytes ->
-         {token, value}
-         |> TypedValue.encode
-         ~> fn value_bytes ->
-              ok token_bytes <> value_bytes
-            end
-       end
-    ~>> & error({token, value}, &1)
-  end
-
-  def encode value do
-    super value
-  end
+  defcodec as: MMS.IntegerValue, map: %{
+    0x00 => {:q,                          MMS.QValue},
+    0x01 => {:charset,                    MMS.WellKnownCharset},
+    0x02 => {:level,                      MMS.VersionValue},
+    0x03 => {:type,                       MMS.IntegerValue},
+    0x05 => {:"name (deprecated)",        MMS.TextString},
+    0x06 => {:"file_name (deprecated)",   MMS.TextString},
+    0x07 => {:differences,                MMS.FieldName},
+    0x08 => {:padding,                    MMS.ShortInteger},
+    0x09 => {:type_multipart,             MMS.ConstrainedEncoding},
+    0x0A => {:"start (deprecated)",       MMS.TextString},
+    0x0B => {:"start_info (deprecated)",  MMS.TextString},
+    0x0C => {:"comment (deprecated)",     MMS.TextString},
+    0x0D => {:"domain (deprecated)",      MMS.TextString},
+    0x0E => {:max_age,                    MMS.DeltaSecondsValue},
+    0x0F => {:"path (deprecated)",        MMS.TextString},
+    0x10 => {:secure,                     MMS.NoValue},
+    0x11 => {:sec,                        MMS.ShortInteger},
+    0x12 => {:mac,                        MMS.TextValue},
+    0x13 => {:creation_date,              MMS.DateValue},
+    0x14 => {:modification_date,          MMS.DateValue},
+    0x15 => {:read_date,                  MMS.DateValue},
+    0x16 => {:size,                       MMS.IntegerValue},
+    0x17 => {:name,                       MMS.TextValue},
+    0x18 => {:file_name,                  MMS.TextValue},
+    0x19 => {:start,                      MMS.TextValue},
+    0x1A => {:start_info,                 MMS.TextValue},
+    0x1B => {:comment,                    MMS.TextValue},
+    0x1C => {:domain,                     MMS.TextValue},
+    0x1D => {:path,                       MMS.TextValue},
+  }
 end

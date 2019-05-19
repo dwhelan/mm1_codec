@@ -3,6 +3,7 @@ defmodule MMS.ParameterTest do
   import MMS.TypedParameter
 
   codec_examples [
+    {"q", << s(0), 1 >>, {:q, "00"} },
   ]
 end
 #      examples: [
