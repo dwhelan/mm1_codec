@@ -51,11 +51,12 @@ defmodule MMS.Header do
     |> ShortInteger.decode
     ~> fn {short, rest} ->
          Map.get(@decode_map, short)
-          ~> fn {keyword, codec} ->
-               rest
-               |> codec.decode
-               |> map_value(fn value -> {keyword, value} end)
-             end
+         ~>> fn _ -> error bytes, :out_of_range end
+         ~> fn {keyword, codec} ->
+              rest
+              |> codec.decode
+              |> map_value(fn value -> {keyword, value} end)
+            end
        end
   end
 

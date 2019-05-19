@@ -40,6 +40,11 @@ defmodule MMS.HeaderTest do
     {"previously_sent_date",    <<s(33), l(3), s(2), l(1), 0>>, {:previously_sent_date,    {date_time_zero, 2}}},
   ]
 
+  decode_errors [
+    { "too small", <<s(0), 0>>,  :out_of_range},
+    { "too bi",    <<s(34), 0>>, :out_of_range},
+  ]
+
   encode_errors [
     { "invalid data type", {:invalid, :header}, :out_of_range},
     { "header encoding",   {:subject, "a\0"}},
