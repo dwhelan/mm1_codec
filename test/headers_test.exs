@@ -42,7 +42,7 @@ defmodule MMS.HeadersTest do
       [message_type: :m_send_req],
       headers: :version_must_be_second_header_when_no_transaction_id
     }, {
-      "transaction_id_not_second",
+      "transaction_id not_second",
       [message_type: :m_send_req, version: {0, 0}, transaction_id: "a"],
       headers: :transaction_id_must_be_second_header_if_present
     }, {

@@ -16,7 +16,7 @@ defmodule MMS.Headers do
     |> do_decode([])
     ~> fn {headers, rest} ->
          headers
-         |> validate_order(bytes)
+         |> validate(bytes)
          ~> &(ok &1, rest)
        end
     ~>> fn error -> error bytes, error end
@@ -33,37 +33,9 @@ defmodule MMS.Headers do
     ~> fn {header, rest} -> do_decode rest, values ++ [header] end
   end
 
-  defp validate_order headers, input do
-    error = fn details -> error input, details end
-    index = fn data_type ->
-              headers
-              |> Enum.map(& elem(&1, 0))
-              |> Enum.find_index(& &1 == data_type)
-            end
-
-    cond do
-      index.(:message_type) != 0 ->
-        error.(:message_type_must_be_first_header)
-
-      index.(:transaction_id) not in [nil, 1] ->
-        error.(:transaction_id_must_be_second_header_if_present)
-
-      index.(:transaction_id) == nil && index.(:version) != 1 ->
-        error.(:version_must_be_second_header_when_no_transaction_id)
-
-      index.(:transaction_id) == 1 && index.(:version) != 2 ->
-        error.(:version_must_be_third_header_when_transaction_id_present)
-
-      index.(:content_type) != nil && index.(:content_type) != Enum.count(headers) - 1->
-        error.(:content_type_must_be_the_last_header)
-
-      true -> ok headers
-    end
-  end
-
   def encode(values) when is_list(values) do
     values
-    |> validate_order(values)
+    |> validate(values)
     ~> fn values -> do_encode(values, []) end
     ~>> fn error -> error values, error end
   end
@@ -80,5 +52,30 @@ defmodule MMS.Headers do
     value
     ~> Header.encode
     ~> fn bytes -> do_encode values, bytes_list ++ [bytes] end
+  end
+
+  defp validate headers, input do
+    data_types = Enum.map(headers, & elem(&1, 0))
+    index = fn data_type -> Enum.find_index(data_types, & &1 == data_type) end
+    error = fn details -> error input, details end
+
+    cond do
+      index.(:message_type) != 0 ->
+        error.(:message_type_must_be_first_header)
+
+      index.(:transaction_id) not in [nil, 1] ->
+        error.(:transaction_id_must_be_second_header_if_present)
+
+      index.(:transaction_id) == nil and index.(:version) != 1 ->
+        error.(:version_must_be_second_header_when_no_transaction_id)
+
+      index.(:transaction_id) == 1 and index.(:version) != 2 ->
+        error.(:version_must_be_third_header_when_transaction_id_present)
+
+      index.(:content_type) != nil and index.(:content_type) < Enum.count(headers) - 1->
+        error.(:content_type_must_be_the_last_header)
+
+      true -> ok headers
+    end
   end
 end
