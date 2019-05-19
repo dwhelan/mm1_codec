@@ -70,6 +70,7 @@ defmodule MMS.Header do
                 |> codec.encode
                 |> map_value(fn value_bytes -> short_bytes <> value_bytes end)
             end
+         ~>> fn error -> error {keyword, value}, error end
        end
   end
 

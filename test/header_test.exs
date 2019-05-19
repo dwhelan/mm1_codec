@@ -41,6 +41,7 @@ defmodule MMS.HeaderTest do
   ]
 
   encode_errors [
-    { "", {:invalid, :header}, :out_of_range},
+    { "invalid data type", {:invalid, :header}, :out_of_range},
+    { "header encoding",   {:subject, "a\0"}},
   ]
 end
