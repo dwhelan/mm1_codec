@@ -11,18 +11,18 @@ defmodule MMS.TypedValue do
   use MMS.Codec
   import MMS.As
 
-  alias MMS.{CompactValue, TextValue, NoValue}
+  alias MMS.TextValue
 
   def decode bytes, codec do
     bytes
     |> codec.decode
-    ~>> fn _ -> bytes |> decode_as(TextValue)end
-    ~>> fn _ -> bytes |> error(%{cannot_be_decoded_as: [CompactValue, TextValue]}) end
-  end
-
-  def encode {_, :no_value} do
-    :no_value
-    |> NoValue.encode
+    ~>> fn {data_type, _, details} ->
+          bytes
+          |> TextValue.decode
+          ~>> fn {text_data_type, _, text_details} ->
+                error bytes, [{data_type, details}, {text_data_type, text_details}]
+              end
+        end
   end
 
   def encode(value, codec) when is_atom(codec) do
