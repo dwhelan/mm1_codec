@@ -7,6 +7,10 @@ defmodule MMS.MessageTest do
   @transaction_id <<s(24), "a\0">>
 
   codec_examples [
-    {"multiple headers", {@message_type <> @transaction_id, ""}, headers: [message_type: :m_send_req, transaction_id: "a"]},
+    {
+      "multiple headers",
+      {@message_type <> @transaction_id  <> @mms_version, ""},
+      headers: [message_type: :m_send_req, transaction_id: "a", version: {0,0}]
+    },
   ]
 end
