@@ -6,5 +6,5 @@ defmodule MMS.TextValue do
   """
   import MMS.Either
 
-  defcodec either: [MMS.NoValue, MMS.TokenText, MMS.QuotedString]
+  defcodec as: [MMS.NoValue, MMS.TokenText, MMS.QuotedString]
 end

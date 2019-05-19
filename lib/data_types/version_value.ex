@@ -8,5 +8,5 @@ defmodule MMS.VersionValue do
   """
   import MMS.Either
 
-  defcodec either: [MMS.VersionInteger, MMS.TextString]
+  defcodec as: [MMS.VersionInteger, MMS.TextString]
 end

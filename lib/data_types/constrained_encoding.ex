@@ -9,5 +9,5 @@ defmodule MMS.ConstrainedEncoding do
   """
   import MMS.Either
 
-  defcodec either: [MMS.ExtensionMedia, MMS.ShortInteger]
+  defcodec as: [MMS.ExtensionMedia, MMS.ShortInteger]
 end

@@ -1,5 +1,5 @@
 defmodule MMS.Either do
-  defmacro defcodec either: codecs do
+  defmacro defcodec as: codecs do
     quote do
       use MMS.Codec
 

@@ -9,5 +9,5 @@ defmodule MMS.FieldName do
   """
   import MMS.Either
 
-  defcodec either: [MMS.TokenText, MMS.WellKnownFieldName]
+  defcodec as: [MMS.TokenText, MMS.WellKnownFieldName]
 end

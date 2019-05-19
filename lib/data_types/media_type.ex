@@ -7,9 +7,9 @@ defmodule MMS.MediaType do
 
   import MMS.Either
 
-  defcodec either: [MMS.WellKnownMedia, MMS.ExtensionMedia]
+  defcodec as: [MMS.WellKnownMedia, MMS.ExtensionMedia]
 
   defmodule WellKnownMediaOrExtensionMedia do
-    defcodec either: [MMS.WellKnownMedia, MMS.ExtensionMedia]
+    defcodec as: [MMS.WellKnownMedia, MMS.ExtensionMedia]
   end
 end

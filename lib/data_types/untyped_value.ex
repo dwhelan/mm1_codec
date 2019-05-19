@@ -6,5 +6,5 @@ defmodule MMS.UntypedValue do
   """
   import MMS.Either
 
-  defcodec either: [MMS.IntegerValue, MMS.TextValue]
+  defcodec as: [MMS.IntegerValue, MMS.TextValue]
 end

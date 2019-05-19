@@ -6,5 +6,5 @@ defmodule MMS.IntegerValue do
   """
   import MMS.Either
 
-  defcodec either: [MMS.ShortInteger, MMS.LongInteger]
+  defcodec as: [MMS.ShortInteger, MMS.LongInteger]
 end

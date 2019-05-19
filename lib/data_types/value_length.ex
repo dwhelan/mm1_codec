@@ -11,5 +11,5 @@ defmodule MMS.ValueLength do
   """
   import MMS.Either
 
-  defcodec either: [MMS.ShortLength, MMS.QuotedLength]
+  defcodec as: [MMS.ShortLength, MMS.QuotedLength]
 end
