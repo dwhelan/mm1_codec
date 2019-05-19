@@ -32,10 +32,16 @@ defmodule MMS.Headers do
   defp ensure_valid_header_order {values, rest}, bytes do
     data_types = Enum.map(values, fn {data_type, _} -> data_type end)
 
+    IO.puts "version indec: #{inspect index(data_types, :version)}\n"
     cond do
-      hd(data_types) != :message_type -> error bytes, :message_type_must_be_first_header
+      index(data_types, :message_type) != 0 -> error bytes, :message_type_must_be_first_header
+      index(data_types, :version) != 1 -> error bytes, :mms_version_must_be_second_header
       true ->{values, rest}
     end
+  end
+
+  defp index headers, dt do
+    Enum.find_index(headers, fn data_type ->  data_type == dt end)
   end
 
   def encode(values) when is_list(values) do
