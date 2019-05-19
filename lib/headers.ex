@@ -34,19 +34,28 @@ defmodule MMS.Headers do
   end
 
   defp validate_order headers, input do
-    data_types = Enum.map(headers, fn {data_type, _} -> data_type end)
+    error = fn details -> error input, details end
+    index = fn data_type ->
+              headers
+              |> Enum.map(& elem(&1, 0))
+              |> Enum.find_index(& &1 == data_type)
+            end
 
     cond do
-      index(data_types, :message_type) != 0 -> error input, :message_type_must_be_first_header
-      index(data_types, :transaction_id) not in [nil, 1] -> error input, :transaction_id_must_be_second_header_if_present
-      index(data_types, :transaction_id) == nil && index(data_types, :version) != 1 -> error input, :version_must_be_second_header_when_no_transaction_id
-      index(data_types, :transaction_id) == 1 && index(data_types, :version) != 2 -> error input, :version_must_be_second_header_when_no_transaction_id
+      index.(:message_type) != 0 ->
+        error.(:message_type_must_be_first_header)
+
+      index.(:transaction_id) not in [nil, 1] ->
+        error.(:transaction_id_must_be_second_header_if_present)
+
+      index.(:transaction_id) == nil && index.(:version) != 1 ->
+        error.(:version_must_be_second_header_when_no_transaction_id)
+
+      index.(:transaction_id) == 1 && index.(:version) != 2 ->
+        error.(:version_must_be_third_header_when_transaction_id_present)
+
       true -> ok headers
     end
-  end
-
-  defp index headers, dt do
-    Enum.find_index(headers, fn data_type ->  data_type == dt end)
   end
 
   def encode(values) when is_list(values) do
