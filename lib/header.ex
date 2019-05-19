@@ -56,6 +56,7 @@ defmodule MMS.Header do
               rest
               |> codec.decode
               |> map_value(fn value -> {keyword, value} end)
+              ~>> fn error -> error bytes, error end
             end
        end
   end
@@ -68,8 +69,8 @@ defmodule MMS.Header do
          |> ShortInteger.encode
          ~> fn short_bytes ->
               value
-                |> codec.encode
-                |> map_value(fn value_bytes -> short_bytes <> value_bytes end)
+              |> codec.encode
+              |> map_value(fn value_bytes -> short_bytes <> value_bytes end)
             end
          ~>> fn error -> error {keyword, value}, error end
        end

@@ -41,12 +41,13 @@ defmodule MMS.HeaderTest do
   ]
 
   decode_errors [
-    { "too small", <<s(0), 0>>,  :out_of_range},
-    { "too bi",    <<s(34), 0>>, :out_of_range},
+    { "too small",       <<s(0), 0>>,  :out_of_range},
+    { "too big",         <<s(34), 0>>, :out_of_range},
+    { "header decoding", <<s(1), "">>, address: :no_bytes},
   ]
 
   encode_errors [
-    { "invalid data type", {:invalid, :header}, :out_of_range},
-    { "header encoding",   {:subject, "a\0"}},
+    { "invalid data type", {:invalid, :header},   :out_of_range},
+    { "header encoding",   {:bcc, "\0"}, address: :out_of_range},
   ]
 end
