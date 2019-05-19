@@ -14,7 +14,11 @@ defmodule MMS.Headers do
   def decode bytes do
     bytes
     |> do_decode([])
-    ~> fn result -> ensure_valid_header_order result, bytes end
+    ~> fn {headers, rest} ->
+         headers
+         |> validate_order(bytes)
+         ~> &(ok &1, rest)
+       end
     ~>> fn error -> error bytes, error end
   end
 
@@ -29,14 +33,13 @@ defmodule MMS.Headers do
     ~> fn {header, rest} -> do_decode rest, values ++ [header] end
   end
 
-  defp ensure_valid_header_order {values, rest}, bytes do
-    data_types = Enum.map(values, fn {data_type, _} -> data_type end)
+  defp validate_order headers, input do
+    data_types = Enum.map(headers, fn {data_type, _} -> data_type end)
 
-    IO.puts "version indec: #{inspect index(data_types, :version)}\n"
     cond do
-      index(data_types, :message_type) != 0 -> error bytes, :message_type_must_be_first_header
-      index(data_types, :version) != 1 -> error bytes, :mms_version_must_be_second_header
-      true ->{values, rest}
+      index(data_types, :message_type) != 0 -> error input, :message_type_must_be_first_header
+      index(data_types, :transaction_id) != 1 -> error input, :mms_version_must_be_second_header
+      true -> ok headers
     end
   end
 
