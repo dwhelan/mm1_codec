@@ -29,6 +29,26 @@ defmodule MMS.HeadersTest do
   ]
 
   encode_errors [
-    {"invalid header", [invalid: :header], header: :out_of_range}
+    {
+      "invalid header",
+      [message_type: :m_send_req, version: {0, 0}, invalid: :header],
+      header: :out_of_range
+    }, {
+      "missing message type",
+      [version: {0,0}],
+      headers: :message_type_must_be_first_header
+    }, {
+      "missing version",
+      [message_type: :m_send_req],
+      headers: :version_must_be_second_header_when_no_transaction_id
+    }, {
+      "transaction_id_not_second",
+      [message_type: :m_send_req, version: {0, 0}, transaction_id: "a"],
+      headers: :transaction_id_must_be_second_header_if_present
+    }, {
+      "content_type not last",
+      [message_type: :m_send_req, version: {0, 0}, content_type: 0, to: "a"],
+      headers: :content_type_must_be_the_last_header
+    },
   ]
 end
