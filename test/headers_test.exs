@@ -24,7 +24,7 @@ defmodule MMS.HeadersTest do
     {"invalid header",         <<0>>},
     {"missing message type",   @mms_version <> @content_type},
     {"missing version",        @message_type <> @content_type},
-#    {"missing content type",   @message_type <> @mms_version},
+    {"missing content type",   @message_type <> @mms_version},
   ]
 
   encode_errors [

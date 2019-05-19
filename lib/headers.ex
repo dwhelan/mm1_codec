@@ -54,6 +54,9 @@ defmodule MMS.Headers do
       index.(:transaction_id) == 1 && index.(:version) != 2 ->
         error.(:version_must_be_third_header_when_transaction_id_present)
 
+      index.(:content_type) == nil ->
+        error.(:content_type)
+
       true -> ok headers
     end
   end
