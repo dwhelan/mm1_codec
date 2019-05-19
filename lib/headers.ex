@@ -38,7 +38,8 @@ defmodule MMS.Headers do
 
     cond do
       index(data_types, :message_type) != 0 -> error input, :message_type_must_be_first_header
-      index(data_types, :transaction_id) != 1 -> error input, :mms_version_must_be_second_header
+      index(data_types, :transaction_id) not in [nil, 1] -> error input, :transaction_id_must_be_second_header_if_present
+      index(data_types, :transaction_id) == nil && index(data_types, :version) != 1 -> error input, :version_must_be_second_header_when_no_transaction_id
       true -> ok headers
     end
   end
