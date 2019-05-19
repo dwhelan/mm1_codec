@@ -16,7 +16,7 @@ defmodule MMS.TypedParameter do
          rest
          |> TypedValue.decode(token)
        end
-#    ~>> & error(bytes, &1)
+    ~>> & error(bytes, &1)
   end
 
   def encode {token, value} do
