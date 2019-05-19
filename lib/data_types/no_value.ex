@@ -5,7 +5,7 @@ defmodule MMS.NoValue do
   The following rules are used in encoding parameter values.
   No-value = <Octet 0>
   """
-  use MMS.As
+  import MMS.As
 
   defcodec as: MMS.Octet, map: %{
     0 => :no_value

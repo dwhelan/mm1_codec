@@ -4,7 +4,7 @@ defmodule MMS.Length do
 
   Length = Uintvar-integer
   """
-  use MMS.As
+  import MMS.As
 
   defcodec as: MMS.UintvarInteger
 end

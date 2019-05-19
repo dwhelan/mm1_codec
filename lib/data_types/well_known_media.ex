@@ -1,6 +1,6 @@
 # http://www.openmobilealliance.org/wp/OMNA/wsp/wsp_content_type_codes.html
 defmodule MMS.WellKnownMedia do
-  use MMS.As
+  import MMS.As
 
   defcodec as: MMS.ShortInteger, map: [
     :"*/*",

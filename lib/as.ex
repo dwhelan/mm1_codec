@@ -9,6 +9,8 @@ defmodule MMS.As do
     map = opts[:map] || identity()
 
     quote do
+      use MMS.Codec
+
       def decode bytes do
         bytes
         |> decode_as(unquote(delegate), unquote(map))
@@ -171,17 +173,5 @@ defmodule MMS.As do
 
   defp identity do
     quote do & &1 end
-  end
-
-  defmacro __using__ (_) do
-    quote do
-      use MMS.Codec
-      import MMS.As
-      import MMS.Codec
-      import OkError
-      import OkError.Operators
-      import Monad.Operators
-
-    end
   end
 end

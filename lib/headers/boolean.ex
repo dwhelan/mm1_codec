@@ -19,7 +19,7 @@ defmodule MMS.Boolean do
     Yes = <Octet 128>
     No  = <Octet 129>
   """
-  use MMS.As
+  import MMS.As
 
   defcodec as: MMS.Octet, map: %{
     128 => true,

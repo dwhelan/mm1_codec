@@ -9,7 +9,7 @@ defmodule MMS.WellKnownCharset do
   Any-charset = <Octet 128>
   Equivalent to the special RFC2616 charset value “*”
   """
-  use MMS.As
+  import MMS.As
 
   defcodec as: MMS.IntegerValue, map: %{
        0 => :AnyCharset,

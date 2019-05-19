@@ -4,7 +4,7 @@ defmodule MMS.WellKnownParameterToken do
 
   Well-known-parameter-token = Integer-value
   """
-  use MMS.As
+  import MMS.As
 
   defcodec as: MMS.IntegerValue
 end

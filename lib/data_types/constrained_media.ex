@@ -5,7 +5,7 @@ defmodule MMS.ConstrainedMedia do
   Constrained-media = Constrained-encoding
 
   """
-  use MMS.As
+  import MMS.As
 
   defcodec as: MMS.ConstrainedEncoding
 end
