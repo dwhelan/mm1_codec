@@ -37,7 +37,7 @@ defmodule MMS.HeaderTest do
     {"reply_charging_id",       <<s(30), "a\0">>,               {:reply_charging_id,       "a"}},
     {"reply_charging_size",     <<s(31), l(1), 0>>,             {:reply_charging_size,     0}},
     {"x_mms_previously_sent_by",<<s(32), l(3), s(2), "a\0">>,   {:x_mms_previously_sent_by,{{"a", ""}, 2}}},
-    {"previously_sent_date",    <<s(33), l(3), s(2), l(1), 0>>, {:previously_sent_date,    {date_time_zero, 2}}},
+    {"x_mms_previously_sent_date", <<s(33), l(3), s(2), l(1), 0>>, {:x_mms_previously_sent_date,    {date_time_zero, 2}}},
   ]
 
   decode_errors [

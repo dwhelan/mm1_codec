@@ -34,6 +34,6 @@ defmodule MMS.Header do
     0x1E => {:reply_charging_id,       MMS.TextString},
     0x1F => {:reply_charging_size,     MMS.LongInteger},
     0x20 => {:x_mms_previously_sent_by,MMS.PreviouslySentBy},
-    0x21 => {:previously_sent_date,    MMS.PreviouslySentDate},
+    0x21 => {:x_mms_previously_sent_date, MMS.PreviouslySentDate},
   }
 end
