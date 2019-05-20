@@ -16,11 +16,13 @@ defmodule MMS.TestCodecs do
     def encode(value), do: error {:data_type, value, :reason}
   end
 
-  create List,        []
-  create ListOk,      [Ok]
-  create ListOkOk,    [Ok, Ok]
-  create ListOkError, [Ok, Error]
-  create ListErrorOk, [Error, Ok]
+  defmodule List do
+    create []
+    create [Ok]
+    create [Ok, Ok]
+    create [Ok, Error]
+    create [Error, Ok]
+  end
 
   create Tuple,        {}
   create TupleOk,      {Ok}
