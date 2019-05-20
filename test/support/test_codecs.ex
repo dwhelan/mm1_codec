@@ -1,5 +1,5 @@
 defmodule MMS.TestCodecs do
-  alias MMS.TestCodecs.List
+  alias MMS.TestCodecs.{List, ListOk}
 
   import MMS.Module
 
@@ -16,5 +16,6 @@ defmodule MMS.TestCodecs do
     def encode(value), do: error {:data_type, value, :reason}
   end
 
-  create List, MMS.List, []
+  create List,   MMS.List, []
+  create ListOk, MMS.List, [Ok]
 end
