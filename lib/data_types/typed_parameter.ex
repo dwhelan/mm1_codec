@@ -41,6 +41,8 @@ defmodule MMS.TypedParameter do
   |----------------|-----------------|--------------------|
 
   Note: * These numbers have been deprecated and should not be used.
+
+  `Typed-value is handled by the codec in the `NameValue` map.
   """
   import MMS.NameValue
 
