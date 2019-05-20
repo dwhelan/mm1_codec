@@ -4,7 +4,7 @@ defmodule MMS.Header do
   defcodec as: MMS.ShortInteger, map: %{
     0x01 => {:bcc,                     MMS.Address},
     0x02 => {:cc,                      MMS.Address},
-    0x03 => {:content_location,        MMS.TextString},
+    0x03 => {:content_location,        MMS.UriValue},
     0x04 => {:content_type,            MMS.ContentTypeValue},
     0x05 => {:date,                    MMS.DateValue},
     0x06 => {:delivery_report,         MMS.Boolean},
