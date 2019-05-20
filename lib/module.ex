@@ -14,8 +14,7 @@ defmodule MMS.Module do
           |> (unquote codec).encode(unquote arg)
         end
       end
-    IO.puts "====\n"
-    IO.inspect name: name
+
     Module.create name, contents, Macro.Env.location(__ENV__)
   end
 end

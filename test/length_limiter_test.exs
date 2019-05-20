@@ -8,7 +8,7 @@ defmodule MMS.LengthLimiterOkTest do
   import MMS.LengthLimiterTest.Ok
 
   codec_examples [
-    {"", <<1, 42>>, 42},
+    {"x", <<1, 42>>, 42},
   ]
 
   decode_errors [

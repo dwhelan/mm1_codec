@@ -1,13 +1,7 @@
 defmodule MMS.ValueLengthList do
   use MMS.Codec
-  import MMS.Module
 
-  create(FooChild, MMS.List, [MMS.TextString, MMS.TextString])
-  FooChild.__info__(:functions)
-  |> IO.inspect()
   alias MMS.{List, ValueLength}
-
-  IO.inspect(FooChild.decode <<"text\0text\0">>)
 
   def decode(bytes, codecs) when is_binary(bytes) and is_list(codecs) do
     bytes
