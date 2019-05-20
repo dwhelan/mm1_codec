@@ -4,6 +4,7 @@ defmodule MMS.As do
   import OkError.Operators
   import Monad.Operators
 
+
   defmacro defcodec opts do
     delegate = opts[:as]
     map = opts[:map] || identity()

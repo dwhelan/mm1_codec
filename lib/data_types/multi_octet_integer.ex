@@ -7,11 +7,7 @@ defmodule MMS.MultiOctetInteger do
   encoded first (big-endian representation).
   The minimum number of octets must be used to encode the value.
   """
-  import MMS.As
-
   use MMS.Codec
-
-  alias MMS.ShortLength
 
   def decode bytes do
     bytes
