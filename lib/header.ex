@@ -7,7 +7,7 @@ defmodule MMS.Header do
     0x03 => {:x_mms_content_location,  MMS.UriValue},
     0x04 => {:content_type,            MMS.ContentTypeValue},
     0x05 => {:date,                    MMS.DateValue},
-    0x06 => {:delivery_report,         MMS.Boolean},
+    0x06 => {:x_mms_delivery_report,   MMS.Boolean},
     0x07 => {:delivery_time,           MMS.Time},
     0x08 => {:expiry,                  MMS.Time},
     0x09 => {:from,                    MMS.From},

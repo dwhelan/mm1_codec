@@ -10,7 +10,7 @@ defmodule MMS.HeaderTest do
     {"x_mms_content_location",  <<s(3),  "x\0">>,               {:x_mms_content_location,   "x"}},
     {"content_type",            <<s(4),  s(0)>>,                {:content_type,            0}},
     {"date",                    <<s(5),  l(1), 0>>,             {:date,                    date_time_zero}},
-    {"delivery_report",         <<s(6),  s(0)>>,                {:delivery_report,         true}},
+    {"x_mms_delivery_report",   <<s(6),  s(0)>>,                {:x_mms_delivery_report,   true}},
     {"delivery_time",           <<s(7),  l(3), s(0), l(1), 0>>, {:delivery_time,           date_time_zero}},
     {"expiry",                  <<s(8),  l(3), s(0), l(1), 0>>, {:expiry,                  date_time_zero}},
     {"from",                    <<s(9),  l(3), s(0), "a\0">>,   {:from,                    {"a", ""}}},
