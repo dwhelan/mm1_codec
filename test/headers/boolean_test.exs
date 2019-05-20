@@ -1,17 +1,18 @@
 defmodule MMS.BooleanTest do
   use MMS.CodecTest
+  import MMS.Boolean
 
-  use MMS.TestExamples,
-      codec: MMS.Boolean,
+  codec_examples [
+    {"true",  <<128>>, true},
+    {"false", <<129>>, false},
+  ]
 
-      examples: [
-        { << 128 >>, true  },
-        { << 129 >>, false },
-      ],
+  decode_errors [
+    {"other", <<127>>},
+  ]
 
-      decode_errors: [
-        { << 127 >>, {:boolean, <<127>>, out_of_range: 127} },
-        { << 130 >>, {:boolean, <<130>>, out_of_range: 130} },
-      ]
+  encode_errors [
+    {"other", :not_boolean},
+  ]
 end
 
