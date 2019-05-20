@@ -7,7 +7,7 @@ defmodule MMS.Module do
     create name, MMS.Tuple, Macro.escape(codecs)
   end
 
-  def create name, codec, arg do
+  def create(name, codec, arg) when is_atom(name) and is_atom(codec) do
     contents =
       quote do
         use MMS.Codec

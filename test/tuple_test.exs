@@ -4,8 +4,6 @@ defmodule MMS.TupleTest do
 
   @bytes <<1, 2>>
 
-  import MMS.Tuple
-
   describe "decode should" do
     test "return an empty tuple with no codecs" do
       assert Tuple.decode(@bytes) == ok {}, @bytes
