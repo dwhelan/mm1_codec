@@ -1,6 +1,6 @@
 defmodule MMS.LengthLimiterTest.Ok do
   import MMS.LengthLimiter
-  defcodec as: MMS.CodecTest.Ok, length: MMS.ValueLength
+  defcodec as: MMS.TestCodecs.Ok, length: MMS.ValueLength
 end
 
 defmodule MMS.LengthLimiterOkTest do
@@ -19,7 +19,7 @@ end
 
 defmodule MMS.LengthLimiterTest.Error do
   import MMS.LengthLimiter
-  defcodec as: MMS.CodecTest.Error, length: MMS.ValueLength
+  defcodec as: MMS.TestCodecs.Error, length: MMS.ValueLength
 end
 
 defmodule MMS.LengthLimiterErrorTest do

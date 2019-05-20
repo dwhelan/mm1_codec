@@ -1,6 +1,6 @@
 defmodule MMS.ListTest do
   use MMS.CodecTest
-  alias MMS.CodecTest.{Ok, Error}
+  alias MMS.TestCodecs.{Ok, Error}
 
   alias MMS.List
 
