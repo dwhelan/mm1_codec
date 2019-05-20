@@ -1,19 +1,18 @@
-defmodule MMS.MessageClassTest do
-  use ExUnit.Case
+defmodule MMS.XMmsMessageClassTest do
+  use MMS.CodecTest
+  import MMS.XMmsMessageClass
 
-  use MMS.TestExamples,
-      codec: MMS.MessageClass,
-      examples: [
-        { <<128>>, :personal      },
-        { <<129>>, :advertisement },
-        { <<130>>, :informational },
-        { <<131>>, :auto          },
+  codec_examples [
+    {"personal",      <<128>>,       :personal},
+    {"advertisement", <<129>>,       :advertisement},
+    {"informational", <<130>>,       :informational},
+    {"auto",          <<131>>,       :auto},
+    {"other",         <<"other\0">>, "other"},
+  ]
 
-        { <<"other\0">>, "other" },
-      ],
-
-      decode_errors: [
-        { <<132>>, {:message_class, <<132>>, out_of_range: 132} },
-      ]
+  decode_errors [
+    {"too small", <<127>>},
+    {"too big",   <<132>>},
+  ]
 end
 

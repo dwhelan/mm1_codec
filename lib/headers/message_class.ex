@@ -1,28 +1,16 @@
-defmodule MMS.MessageClass do
-  use MMS.Codec
-  import MMS.As
-  alias MMS.{Octet, Text}
+defmodule MMS.XMmsMessageClass do
+  defmodule ClassIdentifier do
+    import MMS.As
 
-  @map %{
-    128 => :personal,
-    129 => :advertisement,
-    130 => :informational,
-    131 => :auto
-  }
-
-  def decode(text = <<char, _::binary>>) when is_char(char) do
-    text |> decode_as(Text)
+    defcodec as: MMS.Octet, map: %{
+      128 => :personal,
+      129 => :advertisement,
+      130 => :informational,
+      131 => :auto
+    }
   end
 
-  def decode(bytes) when is_binary(bytes) do
-    bytes |> decode_as(Octet, @map)
-  end
+  import MMS.Either
 
-  def encode(value) when is_binary(value) do
-    value |> encode_as(Text)
-  end
-
-  def encode(value) when is_atom(value) do
-    value |> encode_as(Octet, @map)
-  end
+  defcodec as: [ClassIdentifier, MMS.TokenText]
 end

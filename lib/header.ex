@@ -11,7 +11,7 @@ defmodule MMS.Header do
     0x07 => {:delivery_time,           MMS.Time},
     0x08 => {:expiry,                  MMS.Time},
     0x09 => {:from,                    MMS.From},
-    0x0A => {:message_class,           MMS.MessageClass},
+    0x0A => {:x_mms_message_class,     MMS.XMmsMessageClass},
     0x0B => {:message_id,              MMS.TextString},
     0x0C => {:message_type,            MMS.MessageType},
     0x0D => {:version,                 MMS.VersionInteger},

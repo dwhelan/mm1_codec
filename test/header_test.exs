@@ -14,7 +14,7 @@ defmodule MMS.HeaderTest do
     {"delivery_time",           <<s(7),  l(3), s(0), l(1), 0>>, {:delivery_time,           date_time_zero}},
     {"expiry",                  <<s(8),  l(3), s(0), l(1), 0>>, {:expiry,                  date_time_zero}},
     {"from",                    <<s(9),  l(3), s(0), "a\0">>,   {:from,                    {"a", ""}}},
-    {"message_class",           <<s(10), s(0)>>,                {:message_class,           :personal}},
+    {"message_class",           <<s(10), s(0)>>,                {:x_mms_message_class,     :personal}},
     {"message_id",              <<s(11), "a\0">>,               {:message_id,              "a"}},
     {"message_type",            <<s(12), s(0)>>,                {:message_type,            :m_send_req}},
     {"version",                 <<s(13), 0b10000000>>,          {:version,                 {0, 0}}},
