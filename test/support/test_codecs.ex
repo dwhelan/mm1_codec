@@ -24,9 +24,11 @@ defmodule MMS.TestCodecs do
     create [Error, Ok]
   end
 
-  create Tuple,        {}
-  create TupleOk,      {Ok}
-  create TupleOkOk,    {Ok, Ok}
-  create TupleOkError, {Ok, Error}
-  create TupleErrorOk, {Error, Ok}
+  defmodule Tuple do
+    create {}
+    create {Ok}
+    create {Ok, Ok}
+    create {Ok, Error}
+    create {Error, Ok}
+  end
 end
