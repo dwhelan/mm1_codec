@@ -1,4 +1,12 @@
 defmodule MMS.Module do
+  def create(name, codecs) when is_atom(name) and is_list(codecs) do
+    create name, MMS.List, codecs
+  end
+
+  def create(name, codecs) when is_atom(name) and is_tuple(codecs) do
+    create name, MMS.Tuple, Macro.escape(codecs)
+  end
+
   def create name, codec, arg do
     contents =
       quote do

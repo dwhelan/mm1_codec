@@ -1,36 +1,60 @@
 defmodule MMS.TupleTest do
   use MMS.CodecTest
-  alias MMS.TestCodecs.{Ok, Error}
+  alias MMS.TestCodecs.{Tuple, TupleOk, TupleOkOk, TupleOkError, TupleErrorOk}
 
-  @bytes <<1, 2, "rest">>
+  @bytes <<1, 2>>
 
   import MMS.Tuple
 
-  defmodule NoCodecs do defcodec as: [] end
-  defmodule OkCodec do defcodec as: [Ok] end
-  defmodule OkOkCodec do defcodec as: [Ok, Ok] end
-  defmodule OkErrorCodec do defcodec as: [Ok, Error] end
-  defmodule ErrorCodec do defcodec as: [Error] end
-  defmodule ErrorOkCodec do defcodec as: [Error, Ok] end
-  defmodule ErrorErrorCodec do defcodec as: [Error, Error] end
+  describe "decode should" do
+    test "return an empty tuple with no codecs" do
+      assert Tuple.decode(@bytes) == ok {}, @bytes
+    end
 
-  test "decode" do
-    assert NoCodecs.decode(@bytes) == ok {}, @bytes
-    assert OkCodec.decode(@bytes) == ok {1}, <<2, "rest">>
-    assert OkOkCodec.decode(@bytes) == ok {1, 2}, <<"rest">>
-    assert OkErrorCodec.decode(@bytes) == error :ok_error_codec, @bytes, %{error: {:data_type, <<2, "rest">>, :reason}, values: [1]}
-    assert ErrorCodec.decode(@bytes) == error :error_codec, @bytes, %{error: {:data_type, @bytes, :reason}, values: []}
-    assert ErrorOkCodec.decode(@bytes) == error :error_ok_codec, @bytes, %{error: {:data_type, @bytes, :reason}, values: []}
-    assert ErrorErrorCodec.decode(@bytes) == error :error_error_codec, @bytes, %{error: {:data_type, @bytes, :reason}, values: []}
+    test "return a single item tuple with one codec" do
+      assert TupleOk.decode(@bytes) == ok {1}, <<2>>
+    end
+
+    test "return a multi-item tuple with multiple codecs" do
+      assert TupleOkOk.decode(@bytes) == ok {1, 2}, <<>>
+    end
+
+    test "return an error if it occurs on first decode" do
+      assert TupleErrorOk.decode(@bytes) == error :list, @bytes, %{error: {:data_type, @bytes, :reason}, values: []}
+    end
+
+    test "return an error if it occurs on subsequent decode" do
+      assert TupleOkError.decode(@bytes) == error :list, @bytes, %{error: {:data_type, <<2>>, :reason}, values: [1]}
+    end
   end
 
-  test "encode" do
-    assert NoCodecs.encode({}) == ok <<>>
-    assert OkCodec.encode({1}) == ok <<1>>
-    assert OkOkCodec.encode({1, 2}) == ok <<1, 2>>
-    assert OkErrorCodec.encode({1, 2}) == error :ok_error_codec, {1, 2}, data_type: :reason
-    assert ErrorCodec.encode({1}) == error :error_codec, {1}, data_type: :reason
-    assert ErrorOkCodec.encode({1, 2}) == error :error_ok_codec, {1, 2}, data_type: :reason
-    assert ErrorErrorCodec.encode({1, 2}) == error :error_error_codec, {1, 2}, data_type: :reason
+  describe "encode should" do
+    test "encode an empty list of values" do
+      assert Tuple.encode({}) == ok <<>>
+    end
+
+    test "encode a single value and codec" do
+      assert TupleOk.encode({1}) == ok <<1>>
+    end
+
+    test "encode multiple values" do
+      assert TupleOkOk.encode({1, 2}) == ok <<1, 2>>
+    end
+
+    test "ignore extra values" do
+      assert TupleOk.encode({1, 2}) == ok <<1>>
+    end
+
+    test "ignore extra codecs" do
+      assert TupleOkOk.encode({1}) == ok <<1>>
+    end
+
+    test "return an error if it occurs on first encode" do
+      assert TupleErrorOk.encode({1,2}) == error :list, {1,2}, {:data_type, 1, :reason}
+    end
+
+    test "return an error if it occurs on subsequent encode" do
+      assert TupleOkError.encode({1,2}) == error :list, {1, 2}, {:data_type, 2, :reason}
+    end
   end
 end

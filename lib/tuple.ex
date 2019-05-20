@@ -1,17 +1,23 @@
 defmodule MMS.Tuple do
   import MMS.Codec
+  import OkError.Operators
   import MMS.As
 
   def decode bytes, codecs do
     bytes
-    |> MMS.List.decode(codecs)
+    |> MMS.List.decode(Tuple.to_list codecs)
     |> map_value(&List.to_tuple/1)
   end
 
-  def encode value, codecs do
+  def encode(value, codecs) when is_tuple(value) do
     value
     |> Tuple.to_list
-    |> MMS.List.encode(codecs)
+    |> MMS.List.encode(Tuple.to_list codecs)
+    ~>> fn {data_type, _, details} -> error data_type, value, details end
+  end
+
+  def encode(value, codecs) do
+    error value, :out_of_range
   end
 
   defmacro defcodec(as: codecs) do

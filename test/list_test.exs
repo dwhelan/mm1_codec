@@ -7,15 +7,15 @@ defmodule MMS.ListTest do
   @bytes <<1, 2>>
 
   describe "decode should" do
-    test "return an empty list with no functions" do
+    test "return an empty list with no codecs" do
       assert List.decode(@bytes) == ok [], @bytes
     end
 
-    test "return a single item list with one function" do
+    test "return a single item list with one codec" do
       assert ListOk.decode(@bytes) == ok [1], <<2>>
     end
 
-    test "return a multi-item list with multiple functions" do
+    test "return a multi-item list with multiple codecs" do
       assert ListOkOk.decode(@bytes) == ok [1, 2], <<>>
     end
 
@@ -33,7 +33,7 @@ defmodule MMS.ListTest do
       assert List.encode([]) == ok <<>>
     end
 
-    test "List.encode a single value and function" do
+    test "List.encode a single value and codec" do
       assert ListOk.encode([1]) == ok <<1>>
     end
 

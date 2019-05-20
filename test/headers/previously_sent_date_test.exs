@@ -6,16 +6,16 @@ defmodule MMS.PreviouslySentDateTest do
   negative_time = DateTime.from_unix! -1
 
   codec_examples [
-    #               _            <- length
-    #                  ___       <- forwarded count
-    #                       ____ <- date
-    {"sent data", <<3, 129, 1, 0>>, {time_zero,   1} }, # short count
+    #               _             <- length
+    #                  ____       <- forwarded count
+    #                        ____ <- date
+    {"sent date", <<3, s(1), 1, 0>>, {1, time_zero} }, # short count
   ]
 
   decode_errors [
-    {"value length", <<1, 129, 1, 0>>,},
-    {"count",        <<1, 0, 1, 0>>,},
-    {"date",         <<5, 2, 1, 0, "@">> },
+    {"invalid length",   <<1, s(1), 1, 0>>,},
+    {"invalid count",    <<3, s(-1), 1, 0>>,},
+    {"invalid date",     <<5, s(1), 1, 0, "@">> },
   ]
 
   encode_errors [

@@ -1,8 +1,9 @@
 defmodule MMS.TestCodecs do
-  alias MMS.TestCodecs.{List, ListOk, ListOkOk, ListOkError, ListErrorOk}
-
   import MMS.Module
   import OkError
+
+  alias MMS.TestCodecs.{List,  ListOk,  ListOkOk,  ListOkError,  ListErrorOk}
+  alias MMS.TestCodecs.{Tuple, TupleOk, TupleOkOk, TupleOkError, TupleErrorOk}
 
   defmodule Ok do
     def decode(<<byte, rest :: binary>>), do: ok {byte, rest}
@@ -15,9 +16,15 @@ defmodule MMS.TestCodecs do
     def encode(value), do: error {:data_type, value, :reason}
   end
 
-  create List,         MMS.List, []
-  create ListOk,       MMS.List, [Ok]
-  create ListOkOk,     MMS.List, [Ok, Ok]
-  create ListOkError,  MMS.List, [Ok, Error]
-  create ListErrorOk,  MMS.List, [Error, Ok]
+  create List,        []
+  create ListOk,      [Ok]
+  create ListOkOk,    [Ok, Ok]
+  create ListOkError, [Ok, Error]
+  create ListErrorOk, [Error, Ok]
+
+  create Tuple,        {}
+  create TupleOk,      {Ok}
+  create TupleOkOk,    {Ok, Ok}
+  create TupleOkError, {Ok, Error}
+  create TupleErrorOk, {Error, Ok}
 end
