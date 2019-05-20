@@ -1,7 +1,34 @@
+defmodule MMS.Module do
+  def create name, codec, arg do
+    contents =
+      quote do
+        use MMS.Codec
+
+        def decode bytes do
+          bytes
+          |> (unquote codec).decode(unquote arg)
+        end
+
+        def encode value do
+          value
+          |> (unquote codec).encode(unquote arg)
+        end
+      end
+
+    Module.create name, contents, Macro.Env.location(__ENV__)
+  end
+end
+
 defmodule MMS.ValueLengthList do
   use MMS.Codec
+  import MMS.Module
 
+  create(FooChild, MMS.List, [MMS.TextString, MMS.TextString])
+  FooChild.__info__(:functions)
+  |> IO.inspect()
   alias MMS.{List, ValueLength}
+
+  IO.inspect(FooChild.decode <<"text\0text\0">>)
 
   def decode(bytes, codecs) when is_binary(bytes) and is_list(codecs) do
     bytes

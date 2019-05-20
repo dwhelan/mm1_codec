@@ -7,14 +7,14 @@ defmodule MMS.Tuple do
         bytes
         |> MMS.List.decode(unquote codecs)
         |> map_value(&List.to_tuple/1)
-        ~>> fn {_, _, reason} -> error data_type(), bytes, reason end
+        ~>> fn {_, _, reason} -> error bytes, reason end
       end
 
       def encode(value) when is_tuple(value) do
         value
         |> Tuple.to_list
         |> MMS.List.encode(unquote codecs)
-        ~>> fn {_, _, reason} -> error data_type(), value, reason end
+        ~>> fn {_, _, reason} -> error value, reason end
       end
 
       def encode value do

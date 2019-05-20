@@ -28,9 +28,9 @@ defmodule MMS.TupleTest do
     assert NoCodecs.encode({}) == ok <<>>
     assert OkCodec.encode({1}) == ok <<1>>
     assert OkOkCodec.encode({1, 2}) == ok <<1, 2>>
-    assert OkErrorCodec.encode({1, 2}) == error :ok_error_codec, {1, 2}, {:data_type, 2, :reason}
-    assert ErrorCodec.encode({1}) == error :error_codec, {1}, {:data_type, 1, :reason}
-    assert ErrorOkCodec.encode({1, 2}) == error :error_ok_codec, {1, 2}, {:data_type, 1, :reason}
-    assert ErrorErrorCodec.encode({1, 2}) == error :error_error_codec, {1, 2}, {:data_type, 1, :reason}
+    assert OkErrorCodec.encode({1, 2}) == error :ok_error_codec, {1, 2}, data_type: :reason
+    assert ErrorCodec.encode({1}) == error :error_codec, {1}, data_type: :reason
+    assert ErrorOkCodec.encode({1, 2}) == error :error_ok_codec, {1, 2}, data_type: :reason
+    assert ErrorErrorCodec.encode({1, 2}) == error :error_error_codec, {1, 2}, data_type: :reason
   end
 end
