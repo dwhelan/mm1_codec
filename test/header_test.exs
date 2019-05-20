@@ -11,8 +11,8 @@ defmodule MMS.HeaderTest do
     {"content_type",            <<s(4),  s(0)>>,                {:content_type,            0}},
     {"date",                    <<s(5),  l(1), 0>>,             {:date,                    date_time_zero}},
     {"x_mms_delivery_report",   <<s(6),  s(0)>>,                {:x_mms_delivery_report,   true}},
-    {"delivery_time",           <<s(7),  l(3), s(0), l(1), 0>>, {:delivery_time,           date_time_zero}},
-    {"expiry",                  <<s(8),  l(3), s(0), l(1), 0>>, {:expiry,                  date_time_zero}},
+    {"x_mms_delivery_time",     <<s(7),  l(3), s(0), l(1), 0>>, {:x_mms_delivery_time,     date_time_zero}},
+    {"x_mms_expiry",            <<s(8),  l(3), s(0), l(1), 0>>, {:x_mms_expiry,            date_time_zero}},
     {"from",                    <<s(9),  l(3), s(0), "a\0">>,   {:from,                    {"a", ""}}},
     {"x_mms_message_class",     <<s(10), s(0)>>,                {:x_mms_message_class,     :personal}},
     {"message_id",              <<s(11), "a\0">>,               {:message_id,              "a"}},
@@ -36,7 +36,7 @@ defmodule MMS.HeaderTest do
     {"reply_charging_deadline", <<s(29), l(3), s(0), l(1), 0>>, {:reply_charging_deadline, date_time_zero}},
     {"reply_charging_id",       <<s(30), "a\0">>,               {:reply_charging_id,       "a"}},
     {"reply_charging_size",     <<s(31), l(1), 0>>,             {:reply_charging_size,     0}},
-    {"previously_sent_by",      <<s(32), l(3), s(2), "a\0">>,   {:previously_sent_by,      {{"a", ""}, 2}}},
+    {"x_mms_previously_sent_by",<<s(32), l(3), s(2), "a\0">>,   {:x_mms_previously_sent_by,{{"a", ""}, 2}}},
     {"previously_sent_date",    <<s(33), l(3), s(2), l(1), 0>>, {:previously_sent_date,    {date_time_zero, 2}}},
   ]
 

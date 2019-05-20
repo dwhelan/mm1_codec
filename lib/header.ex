@@ -8,8 +8,8 @@ defmodule MMS.Header do
     0x04 => {:content_type,            MMS.ContentTypeValue},
     0x05 => {:date,                    MMS.DateValue},
     0x06 => {:x_mms_delivery_report,   MMS.Boolean},
-    0x07 => {:delivery_time,           MMS.Time},
-    0x08 => {:expiry,                  MMS.Time},
+    0x07 => {:x_mms_delivery_time,     MMS.Time},
+    0x08 => {:x_mms_expiry,            MMS.Time},
     0x09 => {:from,                    MMS.From},
     0x0A => {:x_mms_message_class,     MMS.XMmsMessageClass},
     0x0B => {:message_id,              MMS.TextString},
@@ -33,7 +33,7 @@ defmodule MMS.Header do
     0x1D => {:reply_charging_deadline, MMS.Time},
     0x1E => {:reply_charging_id,       MMS.TextString},
     0x1F => {:reply_charging_size,     MMS.LongInteger},
-    0x20 => {:previously_sent_by,      MMS.PreviouslySentBy},
+    0x20 => {:x_mms_previously_sent_by,MMS.PreviouslySentBy},
     0x21 => {:previously_sent_date,    MMS.PreviouslySentDate},
   }
 end
