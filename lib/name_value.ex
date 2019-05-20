@@ -8,6 +8,7 @@ defmodule MMS.NameValue do
       def decode bytes do
         bytes
         |> (unquote codec).decode
+        ~>> fn error -> error bytes, error end
         ~> fn {key, rest} ->
              Map.get((unquote map), key)
              ~>> fn _ -> error bytes, :out_of_range end

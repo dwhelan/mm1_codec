@@ -35,12 +35,12 @@ defmodule MMS.TypedParameterTest do
   ]
 
   decode_errors [
-    {"Well-known-parameter-token", << s 30>>},
-    {"Typed-value",                << s(8), 1>>},
+    {"unknown parameter",      <<s(-1)>>},
+    {"parameter decode error", << s(0), 0>>},
   ]
 
   encode_errors [
-    {"Well-known-parameter-token",  {:bad_token, 0}},
-    {"Typed-value",                 {:q, :bad_value}},
+    {"unknown parameter",      {:bad_token, 0}},
+    {"parameter encode error", {:q, :bad_value}},
   ]
 end
